@@ -7,32 +7,17 @@ actions operate on real, verified data and cannot hallucinate resources.
 from __future__ import annotations
 
 import json
-import pathlib
 
-import yaml
+from fmos import DATA, ROOT, load, repos_with_stars
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
 OUT = ROOT / "site" / "data.json"
 
 
-def load(name: str):
-    path = DATA / f"{name}.yml"
-    return (yaml.safe_load(path.read_text()) if path.exists() else []) or []
-
-
 def main() -> int:
-    repos = load("repos")
-    stars = load("_stars") if (DATA / "_stars.yml").exists() else {}
-    if isinstance(stars, dict):
-        for e in repos:
-            stat = stars.get(e.get("repo"))
-            if stat and stat.get("stars") is not None:
-                e["stars"] = stat["stars"]
-
+    """Compile all data/*.yml (repos with live stars) into site/data.json."""
     bundle = {
         "generated": True,
-        "repos": repos,
+        "repos": repos_with_stars(),
         "courses": load("courses"),
         "papers": load("papers"),
         "jobs": load("jobs"),

@@ -13,8 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pyyaml
-      # Schema gate + drift gate: data is well-formed AND README matches the generator.
+      - run: pip install pyyaml pytest
+      # Behavior (pytest) + schema gate + drift gate in one finish line.
       - run: make check
 
   links:

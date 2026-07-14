@@ -24,11 +24,9 @@ import re
 import subprocess
 import sys
 
-import yaml
+from fmos import DATA, ROOT, frontmatter, load
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
-RUBRIC = yaml.safe_load((DATA / "certify.yml").read_text())
+RUBRIC = load("certify")
 
 TEXT_EXT = {".md", ".py", ".sh", ".js", ".ts", ".yml", ".yaml", ".json", ".toml", ".txt"}
 DOC_NAMES = ("SKILL.md", "skill.md", "README.md", "readme.md")
@@ -38,190 +36,193 @@ MANIFEST = ("plugin.json", ".claude-plugin", "workflow.yaml", "action.yml", "act
 class Dim:
     """A measured (or not-measured) dimension result."""
 
-    def __init__(self, score, evidence, measured=True):
+    def __init__(self, score: int | None, evidence: str, measured: bool = True) -> None:
+        """Hold a dimension's 0-100 score (or None if not measured) + its evidence."""
         self.score = score  # 0..100 or None
         self.evidence = evidence
         self.measured = measured and score is not None
 
 
 # ── evidence gathering ───────────────────────────────────────────────────────
-def gather(target: pathlib.Path):
-    files, blob, doc = [], [], None
+def gather(target: pathlib.Path) -> tuple[list[pathlib.Path], str, tuple | None]:
+    """Collect readable text files under ``target`` → (files, joined-blob, doc)."""
+    files: list[pathlib.Path] = []
+    blob: list[str] = []
+    doc: tuple | None = None
     for p in sorted(target.rglob("*")):
-        if p.is_file() and p.suffix.lower() in TEXT_EXT and ".git" not in p.parts:
-            try:
-                t = p.read_text(errors="ignore")
-            except Exception:
-                continue
-            files.append(p)
-            blob.append(t)
-            if doc is None and p.name in DOC_NAMES:
-                doc = (p, t)
+        if not (p.is_file() and p.suffix.lower() in TEXT_EXT and ".git" not in p.parts):
+            continue
+        try:
+            text = p.read_text(errors="ignore")
+        except Exception:
+            continue
+        files.append(p)
+        blob.append(text)
+        if doc is None and p.name in DOC_NAMES:
+            doc = (p, text)
     return files, "\n".join(blob), doc
 
 
-def frontmatter(doc_text: str) -> dict:
-    m = re.match(r"^---\n(.*?)\n---", doc_text, re.S)
-    if not m:
-        return {}
-    try:
-        return yaml.safe_load(m.group(1)) or {}
-    except yaml.YAMLError:
-        return {}
+# ── the certifier ─────────────────────────────────────────────────────────────
+class Certifier:
+    """Scores one tool against the rubric. Evidence is gathered once in __init__;
+    each ``_dimension`` method reads that shared state and returns a ``Dim``."""
 
+    def __init__(self, target: pathlib.Path, entry: dict | None = None) -> None:
+        """Gather the tool's files, joined text, doc, and frontmatter up front."""
+        self.target = target
+        self.entry = entry or {}
+        self.files, self.blob, self.doc = gather(target)
+        self.fm = frontmatter(self.doc[1]) if self.doc else {}
 
-# ── dimensions ───────────────────────────────────────────────────────────────
-def dim_provenance(target, files, entry) -> Dim:
-    h = hashlib.sha256()
-    for p in sorted(files):
-        h.update(p.read_bytes())
-    digest = h.hexdigest()[:16]
-    score, notes = 40, [f"content-hash {digest}"]  # hashable identity is baseline
-    if entry.get("source"):
-        score += 30
-        notes.append("source declared")
-    if entry.get("author"):
-        score += 30
-        notes.append("author declared")
-    return Dim(min(score, 100), "; ".join(notes))
+    @property
+    def name(self) -> str:
+        """Display name: explicit entry name, else frontmatter, else dir name."""
+        return self.entry.get("name") or self.fm.get("name") or self.target.name
 
+    def _provenance(self) -> Dim:
+        """Verifiable identity: content-hash pin plus declared source/author."""
+        h = hashlib.sha256()
+        for p in sorted(self.files):
+            h.update(p.read_bytes())
+        score, notes = 40, [f"content-hash {h.hexdigest()[:16]}"]
+        if self.entry.get("source"):
+            score += 30
+            notes.append("source declared")
+        if self.entry.get("author"):
+            score += 30
+            notes.append("author declared")
+        return Dim(min(score, 100), "; ".join(notes))
 
-def dim_security(blob) -> Dim:
-    cfg = RUBRIC["security"]
-    crit = [p for p in cfg["critical_patterns"] if re.search(p, blob)]
-    warn = [p for p in cfg["warn_patterns"] if re.search(p, blob)]
-    if crit:
-        return Dim(0, f"CRITICAL: {len(crit)} dangerous pattern(s) — {crit[0]}")
-    score = max(0, 100 - 15 * len(warn))
-    ev = "clean" if not warn else f"{len(warn)} warning(s): {', '.join(w[:20] for w in warn[:3])}"
-    return Dim(score, ev)
+    def _security(self) -> Dim:
+        """Scan for dangerous patterns; any critical hit is an automatic 0."""
+        cfg = RUBRIC["security"]
+        crit = [p for p in cfg["critical_patterns"] if re.search(p, self.blob)]
+        warn = [p for p in cfg["warn_patterns"] if re.search(p, self.blob)]
+        if crit:
+            return Dim(0, f"CRITICAL: {len(crit)} dangerous pattern(s) — {crit[0]}")
+        ev = "clean" if not warn else f"{len(warn)} warning(s): {', '.join(w[:20] for w in warn[:3])}"
+        return Dim(max(0, 100 - 15 * len(warn)), ev)
 
+    def _relevance(self) -> Dim:
+        """Count SLM/FM-ops keyword hits — the on-mission gate."""
+        lc = self.blob.lower()
+        hits = sorted({k for k in RUBRIC["relevance"]["keywords"] if k in lc})
+        ev = f"{len(hits)} SLM/FM-ops keyword(s): {', '.join(hits[:6])}" if hits else "no on-mission keywords"
+        return Dim(min(100, len(hits) * 18), ev)
 
-def dim_relevance(blob) -> Dim:
-    lc = blob.lower()
-    hits = sorted({k for k in RUBRIC["relevance"]["keywords"] if k in lc})
-    score = min(100, len(hits) * 18)
-    return Dim(score, f"{len(hits)} SLM/FM-ops keyword(s): {', '.join(hits[:6])}" if hits else "no on-mission keywords")
+    def _docs(self) -> Dim:
+        """Reward a doc that has a description, a trigger, and a usage example."""
+        if not self.doc:
+            return Dim(0, "no SKILL.md/README present")
+        text, sig = self.doc[1].lower(), RUBRIC["signals"]
+        score, notes = 40, ["doc present"]
+        if self.fm.get("description") or "description" in text:
+            score += 20
+            notes.append("description")
+        if any(s in text for s in sig["trigger"]):
+            score += 20
+            notes.append("trigger")
+        if any(s in text for s in sig["example"]):
+            score += 20
+            notes.append("example")
+        return Dim(min(score, 100), "; ".join(notes))
 
+    def _correctness(self) -> Dim:
+        """Static evidence of a test or usage example (execution is deferred to v1)."""
+        has_test = any((self.target / n).exists() for n in ("tests", "test")) or bool(
+            re.search(r"(test_.*\.py|\.test\.|def test_)", self.blob))
+        if has_test:
+            return Dim(90, "test artifact present (static; execution is v1)")
+        if "```" in self.blob or re.search(r"(?i)example|usage", self.blob):
+            return Dim(55, "usage example present, no test (static)")
+        return Dim(20, "no example or test found")
 
-def dim_docs(doc, fm) -> Dim:
-    if not doc:
-        return Dim(0, "no SKILL.md/README present")
-    text = doc[1].lower()
-    sig = RUBRIC["signals"]
-    score, notes = 40, ["doc present"]
-    if fm.get("description") or "description" in text:
-        score += 20
-        notes.append("description")
-    if any(s in text for s in sig["trigger"]):
-        score += 20
-        notes.append("trigger")
-    if any(s in text for s in sig["example"]):
-        score += 20
-        notes.append("example")
-    return Dim(min(score, 100), "; ".join(notes))
+    def _cross_runtime(self) -> Dim:
+        """Credit tools that signal they run beyond a single agent host."""
+        hits = [s for s in RUBRIC["signals"]["cross_runtime"] if s in self.blob.lower()]
+        if not hits:
+            return Dim(50, "single-runtime (no cross-runtime signal) — assumed Claude-only")
+        return Dim(min(100, 60 + 15 * len(hits)), f"cross-runtime: {', '.join(hits)}")
 
+    def _eval(self) -> Dim:
+        """Credit tools that ship an eval / verification signal."""
+        hits = [s for s in RUBRIC["signals"]["eval"] if s in self.blob.lower()]
+        ev = f"eval signals: {', '.join(hits[:4])}" if hits else "none"
+        return Dim(min(100, len(hits) * 30) if hits else 30, ev)
 
-def dim_correctness(target, blob) -> Dim:
-    has_test = any((target / n).exists() for n in ("tests", "test")) or bool(
-        re.search(r"(test_.*\.py|\.test\.|def test_)", blob)
-    )
-    has_example = "```" in blob or bool(re.search(r"(?i)example|usage", blob))
-    if has_test:
-        return Dim(90, "test artifact present (static; execution is v1)")
-    if has_example:
-        return Dim(55, "usage example present, no test (static)")
-    return Dim(20, "no example or test found")
+    def _freshness(self) -> Dim:
+        """Recency of the last commit — measured only with reachable git history."""
+        git = self.target
+        for _ in range(4):
+            if (git / ".git").exists():
+                break
+            git = git.parent
+        if not (git / ".git").exists():
+            return Dim(None, "no git history at target — not measured", measured=False)
+        try:
+            out = subprocess.check_output(
+                ["git", "-C", str(git), "log", "-1", "--format=%cr"], text=True).strip()
+        except Exception:
+            return Dim(None, "git log unavailable — not measured", measured=False)
+        score = 90 if any(u in out for u in ("hour", "minute", "day")) else \
+            70 if "week" in out else 50 if "month" in out else 30
+        return Dim(score, f"last commit {out}")
 
+    def run(self) -> dict:
+        """Compute every dimension, apply the blocking gates, assemble the result."""
+        dims = {
+            "provenance": self._provenance(),
+            "security": self._security(),
+            "relevance": self._relevance(),
+            "docs": self._docs(),
+            "correctness": self._correctness(),
+            "cross_runtime": self._cross_runtime(),
+            "eval": self._eval(),
+            "freshness": self._freshness(),
+        }
+        weights = {d["id"]: d["weight"] for d in RUBRIC["dimensions"]}
+        measured_w = sum(weights[k] for k, d in dims.items() if d.measured)
+        score = round(sum(weights[k] * d.score for k, d in dims.items() if d.measured) / measured_w) if measured_w else 0
 
-def dim_cross_runtime(blob) -> Dim:
-    lc = blob.lower()
-    hits = [s for s in RUBRIC["signals"]["cross_runtime"] if s in lc]
-    if not hits:
-        return Dim(50, "single-runtime (no cross-runtime signal) — assumed Claude-only")
-    return Dim(min(100, 60 + 15 * len(hits)), f"cross-runtime: {', '.join(hits)}")
-
-
-def dim_eval(blob) -> Dim:
-    lc = blob.lower()
-    hits = [s for s in RUBRIC["signals"]["eval"] if s in lc]
-    return Dim(min(100, len(hits) * 30) if hits else 30, f"eval signals: {', '.join(hits[:4])}" if hits else "none")
-
-
-def dim_freshness(target) -> Dim:
-    git = target
-    for _ in range(4):
-        if (git / ".git").exists():
-            break
-        git = git.parent
-    if not (git / ".git").exists():
-        return Dim(None, "no git history at target — not measured", measured=False)
-    try:
-        out = subprocess.check_output(
-            ["git", "-C", str(git), "log", "-1", "--format=%cr"], text=True).strip()
-    except Exception:
-        return Dim(None, "git log unavailable — not measured", measured=False)
-    score = 90 if any(u in out for u in ("hour", "minute", "day")) else \
-        70 if "week" in out else 50 if "month" in out else 30
-    return Dim(score, f"last commit {out}")
+        sec, rel = dims["security"], dims["relevance"]
+        security_ok = bool(sec.measured and sec.score >= RUBRIC["gates"]["security"]["min"])
+        on_mission = bool(rel.measured and rel.score >= RUBRIC["gates"]["relevance"]["min"])
+        return {
+            "name": self.name,
+            "kind": self.entry.get("kind", self.fm.get("kind", "skill")),
+            "score": score,
+            "tier": decide_tier(score, security_ok, on_mission),
+            "security_ok": security_ok,
+            "on_mission": on_mission,
+            "dimensions": {k: {"score": d.score, "measured": d.measured, "evidence": d.evidence} for k, d in dims.items()},
+            "gaps": [f"{k} ({d.score})" for k, d in dims.items() if d.measured and d.score < 60],
+            "source": self.entry.get("source", ""),
+        }
 
 
 # ── scoring ──────────────────────────────────────────────────────────────────
-def certify(target: pathlib.Path, entry: dict | None = None) -> dict:
-    entry = entry or {}
-    files, blob, doc = gather(target)
-    fm = frontmatter(doc[1]) if doc else {}
-    name = entry.get("name") or fm.get("name") or target.name
-
-    dims = {
-        "provenance": dim_provenance(target, files, entry),
-        "security": dim_security(blob),
-        "relevance": dim_relevance(blob),
-        "docs": dim_docs(doc, fm),
-        "correctness": dim_correctness(target, blob),
-        "cross_runtime": dim_cross_runtime(blob),
-        "eval": dim_eval(blob),
-        "freshness": dim_freshness(target),
-    }
-    weights = {d["id"]: d["weight"] for d in RUBRIC["dimensions"]}
-
-    measured_w = sum(weights[k] for k, d in dims.items() if d.measured)
-    score = round(sum(weights[k] * d.score for k, d in dims.items() if d.measured) / measured_w) if measured_w else 0
-
-    # gates
-    g = RUBRIC["gates"]
-    sec, rel = dims["security"], dims["relevance"]
-    security_ok = sec.measured and sec.score >= g["security"]["min"]
-    on_mission = rel.measured and rel.score >= g["relevance"]["min"]
-
+def decide_tier(score: int, security_ok: bool, on_mission: bool) -> str:
+    """Map a score + the blocking gates to a tier. Gates dominate the score."""
     if not on_mission:
-        tier = "not-applicable"
-    elif not security_ok:
-        tier = "rejected"
-    elif score >= RUBRIC["tiers"]["certified"]:
-        tier = "certified"
-    elif score >= RUBRIC["tiers"]["provisional"]:
-        tier = "provisional"
-    else:
-        tier = "rejected"
+        return "not-applicable"
+    if not security_ok:
+        return "rejected"
+    if score >= RUBRIC["tiers"]["certified"]:
+        return "certified"
+    if score >= RUBRIC["tiers"]["provisional"]:
+        return "provisional"
+    return "rejected"
 
-    gaps = [f"{k} ({d.score})" for k, d in dims.items()
-            if d.measured and d.score < 60]
-    return {
-        "name": name,
-        "kind": entry.get("kind", fm.get("kind", "skill")),
-        "score": score,
-        "tier": tier,
-        "security_ok": security_ok,
-        "on_mission": on_mission,
-        "dimensions": {k: {"score": d.score, "measured": d.measured, "evidence": d.evidence} for k, d in dims.items()},
-        "gaps": gaps,
-        "source": entry.get("source", ""),
-    }
+
+def certify(target: pathlib.Path, entry: dict | None = None) -> dict:
+    """Score one tool against the rubric → {score, tier, per-dimension evidence}."""
+    return Certifier(target, entry).run()
 
 
 # ── badge (shields.io endpoint schema) ───────────────────────────────────────
 def badge(result: dict) -> dict:
+    """Build a shields.io endpoint-schema badge JSON for a certification result."""
     color = {"certified": "brightgreen", "provisional": "yellow",
              "rejected": "red", "not-applicable": "lightgrey"}[result["tier"]]
     label = "FM-os Certified"
@@ -230,7 +231,8 @@ def badge(result: dict) -> dict:
 
 
 # ── CLI ──────────────────────────────────────────────────────────────────────
-def print_human(r: dict):
+def print_human(r: dict) -> None:
+    """Print a certification result as an aligned per-dimension scorecard."""
     icon = {"certified": "✅", "provisional": "🟡", "rejected": "❌", "not-applicable": "⚪"}[r["tier"]]
     print(f"{icon}  {r['name']} ({r['kind']}) — {r['tier'].upper()}  score {r['score']}/100")
     for k, d in r["dimensions"].items():
@@ -241,6 +243,7 @@ def print_human(r: dict):
 
 
 def main() -> int:
+    """CLI: certify a --target dir or the whole --registry; gate CI with --gate."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--target")
     ap.add_argument("--registry", action="store_true")

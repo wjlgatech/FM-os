@@ -6,37 +6,25 @@ The README is a build artifact. Never hand-edit it; edit data/*.yml and run
 """
 from __future__ import annotations
 
-import pathlib
+import re
 import sys
 
-import yaml
+from fmos import DATA, esc, load, repos_with_stars
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
-README = ROOT / "README.md"
-
+README = DATA.parent / "README.md"
 BADGE = "https://img.shields.io/github"
-
-
-def load(name: str):
-    path = DATA / f"{name}.yml"
-    if not path.exists():
-        return []
-    return yaml.safe_load(path.read_text()) or []
-
-
-def esc(text: str) -> str:
-    return " ".join(str(text).split())
 
 
 # ── per-source line formatters ───────────────────────────────────────────────
 def fmt_repo(e: dict) -> str:
+    """One repo → a Markdown bullet with the SLM marker + live star count."""
     star = f" `★ {e['stars']:,}`" if e.get("stars") else ""
     slm = " 🤏" if e.get("slm") else ""
     return f"- **[{esc(e['name'])}]({e['url']})**{slm}{star} — {esc(e.get('blurb',''))}"
 
 
 def fmt_course(e: dict) -> str:
+    """One course → a Markdown bullet with org/instructor/year and a free tag."""
     who = " · ".join(x for x in (e.get("org"), e.get("instructor")) if x)
     yr = f" ({e['year']})" if e.get("year") else ""
     free = " · _free_" if e.get("free") else ""
@@ -45,6 +33,7 @@ def fmt_course(e: dict) -> str:
 
 
 def fmt_paper(e: dict) -> str:
+    """One paper → a Markdown bullet with authors/org/year and venue."""
     bits = [b for b in (e.get("authors"), e.get("org")) if b]
     yr = f", {e['year']}" if e.get("year") else ""
     venue = f" · {e['venue']}" if e.get("venue") else ""
@@ -53,6 +42,7 @@ def fmt_paper(e: dict) -> str:
 
 
 def fmt_job(e: dict) -> str:
+    """One job source → a Markdown bullet with its focus."""
     return f"- **[{esc(e['name'])}]({e['url']})** — {esc(e.get('focus',''))}"
 
 
@@ -60,6 +50,7 @@ FMT = {"repos": fmt_repo, "courses": fmt_course, "papers": fmt_paper, "jobs": fm
 
 
 def render_section(sec: dict, entries: list) -> str:
+    """Render one config-driven section, grouping entries by sub-heading."""
     key = sec["key"]
     fmt = FMT[sec["source"]]
     out = [f'<h2 id="{sec["id"]}">{sec["icon"]} {sec["title"]}</h2>', ""]
@@ -95,6 +86,7 @@ def render_section(sec: dict, entries: list) -> str:
 
 
 def render_model_table(models: list) -> str:
+    """Render the SLM model zoo as a comparison table, smallest params first."""
     out = [
         '<h2 id="model-zoo">🤖 SLM Model Zoo</h2>',
         "",
@@ -103,8 +95,8 @@ def render_model_table(models: list) -> str:
         "| Model | Org | Params | License | Context | On-device |",
         "|---|---|--:|---|--:|:--:|",
     ]
-    def pb(p):
-        m = __import__("re").search(r"([\d.]+)\s*B", p or "")
+    def pb(p: str) -> float:
+        m = re.search(r"([\d.]+)\s*B", p or "")
         return float(m.group(1)) if m else 999.0
     for m in sorted(models, key=lambda e: pb(e.get("params", ""))):
         lic = esc(m.get("license", "—"))
@@ -120,6 +112,7 @@ def render_model_table(models: list) -> str:
 
 
 def render_certified(registry: list, certs: dict, owner: str, repo: str) -> str:
+    """Render the FM-os Certified table: scored tools first, then submitted ones."""
     slug = f"{owner}/{repo}"
     icon = {"certified": "✅", "provisional": "🟡", "rejected": "❌", "not-applicable": "⚪"}
     out = [
@@ -156,29 +149,9 @@ def render_certified(registry: list, certs: dict, owner: str, repo: str) -> str:
     return "\n".join(out)
 
 
-def build() -> str:
-    meta = load("meta")
-    data = {name: load(name) for name in ("repos", "courses", "papers", "jobs")}
-    models = load("models")
-    registry = load("registry")
-    certs = load("_certifications") if (DATA / "_certifications.yml").exists() else {}
-
-    # Merge live stats from the generated stars map (written by scripts/sync.py).
-    stars = {}
-    stars_path = DATA / "_stars.yml"
-    if stars_path.exists():
-        stars = yaml.safe_load(stars_path.read_text()) or {}
-    for e in data["repos"]:
-        stat = stars.get(e.get("repo"))
-        if stat and stat.get("stars") is not None:
-            e["stars"] = stat["stars"]
-
-    owner, repo = meta["repo_owner"], meta["repo_name"]
-    slug = f"{owner}/{repo}"
-    L: list[str] = []
-
-    # ── header ──────────────────────────────────────────────────────────────
-    L += [
+def render_header(meta: dict, slug: str) -> list[str]:
+    """Title, badge row, tagline, nav, and the 'why different' hook."""
+    out = [
         f"# {meta['title']}",
         "",
         "<div align=\"center\">",
@@ -204,12 +177,13 @@ def build() -> str:
         "> **⚡ Why FM-os and not the other lists?**",
         "",
     ]
-    for i, w in enumerate(meta["why_different"], 1):
-        L.append(f"> {i}. {esc(w)}")
-    L += ["", "---", ""]
+    out += [f"> {i}. {esc(w)}" for i, w in enumerate(meta["why_different"], 1)]
+    return out + ["", "---", ""]
 
-    # ── start here ────────────────────────────────────────────────────────────
-    L += [
+
+def render_start_here() -> list[str]:
+    """The ordered onboarding path for a newcomer."""
+    return [
         '<h2 id="start-here">🚀 Start Here</h2>',
         "",
         "New to foundation-model ops? Read this in order:",
@@ -226,43 +200,22 @@ def build() -> str:
         "",
     ]
 
-    # ── table of contents ───────────────────────────────────────────────────
-    L += ['<h2 id="-table-of-contents">📚 Table of Contents</h2>', ""]
-    L.append("- [🚀 Start Here](#start-here)")
+
+def render_toc(meta: dict, data: dict, models: list, registry: list) -> list[str]:
+    """Table of contents with per-section entry counts."""
+    out = ['<h2 id="-table-of-contents">📚 Table of Contents</h2>', "", "- [🚀 Start Here](#start-here)"]
     if models:
-        L.append(f"- [🤖 SLM Model Zoo](#model-zoo) `{len(models)}`")
+        out.append(f"- [🤖 SLM Model Zoo](#model-zoo) `{len(models)}`")
     if registry:
-        L.append(f"- [🏅 FM-os Certified](#fm-os-certified) `{len(registry)}`")
-    counts = {}
+        out.append(f"- [🏅 FM-os Certified](#fm-os-certified) `{len(registry)}`")
     for sec in meta["sections"]:
-        entries = data[sec["source"]]
-        counts[sec["id"]] = len(entries)
-        L.append(f"- [{sec['icon']} {sec['title']}](#{sec['id']}) `{len(entries)}`")
-    L += [
-        "- [🗺️ Learning Roadmap](#learning-roadmap)",
-        "- [🤝 Contribute](#contribute)",
-        "",
-        "---",
-        "",
-    ]
+        out.append(f"- [{sec['icon']} {sec['title']}](#{sec['id']}) `{len(data[sec['source']])}`")
+    return out + ["- [🗺️ Learning Roadmap](#learning-roadmap)", "- [🤝 Contribute](#contribute)", "", "---", ""]
 
-    # ── model zoo (flagship comparison table) ─────────────────────────────────
-    if models:
-        L.append(render_model_table(models))
-        L += ["---", ""]
 
-    # ── FM-os Certified (the trust layer) ─────────────────────────────────────
-    if registry:
-        L.append(render_certified(registry, certs, owner, repo))
-        L += ["---", ""]
-
-    # ── generated sections ────────────────────────────────────────────────────
-    for sec in meta["sections"]:
-        L.append(render_section(sec, data[sec["source"]]))
-        L += ["---", ""]
-
-    # ── roadmap ────────────────────────────────────────────────────────────────
-    L += [
+def render_roadmap() -> list[str]:
+    """The beginner→practitioner SLM learning track."""
+    return [
         '<h2 id="learning-roadmap">🗺️ Learning Roadmap</h2>',
         "",
         "**Beginner → practitioner (SLM track):**",
@@ -277,8 +230,10 @@ def build() -> str:
         "",
     ]
 
-    # ── contribute ─────────────────────────────────────────────────────────────
-    L += [
+
+def render_footer(meta: dict, slug: str) -> list[str]:
+    """Contribute section, star-history chart, and contributor wall."""
+    return [
         '<h2 id="contribute">🤝 Contribute</h2>',
         "",
         "This list is **data-driven** — every entry is a few lines of YAML in `data/`.",
@@ -318,10 +273,31 @@ def build() -> str:
         "</div>",
         "",
     ]
-    return "\n".join(L)
+
+
+def build() -> str:
+    """Assemble the full README from data/*.yml. Sections are emitted in order."""
+    meta = load("meta")
+    data = {"repos": repos_with_stars()}
+    data.update({name: load(name) for name in ("courses", "papers", "jobs")})
+    models, registry = load("models"), load("registry")
+    certs = load("_certifications") if (DATA / "_certifications.yml").exists() else {}
+    owner, repo = meta["repo_owner"], meta["repo_name"]
+    slug = f"{owner}/{repo}"
+
+    parts: list[str] = render_header(meta, slug) + render_start_here() + render_toc(meta, data, models, registry)
+    if models:
+        parts += [render_model_table(models), "---", ""]
+    if registry:
+        parts += [render_certified(registry, certs, owner, repo), "---", ""]
+    for sec in meta["sections"]:
+        parts += [render_section(sec, data[sec["source"]]), "---", ""]
+    parts += render_roadmap() + render_footer(meta, slug)
+    return "\n".join(parts)
 
 
 def main() -> int:
+    """Write README.md, or with --check verify it matches (drift gate)."""
     text = build()
     if "--check" in sys.argv:
         current = README.read_text() if README.exists() else ""

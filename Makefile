@@ -1,11 +1,12 @@
-.PHONY: check build validate sync site clean help
+.PHONY: check build validate test sync site certify clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
 	@echo ""
 	@echo "  make build     Regenerate README.md from data/*.yml"
 	@echo "  make validate  Schema-gate data/*.yml (required fields + URLs)"
-	@echo "  make check     validate + build + drift-gate (CI's finish line)"
+	@echo "  make test      Run the pytest suite (build/validate/certify logic)"
+	@echo "  make check     validate + test + build + drift-gate (CI's finish line)"
 	@echo "  make sync      Refresh live repo stars/releases (needs network)"
 	@echo "  make certify   Re-certify the tooling registry + refresh badges"
 	@echo ""
@@ -16,9 +17,12 @@ build:
 validate:
 	python3 scripts/validate.py
 
-# The finish line: data is well-formed AND the committed README matches what
-# the generator would produce right now. Fails if either is off.
-check: validate
+test:
+	python3 -m pytest -q
+
+# The finish line: code behaves (pytest), data is well-formed (validate), AND the
+# committed README matches what the generator produces now (drift). Any miss fails.
+check: validate test
 	python3 scripts/build_readme.py --check
 
 sync:

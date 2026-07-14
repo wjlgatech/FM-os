@@ -11,19 +11,19 @@ from __future__ import annotations
 
 import json
 import os
-import pathlib
 import urllib.error
 import urllib.request
 
 import yaml
 
-ROOT = pathlib.Path(__file__).resolve().parent.parent
-DATA = ROOT / "data"
+from fmos import DATA, ROOT, load
+
 OUT = DATA / "_stars.yml"
 API = "https://api.github.com/repos/"
 
 
-def gh(path: str):
+def gh(path: str) -> dict:
+    """GET the GitHub REST API, authenticated with $GITHUB_TOKEN when present."""
     req = urllib.request.Request(API + path)
     req.add_header("Accept", "application/vnd.github+json")
     req.add_header("User-Agent", "FM-os-sync")
@@ -34,26 +34,31 @@ def gh(path: str):
         return json.load(r)
 
 
+def fetch_stats(slug: str) -> dict:
+    """Live stats for one owner/repo: stars, last push, and latest release tag."""
+    info = gh(slug)
+    entry = {"stars": info.get("stargazers_count", 0)}
+    if info.get("pushed_at"):
+        entry["pushed"] = info["pushed_at"][:10]
+    try:
+        rel = gh(f"{slug}/releases/latest")
+        if rel.get("tag_name"):
+            entry["release"] = rel["tag_name"]
+    except urllib.error.HTTPError:
+        pass  # many repos have no releases; that's fine
+    return entry
+
+
 def main() -> int:
-    repos = yaml.safe_load((DATA / "repos.yml").read_text()) or []
-    slugs = sorted({e["repo"] for e in repos if e.get("repo")})
+    """Refresh live stats for every tracked repo into the generated _stars.yml."""
+    slugs = sorted({e["repo"] for e in load("repos") if e.get("repo")})
     result: dict[str, dict] = {}
     ok = fail = 0
     for slug in slugs:
         try:
-            info = gh(slug)
-            entry = {"stars": info.get("stargazers_count", 0)}
-            if info.get("pushed_at"):
-                entry["pushed"] = info["pushed_at"][:10]
-            try:
-                rel = gh(f"{slug}/releases/latest")
-                if rel.get("tag_name"):
-                    entry["release"] = rel["tag_name"]
-            except urllib.error.HTTPError:
-                pass  # many repos have no releases; that's fine
-            result[slug] = entry
+            result[slug] = fetch_stats(slug)
             ok += 1
-            print(f"  ✓ {slug}: ★{entry['stars']:,}")
+            print(f"  ✓ {slug}: ★{result[slug]['stars']:,}")
         except Exception as exc:  # noqa: BLE001 — log and continue, never fail the run
             fail += 1
             print(f"  ✗ {slug}: {exc}")
