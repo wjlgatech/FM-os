@@ -20,6 +20,7 @@ REQUIRED = {
     "papers": ["title", "url", "topic"],
     "jobs": ["name", "url", "type"],
     "models": ["name", "url", "params", "license"],
+    "registry": ["name", "kind"],
 }
 
 
@@ -50,9 +51,10 @@ def main() -> int:
             url = str(e.get("url", ""))
             if url and not url.startswith(("http://", "https://")):
                 errors.append(f"{where}: url must start with http(s):// — got {url!r}")
-            if url in seen_urls:
-                errors.append(f"{where}: duplicate url {url}")
-            seen_urls.add(url)
+            if url:
+                if url in seen_urls:
+                    errors.append(f"{where}: duplicate url {url}")
+                seen_urls.add(url)
 
     if errors:
         print("Validation FAILED:", file=sys.stderr)

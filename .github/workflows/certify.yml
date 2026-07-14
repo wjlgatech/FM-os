@@ -1,0 +1,32 @@
+name: certify
+
+# Re-certify the tooling registry (path-based entries live in this repo, so CI
+# can run the real static certifier), refresh badges + README, and open a PR.
+on:
+  schedule:
+    - cron: "0 7 * * 1" # Mondays 07:00 UTC (after the freshness sync)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # freshness dimension reads git history
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - run: make certify
+      - uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: re-certify tooling registry"
+          title: "chore: re-certify tooling registry"
+          body: "Automated FM-os Certified refresh — regenerated `data/_certifications.yml`, badges, and README."
+          branch: bot/certify
+          delete-branch: true

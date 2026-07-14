@@ -1,0 +1,110 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# certify.yml — the FM-os Certified rubric. SINGLE SOURCE OF TRUTH.
+# scripts/certify.py scores a tool (skill / plugin / workflow) against this.
+# Discipline (from the BRACE playbook): evidence over claims · no evidence ⇒ No
+# (dimension excluded, never a fake pass) · a blocking gate cannot pass on
+# unmeasured items · exit non-zero on a fail so it gates CI.
+# v0.1 is STATIC ONLY — no untrusted code is executed. Runtime eval is v1.
+# ─────────────────────────────────────────────────────────────────────────────
+version: "0.1"
+
+# Overall tier from the weighted score of MEASURED dimensions (renormalized).
+tiers:
+  certified: 75 # >= this AND all blocking gates pass
+  provisional: 55 # >= this
+  # below provisional -> Rejected
+
+# Blocking gates: independent of the score. A tool cannot be Certified if a
+# blocking gate fails, and a gate cannot "pass" on unmeasured evidence.
+gates:
+  security:
+    blocking: true
+    min: 70 # security dimension must score >= this
+    note: "Any critical pattern => automatic Rejected regardless of score."
+  relevance:
+    blocking: true
+    min: 40 # off-mission tools are Not Applicable, not Rejected
+    note: "Below min => tool is out of scope for FM-os (SLM/FM-ops)."
+
+# Weights sum to 100. Each dimension is scored 0-100 by static evidence.
+dimensions:
+  - id: provenance
+    weight: 10
+    what: "Verifiable identity: content hash pinned, author + source declared."
+  - id: security
+    weight: 25
+    what: "No dangerous shell, no exfil, no hardcoded secrets, scoped permissions."
+  - id: relevance
+    weight: 15
+    what: "Genuinely helps SLM / foundation-model ops (pretrain/finetune/RL/serve/eval)."
+  - id: docs
+    weight: 15
+    what: "SKILL.md/manifest with description, trigger, and a usage example."
+  - id: correctness
+    weight: 10
+    what: "Ships an example/test artifact (static presence in v0.1; executed in v1)."
+  - id: cross_runtime
+    weight: 10
+    what: "Runs beyond one host (Claude Code / Codex / Hermes / OpenClaw)."
+  - id: eval
+    weight: 5
+    what: "If it touches model quality, ships an eval / verification."
+  - id: freshness
+    weight: 10
+    what: "Maintained: recent commits (measured only when a git history is present)."
+
+# ── security scanner config (data-driven; edit here, not in code) ────────────
+security:
+  # Any hit => critical => automatic Rejected.
+  critical_patterns:
+    - 'curl\s+[^|\n]*\|\s*(sudo\s+)?(bash|sh)\b' # curl | bash
+    - 'wget\s+[^|\n]*\|\s*(sudo\s+)?(bash|sh)\b'
+    - 'rm\s+-rf\s+(/|\$HOME|~)(\s|$)' # rm -rf / or ~
+    - 'eval\s*\(\s*base64' # eval(base64...) obfuscation
+    - '(?i)(api[_-]?key|secret|token|password)\s*[:=]\s*["''][A-Za-z0-9/_+\-]{16,}' # hardcoded secret
+    - '(?i)AKIA[0-9A-Z]{16}' # AWS access key id
+    - 'sk-[A-Za-z0-9]{20,}' # provider API key
+  # Each hit deducts points (capped); signals risk, not an auto-reject.
+  warn_patterns:
+    - 'sudo\s'
+    - 'chmod\s+777'
+    - '(?i)\bnc\b\s+-' # netcat
+    - '/dev/tcp/' # bash reverse shell
+    - 'os\.system\('
+    - 'subprocess\.(Popen|call|run)\([^)]*shell\s*=\s*True'
+    - '(?i)https?://\d{1,3}(\.\d{1,3}){3}' # raw IP URLs
+
+# ── relevance keywords (SLM / FM-ops mission) ────────────────────────────────
+relevance:
+  keywords:
+    - small language model
+    - slm
+    - foundation model
+    - language model
+    - fine-tun
+    - finetun
+    - lora
+    - qlora
+    - quantiz
+    - distill
+    - pretrain
+    - post-train
+    - posttrain
+    - rlhf
+    - dpo
+    - grpo
+    - reinforcement learning
+    - gguf
+    - inference
+    - serving
+    - eval
+    - benchmark
+    - tokeniz
+    - transformer
+
+# ── docs / cross-runtime / eval signal keywords ──────────────────────────────
+signals:
+  trigger: ["trigger", "when to use", "use when", "invoke", "activates"]
+  example: ["example", "usage", "```", "e.g.", "for instance"]
+  cross_runtime: ["codex", "hermes", "openclaw", "cursor", "cross-runtime", "runtimes"]
+  eval: ["eval", "test", "verify", "benchmark", "assert", "pytest", "check"]

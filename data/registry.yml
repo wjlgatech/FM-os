@@ -1,0 +1,30 @@
+# FM-os tooling registry. kind: skill|plugin|workflow
+# Entries with a local `path` are certified automatically by
+# `scripts/certify.py --registry` (results -> data/_certifications.yml).
+# Entries WITHOUT a path are "submitted" — awaiting self-certification by the
+# author (they run the FM-os Certify CI action in their own repo). We never
+# score someone else's tool without runnable evidence — no evidence ⇒ No.
+
+# ── seed: FM-os's own tooling (dogfooded) ────────────────────────────────────
+- name: slm-quickstart
+  kind: skill
+  path: skills/slm-quickstart
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart
+- name: fm-os-sync
+  kind: workflow
+  path: scripts
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/scripts
+
+# ── submitted: awaiting author self-certification (no score until evidence) ──
+- name: eval-llm
+  kind: skill
+  author: community
+  source: "https://github.com/topics/claude-skill"
+  note: "LLM output-quality eval — highly SLM-relevant; awaiting self-cert."
+- name: continual-learning-research
+  kind: skill
+  author: community
+  source: "https://github.com/topics/claude-skill"
+  note: "Continual learning / catastrophic forgetting for SLMs; awaiting self-cert."

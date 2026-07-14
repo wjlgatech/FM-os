@@ -48,6 +48,7 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
+- [🏅 FM-os Certified](#fm-os-certified) `4`
 - [🧰 Open-Source Repos](#open-source-repos) `35`
 - [🎓 Courses](#courses) `17`
 - [📄 Papers](#papers) `35`
@@ -76,6 +77,26 @@ The small open models worth knowing, smallest first. `⚠️` = non-commercial /
 | [Phi-3-mini (3.8B)](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct) | Microsoft | 3.8B | MIT | 4K | ✅ |
 | [H2O-Danube3-4B](https://huggingface.co/h2oai/h2o-danube3-4b-base) | H2O.ai | 4B | Apache-2.0 | 8K | ✅ |
 | [MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B) | OpenBMB | 4B | Apache-2.0 (weights: registration) | 32K | ✅ |
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+---
+
+<h2 id="fm-os-certified">🏅 FM-os Certified</h2>
+
+Trust, not just a list. Every tool below is scored by an **automated, evidence-based rubric** ([`data/certify.yml`](data/certify.yml)) — provenance, a security scan, docs, SLM/FM-ops relevance, and more. Security is a blocking gate; no evidence ⇒ no pass. Authors self-certify in CI — see [docs/CERTIFY.md](docs/CERTIFY.md).
+
+| Tool | Kind | Score | Status |
+|---|---|--:|:--|
+| [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
+| [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 80/100 | ✅ certified |
+| [eval-llm](https://github.com/topics/claude-skill) | skill | — | ⏳ submitted |
+| [continual-learning-research](https://github.com/topics/claude-skill) | skill | — | ⏳ submitted |
+
+> **Earn the badge for your tool:** add the FM-os Certify action to your CI (see [docs/CERTIFY.md](docs/CERTIFY.md)) and embed:
+> ```md
+> ![FM-os Certified](https://img.shields.io/endpoint?url=https://wjlgatech.github.io/FM-os/badges/YOUR-TOOL.json)
+> ```
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

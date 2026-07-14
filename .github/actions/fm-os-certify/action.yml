@@ -1,0 +1,29 @@
+name: "FM-os Certify"
+description: "Score this skill/plugin/workflow against the FM-os Certified rubric and gate the build."
+inputs:
+  target:
+    description: "Path to the tool to certify (dir containing SKILL.md / manifest)."
+    default: "."
+  gate:
+    description: "Minimum score to pass (build fails below it or on a blocking security/relevance gate)."
+    default: "75"
+  badge-path:
+    description: "Where to write the shields.io endpoint badge JSON."
+    default: "fm-os-badge.json"
+runs:
+  using: composite
+  steps:
+    - name: Fetch the FM-os certifier
+      shell: bash
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/wjlgatech/FM-os/main/scripts/certify.py -o /tmp/certify.py
+        mkdir -p /tmp/fmos/data
+        curl -fsSL https://raw.githubusercontent.com/wjlgatech/FM-os/main/data/certify.yml -o /tmp/fmos/data/certify.yml
+    - name: Certify
+      shell: bash
+      run: |
+        pip install pyyaml >/dev/null
+        # certify.py resolves data/certify.yml relative to its own parent's parent
+        mkdir -p /tmp/fmos/scripts && cp /tmp/certify.py /tmp/fmos/scripts/certify.py
+        python3 /tmp/fmos/scripts/certify.py --target "${{ inputs.target }}" \
+          --gate "${{ inputs.gate }}" --badge "${{ inputs.badge-path }}"

@@ -37,6 +37,8 @@ def main() -> int:
         "papers": load("papers"),
         "jobs": load("jobs"),
         "models": load("models"),
+        "registry": load("registry"),
+        "certifications": load("_certifications") if (DATA / "_certifications.yml").exists() else {},
     }
     bundle["counts"] = {k: len(v) for k, v in bundle.items() if isinstance(v, list)}
     OUT.parent.mkdir(parents=True, exist_ok=True)

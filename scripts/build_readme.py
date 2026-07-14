@@ -119,10 +119,49 @@ def render_model_table(models: list) -> str:
     return "\n".join(out)
 
 
+def render_certified(registry: list, certs: dict, owner: str, repo: str) -> str:
+    slug = f"{owner}/{repo}"
+    icon = {"certified": "✅", "provisional": "🟡", "rejected": "❌", "not-applicable": "⚪"}
+    out = [
+        '<h2 id="fm-os-certified">🏅 FM-os Certified</h2>',
+        "",
+        "Trust, not just a list. Every tool below is scored by an **automated, "
+        "evidence-based rubric** ([`data/certify.yml`](data/certify.yml)) — provenance, a "
+        "security scan, docs, SLM/FM-ops relevance, and more. Security is a blocking gate; "
+        "no evidence ⇒ no pass. Authors self-certify in CI — see [docs/CERTIFY.md](docs/CERTIFY.md).",
+        "",
+        "| Tool | Kind | Score | Status |",
+        "|---|---|--:|:--|",
+    ]
+    scored = [e for e in registry if e["name"] in certs]
+    for e in sorted(scored, key=lambda e: -certs[e["name"]]["score"]):
+        c = certs[e["name"]]
+        name = f"[{esc(e['name'])}]({e['source']})" if e.get("source") else esc(e["name"])
+        out.append(f"| {name} | {esc(c['kind'])} | {c['score']}/100 | {icon.get(c['tier'],'')} {esc(c['tier'])} |")
+    submitted = [e for e in registry if e["name"] not in certs]
+    for e in submitted:
+        name = f"[{esc(e['name'])}]({e['source']})" if e.get("source") else esc(e["name"])
+        out.append(f"| {name} | {esc(e.get('kind','—'))} | — | ⏳ submitted |")
+    out += [
+        "",
+        "> **Earn the badge for your tool:** add the FM-os Certify action to your CI "
+        "(see [docs/CERTIFY.md](docs/CERTIFY.md)) and embed:",
+        "> ```md",
+        f"> ![FM-os Certified](https://img.shields.io/endpoint?url=https://{owner}.github.io/{repo}/badges/YOUR-TOOL.json)",
+        "> ```",
+        "",
+        "<sub>[↑ back to top](#-table-of-contents)</sub>",
+        "",
+    ]
+    return "\n".join(out)
+
+
 def build() -> str:
     meta = load("meta")
     data = {name: load(name) for name in ("repos", "courses", "papers", "jobs")}
     models = load("models")
+    registry = load("registry")
+    certs = load("_certifications") if (DATA / "_certifications.yml").exists() else {}
 
     # Merge live stats from the generated stars map (written by scripts/sync.py).
     stars = {}
@@ -192,6 +231,8 @@ def build() -> str:
     L.append("- [🚀 Start Here](#start-here)")
     if models:
         L.append(f"- [🤖 SLM Model Zoo](#model-zoo) `{len(models)}`")
+    if registry:
+        L.append(f"- [🏅 FM-os Certified](#fm-os-certified) `{len(registry)}`")
     counts = {}
     for sec in meta["sections"]:
         entries = data[sec["source"]]
@@ -208,6 +249,11 @@ def build() -> str:
     # ── model zoo (flagship comparison table) ─────────────────────────────────
     if models:
         L.append(render_model_table(models))
+        L += ["---", ""]
+
+    # ── FM-os Certified (the trust layer) ─────────────────────────────────────
+    if registry:
+        L.append(render_certified(registry, certs, owner, repo))
         L += ["---", ""]
 
     # ── generated sections ────────────────────────────────────────────────────

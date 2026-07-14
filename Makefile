@@ -7,6 +7,7 @@ help:
 	@echo "  make validate  Schema-gate data/*.yml (required fields + URLs)"
 	@echo "  make check     validate + build + drift-gate (CI's finish line)"
 	@echo "  make sync      Refresh live repo stars/releases (needs network)"
+	@echo "  make certify   Re-certify the tooling registry + refresh badges"
 	@echo ""
 
 build:
@@ -26,6 +27,11 @@ sync:
 
 site:
 	python3 scripts/build_site.py
+
+# Re-run certification across the registry, refresh badges + README.
+certify:
+	python3 scripts/certify.py --registry
+	python3 scripts/build_readme.py
 
 clean:
 	rm -f data/_stars.yml site/data.json
