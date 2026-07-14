@@ -1,4 +1,4 @@
-.PHONY: check build validate sync clean help
+.PHONY: check build validate sync site clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
@@ -24,5 +24,8 @@ sync:
 	python3 scripts/sync.py
 	python3 scripts/build_readme.py
 
+site:
+	python3 scripts/build_site.py
+
 clean:
-	rm -f data/_stars.yml
+	rm -f data/_stars.yml site/data.json

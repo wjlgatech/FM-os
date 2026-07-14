@@ -94,9 +94,35 @@ def render_section(sec: dict, entries: list) -> str:
     return "\n".join(out)
 
 
+def render_model_table(models: list) -> str:
+    out = [
+        '<h2 id="model-zoo">🤖 SLM Model Zoo</h2>',
+        "",
+        "The small open models worth knowing, smallest first. `⚠️` = non-commercial / restricted license — check before shipping.",
+        "",
+        "| Model | Org | Params | License | Context | On-device |",
+        "|---|---|--:|---|--:|:--:|",
+    ]
+    def pb(p):
+        m = __import__("re").search(r"([\d.]+)\s*B", p or "")
+        return float(m.group(1)) if m else 999.0
+    for m in sorted(models, key=lambda e: pb(e.get("params", ""))):
+        lic = esc(m.get("license", "—"))
+        if m.get("nc"):
+            lic = "⚠️ " + lic
+        od = "✅" if m.get("ondevice") else "—"
+        out.append(
+            f"| [{esc(m['name'])}]({m['url']}) | {esc(m.get('org','—'))} | {esc(m.get('params','—'))} "
+            f"| {lic} | {esc(m.get('context','—'))} | {od} |"
+        )
+    out += ["", "<sub>[↑ back to top](#-table-of-contents)</sub>", ""]
+    return "\n".join(out)
+
+
 def build() -> str:
     meta = load("meta")
     data = {name: load(name) for name in ("repos", "courses", "papers", "jobs")}
+    models = load("models")
 
     # Merge live stats from the generated stars map (written by scripts/sync.py).
     stars = {}
@@ -164,6 +190,8 @@ def build() -> str:
     # ── table of contents ───────────────────────────────────────────────────
     L += ['<h2 id="-table-of-contents">📚 Table of Contents</h2>', ""]
     L.append("- [🚀 Start Here](#start-here)")
+    if models:
+        L.append(f"- [🤖 SLM Model Zoo](#model-zoo) `{len(models)}`")
     counts = {}
     for sec in meta["sections"]:
         entries = data[sec["source"]]
@@ -176,6 +204,11 @@ def build() -> str:
         "---",
         "",
     ]
+
+    # ── model zoo (flagship comparison table) ─────────────────────────────────
+    if models:
+        L.append(render_model_table(models))
+        L += ["---", ""]
 
     # ── generated sections ────────────────────────────────────────────────────
     for sec in meta["sections"]:

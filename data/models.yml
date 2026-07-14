@@ -1,0 +1,95 @@
+# SLM model zoo — the comparison table. All specs verified against primary sources.
+# nc: true  marks a non-commercial / restricted license (flagged in the UI + table).
+- name: "SmolLM2-1.7B"
+  org: "Hugging Face"
+  params: "1.7B"
+  license: "Apache-2.0"
+  context: "8K"
+  ondevice: true
+  url: https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B
+- name: "Qwen2.5-1.5B"
+  org: "Alibaba (Qwen)"
+  params: "1.5B"
+  license: "Apache-2.0"
+  context: "32K"
+  ondevice: true
+  url: https://huggingface.co/Qwen/Qwen2.5-1.5B
+- name: "Gemma-2-2B"
+  org: "Google"
+  params: "2B"
+  license: "Gemma"
+  context: "8K"
+  ondevice: true
+  url: https://huggingface.co/google/gemma-2-2b
+- name: "Phi-3-mini (3.8B)"
+  org: "Microsoft"
+  params: "3.8B"
+  license: "MIT"
+  context: "4K"
+  ondevice: true
+  url: https://huggingface.co/microsoft/Phi-3-mini-4k-instruct
+- name: "Llama-3.2-1B"
+  org: "Meta"
+  params: "1B"
+  license: "Llama 3.2 Community"
+  context: "128K"
+  ondevice: true
+  url: https://huggingface.co/meta-llama/Llama-3.2-1B
+- name: "Llama-3.2-3B"
+  org: "Meta"
+  params: "3B"
+  license: "Llama 3.2 Community"
+  context: "128K"
+  ondevice: true
+  url: https://huggingface.co/meta-llama/Llama-3.2-3B
+- name: "OLMo-2-1B"
+  org: "Allen Institute for AI"
+  params: "1B"
+  license: "Apache-2.0"
+  context: "4K"
+  ondevice: true
+  url: https://huggingface.co/allenai/OLMo-2-0425-1B
+- name: "H2O-Danube3-4B"
+  org: "H2O.ai"
+  params: "4B"
+  license: "Apache-2.0"
+  context: "8K"
+  ondevice: true
+  url: https://huggingface.co/h2oai/h2o-danube3-4b-base
+- name: "Falcon3-1B"
+  org: "TII"
+  params: "1B"
+  license: "TII Falcon-LLM 2.0"
+  context: "4K"
+  ondevice: true
+  url: https://huggingface.co/tiiuae/Falcon3-1B-Base
+- name: "MiniCPM3-4B"
+  org: "OpenBMB"
+  params: "4B"
+  license: "Apache-2.0 (weights: registration)"
+  context: "32K"
+  ondevice: true
+  url: https://huggingface.co/openbmb/MiniCPM3-4B
+- name: "TinyLlama-1.1B"
+  org: "TinyLlama (community)"
+  params: "1.1B"
+  license: "Apache-2.0"
+  context: "2K"
+  ondevice: true
+  url: https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0
+- name: "MobileLLM-1B"
+  org: "Meta"
+  params: "1B"
+  license: "FAIR Noncommercial Research"
+  nc: true
+  context: "2K"
+  ondevice: true
+  url: https://huggingface.co/facebook/MobileLLM-1B
+- name: "StableLM-Zephyr-3B"
+  org: "Stability AI"
+  params: "3B"
+  license: "Stability AI Community"
+  nc: true
+  context: "4K"
+  ondevice: true
+  url: https://huggingface.co/stabilityai/stablelm-zephyr-3b

@@ -19,6 +19,7 @@ REQUIRED = {
     "courses": ["title", "url", "topic"],
     "papers": ["title", "url", "topic"],
     "jobs": ["name", "url", "type"],
+    "models": ["name", "url", "params", "license"],
 }
 
 

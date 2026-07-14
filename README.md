@@ -47,12 +47,37 @@ New to foundation-model ops? Read this in order:
 <h2 id="-table-of-contents">📚 Table of Contents</h2>
 
 - [🚀 Start Here](#start-here)
+- [🤖 SLM Model Zoo](#model-zoo) `13`
 - [🧰 Open-Source Repos](#open-source-repos) `35`
 - [🎓 Courses](#courses) `17`
 - [📄 Papers](#papers) `35`
 - [💼 Jobs & Careers](#jobs--careers) `11`
 - [🗺️ Learning Roadmap](#learning-roadmap)
 - [🤝 Contribute](#contribute)
+
+---
+
+<h2 id="model-zoo">🤖 SLM Model Zoo</h2>
+
+The small open models worth knowing, smallest first. `⚠️` = non-commercial / restricted license — check before shipping.
+
+| Model | Org | Params | License | Context | On-device |
+|---|---|--:|---|--:|:--:|
+| [Llama-3.2-1B](https://huggingface.co/meta-llama/Llama-3.2-1B) | Meta | 1B | Llama 3.2 Community | 128K | ✅ |
+| [OLMo-2-1B](https://huggingface.co/allenai/OLMo-2-0425-1B) | Allen Institute for AI | 1B | Apache-2.0 | 4K | ✅ |
+| [Falcon3-1B](https://huggingface.co/tiiuae/Falcon3-1B-Base) | TII | 1B | TII Falcon-LLM 2.0 | 4K | ✅ |
+| [MobileLLM-1B](https://huggingface.co/facebook/MobileLLM-1B) | Meta | 1B | ⚠️ FAIR Noncommercial Research | 2K | ✅ |
+| [TinyLlama-1.1B](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0) | TinyLlama (community) | 1.1B | Apache-2.0 | 2K | ✅ |
+| [Qwen2.5-1.5B](https://huggingface.co/Qwen/Qwen2.5-1.5B) | Alibaba (Qwen) | 1.5B | Apache-2.0 | 32K | ✅ |
+| [SmolLM2-1.7B](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B) | Hugging Face | 1.7B | Apache-2.0 | 8K | ✅ |
+| [Gemma-2-2B](https://huggingface.co/google/gemma-2-2b) | Google | 2B | Gemma | 8K | ✅ |
+| [Llama-3.2-3B](https://huggingface.co/meta-llama/Llama-3.2-3B) | Meta | 3B | Llama 3.2 Community | 128K | ✅ |
+| [StableLM-Zephyr-3B](https://huggingface.co/stabilityai/stablelm-zephyr-3b) | Stability AI | 3B | ⚠️ Stability AI Community | 4K | ✅ |
+| [Phi-3-mini (3.8B)](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct) | Microsoft | 3.8B | MIT | 4K | ✅ |
+| [H2O-Danube3-4B](https://huggingface.co/h2oai/h2o-danube3-4b-base) | H2O.ai | 4B | Apache-2.0 | 8K | ✅ |
+| [MiniCPM3-4B](https://huggingface.co/openbmb/MiniCPM3-4B) | OpenBMB | 4B | Apache-2.0 (weights: registration) | 32K | ✅ |
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
 
 ---
 
