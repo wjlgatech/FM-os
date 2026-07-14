@@ -25,5 +25,5 @@ jobs:
       - name: Link check
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --accept 200,206,429 README.md
+          args: --no-progress --config lychee.toml README.md
           fail: true
