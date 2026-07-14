@@ -1,0 +1,42 @@
+name: "📌 Suggest a resource"
+description: "Suggest a repo, course, paper, or job source to add to FM-os."
+title: "[suggest] <name of the resource>"
+labels: ["resource-suggestion"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Which list?
+      options: [repos, courses, papers, jobs]
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: "Must be a working link to the primary source."
+      placeholder: "https://github.com/... or https://arxiv.org/abs/..."
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Name / title
+    validations:
+      required: true
+  - type: input
+    id: blurb
+    attributes:
+      label: One-sentence blurb
+      description: "Concrete, non-hypey. Why does it matter for SLM / FM ops?"
+    validations:
+      required: true
+  - type: checkboxes
+    id: slm
+    attributes:
+      label: Relevance
+      options:
+        - label: "This is directly Small-Language-Model relevant (SLM-first is our focus)."
+  - type: markdown
+    attributes:
+      value: "Faster path: edit the matching `data/*.yml` file and open a PR — see CONTRIBUTING.md."

@@ -1,0 +1,294 @@
+# Papers. topic: slm|pretraining|scaling|posttraining|rl|peft|distillation|compression
+# ── Small Language Models & Surveys ──────────────────────────────────────────
+- title: "SmolLM2: When Smol Goes Big — Data-Centric Training of a Small Language Model"
+  authors: "Ben Allal et al."
+  org: "Hugging Face"
+  year: 2025
+  venue: "arXiv:2502.02737"
+  url: https://arxiv.org/abs/2502.02737
+  topic: slm
+  blurb: "A 1.7B model trained via careful data curation and overtraining, with the dataset recipe documented openly."
+- title: "A Survey of Small Language Models"
+  authors: "Van Nguyen et al."
+  org: "multi-institution"
+  year: 2024
+  venue: "arXiv:2410.20011"
+  url: https://arxiv.org/abs/2410.20011
+  topic: slm
+  blurb: "Taxonomy of SLM architectures, training, and compression methods, plus benchmark datasets and evaluation metrics."
+- title: "Small Language Models: Survey, Measurements, and Insights"
+  authors: "Lu et al."
+  org: "multi-institution"
+  year: 2024
+  venue: "arXiv:2409.15790"
+  url: https://arxiv.org/abs/2409.15790
+  topic: slm
+  blurb: "Empirical survey measuring capabilities and on-device runtime cost across a large set of released SLMs."
+- title: "Textbooks Are All You Need (phi-1)"
+  authors: "Gunasekar et al."
+  org: "Microsoft"
+  year: 2023
+  venue: "arXiv:2306.11644"
+  url: https://arxiv.org/abs/2306.11644
+  topic: slm
+  blurb: "phi-1 (1.3B), showing high-quality synthetic 'textbook' data lets small models match far larger ones on HumanEval."
+- title: "Textbooks Are All You Need II: phi-1.5 Technical Report"
+  authors: "Li et al."
+  org: "Microsoft"
+  year: 2023
+  venue: "arXiv:2309.05463"
+  url: https://arxiv.org/abs/2309.05463
+  topic: slm
+  blurb: "Extends the textbook-data approach to a 1.3B general reasoning model competitive with models 5x its size."
+- title: "Phi-3 Technical Report: A Highly Capable Language Model Locally on Your Phone"
+  authors: "Abdin et al."
+  org: "Microsoft"
+  year: 2024
+  venue: "arXiv:2404.14219"
+  url: https://arxiv.org/abs/2404.14219
+  topic: slm
+  blurb: "phi-3-mini (3.8B) rivals Mixtral 8x7B and GPT-3.5 on benchmarks while being small enough to run on a phone."
+- title: "Gemma: Open Models Based on Gemini Research and Technology"
+  authors: "Mesnard et al."
+  org: "Google DeepMind"
+  year: 2024
+  venue: "arXiv:2403.08295"
+  url: https://arxiv.org/abs/2403.08295
+  topic: slm
+  blurb: "Open 2B and 7B models derived from Gemini research, released with pretrained and instruction-tuned checkpoints."
+- title: "Gemma 2: Improving Open Language Models at a Practical Size"
+  authors: "Gemma Team"
+  org: "Google DeepMind"
+  year: 2024
+  venue: "arXiv:2408.00118"
+  url: https://arxiv.org/abs/2408.00118
+  topic: slm
+  blurb: "Trains the 2B/9B models with knowledge distillation over next-token prediction for strong quality at small size."
+- title: "MobileLLM: Optimizing Sub-billion Parameter Language Models for On-Device Use Cases"
+  authors: "Liu et al."
+  org: "Meta"
+  year: 2024
+  venue: "arXiv:2402.14905 (ICML 2024)"
+  url: https://arxiv.org/abs/2402.14905
+  topic: slm
+  blurb: "Shows deep-and-thin architecture, embedding sharing, and grouped-query attention matter most below 1B parameters."
+- title: "TinyLlama: An Open-Source Small Language Model"
+  authors: "Zhang et al."
+  org: "SUTD"
+  year: 2024
+  venue: "arXiv:2401.02385"
+  url: https://arxiv.org/abs/2401.02385
+  topic: slm
+  blurb: "A 1.1B Llama-architecture model pretrained on ~3T tokens with a fully open training pipeline."
+- title: "TinyStories: How Small Can Language Models Be and Still Speak Coherent English?"
+  authors: "Eldan & Li"
+  org: "Microsoft Research"
+  year: 2023
+  venue: "arXiv:2305.07759"
+  url: https://arxiv.org/abs/2305.07759
+  topic: slm
+  blurb: "Sub-10M-parameter models trained on a constrained synthetic story corpus can generate coherent, consistent English."
+- title: "Distilling Step-by-Step! Outperforming Larger LMs with Less Data and Smaller Sizes"
+  authors: "Hsieh et al."
+  org: "Google"
+  year: 2023
+  venue: "arXiv:2305.02301 (Findings of ACL 2023)"
+  url: https://arxiv.org/abs/2305.02301
+  topic: slm
+  blurb: "Uses LLM-generated rationales as extra supervision so small models beat much larger ones with less data."
+
+# ── Pre-training & Data ───────────────────────────────────────────────────────
+- title: "The FineWeb Datasets: Decanting the Web for the Finest Text Data at Scale"
+  authors: "Penedo et al."
+  org: "Hugging Face"
+  year: 2024
+  venue: "arXiv:2406.17557 (NeurIPS 2024)"
+  url: https://arxiv.org/abs/2406.17557
+  topic: pretraining
+  blurb: "Ablates deduplication and filtering to build a 15T-token open web corpus plus the FineWeb-Edu subset."
+- title: "The Llama 3 Herd of Models"
+  authors: "Dubey et al."
+  org: "Meta"
+  year: 2024
+  venue: "arXiv:2407.21783"
+  url: https://arxiv.org/abs/2407.21783
+  topic: pretraining
+  blurb: "Documents the pretraining, scaling, and post-training of the Llama 3 family, including the 405B dense flagship."
+- title: "GPT-4 Technical Report"
+  authors: "OpenAI"
+  org: "OpenAI"
+  year: 2023
+  venue: "arXiv:2303.08774"
+  url: https://arxiv.org/abs/2303.08774
+  topic: pretraining
+  blurb: "A multimodal transformer with human-level exam performance and predictable scaling from small proxy models."
+- title: "DeepSeek-V3 Technical Report"
+  authors: "DeepSeek-AI"
+  org: "DeepSeek"
+  year: 2024
+  venue: "arXiv:2412.19437"
+  url: https://arxiv.org/abs/2412.19437
+  topic: pretraining
+  blurb: "A 671B MoE (37B active) with MLA, auxiliary-loss-free load balancing, and multi-token prediction, trained efficiently."
+
+# ── Scaling Laws ────────────────────────────────────────────────────────────
+- title: "Scaling Laws for Neural Language Models"
+  authors: "Kaplan et al."
+  org: "OpenAI"
+  year: 2020
+  venue: "arXiv:2001.08361"
+  url: https://arxiv.org/abs/2001.08361
+  topic: scaling
+  blurb: "Establishes power-law relationships between loss and model size, data, and compute across many orders of magnitude."
+- title: "Training Compute-Optimal Large Language Models (Chinchilla)"
+  authors: "Hoffmann et al."
+  org: "DeepMind"
+  year: 2022
+  venue: "arXiv:2203.15556 (NeurIPS 2022)"
+  url: https://arxiv.org/abs/2203.15556
+  topic: scaling
+  blurb: "The Chinchilla result: model size and training tokens should scale equally; most large models are undertrained."
+
+# ── Post-training & Alignment ────────────────────────────────────────────────
+- title: "Training Language Models to Follow Instructions with Human Feedback (InstructGPT)"
+  authors: "Ouyang et al."
+  org: "OpenAI"
+  year: 2022
+  venue: "arXiv:2203.02155 (NeurIPS 2022)"
+  url: https://arxiv.org/abs/2203.02155
+  topic: posttraining
+  blurb: "Introduces the SFT + reward model + RLHF recipe; a 1.3B tuned model was preferred over 175B GPT-3."
+- title: "Direct Preference Optimization: Your Language Model Is Secretly a Reward Model"
+  authors: "Rafailov et al."
+  org: "Stanford"
+  year: 2023
+  venue: "arXiv:2305.18290 (NeurIPS 2023)"
+  url: https://arxiv.org/abs/2305.18290
+  topic: posttraining
+  blurb: "Replaces the RLHF reward model and PPO loop with a single classification loss on preference pairs."
+- title: "Constitutional AI: Harmlessness from AI Feedback"
+  authors: "Bai et al."
+  org: "Anthropic"
+  year: 2022
+  venue: "arXiv:2212.08073"
+  url: https://arxiv.org/abs/2212.08073
+  topic: posttraining
+  blurb: "Trains a harmless assistant using AI-generated critiques and preferences guided by written principles (RLAIF)."
+- title: "RLAIF: Scaling RLHF with AI Feedback"
+  authors: "Lee et al."
+  org: "Google"
+  year: 2023
+  venue: "arXiv:2309.00267 (ICML 2024)"
+  url: https://arxiv.org/abs/2309.00267
+  topic: posttraining
+  blurb: "Shows LLM-generated preference labels can match human-labeled RLHF across summarization and dialogue tasks."
+- title: "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
+  authors: "Wei et al."
+  org: "Google"
+  year: 2022
+  venue: "arXiv:2201.11903 (NeurIPS 2022)"
+  url: https://arxiv.org/abs/2201.11903
+  topic: posttraining
+  blurb: "Intermediate reasoning steps in prompts unlock arithmetic, commonsense, and symbolic reasoning at scale."
+
+# ── RL & Reasoning ──────────────────────────────────────────────────────────
+- title: "Training a Helpful and Harmless Assistant with RLHF"
+  authors: "Bai et al."
+  org: "Anthropic"
+  year: 2022
+  venue: "arXiv:2204.05862"
+  url: https://arxiv.org/abs/2204.05862
+  topic: rl
+  blurb: "Applies preference modeling and iterated online RLHF to align an assistant, analyzing the reward/KL trade-off."
+- title: "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models"
+  authors: "Shao et al."
+  org: "DeepSeek"
+  year: 2024
+  venue: "arXiv:2402.03300"
+  url: https://arxiv.org/abs/2402.03300
+  topic: rl
+  blurb: "Introduces GRPO, a critic-free RL algorithm using group-relative advantages, later central to DeepSeek-R1."
+- title: "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
+  authors: "DeepSeek-AI"
+  org: "DeepSeek"
+  year: 2025
+  venue: "arXiv:2501.12948 (Nature, 2025)"
+  url: https://arxiv.org/abs/2501.12948
+  topic: rl
+  blurb: "Elicits reasoning purely via RL (R1-Zero) and distills it into smaller dense models — a key SLM-reasoning recipe."
+
+# ── Parameter-Efficient Fine-tuning ──────────────────────────────────────────
+- title: "LoRA: Low-Rank Adaptation of Large Language Models"
+  authors: "Hu et al."
+  org: "Microsoft"
+  year: 2021
+  venue: "arXiv:2106.09685 (ICLR 2022)"
+  url: https://arxiv.org/abs/2106.09685
+  topic: peft
+  blurb: "Freezes base weights and trains injected low-rank matrices, cutting trainable parameters by orders of magnitude."
+- title: "QLoRA: Efficient Finetuning of Quantized LLMs"
+  authors: "Dettmers et al."
+  org: "University of Washington"
+  year: 2023
+  venue: "arXiv:2305.14314 (NeurIPS 2023)"
+  url: https://arxiv.org/abs/2305.14314
+  topic: peft
+  blurb: "Backpropagates through a frozen 4-bit (NF4) model into LoRA adapters, finetuning a 65B model on one 48GB GPU."
+
+# ── Distillation & Compression ───────────────────────────────────────────────
+- title: "Distilling the Knowledge in a Neural Network"
+  authors: "Hinton et al."
+  org: "Google"
+  year: 2015
+  venue: "arXiv:1503.02531"
+  url: https://arxiv.org/abs/1503.02531
+  topic: distillation
+  blurb: "Foundational knowledge distillation: training a small student on the soft targets of a larger teacher."
+- title: "Sequence-Level Knowledge Distillation"
+  authors: "Kim & Rush"
+  org: "Harvard"
+  year: 2016
+  venue: "arXiv:1606.07947 (EMNLP 2016)"
+  url: https://arxiv.org/abs/1606.07947
+  topic: distillation
+  blurb: "Extends distillation from token-level to sequence-level, yielding student NMT models ~10x faster with little loss."
+- title: "DistilBERT: Smaller, Faster, Cheaper and Lighter"
+  authors: "Sanh et al."
+  org: "Hugging Face"
+  year: 2019
+  venue: "arXiv:1910.01108"
+  url: https://arxiv.org/abs/1910.01108
+  topic: distillation
+  blurb: "Distills BERT during pretraining to a 40% smaller model that retains ~97% of language understanding."
+- title: "GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers"
+  authors: "Frantar et al."
+  org: "IST Austria"
+  year: 2022
+  venue: "arXiv:2210.17323 (ICLR 2023)"
+  url: https://arxiv.org/abs/2210.17323
+  topic: compression
+  blurb: "One-shot 3-4 bit weight quantization using approximate second-order information, no retraining required."
+- title: "AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration"
+  authors: "Lin et al."
+  org: "MIT"
+  year: 2023
+  venue: "arXiv:2306.00978 (MLSys 2024)"
+  url: https://arxiv.org/abs/2306.00978
+  topic: compression
+  blurb: "Protects a small fraction of salient weights via activation-aware scaling for accurate low-bit quantization."
+- title: "LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale"
+  authors: "Dettmers et al."
+  org: "University of Washington"
+  year: 2022
+  venue: "arXiv:2208.07339 (NeurIPS 2022)"
+  url: https://arxiv.org/abs/2208.07339
+  topic: compression
+  blurb: "Int8 inference for billion-scale transformers with no accuracy loss by isolating emergent outlier features."
+- title: "SparseGPT: Massive Language Models Can Be Accurately Pruned in One-Shot"
+  authors: "Frantar & Alistarh"
+  org: "IST Austria"
+  year: 2023
+  venue: "arXiv:2301.00774 (ICML 2023)"
+  url: https://arxiv.org/abs/2301.00774
+  topic: compression
+  blurb: "Prunes GPT-scale models to 50-60% sparsity in one shot without retraining and minimal perplexity increase."

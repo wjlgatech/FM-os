@@ -1,0 +1,46 @@
+# Job sources & boards (not individual listings — those go stale).
+# type: company|board|aggregator|newsletter
+- name: "Anthropic Careers"
+  type: company
+  url: https://www.anthropic.com/careers
+  focus: "Frontier lab; alignment, pretraining, RL, and fine-tuning research and engineering roles."
+- name: "OpenAI Careers"
+  type: company
+  url: https://openai.com/careers/
+  focus: "Frontier lab; research, post-training/RLHF, and applied ML roles."
+- name: "Google DeepMind Careers"
+  type: company
+  url: https://deepmind.google/careers/
+  focus: "Frontier lab; research scientist and engineering roles across pretraining, RL, and alignment."
+- name: "Mistral AI Careers"
+  type: company
+  url: https://mistral.ai/careers/
+  focus: "European frontier lab; open-weight model pretraining, fine-tuning, and inference roles."
+- name: "Hugging Face Careers"
+  type: company
+  url: https://apply.workable.com/huggingface/
+  focus: "Open-source ML platform; ML research/engineering on training, datasets, and model deployment."
+- name: "DeepSeek Talent"
+  type: company
+  url: https://talent.deepseek.com
+  focus: "AGI-focused lab; pretraining, RL-for-reasoning, and infrastructure roles (official talent portal)."
+- name: "ai-jobs.net"
+  type: board
+  url: https://aijobs.net/
+  focus: "Large dedicated AI/ML/data-science job board with research and engineering filters."
+- name: "80,000 Hours Job Board"
+  type: aggregator
+  url: https://jobs.80000hours.org/
+  focus: "Curated board emphasizing frontier-lab and AI-safety roles across pretraining, RL, and alignment."
+- name: "Import AI"
+  type: newsletter
+  url: https://jack-clark.net/
+  focus: "Weekly research-analysis newsletter (Jack Clark); tracks frontier labs and hiring signals."
+- name: "Ahead of AI"
+  type: newsletter
+  url: https://magazine.sebastianraschka.com/
+  focus: "Sebastian Raschka's newsletter; deep technical coverage of LLM training and fine-tuning methods."
+- name: "The Batch (DeepLearning.AI)"
+  type: newsletter
+  url: https://www.deeplearning.ai/the-batch
+  focus: "Weekly AI news/insights from Andrew Ng's team; useful for tracking labs and the talent market."

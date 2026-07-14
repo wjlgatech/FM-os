@@ -1,0 +1,142 @@
+# Courses. topic: foundations|pretraining|posttraining|finetuning|rl|agents
+- title: "Neural Networks: Zero to Hero"
+  org: Eureka Labs
+  instructor: "Andrej Karpathy"
+  year: 2023
+  free: true
+  url: https://karpathy.ai/zero-to-hero.html
+  topic: foundations
+  blurb: "Code-along video series building neural nets from backprop up to a GPT, following Attention Is All You Need and GPT-2/3."
+- title: "CS224N: NLP with Deep Learning"
+  org: Stanford
+  instructor: "Christopher Manning"
+  year: 2024
+  free: true
+  url: https://web.stanford.edu/class/cs224n/
+  topic: foundations
+  blurb: "Foundational NLP-with-deep-learning course covering word vectors, attention, transformers, and pretraining; lecture videos are public."
+- title: "CS 11-711: Advanced NLP"
+  org: Carnegie Mellon University
+  instructor: "Graham Neubig"
+  year: 2024
+  free: true
+  url: https://www.phontron.com/class/anlp-fall2024/
+  topic: foundations
+  blurb: "Graduate NLP course rebuilt around LLMs, including a build-your-own-LLaMa assignment; slides and videos are public."
+- title: "6.S191: Introduction to Deep Learning"
+  org: MIT
+  instructor: "Alexander Amini, Ava Soleimany"
+  year: 2025
+  free: true
+  url: https://introtodeeplearning.com/
+  topic: foundations
+  blurb: "Fast-paced intro to deep learning with labs, now including large language models and generative AI."
+- title: "The Full Stack LLM Bootcamp"
+  org: Full Stack Deep Learning
+  instructor: "Charles Frye, Sergey Karayev, Josh Tobin"
+  year: 2023
+  free: true
+  url: https://fullstackdeeplearning.com/llm-bootcamp/
+  topic: foundations
+  blurb: "Recorded bootcamp on building LLM applications: prompt engineering, LLMOps, augmented models, and shipping an app."
+- title: "Generative AI with Large Language Models"
+  org: DeepLearning.AI & AWS
+  instructor: "Antje Barth, Chris Fregly, et al."
+  year: 2023
+  free: true
+  url: https://www.deeplearning.ai/courses/generative-ai-with-llms/
+  topic: foundations
+  blurb: "Covers the LLM lifecycle: pretraining, scaling laws, instruction tuning, and RLHF (free to audit on Coursera)."
+
+- title: "CS336: Language Modeling from Scratch"
+  org: Stanford
+  instructor: "Percy Liang, Tatsunori Hashimoto"
+  year: 2025
+  free: true
+  url: https://cs336.stanford.edu/spring2025/
+  topic: pretraining
+  blurb: "Implementation-heavy course that builds a language model end to end: tokenization, transformer, training, systems, scaling, data, and alignment."
+- title: "LLM101n: Let's build a Storyteller"
+  org: Eureka Labs
+  instructor: "Andrej Karpathy"
+  year: 2024
+  free: true
+  url: https://github.com/karpathy/LLM101n
+  topic: pretraining
+  blurb: "Public syllabus/repo (in development) for building a Storyteller LLM end to end in Python, C, and CUDA."
+
+- title: "Post-training of LLMs"
+  org: DeepLearning.AI
+  instructor: "Banghua Zhu"
+  year: 2025
+  free: true
+  url: https://www.deeplearning.ai/courses/post-training-of-llms/
+  topic: posttraining
+  blurb: "When and how to apply SFT, DPO, and online RL, including data curation for post-training."
+- title: "Fine-tuning & RL for LLMs: Intro to Post-training"
+  org: DeepLearning.AI (with AMD)
+  instructor: "Sharon Zhou"
+  year: 2025
+  free: true
+  url: https://www.deeplearning.ai/courses/fine-tuning-and-reinforcement-learning-for-llms-intro-to-post-training/
+  topic: posttraining
+  blurb: "Covers fine-tuning, reward modeling, RLHF, and RL algorithms (PPO, GRPO) for shaping behavior and reasoning."
+
+- title: "Hugging Face LLM Course"
+  org: Hugging Face
+  instructor: "Hugging Face team"
+  year: 2024
+  free: true
+  url: https://huggingface.co/learn/llm-course
+  topic: finetuning
+  blurb: "Free hands-on course on transformers, tokenizers, fine-tuning pretrained models, and building LLM applications."
+
+- title: "CS234: Reinforcement Learning"
+  org: Stanford
+  instructor: "Emma Brunskill"
+  year: 2024
+  free: true
+  url: https://web.stanford.edu/class/cs234/
+  topic: rl
+  blurb: "Graduate RL course spanning tabular methods, deep RL, policy gradients, and the basics of RL from human feedback."
+- title: "Deep Reinforcement Learning Course"
+  org: Hugging Face
+  instructor: "Thomas Simonini"
+  year: 2023
+  free: true
+  url: https://huggingface.co/learn/deep-rl-course
+  topic: rl
+  blurb: "Free self-paced Deep RL course with practical training in Stable-Baselines3, CleanRL, and Sample Factory; optional certificate."
+- title: "Reinforcement Learning from Human Feedback"
+  org: DeepLearning.AI
+  instructor: "Nikita Namjoshi"
+  year: 2024
+  free: true
+  url: https://learn.deeplearning.ai/courses/reinforcement-learning-from-human-feedback/
+  topic: rl
+  blurb: "Short course on the RLHF pipeline, tuning an open model with reward and preference data."
+- title: "Reinforcement Fine-Tuning LLMs with GRPO"
+  org: DeepLearning.AI (with Predibase)
+  instructor: "Travis Addair, Arnav Garg"
+  year: 2025
+  free: true
+  url: https://www.deeplearning.ai/short-courses/reinforcement-fine-tuning-llms-grpo/
+  topic: rl
+  blurb: "Short course on using GRPO with programmable reward functions to improve LLM reasoning."
+
+- title: "CS294/194-196: Large Language Model Agents"
+  org: UC Berkeley
+  instructor: "Dawn Song, Xinyun Chen"
+  year: 2024
+  free: true
+  url: https://rdi.berkeley.edu/llm-agents/f24
+  topic: agents
+  blurb: "MOOC-available course on LLM agent foundations, reasoning, tool use, and applications, with frontier-lab guest lectures."
+- title: "CS294/194-280: Advanced LLM Agents"
+  org: UC Berkeley
+  instructor: "Dawn Song, Xinyun Chen"
+  year: 2025
+  free: true
+  url: https://rdi.berkeley.edu/adv-llm-agents/sp25
+  topic: agents
+  blurb: "Spring 2025 follow-on covering advanced agent reasoning, math/theorem-proving, code generation, and safety."

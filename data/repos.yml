@@ -1,0 +1,220 @@
+# Open-source repos. category: models|frameworks|finetuning|rl|eval|serving|compression
+# slm: true if directly Small-Language-Model relevant.  `repo:` (owner/name) drives star-sync.
+# Stars are filled automatically into data/_stars.yml — do not add a `stars:` field by hand.
+
+- name: SmolLM / SmolLM2 / SmolLM3
+  repo: huggingface/smollm
+  url: https://github.com/huggingface/smollm
+  category: models
+  slm: true
+  blurb: "Fully open recipes, data, and weights for the 135M-3B SmolLM family, the reference open SLM line."
+- name: Phi Cookbook
+  repo: microsoft/PhiCookBook
+  url: https://github.com/microsoft/PhiCookBook
+  category: models
+  slm: true
+  blurb: "Microsoft's official hub for the Phi SLM family with inference, fine-tuning, quantization, and edge-deployment recipes."
+- name: Gemma (DeepMind)
+  repo: google-deepmind/gemma
+  url: https://github.com/google-deepmind/gemma
+  category: models
+  slm: true
+  blurb: "Official JAX library for Gemma open weights including the 1B/2B and 3n on-device small variants."
+- name: Qwen3
+  repo: QwenLM/Qwen3
+  url: https://github.com/QwenLM/Qwen3
+  category: models
+  slm: true
+  blurb: "Alibaba's Qwen series spanning 0.6B/1.7B/4B dense SLMs with strong multilingual and reasoning quality."
+- name: gemma_pytorch
+  repo: google/gemma_pytorch
+  url: https://github.com/google/gemma_pytorch
+  category: models
+  slm: true
+  blurb: "Official PyTorch inference implementation of Gemma (incl. small text-only variants) for CPU/GPU/TPU."
+- name: TinyLlama
+  repo: jzhang38/TinyLlama
+  url: https://github.com/jzhang38/TinyLlama
+  category: models
+  slm: true
+  blurb: "Compact 1.1B Llama pretrained on 3T tokens; a canonical, reproducible sub-2B pretraining reference."
+- name: MobileLLM
+  repo: facebookresearch/MobileLLM
+  url: https://github.com/facebookresearch/MobileLLM
+  category: models
+  slm: true
+  blurb: "Meta research on sub-billion-parameter, deep-thin architectures optimized for on-device use (ICML 2024)."
+- name: OLMo
+  repo: allenai/OLMo
+  url: https://github.com/allenai/OLMo
+  category: models
+  slm: true
+  blurb: "AI2's fully open model+data+training stack including small 1B variants for reproducible SLM research."
+- name: Llama Models
+  repo: meta-llama/llama-models
+  url: https://github.com/meta-llama/llama-models
+  category: models
+  slm: true
+  blurb: "Meta's official utilities and model cards for Llama, including the 1B/3B Llama 3.2 on-device SLMs."
+
+- name: nanoGPT
+  repo: karpathy/nanoGPT
+  url: https://github.com/karpathy/nanoGPT
+  category: frameworks
+  slm: true
+  blurb: "Minimal ~300-line GPT training/finetuning loop; the standard starting point for training small GPTs from scratch."
+- name: LitGPT
+  repo: Lightning-AI/litgpt
+  url: https://github.com/Lightning-AI/litgpt
+  category: frameworks
+  slm: true
+  blurb: "20+ hackable LLM implementations with pretrain/finetune/deploy recipes, including small Phi/Qwen/Gemma models."
+- name: GPT-NeoX
+  repo: EleutherAI/gpt-neox
+  url: https://github.com/EleutherAI/gpt-neox
+  category: frameworks
+  slm: false
+  blurb: "EleutherAI's Megatron+DeepSpeed training stack for autoregressive transformers with 3D parallelism."
+- name: Megatron-LM
+  repo: NVIDIA/Megatron-LM
+  url: https://github.com/NVIDIA/Megatron-LM
+  category: frameworks
+  slm: false
+  blurb: "NVIDIA's GPU-optimized library and building blocks for large-scale transformer pretraining."
+- name: TorchTitan
+  repo: pytorch/torchtitan
+  url: https://github.com/pytorch/torchtitan
+  category: frameworks
+  slm: false
+  blurb: "PyTorch-native platform for generative-model pretraining with composable FSDP2/TP/PP/CP parallelism."
+- name: Nanotron
+  repo: huggingface/nanotron
+  url: https://github.com/huggingface/nanotron
+  category: frameworks
+  slm: false
+  blurb: "Minimalistic 3D-parallelism pretraining library from Hugging Face, basis of the Ultrascale Playbook."
+
+- name: PEFT
+  repo: huggingface/peft
+  url: https://github.com/huggingface/peft
+  category: finetuning
+  slm: true
+  blurb: "Reference library for LoRA/QLoRA and other parameter-efficient methods, enabling SLM tuning on consumer GPUs."
+- name: Unsloth
+  repo: unslothai/unsloth
+  url: https://github.com/unslothai/unsloth
+  category: finetuning
+  slm: true
+  blurb: "2x-faster, ~70%-less-VRAM finetuning for small models, ideal for LoRA/QLoRA on single-GPU setups."
+- name: Axolotl
+  repo: axolotl-ai-cloud/axolotl
+  url: https://github.com/axolotl-ai-cloud/axolotl
+  category: finetuning
+  slm: true
+  blurb: "Config-driven post-training framework covering SFT/LoRA/DPO across many small and large model families."
+- name: LLaMA-Factory
+  repo: hiyouga/LLaMA-Factory
+  url: https://github.com/hiyouga/LLaMA-Factory
+  category: finetuning
+  slm: true
+  blurb: "Unified zero-code fine-tuning of 100+ LLMs/VLMs with LoRA/QLoRA/DPO and a web UI, common for SLM tuning."
+- name: torchtune
+  repo: meta-pytorch/torchtune
+  url: https://github.com/meta-pytorch/torchtune
+  category: finetuning
+  slm: true
+  blurb: "PyTorch-native post-training recipes (SFT, distillation, DPO/PPO/GRPO, QAT) tuned for memory-limited hardware."
+
+- name: TRL
+  repo: huggingface/trl
+  url: https://github.com/huggingface/trl
+  category: rl
+  slm: true
+  blurb: "Hugging Face post-training library with SFT/DPO/GRPO trainers widely used to align small reasoning models."
+- name: OpenRLHF
+  repo: OpenRLHF/OpenRLHF
+  url: https://github.com/OpenRLHF/OpenRLHF
+  category: rl
+  slm: true
+  blurb: "Ray+vLLM RLHF framework (PPO/GRPO/RLOO) that scales from small models up to 70B+, agent-friendly."
+- name: verl
+  repo: verl-project/verl
+  url: https://github.com/verl-project/verl
+  category: rl
+  slm: true
+  blurb: "ByteDance HybridFlow RL post-training (PPO/GRPO/DAPO) with vLLM/SGLang; popular for GRPO on small models."
+- name: trlX
+  repo: CarperAI/trlx
+  url: https://github.com/CarperAI/trlx
+  category: rl
+  slm: false
+  blurb: "Distributed RLHF framework (PPO, ILQL) via Accelerate/NeMo; an early, widely-cited RLHF reference."
+
+- name: lm-evaluation-harness
+  repo: EleutherAI/lm-evaluation-harness
+  url: https://github.com/EleutherAI/lm-evaluation-harness
+  category: eval
+  slm: true
+  blurb: "De-facto standard few-shot eval harness (60+ benchmarks) backing the Open LLM Leaderboard, ideal for SLM benchmarking."
+- name: LightEval
+  repo: huggingface/lighteval
+  url: https://github.com/huggingface/lighteval
+  category: eval
+  slm: true
+  blurb: "Hugging Face all-in-one evaluator across vLLM/Accelerate/TGI backends with 1000+ tasks for small-model eval."
+
+- name: llama.cpp
+  repo: ggml-org/llama.cpp
+  url: https://github.com/ggml-org/llama.cpp
+  category: serving
+  slm: true
+  blurb: "C/C++ GGUF inference engine that runs quantized SLMs efficiently on CPUs, laptops, and edge devices."
+- name: vLLM
+  repo: vllm-project/vllm
+  url: https://github.com/vllm-project/vllm
+  category: serving
+  slm: false
+  blurb: "High-throughput PagedAttention serving engine; the default for scalable OpenAI-compatible model serving."
+- name: Ollama
+  repo: ollama/ollama
+  url: https://github.com/ollama/ollama
+  category: serving
+  slm: true
+  blurb: "One-command local runner for small open models, the easiest path to running SLMs on a personal machine."
+- name: MLC-LLM
+  repo: mlc-ai/mlc-llm
+  url: https://github.com/mlc-ai/mlc-llm
+  category: serving
+  slm: true
+  blurb: "ML-compilation deployment engine that compiles SLMs to iOS, Android, WebGPU, and diverse GPUs/CPUs."
+
+- name: BitNet
+  repo: microsoft/BitNet
+  url: https://github.com/microsoft/BitNet
+  category: compression
+  slm: true
+  blurb: "Official 1-bit (1.58-bit) LLM inference framework with optimized CPU/GPU kernels for extreme efficiency."
+- name: LLM-AWQ
+  repo: mit-han-lab/llm-awq
+  url: https://github.com/mit-han-lab/llm-awq
+  category: compression
+  slm: true
+  blurb: "Activation-aware INT3/4 weight quantization (MLSys 2024) plus TinyChat for on-device/edge SLM inference."
+- name: GPTQModel
+  repo: ModelCloud/GPTQModel
+  url: https://github.com/ModelCloud/GPTQModel
+  category: compression
+  slm: true
+  blurb: "Actively maintained GPTQ quantization toolkit with HF/vLLM/SGLang support across NVIDIA/AMD/Intel/Apple hardware."
+- name: LightCompress (LLMC)
+  repo: ModelTC/LightCompress
+  url: https://github.com/ModelTC/LightCompress
+  category: compression
+  slm: true
+  blurb: "Broad model-compression toolkit (quantization, sparsity, pruning) for shrinking LLMs/VLMs to deployable sizes."
+- name: DistillKit
+  repo: arcee-ai/DistillKit
+  url: https://github.com/arcee-ai/DistillKit
+  category: compression
+  slm: true
+  blurb: "Open toolkit for knowledge distillation, training smaller student models from larger teachers (logit + hidden-state)."

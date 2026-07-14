@@ -1,0 +1,36 @@
+name: sync
+
+# Weekly freshness: refresh live repo stats, rebuild the README, and open a PR
+# with whatever changed. This is the "auto-fresh" promise in the README.
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - name: Refresh stars/releases and rebuild README
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make sync
+      - name: Open PR with the week's changes
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: weekly freshness sync"
+          title: "chore: weekly freshness sync"
+          body: |
+            Automated weekly sync — refreshed repo stars/releases and regenerated `README.md`.
+            Review the diff and merge to keep the list fresh.
+          branch: bot/weekly-sync
+          delete-branch: true

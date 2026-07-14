@@ -1,0 +1,125 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# meta.yml — branding & layout source of truth for FM-os.
+# The README is GENERATED from this file + the other data/*.yml files.
+# Edit here (or the data files); NEVER hand-edit README.md — CI drift-gates it.
+# ─────────────────────────────────────────────────────────────────────────────
+repo_owner: wjlgatech
+repo_name: FM-os
+
+title: "🛠️ FM-os — the Foundation Model Operating System"
+tagline: >-
+  The most comprehensive, community-driven, **living** map of how modern
+  language models are actually built and shipped — pre-training · post-training ·
+  fine-tuning · RL — with a first, sharp focus on **Small Language Models (SLM)**.
+subtitle: >-
+  *From a 135M model you can train on one GPU to the RL recipes behind
+  frontier reasoning — every repo, course, paper, and job worth your time,
+  cross-linked and kept fresh automatically.*
+
+# Nav pills rendered under the tagline (label -> anchor)
+nav:
+  - { label: "Start Here", anchor: "start-here" }
+  - { label: "Repos", anchor: "open-source-repos" }
+  - { label: "Courses", anchor: "courses" }
+  - { label: "Papers", anchor: "papers" }
+  - { label: "Jobs", anchor: "jobs--careers" }
+  - { label: "Roadmap", anchor: "learning-roadmap" }
+  - { label: "Contribute", anchor: "contribute" }
+
+# The conversion hook — "why this is different from every other list"
+why_different:
+  - "**SLM-first.** Not another everything-list — organized around small,
+     efficient, trainable-on-a-budget models and the exact ops that make them work."
+  - "**Lifecycle-structured.** Everything filed under the real FM pipeline:
+     pre-training → post-training → fine-tuning → RL → serving."
+  - "**Cross-linked.** Papers point to code, code points to courses,
+     courses point to jobs — follow a thread from idea to hire."
+  - "**Auto-fresh.** A weekly GitHub Action re-checks every repo's stars,
+     latest release, and links, then opens a PR — this list is never stale."
+  - "**Data-driven & forkable.** Every entry lives in a plain `data/*.yml` file;
+     the README is generated. Adding a resource is a two-line PR."
+
+footer_note: >-
+  FM-os is maintained by [@wjlgatech](https://github.com/wjlgatech) and the community.
+  Sibling projects: [rsi](https://github.com/wjlgatech/rsi) ·
+  [FDE-os](https://github.com/wjlgatech/FDE-os).
+
+# GitHub "About" description (mirror into repo settings) & discovery topics
+description: >-
+  🛠️ FM-os: the living, SLM-first map of foundation-model operations —
+  pre-training, post-training, fine-tuning & RL. Curated repos, courses, papers
+  & jobs, auto-refreshed weekly.
+topics:
+  - small-language-models
+  - slm
+  - foundation-models
+  - large-language-models
+  - llm
+  - pretraining
+  - post-training
+  - fine-tuning
+  - rlhf
+  - reinforcement-learning
+  - dpo
+  - grpo
+  - awesome
+  - awesome-list
+  - machine-learning
+  - deep-learning
+  - model-distillation
+  - quantization
+  - llmops
+  - ai-education
+
+# Section ordering + which data file/category populates each.
+# groups: sub-headings within a section, matched on the entry's `category`/`topic`.
+sections:
+  - id: open-source-repos
+    icon: "🧰"
+    title: "Open-Source Repos"
+    source: repos
+    key: category
+    groups:
+      - { key: models,      title: "Small & Efficient Models" }
+      - { key: frameworks,  title: "Pre-training & Training Frameworks" }
+      - { key: finetuning,  title: "Fine-tuning & PEFT" }
+      - { key: rl,          title: "Post-training & RL (RLHF / DPO / GRPO)" }
+      - { key: eval,        title: "Evaluation" }
+      - { key: serving,     title: "Serving, Inference & On-Device" }
+      - { key: compression, title: "Distillation & Compression" }
+  - id: courses
+    icon: "🎓"
+    title: "Courses"
+    source: courses
+    key: topic
+    groups:
+      - { key: foundations,  title: "Foundations & From-Scratch" }
+      - { key: pretraining,  title: "Pre-training" }
+      - { key: posttraining, title: "Post-training & Alignment" }
+      - { key: finetuning,   title: "Fine-tuning" }
+      - { key: rl,           title: "Reinforcement Learning" }
+      - { key: agents,       title: "Agents & Applications" }
+  - id: papers
+    icon: "📄"
+    title: "Papers"
+    source: papers
+    key: topic
+    groups:
+      - { key: slm,          title: "Small Language Models & Surveys" }
+      - { key: pretraining,  title: "Pre-training & Data" }
+      - { key: scaling,      title: "Scaling Laws" }
+      - { key: posttraining, title: "Post-training & Alignment" }
+      - { key: rl,           title: "RL & Reasoning" }
+      - { key: peft,         title: "Parameter-Efficient Fine-tuning" }
+      - { key: distillation, title: "Distillation & Compression" }
+      - { key: compression,  title: "Distillation & Compression" }
+  - id: jobs--careers
+    icon: "💼"
+    title: "Jobs & Careers"
+    source: jobs
+    key: type
+    groups:
+      - { key: company,    title: "Frontier Labs (careers pages)" }
+      - { key: board,      title: "Specialized AI Job Boards" }
+      - { key: aggregator, title: "Aggregators" }
+      - { key: newsletter, title: "Newsletters & Signals" }
