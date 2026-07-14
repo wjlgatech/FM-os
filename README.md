@@ -90,8 +90,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 |---|---|--:|:--|
 | [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
 | [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 80/100 | ✅ certified |
-| [eval-llm](https://github.com/topics/claude-skill) | skill | — | ⏳ submitted |
-| [continual-learning-research](https://github.com/topics/claude-skill) | skill | — | ⏳ submitted |
+| eval-llm | skill | — | ⏳ submitted |
+| continual-learning-research | skill | — | ⏳ submitted |
 
 > **Earn the badge for your tool:** add the FM-os Certify action to your CI (see [docs/CERTIFY.md](docs/CERTIFY.md)) and embed:
 > ```md

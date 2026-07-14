@@ -21,10 +21,8 @@
 - name: eval-llm
   kind: skill
   author: community
-  source: "https://github.com/topics/claude-skill"
   note: "LLM output-quality eval — highly SLM-relevant; awaiting self-cert."
 - name: continual-learning-research
   kind: skill
   author: community
-  source: "https://github.com/topics/claude-skill"
   note: "Continual learning / catastrophic forgetting for SLMs; awaiting self-cert."
