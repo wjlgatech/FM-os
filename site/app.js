@@ -38,16 +38,22 @@ async function llm(system, user) {
   const j = await r.json();
   return (j.content || []).map(b => b.text || "").join("");
 }
-/* Compact grounded index for the LLM system prompt. */
+/* Compact grounded index for the LLM system prompt. One trimmed line per entry so
+ * EVERY entry (incl. the VLM / JAX / research tracks appended last) stays visible —
+ * the old 14k truncation silently hid them. */
 function groundingIndex() {
-  const line = x => `- ${x.name || x.title} <${x.url}>${x.blurb ? ": " + x.blurb : x.focus ? ": " + x.focus : ""}`;
+  const trim = s => { s = (s || "").replace(/\s+/g, " ").trim(); return s.length > 90 ? s.slice(0, 88) + "…" : s; };
+  const line = x => `- ${x.name || x.title} <${x.url}>: ${trim(x.blurb || x.focus)}`;
+  const skill = e => { const c = (DB.certifications || {})[e.name] || {}; return `- ${e.name} [${(e.tags || []).join(",")}]${c.tier ? " (" + c.tier + " " + c.score + ")" : ""}`; };
   return [
-    "# FM-os knowledge base (only cite from here; if not present, say so).",
+    "# FM-os knowledge base (only cite from here; if a topic is absent, say so).",
     "## Repos", ...DB.repos.map(line),
     "## Courses", ...DB.courses.map(line),
     "## Papers", ...DB.papers.map(line),
+    "## Small models", ...(DB.models || []).map(m => `- ${m.name} (${m.params}, ${m.license}, ${m.context || "?"} ctx) <${m.url}>`),
     "## Jobs/People/Orgs", ...DB.jobs.map(line),
-  ].join("\n").slice(0, 14000);
+    "## FM-os certified skills (runnable tooling)", ...(DB.registry || []).map(skill),
+  ].join("\n").slice(0, 60000);
 }
 
 /* ---------- modal ---------- */
@@ -76,8 +82,61 @@ function copy(text, btn) {
   navigator.clipboard.writeText(text).then(() => { const t = btn.textContent; btn.textContent = "✓ copied"; setTimeout(() => btn.textContent = t, 1500); });
 }
 
-/* ======================= THE 10 ACTIONS ======================= */
+/* ---------- JD-fit engine (JS port of scripts/jdfit.py, over data.json) ---------- */
+const COV = { covered: "✅", partial: "🟡", gap: "❌" };
+function jdFit(jdLower) {
+  const certs = DB.certifications || {};
+  const knowledge = cap => {
+    const cats = new Set(cap.repo_categories || []), tops = new Set(cap.topics || []);
+    const hits = [];
+    (DB.repos || []).forEach(r => { if (cats.has(r.category)) hits.push(r.name); });
+    (DB.courses || []).forEach(c => { if (tops.has(c.topic)) hits.push(c.title); });
+    (DB.papers || []).forEach(p => { if (tops.has(p.topic)) hits.push(p.title); });
+    return hits.slice(0, 3);
+  };
+  const tooling = cap => !cap.skill_tag ? [] : (DB.registry || [])
+    .filter(e => (e.tags || []).includes(cap.skill_tag))
+    .map(e => { const c = certs[e.name] || {}; return e.name + (c.tier ? ` (${c.tier} ${c.score})` : ""); });
+  const caps = [];
+  (DB.jd_taxonomy || []).forEach(cap => {
+    if (!(cap.keywords || []).some(k => jdLower.includes(k))) return; // not required
+    const kn = knowledge(cap), tl = tooling(cap), wantsTool = cap.kind !== "knowledge";
+    const coverage = kn.length && (tl.length || !wantsTool) ? "covered" : kn.length ? "partial" : "gap";
+    caps.push({ label: cap.label, coverage, wantsTool, knowledge: kn, tooling: tl });
+  });
+  const pts = caps.reduce((s, c) => s + (c.coverage === "covered" ? 1 : c.coverage === "partial" ? 0.5 : 0), 0);
+  return { score: caps.length ? Math.round(100 * pts / caps.length) : 0, required: caps.length, caps };
+}
+function renderJDFit(r) {
+  if (!r.required) return "<p class='sub'>No known ML capabilities detected in that text — is it a technical JD?</p>";
+  let h = `<p style="font-size:24px;margin:4px 0"><strong>${r.score}/100</strong> <span class="sub">— ${r.required} capabilities required</span></p>`;
+  h += `<table><thead><tr><th>Capability</th><th>Coverage</th><th>Knowledge</th><th>Certified tooling</th></tr></thead><tbody>`;
+  r.caps.forEach(c => {
+    h += `<tr><td>${esc(c.label)}</td><td>${COV[c.coverage]} ${c.coverage}</td><td>${esc(c.knowledge.join(", ") || "—")}</td><td>${esc(c.tooling.join(", ") || (c.wantsTool ? "—" : "n/a"))}</td></tr>`;
+  });
+  h += `</tbody></table>`;
+  const gaps = r.caps.filter(c => c.coverage !== "covered");
+  h += gaps.length
+    ? `<h3>Gaps to close</h3><ul>${gaps.map(c => `<li><strong>${esc(c.label)}</strong> (${c.coverage}) — ${c.knowledge.length ? "needs a certified skill" : "add curated resources"}</li>`).join("")}</ul>`
+    : `<p>✅ Every required capability is covered — curated knowledge <em>and</em> certified tooling.</p>`;
+  return h;
+}
+
+/* ======================= THE ACTIONS ======================= */
 const ACTIONS = [
+  {
+    id: "jdfit", pillar: "Knowledge", ic: "🎯", title: "Am I ready for this job?",
+    desc: "Paste a job description → a 0-100 readiness score with the exact repos, courses, papers & certified skills that cover each requirement, and the gaps.",
+    run(b) {
+      b.innerHTML = `<div class="field"><label>Paste the job description</label><textarea id="jd" placeholder="Paste the full JD text (responsibilities + requirements)…" style="min-height:150px"></textarea></div>
+        <button class="btn" id="go">🎯 Score my readiness</button><div class="result" id="out"></div>`;
+      $("#go", b).onclick = () => {
+        const jd = ($("#jd", b).value || "").toLowerCase();
+        if (jd.length < 40) { $("#out", b).innerHTML = "<p class='sub'>Paste a bit more of the JD to score it.</p>"; return; }
+        $("#out", b).innerHTML = renderJDFit(jdFit(jd));
+      };
+    },
+  },
   /* ---- KNOWLEDGE ---- */
   {
     id: "path", pillar: "Knowledge", ic: "🗺️", title: "Build my learning path",
@@ -451,6 +510,7 @@ $("#setKey").onclick = window.promptKey;
 async function route(text) {
   const t = text.toLowerCase();
   const map = [
+    [/(am i ready|ready for|this job|job description|\bjd\b|qualify|hire me|this role|prep for)/, "jdfit"],
     [/(publish|draft|linkedin|tweet|article|post about|share on|write a post)/, "publish"],
     [/(certify|certified|badge|rubric)/, "certify"],
     [/(path|plan|learn|roadmap|start|beginner)/, "path"],
