@@ -1,4 +1,4 @@
-.PHONY: check build validate test sync site certify clean help
+.PHONY: check build validate test ainative sync site certify clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
@@ -9,6 +9,7 @@ help:
 	@echo "  make check     validate + test + build + drift-gate (CI's finish line)"
 	@echo "  make sync      Refresh live repo stars/releases (needs network)"
 	@echo "  make certify   Re-certify the tooling registry + refresh badges"
+	@echo "  make ainative  Self-audit vs AI-native / loop-engineering principles"
 	@echo "  make jdfit JD=<file>   Score FM-os coverage of a job description"
 	@echo ""
 
@@ -21,9 +22,14 @@ validate:
 test:
 	python3 -m pytest -q
 
-# The finish line: code behaves (pytest), data is well-formed (validate), AND the
-# committed README matches what the generator produces now (drift). Any miss fails.
-check: validate test
+# Self-audit: does our own operation still follow the AI-native / loop-engineering
+# principles? Gates at 85 so a regression in HOW we work also fails CI.
+ainative:
+	python3 scripts/ainative.py --gate 85
+
+# The finish line: code behaves (pytest), data is well-formed (validate), the
+# committed README matches the generator (drift), AND we stay AI-native (audit).
+check: validate test ainative
 	python3 scripts/build_readme.py --check
 
 sync:

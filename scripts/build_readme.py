@@ -170,6 +170,8 @@ def render_header(meta: dict, slug: str) -> list[str]:
         "",
         " • ".join(f"[{n['label']}](#{n['anchor']})" for n in meta["nav"]),
         "",
+        '<img src="site/infographics/flywheel.svg" alt="The FM-os compounding flywheel: curate → generate → gate → ship → signal, every turn adds a capability" width="760">',
+        "",
         "</div>",
         "",
         "---",

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Poppins, ui-sans-serif, system-ui, -apple-system, Arial, sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#d97757"/>
+    </marker>
+  </defs>
+  <rect width="900" height="640" fill="#faf9f5"/>
+  <text x="450" y="46" text-anchor="middle" font-size="30" font-weight="700" fill="#141413">The FM-os Compounding Flywheel</text>
+  <text x="450" y="74" text-anchor="middle" font-size="15" fill="#6b7480">generate → judge → refactor → converge · every turn adds a capability, so the bar ratchets up</text>
+
+  <!-- flywheel rim -->
+  <circle cx="450" cy="330" r="238" fill="none" stroke="#d97757" stroke-opacity="0.18" stroke-width="16"/>
+
+  <!-- clockwise arc arrows between stages (r=190 around cx=450 cy=330) -->
+  <g fill="none" stroke="#d97757" stroke-width="3" marker-end="url(#ah)">
+    <path d="M496,146 A190 190 0 0 1 611,229"/>
+    <path d="M640,317 A190 190 0 0 1 596,452"/>
+    <path d="M521,506 A190 190 0 0 1 379,506"/>
+    <path d="M305,452 A190 190 0 0 1 261,317"/>
+    <path d="M289,229 A190 190 0 0 1 404,146"/>
+  </g>
+
+  <!-- center hub -->
+  <circle cx="450" cy="330" r="84" fill="#faf9f5" stroke="#141413" stroke-width="2.5"/>
+  <text x="450" y="320" text-anchor="middle" font-size="22" font-weight="700" fill="#141413">FM-os</text>
+  <text x="450" y="344" text-anchor="middle" font-size="12.5" fill="#6b7480">closed-loop</text>
+  <text x="450" y="360" text-anchor="middle" font-size="12.5" fill="#6b7480">flywheel</text>
+
+  <!-- stage nodes -->
+  <!-- 1 CURATE (orange) top -->
+  <g>
+    <rect x="358" y="107" width="184" height="66" rx="13" fill="#d97757" stroke="#141413"/>
+    <text x="450" y="134" text-anchor="middle" font-size="16" font-weight="700" fill="#faf9f5">① CURATE</text>
+    <text x="450" y="154" text-anchor="middle" font-size="11.5" fill="#faf9f5">data/*.yml — single source of truth</text>
+  </g>
+  <!-- 2 GENERATE (blue) -->
+  <g>
+    <rect x="551" y="208" width="168" height="66" rx="13" fill="#6a9bcc" stroke="#141413"/>
+    <text x="635" y="235" text-anchor="middle" font-size="16" font-weight="700" fill="#faf9f5">② GENERATE</text>
+    <text x="635" y="255" text-anchor="middle" font-size="11.5" fill="#faf9f5">README · site · badges</text>
+  </g>
+  <!-- 3 GATE (green) -->
+  <g>
+    <rect x="478" y="421" width="176" height="66" rx="13" fill="#788c5d" stroke="#141413"/>
+    <text x="566" y="448" text-anchor="middle" font-size="16" font-weight="700" fill="#faf9f5">③ GATE</text>
+    <text x="566" y="468" text-anchor="middle" font-size="10.5" fill="#faf9f5">validate · drift · certify · tests · audit</text>
+  </g>
+  <!-- 4 SHIP (ink) -->
+  <g>
+    <rect x="250" y="421" width="160" height="66" rx="13" fill="#141413" stroke="#141413"/>
+    <text x="330" y="448" text-anchor="middle" font-size="16" font-weight="700" fill="#faf9f5">④ SHIP</text>
+    <text x="330" y="468" text-anchor="middle" font-size="11.5" fill="#faf9f5">CI green · GitHub Pages</text>
+  </g>
+  <!-- 5 SIGNAL (orange) -->
+  <g>
+    <rect x="185" y="208" width="168" height="66" rx="13" fill="#d97757" stroke="#141413"/>
+    <text x="269" y="231" text-anchor="middle" font-size="16" font-weight="700" fill="#faf9f5">⑤ SIGNAL</text>
+    <text x="269" y="249" text-anchor="middle" font-size="10.5" fill="#faf9f5">weekly sync · JD-fit</text>
+    <text x="269" y="263" text-anchor="middle" font-size="10.5" fill="#faf9f5">· research-loop → new capability</text>
+  </g>
+
+  <!-- principle chips -->
+  <text x="450" y="576" text-anchor="middle" font-size="13" font-weight="600" fill="#141413">Loop-engineering + physical-AI-native principles, enforced in CI:</text>
+  <g font-size="12" fill="#141413">
+    <rect x="96"  y="592" width="150" height="28" rx="14" fill="#faf9f5" stroke="#b0aea5"/><text x="171" y="610" text-anchor="middle">maker ≠ checker</text>
+    <rect x="256" y="592" width="158" height="28" rx="14" fill="#faf9f5" stroke="#b0aea5"/><text x="335" y="610" text-anchor="middle">no evidence ⇒ No</text>
+    <rect x="424" y="592" width="140" height="28" rx="14" fill="#faf9f5" stroke="#b0aea5"/><text x="494" y="610" text-anchor="middle">spec-as-data</text>
+    <rect x="574" y="592" width="146" height="28" rx="14" fill="#faf9f5" stroke="#b0aea5"/><text x="647" y="610" text-anchor="middle">agent-native CLI</text>
+    <rect x="730" y="592" width="150" height="28" rx="14" fill="#faf9f5" stroke="#b0aea5"/><text x="805" y="610" text-anchor="middle">regressions rolled back</text>
+  </g>
+</svg>

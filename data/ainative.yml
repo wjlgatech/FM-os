@@ -1,0 +1,90 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# ainative.yml — the AI-native / loop-engineering self-audit rubric.
+# The operating principles from loop-engineering-anything (generate→judge→
+# refactor→converge; independent referee; agent-native CLI) and physical-ai-native
+# / OpenOPC (ship a loop not a demo; maker≠checker; no evidence ⇒ No; self-grown).
+# scripts/ainative.py scores FM-os's OWN operation against them from real evidence
+# in this repo. Discipline: no evidence ⇒ the principle fails (never a fake pass).
+# Each `evidence` item is a `file` that must exist or a `grep` regex that must be
+# found in a file. A principle's score = fraction of its evidence present.
+# ─────────────────────────────────────────────────────────────────────────────
+pass_threshold: 85 # overall score to be considered "AI-native"
+
+principles:
+  - id: loops-not-oneshot
+    statement: "Operate as a loop (generate → judge → refactor → re-judge → converge), not one-shot generation."
+    source: loop-engineering-anything
+    evidence:
+      - { file: ".github/workflows/sync.yml" } # weekly freshness loop
+      - { file: ".github/workflows/certify.yml" } # weekly re-certify loop
+      - { grep: "make check", file: ".github/workflows/ci.yml" } # gate on every push
+
+  - id: independent-referee
+    statement: "Maker ≠ checker: an independent rubric grades the work; nothing grades its own homework."
+    source: physical-ai-native
+    evidence:
+      - { file: "scripts/certify.py" } # a rubric grades tools, not the tool itself
+      - { file: "data/certify.yml" } # the referee's rubric is data
+      - { grep: "--check", file: "scripts/build_readme.py" } # generator output is drift-gated, not self-approved
+
+  - id: no-evidence-no
+    statement: "No evidence ⇒ No; an unmeasured item is excluded, never a fake pass; a blocking gate cannot pass on unmeasured items."
+    source: physical-ai-native
+    evidence:
+      - { grep: "not measured|measured", file: "scripts/certify.py" }
+      - { grep: '"gap"', file: "scripts/jdfit.py" } # no knowledge ⇒ gap, never a fake pass
+      - { grep: "no evidence", file: "data/certify.yml" }
+
+  - id: regression-gated
+    statement: "Regressions are blocked: CI gates merge, a failing check exits non-zero, tests guard behavior."
+    source: loop-engineering-anything
+    evidence:
+      - { grep: "make check", file: ".github/workflows/ci.yml" }
+      - { grep: "pytest", file: "Makefile" }
+      - { file: "tests" }
+
+  - id: spec-as-data
+    statement: "Single source of truth: every published artifact is generated from data/*.yml, so the spec cannot drift."
+    source: loop-engineering-anything
+    evidence:
+      - { file: "data/meta.yml" }
+      - { grep: "do not edit by hand|generated", file: "README.md" }
+      - { grep: "build_readme|build_site", file: "Makefile" }
+
+  - id: agent-native-harness
+    statement: "Agent-native: every operation is a non-interactive CLI / Make target with flags and exit codes."
+    source: loop-engineering-anything
+    evidence:
+      - { file: "Makefile" }
+      - { grep: "argparse|--gate|--json", file: "scripts/jdfit.py" }
+      - { grep: "--gate", file: "scripts/certify.py" }
+
+  - id: iteration-recorded
+    statement: "Every iteration is recorded and reproducible — artifacts, reports, and badges committed."
+    source: loop-engineering-anything
+    evidence:
+      - { file: "docs/jd-fit" }
+      - { file: "docs/research" }
+      - { file: "site/badges" }
+
+  - id: compounding-memory
+    statement: "Self-grown: each run adds durable capability (new skills, entries, taxonomy, tests); the bar ratchets up."
+    source: physical-ai-native
+    evidence:
+      - { grep: "research_methodology|framework_breadth", file: "data/jd_taxonomy.yml" } # taxonomy grew from JD runs
+      - { grep: "obfuscated", file: "tests/test_certify.py" } # a research-loop finding became a permanent test
+      - { grep: "research-loop|vlm-quickstart", file: "data/registry.yml" } # new certified skills
+
+  - id: human-gated-irreversible
+    statement: "Outward / irreversible actions are human-gated — no autonomous publish."
+    source: physical-ai-native
+    evidence:
+      - { grep: "clipboard|composer|paste", file: "site/app.js" } # publish = draft; the human posts
+      - { grep: "human-gate|self-certify|awaiting", file: "docs/CERTIFY.md" }
+
+  - id: verify-live
+    statement: "Verify at the artifact, live — not the label (Pages deploy + link-check as evidence)."
+    source: physical-ai-native
+    evidence:
+      - { file: ".github/workflows/pages.yml" }
+      - { grep: "lychee|link", file: ".github/workflows/ci.yml" }

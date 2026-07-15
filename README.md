@@ -16,6 +16,8 @@ The most comprehensive, community-driven, **living** map of how modern language 
 
 [Start Here](#start-here) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
 
+<img src="site/infographics/flywheel.svg" alt="The FM-os compounding flywheel: curate → generate → gate → ship → signal, every turn adds a capability" width="760">
+
 </div>
 
 ---
