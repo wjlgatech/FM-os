@@ -16,6 +16,13 @@ subtitle: >-
   frontier reasoning — every repo, course, paper, and job worth your time,
   cross-linked and kept fresh automatically.*
 
+# Prominent top banner — the methodology applied to a real mission.
+applied_banner: >-
+  🧬 **The flywheel, applied →
+  [longevity-loop](https://github.com/wjlgatech/longevity-loop)**: an AI-native,
+  build-in-public loop turning this SLM/FM-ops method into real aging-science
+  results — code-only, verified, no wet lab.
+
 # Nav pills rendered under the tagline (label -> anchor)
 nav:
   - { label: "Start Here", anchor: "start-here" }
@@ -41,8 +48,8 @@ why_different:
 
 footer_note: >-
   FM-os is maintained by [@wjlgatech](https://github.com/wjlgatech) and the community.
-  Sibling projects: [rsi](https://github.com/wjlgatech/rsi) ·
-  [FDE-os](https://github.com/wjlgatech/FDE-os).
+  Sibling projects: [longevity-loop](https://github.com/wjlgatech/longevity-loop) ·
+  [rsi](https://github.com/wjlgatech/rsi) · [FDE-os](https://github.com/wjlgatech/FDE-os).
 
 # GitHub "About" description (mirror into repo settings) & discovery topics
 description: >-

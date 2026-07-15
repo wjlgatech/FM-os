@@ -14,6 +14,8 @@ The most comprehensive, community-driven, **living** map of how modern language 
 
 *From a 135M model you can train on one GPU to the RL recipes behind frontier reasoning — every repo, course, paper, and job worth your time, cross-linked and kept fresh automatically.*
 
+🧬 **The flywheel, applied → [longevity-loop](https://github.com/wjlgatech/longevity-loop)**: an AI-native, build-in-public loop turning this SLM/FM-ops method into real aging-science results — code-only, verified, no wet lab.
+
 [Start Here](#start-here) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
 
 <img src="site/infographics/flywheel.svg" alt="The FM-os compounding flywheel: curate → generate → gate → ship → signal, every turn adds a capability" width="760">
@@ -558,7 +560,7 @@ repo stats automatically.
   <img src="https://contrib.rocks/image?repo=wjlgatech/FM-os" alt="Contributors">
 </a>
 
-FM-os is maintained by [@wjlgatech](https://github.com/wjlgatech) and the community. Sibling projects: [rsi](https://github.com/wjlgatech/rsi) · [FDE-os](https://github.com/wjlgatech/FDE-os).
+FM-os is maintained by [@wjlgatech](https://github.com/wjlgatech) and the community. Sibling projects: [longevity-loop](https://github.com/wjlgatech/longevity-loop) · [rsi](https://github.com/wjlgatech/rsi) · [FDE-os](https://github.com/wjlgatech/FDE-os).
 
 <sub>README generated from <code>data/*.yml</code> by <code>scripts/build_readme.py</code> — do not edit by hand.</sub>
 
