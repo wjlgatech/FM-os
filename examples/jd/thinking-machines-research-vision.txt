@@ -1,0 +1,25 @@
+Research Vision Expertise — Thinking Machines Lab (San Francisco Bay Area)
+Salary: $350,000–$475,000. Visa sponsorship available.
+
+About
+Thinking Machines Lab seeks a researcher to advance multimodal AI, particularly in visual
+perception and language integration. The mission is empowering humanity through collaborative
+general intelligence.
+
+Key Responsibilities
+- Lead research projects on training and evaluating multimodal AI models.
+- Build large-scale datasets and benchmarks for vision capabilities.
+- Collaborate with infrastructure, pretraining, and product teams.
+- Publish research and share code/datasets with the broader community.
+
+Required Qualifications
+- Ability to design and analyze experiments with demonstrated research judgment and empirical rigor.
+- Understanding of machine learning fundamentals and distributed computing.
+- Python proficiency and deep learning framework experience (PyTorch, TensorFlow, JAX).
+- Bachelor's degree in Computer Science, ML, Physics, Mathematics, or related field.
+
+Preferred Qualifications
+- Experience in visual reasoning or multimodal architecture.
+- Multimodal evaluation framework development.
+- Publications/open-source contributions in vision-language modeling.
+- PhD in relevant discipline or equivalent industry research experience.

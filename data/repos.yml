@@ -388,3 +388,41 @@
   category: dataset
   vlm: false
   blurb: "Next-gen self-driving datasets (sensor, lidar, motion forecasting) with a maintained Python API and HD maps for multimodal AD research."
+
+# ── JAX / TensorFlow ecosystem (framework breadth) ───────────────────────────
+- name: JAX
+  repo: jax-ml/jax
+  url: https://github.com/jax-ml/jax
+  category: jax
+  vlm: false
+  blurb: "Composable NumPy with autodiff, XLA compilation, and pmap/shard_map, the base for large-scale research training on TPUs/GPUs."
+- name: Flax
+  repo: google/flax
+  url: https://github.com/google/flax
+  category: jax
+  vlm: false
+  blurb: "Neural-network library for JAX (the NNX API) used across DeepMind/Google research models, including many multimodal architectures."
+- name: Keras
+  repo: keras-team/keras
+  url: https://github.com/keras-team/keras
+  category: jax
+  vlm: false
+  blurb: "Multi-backend (JAX / TensorFlow / PyTorch) high-level API, handy for portable model code across the three frameworks this role expects."
+- name: MaxText
+  repo: AI-Hypercomputer/maxtext
+  url: https://github.com/AI-Hypercomputer/maxtext
+  category: jax
+  vlm: false
+  blurb: "High-performance, scalable JAX LLM reference (Google) for TPU/GPU pods, a clean example of large-scale distributed training in JAX."
+- name: Levanter
+  repo: marin-community/levanter
+  url: https://github.com/marin-community/levanter
+  category: jax
+  vlm: false
+  blurb: "JAX/Equinox framework for legible, scalable, reproducible foundation-model training with bitwise determinism across hardware."
+- name: Penzai
+  repo: google-deepmind/penzai
+  url: https://github.com/google-deepmind/penzai
+  category: jax
+  vlm: false
+  blurb: "DeepMind JAX toolkit for building and visualizing/interpreting models as legible pytrees, useful for research-grade experimentation."

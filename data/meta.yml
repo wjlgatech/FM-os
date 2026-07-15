@@ -83,6 +83,7 @@ sections:
       - { key: models,      title: "Small & Efficient Models" }
       - { key: multimodal,  title: "Vision-Language & Video Models" }
       - { key: frameworks,  title: "Pre-training & Training Frameworks" }
+      - { key: jax,         title: "JAX / TensorFlow Ecosystem" }
       - { key: finetuning,  title: "Fine-tuning & PEFT" }
       - { key: rl,          title: "Post-training & RL (RLHF / DPO / GRPO)" }
       - { key: eval,        title: "Evaluation" }

@@ -49,7 +49,7 @@ New to foundation-model ops? Read this in order:
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
 - [🏅 FM-os Certified](#fm-os-certified) `8`
-- [🧰 Open-Source Repos](#open-source-repos) `63`
+- [🧰 Open-Source Repos](#open-source-repos) `69`
 - [🎓 Courses](#courses) `26`
 - [📄 Papers](#papers) `56`
 - [💼 Jobs & Careers](#jobs--careers) `11`
@@ -143,6 +143,16 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Nanotron](https://github.com/huggingface/nanotron)** `★ 2,747` — Minimalistic 3D-parallelism pretraining library from Hugging Face, basis of the Ultrascale Playbook.
 - **[Hugging Face Transformers](https://github.com/huggingface/transformers)** 🎬 — De facto model hub and API with first-class VLM/video-LLM support, the integration surface most training and serving stacks build on.
 - **[DeepSpeed](https://github.com/deepspeedai/DeepSpeed)** — ZeRO sharding, offload, and pipeline/tensor parallelism that make large VLM training fit real GPU budgets; wired into most trainers.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### JAX / TensorFlow Ecosystem
+- **[JAX](https://github.com/jax-ml/jax)** — Composable NumPy with autodiff, XLA compilation, and pmap/shard_map, the base for large-scale research training on TPUs/GPUs.
+- **[Flax](https://github.com/google/flax)** — Neural-network library for JAX (the NNX API) used across DeepMind/Google research models, including many multimodal architectures.
+- **[Keras](https://github.com/keras-team/keras)** — Multi-backend (JAX / TensorFlow / PyTorch) high-level API, handy for portable model code across the three frameworks this role expects.
+- **[MaxText](https://github.com/AI-Hypercomputer/maxtext)** — High-performance, scalable JAX LLM reference (Google) for TPU/GPU pods, a clean example of large-scale distributed training in JAX.
+- **[Levanter](https://github.com/marin-community/levanter)** — JAX/Equinox framework for legible, scalable, reproducible foundation-model training with bitwise determinism across hardware.
+- **[Penzai](https://github.com/google-deepmind/penzai)** — DeepMind JAX toolkit for building and visualizing/interpreting models as legible pytrees, useful for research-grade experimentation.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

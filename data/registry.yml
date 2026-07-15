@@ -21,7 +21,7 @@
 - name: agentic-eval
   kind: skill
   path: skills/agentic-eval
-  tags: [eval]
+  tags: [eval, benchmark]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval
 - name: curation-loop

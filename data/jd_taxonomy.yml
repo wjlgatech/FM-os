@@ -44,12 +44,26 @@
   topics: [rl, posttraining]
   skill_tag: rl
 
+- id: framework_breadth
+  label: "Framework breadth (JAX / TensorFlow / Flax)"
+  keywords: [jax, tensorflow, flax, keras]
+  repo_categories: [jax]
+  topics: []
+  kind: knowledge
+
 - id: agentic_eval
   label: "Agentic evaluation / benchmarking"
   keywords: [eval, benchmark, "evaluation framework", "narrative consistency", accuracy]
   repo_categories: [eval]
   topics: [eval]
   skill_tag: eval
+
+- id: benchmark_creation
+  label: "Building datasets & benchmarks"
+  keywords: ["datasets and benchmarks", "build large-scale datasets", "benchmarks for vision", "build benchmark", "build datasets"]
+  repo_categories: [eval, dataset]
+  topics: [eval]
+  skill_tag: benchmark
 
 - id: retrieval_vectordb
   label: "Retrieval, embeddings & vector databases"
