@@ -52,6 +52,7 @@ function groundingIndex() {
     "## Papers", ...DB.papers.map(line),
     "## Small models", ...(DB.models || []).map(m => `- ${m.name} (${m.params}, ${m.license}, ${m.context || "?"} ctx) <${m.url}>`),
     "## Jobs/People/Orgs", ...DB.jobs.map(line),
+    "## Labs & platforms (train/tune/serve ecosystem)", ...(DB.labs || []).map(line),
     "## FM-os certified skills (runnable tooling)", ...(DB.registry || []).map(skill),
   ].join("\n").slice(0, 60000);
 }

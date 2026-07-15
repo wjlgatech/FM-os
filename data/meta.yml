@@ -129,6 +129,18 @@ sections:
       - { key: retrieval,    title: "Retrieval & Embeddings" }
       - { key: eval,         title: "Multi-modal Evaluation" }
       - { key: research,     title: "Autonomous Research & AI Scientists" }
+  - id: labs--platforms
+    icon: "🏛️"
+    title: "Labs & Platforms"
+    source: labs
+    key: category
+    groups:
+      - { key: frontier-lab,      title: "Frontier Labs" }
+      - { key: finetuning,        title: "Fine-tuning Platforms" }
+      - { key: inference-serving, title: "Inference & Serving" }
+      - { key: infra,             title: "Compute & Infra" }
+      - { key: data-platform,     title: "Data & Lakehouse" }
+      - { key: open-research,     title: "Open Research" }
   - id: jobs--careers
     icon: "💼"
     title: "Jobs & Careers"

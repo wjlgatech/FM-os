@@ -54,6 +54,7 @@ New to foundation-model ops? Read this in order:
 - [🧰 Open-Source Repos](#open-source-repos) `83`
 - [🎓 Courses](#courses) `26`
 - [📄 Papers](#papers) `70`
+- [🏛️ Labs & Platforms](#labs--platforms) `10`
 - [💼 Jobs & Careers](#jobs--careers) `11`
 - [🗺️ Learning Roadmap](#learning-roadmap)
 - [🤝 Contribute](#contribute)
@@ -439,6 +440,44 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Curie: Toward Rigorous and Automated Scientific Experimentation with AI Agents](https://arxiv.org/abs/2502.16069)** (Kon et al., University of Michigan, 2025) · arXiv:2502.16069 — Adds rigor components — controlled procedure, reproducibility, result interpretation — to agent-run experimentation.
 - **[AI-Researcher: Autonomous Scientific Innovation](https://arxiv.org/abs/2505.18705)** (Tang et al., University of Hong Kong, 2025) · arXiv:2505.18705 — A fully autonomous system spanning idea generation, algorithm implementation, and manuscript writing, released with an open codebase.
 - **[Robin: A Multi-Agent System for Automating Scientific Discovery](https://arxiv.org/abs/2505.13400)** (Ghareeb et al., FutureHouse, 2025) · arXiv:2505.13400 — Couples literature-search and data-analysis agents to run a discovery loop; identified ripasudil as a candidate for dry AMD.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+---
+
+<h2 id="labs--platforms">🏛️ Labs & Platforms</h2>
+
+### Frontier Labs
+- **[Thinking Machines Lab](https://thinkingmachines.ai)** — Frontier lab (Mira Murati); makes Tinker (LoRA fine-tuning API) and the open-weights Inkling multimodal MoE. · [github](https://github.com/thinking-machines-lab)
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Fine-tuning Platforms
+- **[Unsloth AI](https://unsloth.ai)** — 2x-faster, ~70%-less-VRAM LoRA/QLoRA fine-tuning for small models on a single GPU. · [github](https://github.com/unslothai)
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Inference & Serving
+- **[Together AI](https://together.ai)** — Training + high-throughput inference cloud for open models; an Inkling deployment partner. · [github](https://github.com/togethercomputer)
+- **[Fireworks AI](https://fireworks.ai)** — Fast, low-cost inference + fine-tuning for open models; an Inkling deployment partner. · [github](https://github.com/fw-ai)
+- **[Baseten](https://baseten.co)** — ML infrastructure for developers (Truss packaging + autoscaling inference); an Inkling deployment partner. · [github](https://github.com/basetenlabs)
+- **[Inferact](https://inferact.ai)** — Commercializing vLLM as a universal inference layer ($150M seed); mission to make inference cheaper and faster. · [github](https://github.com/Inferact)
+- **[RadixArk](https://github.com/radixark)** — Commercializing SGLang (RadixAttention) as an optimization service; the SGLang counterpart to Inferact's vLLM. · [github](https://github.com/radixark)
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Compute & Infra
+- **[Modal](https://modal.com)** — Serverless GPU cloud — run training/inference code in the cloud with no infra management; an Inkling deployment partner. · [github](https://github.com/modal-labs)
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Data & Lakehouse
+- **[Databricks](https://databricks.com)** — Data + AI lakehouse (Mosaic AI training, DBRX open model, MLflow); an Inkling deployment partner. · [github](https://github.com/databricks)
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Open Research
+- **[LightSeek](https://lightseek.org)** — Foundation accelerating open research and open-source innovation for next-generation AI systems. · [github](https://github.com/lightseekorg)
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

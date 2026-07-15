@@ -1,0 +1,53 @@
+# Labs & platforms — the ecosystem that trains, tunes, serves & funds open models.
+# category: frontier-lab | finetuning | inference-serving | infra | data-platform | open-research
+# All URLs + GitHub orgs verified live (gh api / web) 2026-07-15.
+- name: Thinking Machines Lab
+  category: frontier-lab
+  url: https://thinkingmachines.ai
+  github: https://github.com/thinking-machines-lab
+  focus: "Frontier lab (Mira Murati); makes Tinker (LoRA fine-tuning API) and the open-weights Inkling multimodal MoE."
+- name: Unsloth AI
+  category: finetuning
+  url: https://unsloth.ai
+  github: https://github.com/unslothai
+  focus: "2x-faster, ~70%-less-VRAM LoRA/QLoRA fine-tuning for small models on a single GPU."
+- name: Together AI
+  category: inference-serving
+  url: https://together.ai
+  github: https://github.com/togethercomputer
+  focus: "Training + high-throughput inference cloud for open models; an Inkling deployment partner."
+- name: Fireworks AI
+  category: inference-serving
+  url: https://fireworks.ai
+  github: https://github.com/fw-ai
+  focus: "Fast, low-cost inference + fine-tuning for open models; an Inkling deployment partner."
+- name: Baseten
+  category: inference-serving
+  url: https://baseten.co
+  github: https://github.com/basetenlabs
+  focus: "ML infrastructure for developers (Truss packaging + autoscaling inference); an Inkling deployment partner."
+- name: Inferact
+  category: inference-serving
+  url: https://inferact.ai
+  github: https://github.com/Inferact
+  focus: "Commercializing vLLM as a universal inference layer ($150M seed); mission to make inference cheaper and faster."
+- name: RadixArk
+  category: inference-serving
+  url: https://github.com/radixark
+  github: https://github.com/radixark
+  focus: "Commercializing SGLang (RadixAttention) as an optimization service; the SGLang counterpart to Inferact's vLLM."
+- name: Modal
+  category: infra
+  url: https://modal.com
+  github: https://github.com/modal-labs
+  focus: "Serverless GPU cloud — run training/inference code in the cloud with no infra management; an Inkling deployment partner."
+- name: Databricks
+  category: data-platform
+  url: https://databricks.com
+  github: https://github.com/databricks
+  focus: "Data + AI lakehouse (Mosaic AI training, DBRX open model, MLflow); an Inkling deployment partner."
+- name: LightSeek
+  category: open-research
+  url: https://lightseek.org
+  github: https://github.com/lightseekorg
+  focus: "Foundation accelerating open research and open-source innovation for next-generation AI systems."

@@ -46,7 +46,13 @@ def fmt_job(e: dict) -> str:
     return f"- **[{esc(e['name'])}]({e['url']})** — {esc(e.get('focus',''))}"
 
 
-FMT = {"repos": fmt_repo, "courses": fmt_course, "papers": fmt_paper, "jobs": fmt_job}
+def fmt_lab(e: dict) -> str:
+    """One lab/platform → a Markdown bullet with focus + a GitHub link."""
+    gh = f" · [github]({e['github']})" if e.get("github") else ""
+    return f"- **[{esc(e['name'])}]({e['url']})** — {esc(e.get('focus',''))}{gh}"
+
+
+FMT = {"repos": fmt_repo, "courses": fmt_course, "papers": fmt_paper, "jobs": fmt_job, "labs": fmt_lab}
 
 
 def render_section(sec: dict, entries: list) -> str:
@@ -281,7 +287,7 @@ def build() -> str:
     """Assemble the full README from data/*.yml. Sections are emitted in order."""
     meta = load("meta")
     data = {"repos": repos_with_stars()}
-    data.update({name: load(name) for name in ("courses", "papers", "jobs")})
+    data.update({name: load(name) for name in ("courses", "papers", "jobs", "labs")})
     models, registry = load("models"), load("registry")
     certs = load("_certifications") if (DATA / "_certifications.yml").exists() else {}
     owner, repo = meta["repo_owner"], meta["repo_name"]

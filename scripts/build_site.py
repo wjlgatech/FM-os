@@ -22,6 +22,7 @@ def main() -> int:
         "courses": load("courses"),
         "papers": load("papers"),
         "jobs": load("jobs"),
+        "labs": load("labs"),
         "models": load("models"),
         "registry": load("registry"),
         "certifications": load("_certifications") if (DATA / "_certifications.yml").exists() else {},
