@@ -1,0 +1,94 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# jd_taxonomy.yml — the JD-fit rubric. SINGLE SOURCE OF TRUTH.
+# scripts/jdfit.py scans a job description for each capability's keywords, then
+# scores FM-os coverage of the ones the JD actually requires:
+#   knowledge  = FM-os curates ≥1 repo (by category) or course/paper (by topic)
+#   tooling    = an FM-os registry skill carries this capability's tag
+# Coverage: covered (knowledge + tooling) · partial (knowledge only) · gap (neither).
+# Discipline: no evidence ⇒ gap (never a fake "covered"). Each new JD reuses this
+# file; gaps it surfaces become the next entries/skills to add — the flywheel.
+# `kind: knowledge` marks a learn-only capability (tooling not expected).
+# ─────────────────────────────────────────────────────────────────────────────
+- id: python_pytorch
+  label: "Python / PyTorch / large-scale ML workflows"
+  keywords: [python, pytorch, "large-scale ml", "ml workflow"]
+  repo_categories: [frameworks, finetuning]
+  topics: [foundations, pretraining]
+  kind: knowledge
+
+- id: vlm_multimodal
+  label: "Vision-Language / multi-modal models"
+  keywords: ["vision-language", "vision language", vlm, multi-modal, multimodal, "multi modal"]
+  repo_categories: [multimodal]
+  topics: [vlm, multimodal, vision]
+  skill_tag: vlm
+
+- id: video_understanding
+  label: "Video / motion understanding, spatiotemporal"
+  keywords: [video, motion, spatiotemporal, "spatio-temporal", frames, localization]
+  repo_categories: [multimodal, dataset]
+  topics: [video]
+  skill_tag: vlm
+
+- id: finetuning
+  label: "Training / fine-tuning foundation models"
+  keywords: [fine-tun, finetun, "training and fine-tuning", train, sft, lora, peft]
+  repo_categories: [finetuning, frameworks]
+  topics: [finetuning, posttraining]
+  skill_tag: finetune
+
+- id: rl_posttraining
+  label: "Post-training / RL / alignment"
+  keywords: [rlhf, dpo, grpo, "reinforcement learning", post-train, posttrain, alignment]
+  repo_categories: [rl]
+  topics: [rl, posttraining]
+  skill_tag: rl
+
+- id: agentic_eval
+  label: "Agentic evaluation / benchmarking"
+  keywords: [eval, benchmark, "evaluation framework", "narrative consistency", accuracy]
+  repo_categories: [eval]
+  topics: [eval]
+  skill_tag: eval
+
+- id: retrieval_vectordb
+  label: "Retrieval, embeddings & vector databases"
+  keywords: [retrieval, embedding, "vector database", "vector db", rag]
+  repo_categories: [retrieval]
+  topics: [retrieval]
+  skill_tag: retrieval
+
+- id: gpu_optimization
+  label: "GPU optimization / efficient inference"
+  keywords: ["gpu optimization", "gpu-accelerated", quantiz, inference, throughput, cuda]
+  repo_categories: [serving, compression]
+  topics: [compression]
+  kind: knowledge
+
+- id: distributed_training
+  label: "Distributed training & ML orchestration"
+  keywords: [distributed, deepspeed, ray, kubeflow, mlflow, megatron, orchestration]
+  repo_categories: [distributed, frameworks]
+  topics: [pretraining]
+  kind: knowledge
+
+- id: data_curation
+  label: "Dataset curation loops (\"AI training AI\")"
+  keywords: [curation, "data curation", "generate and refine datasets", "ai training ai", synthetic data]
+  repo_categories: [dataset]
+  topics: [pretraining]
+  skill_tag: curation
+
+- id: av_robotics_data
+  label: "Autonomous-driving / robotics datasets"
+  keywords: [autonomous, "self-driving", robotics, "sensor data", nuscenes, waymo, driving]
+  repo_categories: [dataset]
+  topics: []
+  kind: knowledge
+
+- id: research_publishing
+  label: "Publishing research (NeurIPS / CVPR)"
+  keywords: [publish, research, neurips, cvpr, iclr, publication]
+  repo_categories: []
+  topics: [vlm, video, multimodal, slm, rl, posttraining, pretraining, scaling]
+  kind: knowledge

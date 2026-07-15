@@ -24,6 +24,8 @@ import re
 import subprocess
 import sys
 
+import yaml
+
 from fmos import DATA, ROOT, frontmatter, load
 
 RUBRIC = load("certify")
@@ -253,7 +255,7 @@ def main() -> int:
     args = ap.parse_args()
 
     if args.registry:
-        reg = yaml.safe_load((DATA / "registry.yml").read_text()) or []
+        reg = load("registry")
         out = {}
         for e in reg:
             if not e.get("path"):

@@ -140,3 +140,77 @@
   url: https://rdi.berkeley.edu/adv-llm-agents/sp25
   topic: agents
   blurb: "Spring 2025 follow-on covering advanced agent reasoning, math/theorem-proving, code generation, and safety."
+
+# ── Vision / multi-modal / video track ───────────────────────────────────────
+- title: "CS231n: Deep Learning for Computer Vision"
+  org: Stanford
+  instructor: "Fei-Fei Li, Ehsan Adeli et al."
+  year: 2024
+  free: true
+  url: https://cs231n.stanford.edu/
+  topic: vision
+  blurb: "The canonical intro to CNNs and visual recognition; slides, notes, and assignments are public."
+- title: "CS231A: Computer Vision, From 3D Reconstruction to Recognition"
+  org: Stanford
+  instructor: "Silvio Savarese / Jeannette Bohg (staff)"
+  year: 2025
+  free: true
+  url: https://web.stanford.edu/class/cs231a/
+  topic: vision
+  blurb: "Geometric CV: camera models, epipolar/stereo geometry, depth and scene flow, 6D pose and tracking, with public notes."
+- title: "EECS 498/598: Deep Learning for Computer Vision"
+  org: University of Michigan
+  instructor: "Justin Johnson"
+  year: 2020
+  free: true
+  url: https://web.eecs.umich.edu/~justincj/teaching/eecs498/
+  topic: vision
+  blurb: "From-scratch deep learning for vision (CNNs, attention, detection, segmentation) with the full lecture set on YouTube."
+- title: "11-777: Multimodal Machine Learning"
+  org: Carnegie Mellon (LTI)
+  instructor: "Louis-Philippe Morency, Paul Liang"
+  year: 2023
+  free: true
+  url: https://cmu-mmml.github.io/
+  topic: multimodal
+  blurb: "Organizes multimodal ML around six challenges (representation, alignment, reasoning, generation, transference, quantification); lectures on YouTube."
+- title: "Community Computer Vision Course"
+  org: Hugging Face
+  instructor: "HF community"
+  year: 2024
+  free: true
+  url: https://huggingface.co/learn/computer-vision-course/unit0/welcome/welcome
+  topic: vision
+  blurb: "Free hands-on course from classical CV through ViTs, multimodal and generative vision, with runnable notebooks."
+- title: "CS25: Transformers United"
+  org: Stanford
+  instructor: "Student-led seminar"
+  year: 2025
+  free: true
+  url: https://web.stanford.edu/class/cs25/
+  topic: vlm
+  blurb: "Guest-lecture seminar including multimodal / vision-language and world-modeling sessions; open to audit, posted on YouTube."
+- title: "DeepRob: Deep Learning for Robot Perception"
+  org: University of Michigan
+  instructor: "Chad Jenkins, Anthony Opipari, Xiaoxiao Du"
+  year: 2024
+  free: true
+  url: https://deeprob.org/w24/
+  topic: vision
+  blurb: "Deep-learning-for-vision adapted to robot perception and manipulation, then reproducing recent perception papers; public slides."
+- title: "Practical Deep Learning for Coders"
+  org: fast.ai
+  instructor: "Jeremy Howard"
+  year: 2022
+  free: true
+  url: https://course.fast.ai/
+  topic: vision
+  blurb: "Code-first, top-down deep learning across vision, NLP, and fine-tuning in PyTorch/fastai; free lessons plus the free book."
+- title: "Getting Started with FiftyOne (Visual AI)"
+  org: Voxel51
+  instructor: "Voxel51"
+  year: 2025
+  free: true
+  url: https://voxel51.com/get-started
+  topic: video
+  blurb: "Free tutorials on curating, visualizing, and debugging image/video/3D datasets and model outputs — directly relevant to AD/robotics data ops."

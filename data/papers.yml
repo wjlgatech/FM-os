@@ -292,3 +292,179 @@
   url: https://arxiv.org/abs/2301.00774
   topic: compression
   blurb: "Prunes GPT-scale models to 50-60% sparsity in one shot without retraining and minimal perplexity increase."
+
+# ── Vision-Language Models ───────────────────────────────────────────────────
+- title: "Learning Transferable Visual Models From Natural Language Supervision (CLIP)"
+  authors: "Radford et al."
+  org: "OpenAI"
+  year: 2021
+  venue: "ICML 2021 · arXiv:2103.00020"
+  url: https://arxiv.org/abs/2103.00020
+  topic: vlm
+  blurb: "Contrastively pretrains dual image/text encoders on 400M web pairs, enabling zero-shot classification and the embedding backbone most VLMs still build on."
+- title: "Flamingo: a Visual Language Model for Few-Shot Learning"
+  authors: "Alayrac et al."
+  org: "DeepMind"
+  year: 2022
+  venue: "NeurIPS 2022 · arXiv:2204.14198"
+  url: https://arxiv.org/abs/2204.14198
+  topic: vlm
+  blurb: "Bridges frozen vision and language backbones with gated cross-attention over interleaved image/video-text for in-context few-shot multimodal learning."
+- title: "BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Encoders and LLMs"
+  authors: "Li et al."
+  org: "Salesforce Research"
+  year: 2023
+  venue: "ICML 2023 · arXiv:2301.12597"
+  url: https://arxiv.org/abs/2301.12597
+  topic: vlm
+  blurb: "Introduces the lightweight Q-Former connecting a frozen vision encoder to a frozen LLM — a cheap recipe for adding vision to language models."
+- title: "Visual Instruction Tuning (LLaVA)"
+  authors: "Liu et al."
+  org: "UW-Madison / Microsoft Research"
+  year: 2023
+  venue: "NeurIPS 2023 · arXiv:2304.08485"
+  url: https://arxiv.org/abs/2304.08485
+  topic: vlm
+  blurb: "Uses GPT-4-generated image-instruction data to instruction-tune a CLIP-encoder-plus-LLM model, establishing the dominant open VLM training pattern."
+- title: "Improved Baselines with Visual Instruction Tuning (LLaVA-1.5)"
+  authors: "Liu et al."
+  org: "UW-Madison / Microsoft Research"
+  year: 2023
+  venue: "CVPR 2024 · arXiv:2310.03744"
+  url: https://arxiv.org/abs/2310.03744
+  topic: vlm
+  blurb: "MLP connector, higher-res CLIP, and academic VQA data hit SOTA on 11 benchmarks with ~1.2M public samples and one day on 8×A100."
+- title: "Qwen2-VL: Perception of the World at Any Resolution"
+  authors: "Wang et al. (Qwen Team)"
+  org: "Alibaba"
+  year: 2024
+  venue: "arXiv:2409.12191"
+  url: https://arxiv.org/abs/2409.12191
+  topic: vlm
+  blurb: "Adds naive dynamic resolution and multimodal RoPE (M-RoPE) to handle arbitrary image sizes and video under one paradigm across 2B/8B/72B."
+- title: "Qwen2.5-VL Technical Report"
+  authors: "Qwen Team"
+  org: "Alibaba"
+  year: 2025
+  venue: "arXiv:2502.13923"
+  url: https://arxiv.org/abs/2502.13923
+  topic: vlm
+  blurb: "Absolute-time encoding for hour-long video, strong bbox/point grounding and document parsing — a strong fine-tuning base for driving/robotics."
+- title: "InternVL: Scaling up Vision Foundation Models and Aligning for Generic Visual-Linguistic Tasks"
+  authors: "Chen et al."
+  org: "Shanghai AI Lab / OpenGVLab"
+  year: 2023
+  venue: "CVPR 2024 · arXiv:2312.14238"
+  url: https://arxiv.org/abs/2312.14238
+  topic: vlm
+  blurb: "Scales the vision encoder to 6B params and progressively aligns it to an LLM, reaching SOTA across 32 image/video perception and retrieval benchmarks."
+- title: "Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Detection"
+  authors: "Liu et al."
+  org: "IDEA Research"
+  year: 2023
+  venue: "ECCV 2024 · arXiv:2303.05499"
+  url: https://arxiv.org/abs/2303.05499
+  topic: multimodal
+  blurb: "Fuses a DINO detector with language so free-text prompts localize arbitrary objects — a workhorse for open-vocabulary grounding/auto-labeling."
+
+# ── Video understanding ──────────────────────────────────────────────────────
+- title: "Video-LLaMA: Instruction-tuned Audio-Visual Language Model for Video Understanding"
+  authors: "Zhang, Li, Bing"
+  org: "DAMO Academy, Alibaba"
+  year: 2023
+  venue: "EMNLP 2023 Demo · arXiv:2306.02858"
+  url: https://arxiv.org/abs/2306.02858
+  topic: video
+  blurb: "Couples a video Q-Former and audio branch to an LLM to instruction-tune joint audio-visual temporal understanding of video."
+- title: "Video-LLaVA: Learning United Visual Representation by Alignment Before Projection"
+  authors: "Lin et al."
+  org: "Peking University"
+  year: 2023
+  venue: "EMNLP 2024 · arXiv:2311.10122"
+  url: https://arxiv.org/abs/2311.10122
+  topic: video
+  blurb: "Aligns image and video features into a shared space before the LLM projector, letting one model train jointly on images and video with mutual gains."
+- title: "ViViT: A Video Vision Transformer"
+  authors: "Arnab et al."
+  org: "Google Research"
+  year: 2021
+  venue: "ICCV 2021 · arXiv:2103.15691"
+  url: https://arxiv.org/abs/2103.15691
+  topic: video
+  blurb: "Pure-transformer video classifier with factorized spatial/temporal attention variants to keep long token sequences tractable."
+- title: "VideoMAE: Masked Autoencoders are Data-Efficient Learners for Self-Supervised Video Pre-Training"
+  authors: "Tong et al."
+  org: "Nanjing University / Tencent"
+  year: 2022
+  venue: "NeurIPS 2022 · arXiv:2203.12602"
+  url: https://arxiv.org/abs/2203.12602
+  topic: video
+  blurb: "90-95% tube masking makes MAE-style self-supervised video pretraining work even on a few thousand clips — a practical video backbone recipe."
+- title: "Is Space-Time Attention All You Need for Video Understanding? (TimeSformer)"
+  authors: "Bertasius, Wang, Torresani"
+  org: "Facebook AI / Dartmouth"
+  year: 2021
+  venue: "ICML 2021 · arXiv:2102.05095"
+  url: https://arxiv.org/abs/2102.05095
+  topic: video
+  blurb: "Convolution-free video model; divided space-then-time attention gives the best accuracy/cost trade-off for action recognition."
+- title: "InternVideo: General Video Foundation Models via Generative and Discriminative Learning"
+  authors: "Wang et al."
+  org: "Shanghai AI Lab / OpenGVLab"
+  year: 2022
+  venue: "arXiv:2212.03191"
+  url: https://arxiv.org/abs/2212.03191
+  topic: video
+  blurb: "Combines masked video modeling with video-language contrastive learning into one foundation model hitting SOTA on 39 video datasets."
+
+# ── Multimodal retrieval / embeddings ────────────────────────────────────────
+- title: "Scaling Up Visual and Vision-Language Representation Learning With Noisy Text Supervision (ALIGN)"
+  authors: "Jia et al."
+  org: "Google"
+  year: 2021
+  venue: "ICML 2021 · arXiv:2102.05918"
+  url: https://arxiv.org/abs/2102.05918
+  topic: retrieval
+  blurb: "A simple dual-encoder trained on 1B+ noisy alt-text pairs (no cleaning) sets SOTA image-text retrieval, validating scale over curation."
+- title: "Sigmoid Loss for Language Image Pre-Training (SigLIP)"
+  authors: "Zhai et al."
+  org: "Google DeepMind"
+  year: 2023
+  venue: "ICCV 2023 · arXiv:2303.15343"
+  url: https://arxiv.org/abs/2303.15343
+  topic: retrieval
+  blurb: "A pairwise sigmoid loss needing no global normalization improves small-batch training and large-scale embedding learning."
+
+# ── Multimodal evaluation ────────────────────────────────────────────────────
+- title: "LMMs-Eval: Reality Check on the Evaluation of Large Multimodal Models"
+  authors: "Zhang, Li, Liu et al."
+  org: "NTU (LMMs-Lab)"
+  year: 2024
+  venue: "arXiv:2407.12772"
+  url: https://arxiv.org/abs/2407.12772
+  topic: eval
+  blurb: "Unified 50+-task evaluation framework (plus a Lite variant and contamination-resistant LiveBench) — the harness to standardize your own VLM/video evals."
+- title: "Video-MME: Comprehensive Evaluation Benchmark of Multi-modal LLMs in Video Analysis"
+  authors: "Fu et al."
+  org: "multi-institution"
+  year: 2024
+  venue: "CVPR 2025 · arXiv:2405.21075"
+  url: https://arxiv.org/abs/2405.21075
+  topic: eval
+  blurb: "Full-spectrum video benchmark spanning 11s-to-1h clips across 6 domains with subtitle/audio modalities, the standard for long-video VLM eval."
+- title: "MMBench: Is Your Multi-modal Model an All-around Player?"
+  authors: "Liu et al."
+  org: "Shanghai AI Lab / CUHK / NTU"
+  year: 2023
+  venue: "ECCV 2024 · arXiv:2307.06281"
+  url: https://arxiv.org/abs/2307.06281
+  topic: eval
+  blurb: "Fine-grained bilingual VLM benchmark with a CircularEval protocol that shuffles answer order to reduce position bias in scoring."
+- title: "MMMU: Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark"
+  authors: "Yue et al."
+  org: "multi-institution"
+  year: 2023
+  venue: "CVPR 2024 · arXiv:2311.16502"
+  url: https://arxiv.org/abs/2311.16502
+  topic: eval
+  blurb: "11.5K college-level questions over 30 subjects and heterogeneous image types, probing knowledge-heavy expert reasoning where even strong VLMs score low."

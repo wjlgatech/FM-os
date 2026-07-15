@@ -218,3 +218,173 @@
   category: compression
   slm: true
   blurb: "Open toolkit for knowledge distillation, training smaller student models from larger teachers (logit + hidden-state)."
+
+# ── Vision-Language / video / multi-modal track (added for the VLM/AV JD) ────
+- name: Qwen2.5-VL
+  repo: QwenLM/Qwen2.5-VL
+  url: https://github.com/QwenLM/Qwen2.5-VL
+  category: multimodal
+  vlm: true
+  blurb: "Strong open VLM family with native dynamic-resolution and long-video/temporal grounding, a common backbone for fine-tuning on driving footage."
+- name: LLaVA-NeXT
+  repo: LLaVA-VL/LLaVA-NeXT
+  url: https://github.com/LLaVA-VL/LLaVA-NeXT
+  category: multimodal
+  vlm: true
+  blurb: "Actively maintained LLaVA line (incl. OneVision and Video variants) with training and eval recipes for image, multi-image, and video."
+- name: InternVL
+  repo: OpenGVLab/InternVL
+  url: https://github.com/OpenGVLab/InternVL
+  category: multimodal
+  vlm: true
+  blurb: "Scaled open VLM series with large vision encoders and full training code, competitive on high-resolution perception and video benchmarks."
+- name: VideoLLaMA3
+  repo: DAMO-NLP-SG/VideoLLaMA3
+  url: https://github.com/DAMO-NLP-SG/VideoLLaMA3
+  category: multimodal
+  vlm: true
+  blurb: "Vision-centric image/video foundation model with released training and inference code, directly targeting long-form video understanding."
+- name: Video-LLaVA
+  repo: PKU-YuanGroup/Video-LLaVA
+  url: https://github.com/PKU-YuanGroup/Video-LLaVA
+  category: multimodal
+  vlm: true
+  blurb: "Unified image+video projection into one representation before the LLM, a compact reference for joint image/video instruction tuning."
+- name: CLIP
+  repo: openai/CLIP
+  url: https://github.com/openai/CLIP
+  category: multimodal
+  vlm: true
+  blurb: "Original contrastive image-text model; the reference whose embeddings still anchor most multimodal retrieval and probing."
+- name: open_clip
+  repo: mlfoundations/open_clip
+  url: https://github.com/mlfoundations/open_clip
+  category: multimodal
+  vlm: true
+  blurb: "Open training/eval for CLIP-style models at scale, the go-to for reproducible contrastive image-text encoders and domain pretraining."
+- name: MiniCPM-V
+  repo: OpenBMB/MiniCPM-V
+  url: https://github.com/OpenBMB/MiniCPM-V
+  category: multimodal
+  vlm: true
+  blurb: "Efficient end-side VLM series with strong image/video/OCR performance, relevant where on-vehicle or edge inference budgets are tight."
+- name: Molmo
+  repo: allenai/molmo
+  url: https://github.com/allenai/molmo
+  category: multimodal
+  vlm: true
+  blurb: "Ai2's fully open VLM with training code and the PixMo data, a transparent reproducible baseline including pointing/grounding."
+- name: Hugging Face Transformers
+  repo: huggingface/transformers
+  url: https://github.com/huggingface/transformers
+  category: frameworks
+  vlm: true
+  blurb: "De facto model hub and API with first-class VLM/video-LLM support, the integration surface most training and serving stacks build on."
+- name: DeepSpeed
+  repo: deepspeedai/DeepSpeed
+  url: https://github.com/deepspeedai/DeepSpeed
+  category: frameworks
+  vlm: false
+  blurb: "ZeRO sharding, offload, and pipeline/tensor parallelism that make large VLM training fit real GPU budgets; wired into most trainers."
+- name: ms-swift
+  repo: modelscope/ms-swift
+  url: https://github.com/modelscope/ms-swift
+  category: finetuning
+  vlm: true
+  blurb: "Unified SFT/DPO/GRPO toolkit covering 300+ multimodal models (Qwen-VL, InternVL, LLaVA), a fast path to fine-tune VLMs on custom data."
+- name: XTuner
+  repo: InternLM/xtuner
+  url: https://github.com/InternLM/xtuner
+  category: finetuning
+  vlm: true
+  blurb: "Memory-efficient LLM/VLM fine-tuning engine (LLaVA-style pipelines, large-MoE support) for constrained or very large setups."
+- name: lmms-eval
+  repo: EvolvingLMMs-Lab/lmms-eval
+  url: https://github.com/EvolvingLMMs-Lab/lmms-eval
+  category: eval
+  vlm: true
+  blurb: "One-command multimodal eval harness across image/video/audio benchmarks, the standard for consistent VLM regression testing."
+- name: VLMEvalKit
+  repo: open-compass/VLMEvalKit
+  url: https://github.com/open-compass/VLMEvalKit
+  category: eval
+  vlm: true
+  blurb: "Broad LMM evaluation toolkit (220+ models, 80+ benchmarks) with unified data prep, complementary to lmms-eval for coverage."
+- name: SGLang
+  repo: sgl-project/sglang
+  url: https://github.com/sgl-project/sglang
+  category: serving
+  vlm: true
+  blurb: "Fast serving runtime with RadixAttention and structured decoding plus VLM support, strong for high-concurrency multimodal endpoints."
+- name: LMDeploy
+  repo: InternLM/lmdeploy
+  url: https://github.com/InternLM/lmdeploy
+  category: serving
+  vlm: true
+  blurb: "Compression + serving toolkit with a dedicated VLM pipeline, for quantized, low-latency deployment of vision-language models."
+- name: FAISS
+  repo: facebookresearch/faiss
+  url: https://github.com/facebookresearch/faiss
+  category: retrieval
+  vlm: false
+  blurb: "Battle-tested library for billion-scale similarity search over image/video embeddings, the baseline for mining and nearest-neighbor lookup."
+- name: Milvus
+  repo: milvus-io/milvus
+  url: https://github.com/milvus-io/milvus
+  category: retrieval
+  vlm: false
+  blurb: "Distributed vector database for large multimodal embedding corpora, used when single-node indices no longer fit."
+- name: Qdrant
+  repo: qdrant/qdrant
+  url: https://github.com/qdrant/qdrant
+  category: retrieval
+  vlm: false
+  blurb: "Rust vector DB with payload filtering and good ergonomics, common for production embedding search over image/video/text."
+- name: LanceDB
+  repo: lancedb/lancedb
+  url: https://github.com/lancedb/lancedb
+  category: retrieval
+  vlm: false
+  blurb: "Embedded columnar vector store on the Lance format, well suited to versioned multimodal datasets and fast on-disk embedding queries."
+- name: Ray
+  repo: ray-project/ray
+  url: https://github.com/ray-project/ray
+  category: distributed
+  vlm: false
+  blurb: "Distributed compute for data loading, training, and batch multimodal inference, the orchestration layer for scaling VLM pipelines across a cluster."
+- name: MLflow
+  repo: mlflow/mlflow
+  url: https://github.com/mlflow/mlflow
+  category: distributed
+  vlm: false
+  blurb: "Experiment tracking, model registry, and artifact logging for reproducible large-scale training and eval runs."
+- name: nuScenes devkit
+  repo: nutonomy/nuscenes-devkit
+  url: https://github.com/nutonomy/nuscenes-devkit
+  category: dataset
+  vlm: false
+  blurb: "Official devkit for the multimodal nuScenes AD dataset (camera, lidar, radar), the standard toolkit for sensor+video data loading and eval."
+- name: Waymo Open Dataset
+  repo: waymo-research/waymo-open-dataset
+  url: https://github.com/waymo-research/waymo-open-dataset
+  category: dataset
+  vlm: false
+  blurb: "Large-scale AD perception/motion/end-to-end datasets with eval code, a primary source of camera+lidar video for driving models."
+- name: BDD100K
+  repo: SysCV/bdd100k-models
+  url: https://github.com/SysCV/bdd100k-models
+  category: dataset
+  vlm: false
+  blurb: "Model zoo and tooling for the diverse BDD100K driving-video dataset, useful for detection/segmentation/tracking baselines and labels."
+- name: Ego4D
+  repo: facebookresearch/Ego4d
+  url: https://github.com/facebookresearch/Ego4d
+  category: dataset
+  vlm: false
+  blurb: "Massive egocentric video dataset with download, feature-extraction, and API tooling, relevant for first-person video understanding and robotics."
+- name: Argoverse 2
+  repo: argoverse/av2-api
+  url: https://github.com/argoverse/av2-api
+  category: dataset
+  vlm: false
+  blurb: "Next-gen self-driving datasets (sensor, lidar, motion forecasting) with a maintained Python API and HD maps for multimodal AD research."

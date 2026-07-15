@@ -1,0 +1,28 @@
+Member of Technical Staff, Machine Learning - NomadicML (San Francisco, on-site)
+
+About the Role
+We're seeking a Machine Learning Engineer who thrives at the frontier of foundation-model
+research and production engineering. You'll help define how machines learn from motion:
+training and fine-tuning large-scale Vision-Language Models to reason about complex,
+real-world video. Your work will involve building multi-modal architectures that perceive,
+localize, and describe motion events (turns, lane changes, interactions, anomalies) across
+millions of frames, and turning those breakthroughs into robust APIs and SDKs.
+
+You'll work directly with the founders to:
+- Train and evaluate VLMs specialized for motion understanding in autonomous-driving and robotics datasets.
+- Design and scale GPU-accelerated pipelines for training, fine-tuning, and inference on multi-modal data (video + language + sensor metadata).
+- Build agentic evaluation frameworks that benchmark spatiotemporal reasoning, localization accuracy, and narrative consistency.
+- Develop and productionize curation loops that use our own models to generate and refine datasets ("AI training AI").
+- Publish high-impact research (e.g., NeurIPS, CVPR) while shipping features customers use immediately.
+
+You'll Excel If You Have
+- Strong proficiency in Python, PyTorch, and large-scale ML workflows.
+- Research experience in foundation models, VLMs, or multi-modal learning (publications/patents a plus).
+- Ability to iterate quickly and autonomously, running experiments end-to-end.
+- Experience training or fine-tuning models on video or sensor data.
+- Understanding of retrieval systems, embeddings, and GPU optimization.
+
+Nice to Have
+- Contributions to open-source ML frameworks (e.g., DeepSpeed, Hugging Face).
+- Experience with vector databases, distributed training, or ML orchestration systems (e.g., Ray, Kubeflow, MLflow).
+- Prior exposure to autonomous-driving or robotics datasets.

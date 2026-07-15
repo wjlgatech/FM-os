@@ -9,8 +9,27 @@
 - name: slm-quickstart
   kind: skill
   path: skills/slm-quickstart
+  tags: [finetune, rl]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart
+- name: vlm-quickstart
+  kind: skill
+  path: skills/vlm-quickstart
+  tags: [vlm, finetune]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart
+- name: agentic-eval
+  kind: skill
+  path: skills/agentic-eval
+  tags: [eval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval
+- name: curation-loop
+  kind: skill
+  path: skills/curation-loop
+  tags: [curation]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop
 - name: fm-os-sync
   kind: workflow
   path: scripts

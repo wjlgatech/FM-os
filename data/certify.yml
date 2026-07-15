@@ -101,6 +101,20 @@ relevance:
     - benchmark
     - tokeniz
     - transformer
+    - vision-language
+    - vision language
+    - vlm
+    - multimodal
+    - multi-modal
+    - video
+    - spatiotemporal
+    - localization
+    - clip
+    - embedding
+    - vector database
+    - autonomous
+    - robotics
+    - curation
 
 # ── docs / cross-runtime / eval signal keywords ──────────────────────────────
 signals:

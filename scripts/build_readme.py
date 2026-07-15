@@ -9,9 +9,9 @@ from __future__ import annotations
 import re
 import sys
 
-from fmos import DATA, esc, load, repos_with_stars
+from fmos import DATA, ROOT, esc, load, repos_with_stars
 
-README = DATA.parent / "README.md"
+README = ROOT / "README.md"
 BADGE = "https://img.shields.io/github"
 
 
@@ -19,8 +19,8 @@ BADGE = "https://img.shields.io/github"
 def fmt_repo(e: dict) -> str:
     """One repo → a Markdown bullet with the SLM marker + live star count."""
     star = f" `★ {e['stars']:,}`" if e.get("stars") else ""
-    slm = " 🤏" if e.get("slm") else ""
-    return f"- **[{esc(e['name'])}]({e['url']})**{slm}{star} — {esc(e.get('blurb',''))}"
+    mark = (" 🤏" if e.get("slm") else "") + (" 🎬" if e.get("vlm") else "")
+    return f"- **[{esc(e['name'])}]({e['url']})**{mark}{star} — {esc(e.get('blurb',''))}"
 
 
 def fmt_course(e: dict) -> str:

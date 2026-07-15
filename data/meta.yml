@@ -81,12 +81,16 @@ sections:
     key: category
     groups:
       - { key: models,      title: "Small & Efficient Models" }
+      - { key: multimodal,  title: "Vision-Language & Video Models" }
       - { key: frameworks,  title: "Pre-training & Training Frameworks" }
       - { key: finetuning,  title: "Fine-tuning & PEFT" }
       - { key: rl,          title: "Post-training & RL (RLHF / DPO / GRPO)" }
       - { key: eval,        title: "Evaluation" }
       - { key: serving,     title: "Serving, Inference & On-Device" }
       - { key: compression, title: "Distillation & Compression" }
+      - { key: retrieval,   title: "Retrieval & Vector Databases" }
+      - { key: distributed, title: "Distributed Training & Orchestration" }
+      - { key: dataset,     title: "AV / Robotics / Video Datasets" }
   - id: courses
     icon: "🎓"
     title: "Courses"
@@ -99,6 +103,10 @@ sections:
       - { key: finetuning,   title: "Fine-tuning" }
       - { key: rl,           title: "Reinforcement Learning" }
       - { key: agents,       title: "Agents & Applications" }
+      - { key: vision,       title: "Computer Vision" }
+      - { key: multimodal,   title: "Multi-modal Machine Learning" }
+      - { key: vlm,          title: "Vision-Language Models" }
+      - { key: video,        title: "Video & Data Ops" }
   - id: papers
     icon: "📄"
     title: "Papers"
@@ -113,6 +121,11 @@ sections:
       - { key: peft,         title: "Parameter-Efficient Fine-tuning" }
       - { key: distillation, title: "Distillation & Compression" }
       - { key: compression,  title: "Distillation & Compression" }
+      - { key: vlm,          title: "Vision-Language Models" }
+      - { key: video,        title: "Video Understanding" }
+      - { key: multimodal,   title: "Multi-modal & Grounding" }
+      - { key: retrieval,    title: "Retrieval & Embeddings" }
+      - { key: eval,         title: "Multi-modal Evaluation" }
   - id: jobs--careers
     icon: "💼"
     title: "Jobs & Careers"

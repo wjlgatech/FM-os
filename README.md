@@ -48,10 +48,10 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `4`
-- [🧰 Open-Source Repos](#open-source-repos) `35`
-- [🎓 Courses](#courses) `17`
-- [📄 Papers](#papers) `35`
+- [🏅 FM-os Certified](#fm-os-certified) `7`
+- [🧰 Open-Source Repos](#open-source-repos) `63`
+- [🎓 Courses](#courses) `26`
+- [📄 Papers](#papers) `56`
 - [💼 Jobs & Careers](#jobs--careers) `11`
 - [🗺️ Learning Roadmap](#learning-roadmap)
 - [🤝 Contribute](#contribute)
@@ -89,6 +89,9 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | Tool | Kind | Score | Status |
 |---|---|--:|:--|
 | [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
+| [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
+| [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
+| [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |
 | [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 80/100 | ✅ certified |
 | eval-llm | skill | — | ⏳ submitted |
 | continual-learning-research | skill | — | ⏳ submitted |
@@ -117,6 +120,19 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
+### Vision-Language & Video Models
+- **[Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL)** 🎬 — Strong open VLM family with native dynamic-resolution and long-video/temporal grounding, a common backbone for fine-tuning on driving footage.
+- **[LLaVA-NeXT](https://github.com/LLaVA-VL/LLaVA-NeXT)** 🎬 — Actively maintained LLaVA line (incl. OneVision and Video variants) with training and eval recipes for image, multi-image, and video.
+- **[InternVL](https://github.com/OpenGVLab/InternVL)** 🎬 — Scaled open VLM series with large vision encoders and full training code, competitive on high-resolution perception and video benchmarks.
+- **[VideoLLaMA3](https://github.com/DAMO-NLP-SG/VideoLLaMA3)** 🎬 — Vision-centric image/video foundation model with released training and inference code, directly targeting long-form video understanding.
+- **[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA)** 🎬 — Unified image+video projection into one representation before the LLM, a compact reference for joint image/video instruction tuning.
+- **[CLIP](https://github.com/openai/CLIP)** 🎬 — Original contrastive image-text model; the reference whose embeddings still anchor most multimodal retrieval and probing.
+- **[open_clip](https://github.com/mlfoundations/open_clip)** 🎬 — Open training/eval for CLIP-style models at scale, the go-to for reproducible contrastive image-text encoders and domain pretraining.
+- **[MiniCPM-V](https://github.com/OpenBMB/MiniCPM-V)** 🎬 — Efficient end-side VLM series with strong image/video/OCR performance, relevant where on-vehicle or edge inference budgets are tight.
+- **[Molmo](https://github.com/allenai/molmo)** 🎬 — Ai2's fully open VLM with training code and the PixMo data, a transparent reproducible baseline including pointing/grounding.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
 ### Pre-training & Training Frameworks
 - **[nanoGPT](https://github.com/karpathy/nanoGPT)** 🤏 `★ 61,156` — Minimal ~300-line GPT training/finetuning loop; the standard starting point for training small GPTs from scratch.
 - **[LitGPT](https://github.com/Lightning-AI/litgpt)** 🤏 `★ 13,482` — 20+ hackable LLM implementations with pretrain/finetune/deploy recipes, including small Phi/Qwen/Gemma models.
@@ -124,6 +140,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Megatron-LM](https://github.com/NVIDIA/Megatron-LM)** `★ 17,064` — NVIDIA's GPU-optimized library and building blocks for large-scale transformer pretraining.
 - **[TorchTitan](https://github.com/pytorch/torchtitan)** `★ 5,532` — PyTorch-native platform for generative-model pretraining with composable FSDP2/TP/PP/CP parallelism.
 - **[Nanotron](https://github.com/huggingface/nanotron)** `★ 2,747` — Minimalistic 3D-parallelism pretraining library from Hugging Face, basis of the Ultrascale Playbook.
+- **[Hugging Face Transformers](https://github.com/huggingface/transformers)** 🎬 — De facto model hub and API with first-class VLM/video-LLM support, the integration surface most training and serving stacks build on.
+- **[DeepSpeed](https://github.com/deepspeedai/DeepSpeed)** — ZeRO sharding, offload, and pipeline/tensor parallelism that make large VLM training fit real GPU budgets; wired into most trainers.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -133,6 +151,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Axolotl](https://github.com/axolotl-ai-cloud/axolotl)** 🤏 `★ 12,197` — Config-driven post-training framework covering SFT/LoRA/DPO across many small and large model families.
 - **[LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)** 🤏 `★ 73,271` — Unified zero-code fine-tuning of 100+ LLMs/VLMs with LoRA/QLoRA/DPO and a web UI, common for SLM tuning.
 - **[torchtune](https://github.com/meta-pytorch/torchtune)** 🤏 `★ 5,783` — PyTorch-native post-training recipes (SFT, distillation, DPO/PPO/GRPO, QAT) tuned for memory-limited hardware.
+- **[ms-swift](https://github.com/modelscope/ms-swift)** 🎬 — Unified SFT/DPO/GRPO toolkit covering 300+ multimodal models (Qwen-VL, InternVL, LLaVA), a fast path to fine-tune VLMs on custom data.
+- **[XTuner](https://github.com/InternLM/xtuner)** 🎬 — Memory-efficient LLM/VLM fine-tuning engine (LLaVA-style pipelines, large-MoE support) for constrained or very large setups.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -147,6 +167,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 ### Evaluation
 - **[lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)** 🤏 `★ 13,279` — De-facto standard few-shot eval harness (60+ benchmarks) backing the Open LLM Leaderboard, ideal for SLM benchmarking.
 - **[LightEval](https://github.com/huggingface/lighteval)** 🤏 `★ 2,476` — Hugging Face all-in-one evaluator across vLLM/Accelerate/TGI backends with 1000+ tasks for small-model eval.
+- **[lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)** 🎬 — One-command multimodal eval harness across image/video/audio benchmarks, the standard for consistent VLM regression testing.
+- **[VLMEvalKit](https://github.com/open-compass/VLMEvalKit)** 🎬 — Broad LMM evaluation toolkit (220+ models, 80+ benchmarks) with unified data prep, complementary to lmms-eval for coverage.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -155,6 +177,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[vLLM](https://github.com/vllm-project/vllm)** `★ 86,247` — High-throughput PagedAttention serving engine; the default for scalable OpenAI-compatible model serving.
 - **[Ollama](https://github.com/ollama/ollama)** 🤏 `★ 176,100` — One-command local runner for small open models, the easiest path to running SLMs on a personal machine.
 - **[MLC-LLM](https://github.com/mlc-ai/mlc-llm)** 🤏 `★ 22,948` — ML-compilation deployment engine that compiles SLMs to iOS, Android, WebGPU, and diverse GPUs/CPUs.
+- **[SGLang](https://github.com/sgl-project/sglang)** 🎬 — Fast serving runtime with RadixAttention and structured decoding plus VLM support, strong for high-concurrency multimodal endpoints.
+- **[LMDeploy](https://github.com/InternLM/lmdeploy)** 🎬 — Compression + serving toolkit with a dedicated VLM pipeline, for quantized, low-latency deployment of vision-language models.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -164,6 +188,29 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[GPTQModel](https://github.com/ModelCloud/GPTQModel)** 🤏 `★ 1,205` — Actively maintained GPTQ quantization toolkit with HF/vLLM/SGLang support across NVIDIA/AMD/Intel/Apple hardware.
 - **[LightCompress (LLMC)](https://github.com/ModelTC/LightCompress)** 🤏 `★ 733` — Broad model-compression toolkit (quantization, sparsity, pruning) for shrinking LLMs/VLMs to deployable sizes.
 - **[DistillKit](https://github.com/arcee-ai/DistillKit)** 🤏 `★ 976` — Open toolkit for knowledge distillation, training smaller student models from larger teachers (logit + hidden-state).
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Retrieval & Vector Databases
+- **[FAISS](https://github.com/facebookresearch/faiss)** — Battle-tested library for billion-scale similarity search over image/video embeddings, the baseline for mining and nearest-neighbor lookup.
+- **[Milvus](https://github.com/milvus-io/milvus)** — Distributed vector database for large multimodal embedding corpora, used when single-node indices no longer fit.
+- **[Qdrant](https://github.com/qdrant/qdrant)** — Rust vector DB with payload filtering and good ergonomics, common for production embedding search over image/video/text.
+- **[LanceDB](https://github.com/lancedb/lancedb)** — Embedded columnar vector store on the Lance format, well suited to versioned multimodal datasets and fast on-disk embedding queries.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Distributed Training & Orchestration
+- **[Ray](https://github.com/ray-project/ray)** — Distributed compute for data loading, training, and batch multimodal inference, the orchestration layer for scaling VLM pipelines across a cluster.
+- **[MLflow](https://github.com/mlflow/mlflow)** — Experiment tracking, model registry, and artifact logging for reproducible large-scale training and eval runs.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### AV / Robotics / Video Datasets
+- **[nuScenes devkit](https://github.com/nutonomy/nuscenes-devkit)** — Official devkit for the multimodal nuScenes AD dataset (camera, lidar, radar), the standard toolkit for sensor+video data loading and eval.
+- **[Waymo Open Dataset](https://github.com/waymo-research/waymo-open-dataset)** — Large-scale AD perception/motion/end-to-end datasets with eval code, a primary source of camera+lidar video for driving models.
+- **[BDD100K](https://github.com/SysCV/bdd100k-models)** — Model zoo and tooling for the diverse BDD100K driving-video dataset, useful for detection/segmentation/tracking baselines and labels.
+- **[Ego4D](https://github.com/facebookresearch/Ego4d)** — Massive egocentric video dataset with download, feature-extraction, and API tooling, relevant for first-person video understanding and robotics.
+- **[Argoverse 2](https://github.com/argoverse/av2-api)** — Next-gen self-driving datasets (sensor, lidar, motion forecasting) with a maintained Python API and HD maps for multimodal AD research.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -209,6 +256,31 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 ### Agents & Applications
 - **[CS294/194-196: Large Language Model Agents](https://rdi.berkeley.edu/llm-agents/f24)** — UC Berkeley · Dawn Song, Xinyun Chen (2024) · _free_ — MOOC-available course on LLM agent foundations, reasoning, tool use, and applications, with frontier-lab guest lectures.
 - **[CS294/194-280: Advanced LLM Agents](https://rdi.berkeley.edu/adv-llm-agents/sp25)** — UC Berkeley · Dawn Song, Xinyun Chen (2025) · _free_ — Spring 2025 follow-on covering advanced agent reasoning, math/theorem-proving, code generation, and safety.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Computer Vision
+- **[CS231n: Deep Learning for Computer Vision](https://cs231n.stanford.edu/)** — Stanford · Fei-Fei Li, Ehsan Adeli et al. (2024) · _free_ — The canonical intro to CNNs and visual recognition; slides, notes, and assignments are public.
+- **[CS231A: Computer Vision, From 3D Reconstruction to Recognition](https://web.stanford.edu/class/cs231a/)** — Stanford · Silvio Savarese / Jeannette Bohg (staff) (2025) · _free_ — Geometric CV: camera models, epipolar/stereo geometry, depth and scene flow, 6D pose and tracking, with public notes.
+- **[EECS 498/598: Deep Learning for Computer Vision](https://web.eecs.umich.edu/~justincj/teaching/eecs498/)** — University of Michigan · Justin Johnson (2020) · _free_ — From-scratch deep learning for vision (CNNs, attention, detection, segmentation) with the full lecture set on YouTube.
+- **[Community Computer Vision Course](https://huggingface.co/learn/computer-vision-course/unit0/welcome/welcome)** — Hugging Face · HF community (2024) · _free_ — Free hands-on course from classical CV through ViTs, multimodal and generative vision, with runnable notebooks.
+- **[DeepRob: Deep Learning for Robot Perception](https://deeprob.org/w24/)** — University of Michigan · Chad Jenkins, Anthony Opipari, Xiaoxiao Du (2024) · _free_ — Deep-learning-for-vision adapted to robot perception and manipulation, then reproducing recent perception papers; public slides.
+- **[Practical Deep Learning for Coders](https://course.fast.ai/)** — fast.ai · Jeremy Howard (2022) · _free_ — Code-first, top-down deep learning across vision, NLP, and fine-tuning in PyTorch/fastai; free lessons plus the free book.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Multi-modal Machine Learning
+- **[11-777: Multimodal Machine Learning](https://cmu-mmml.github.io/)** — Carnegie Mellon (LTI) · Louis-Philippe Morency, Paul Liang (2023) · _free_ — Organizes multimodal ML around six challenges (representation, alignment, reasoning, generation, transference, quantification); lectures on YouTube.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Vision-Language Models
+- **[CS25: Transformers United](https://web.stanford.edu/class/cs25/)** — Stanford · Student-led seminar (2025) · _free_ — Guest-lecture seminar including multimodal / vision-language and world-modeling sessions; open to audit, posted on YouTube.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Video & Data Ops
+- **[Getting Started with FiftyOne (Visual AI)](https://voxel51.com/get-started)** — Voxel51 · Voxel51 (2025) · _free_ — Free tutorials on curating, visualizing, and debugging image/video/3D datasets and model outputs — directly relevant to AD/robotics data ops.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -276,6 +348,47 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[AWQ: Activation-aware Weight Quantization for LLM Compression and Acceleration](https://arxiv.org/abs/2306.00978)** (Lin et al., MIT, 2023) · arXiv:2306.00978 (MLSys 2024) — Protects a small fraction of salient weights via activation-aware scaling for accurate low-bit quantization.
 - **[LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale](https://arxiv.org/abs/2208.07339)** (Dettmers et al., University of Washington, 2022) · arXiv:2208.07339 (NeurIPS 2022) — Int8 inference for billion-scale transformers with no accuracy loss by isolating emergent outlier features.
 - **[SparseGPT: Massive Language Models Can Be Accurately Pruned in One-Shot](https://arxiv.org/abs/2301.00774)** (Frantar & Alistarh, IST Austria, 2023) · arXiv:2301.00774 (ICML 2023) — Prunes GPT-scale models to 50-60% sparsity in one shot without retraining and minimal perplexity increase.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Vision-Language Models
+- **[Learning Transferable Visual Models From Natural Language Supervision (CLIP)](https://arxiv.org/abs/2103.00020)** (Radford et al., OpenAI, 2021) · ICML 2021 · arXiv:2103.00020 — Contrastively pretrains dual image/text encoders on 400M web pairs, enabling zero-shot classification and the embedding backbone most VLMs still build on.
+- **[Flamingo: a Visual Language Model for Few-Shot Learning](https://arxiv.org/abs/2204.14198)** (Alayrac et al., DeepMind, 2022) · NeurIPS 2022 · arXiv:2204.14198 — Bridges frozen vision and language backbones with gated cross-attention over interleaved image/video-text for in-context few-shot multimodal learning.
+- **[BLIP-2: Bootstrapping Language-Image Pre-training with Frozen Encoders and LLMs](https://arxiv.org/abs/2301.12597)** (Li et al., Salesforce Research, 2023) · ICML 2023 · arXiv:2301.12597 — Introduces the lightweight Q-Former connecting a frozen vision encoder to a frozen LLM — a cheap recipe for adding vision to language models.
+- **[Visual Instruction Tuning (LLaVA)](https://arxiv.org/abs/2304.08485)** (Liu et al., UW-Madison / Microsoft Research, 2023) · NeurIPS 2023 · arXiv:2304.08485 — Uses GPT-4-generated image-instruction data to instruction-tune a CLIP-encoder-plus-LLM model, establishing the dominant open VLM training pattern.
+- **[Improved Baselines with Visual Instruction Tuning (LLaVA-1.5)](https://arxiv.org/abs/2310.03744)** (Liu et al., UW-Madison / Microsoft Research, 2023) · CVPR 2024 · arXiv:2310.03744 — MLP connector, higher-res CLIP, and academic VQA data hit SOTA on 11 benchmarks with ~1.2M public samples and one day on 8×A100.
+- **[Qwen2-VL: Perception of the World at Any Resolution](https://arxiv.org/abs/2409.12191)** (Wang et al. (Qwen Team), Alibaba, 2024) · arXiv:2409.12191 — Adds naive dynamic resolution and multimodal RoPE (M-RoPE) to handle arbitrary image sizes and video under one paradigm across 2B/8B/72B.
+- **[Qwen2.5-VL Technical Report](https://arxiv.org/abs/2502.13923)** (Qwen Team, Alibaba, 2025) · arXiv:2502.13923 — Absolute-time encoding for hour-long video, strong bbox/point grounding and document parsing — a strong fine-tuning base for driving/robotics.
+- **[InternVL: Scaling up Vision Foundation Models and Aligning for Generic Visual-Linguistic Tasks](https://arxiv.org/abs/2312.14238)** (Chen et al., Shanghai AI Lab / OpenGVLab, 2023) · CVPR 2024 · arXiv:2312.14238 — Scales the vision encoder to 6B params and progressively aligns it to an LLM, reaching SOTA across 32 image/video perception and retrieval benchmarks.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Video Understanding
+- **[Video-LLaMA: Instruction-tuned Audio-Visual Language Model for Video Understanding](https://arxiv.org/abs/2306.02858)** (Zhang, Li, Bing, DAMO Academy, Alibaba, 2023) · EMNLP 2023 Demo · arXiv:2306.02858 — Couples a video Q-Former and audio branch to an LLM to instruction-tune joint audio-visual temporal understanding of video.
+- **[Video-LLaVA: Learning United Visual Representation by Alignment Before Projection](https://arxiv.org/abs/2311.10122)** (Lin et al., Peking University, 2023) · EMNLP 2024 · arXiv:2311.10122 — Aligns image and video features into a shared space before the LLM projector, letting one model train jointly on images and video with mutual gains.
+- **[ViViT: A Video Vision Transformer](https://arxiv.org/abs/2103.15691)** (Arnab et al., Google Research, 2021) · ICCV 2021 · arXiv:2103.15691 — Pure-transformer video classifier with factorized spatial/temporal attention variants to keep long token sequences tractable.
+- **[VideoMAE: Masked Autoencoders are Data-Efficient Learners for Self-Supervised Video Pre-Training](https://arxiv.org/abs/2203.12602)** (Tong et al., Nanjing University / Tencent, 2022) · NeurIPS 2022 · arXiv:2203.12602 — 90-95% tube masking makes MAE-style self-supervised video pretraining work even on a few thousand clips — a practical video backbone recipe.
+- **[Is Space-Time Attention All You Need for Video Understanding? (TimeSformer)](https://arxiv.org/abs/2102.05095)** (Bertasius, Wang, Torresani, Facebook AI / Dartmouth, 2021) · ICML 2021 · arXiv:2102.05095 — Convolution-free video model; divided space-then-time attention gives the best accuracy/cost trade-off for action recognition.
+- **[InternVideo: General Video Foundation Models via Generative and Discriminative Learning](https://arxiv.org/abs/2212.03191)** (Wang et al., Shanghai AI Lab / OpenGVLab, 2022) · arXiv:2212.03191 — Combines masked video modeling with video-language contrastive learning into one foundation model hitting SOTA on 39 video datasets.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Multi-modal & Grounding
+- **[Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Detection](https://arxiv.org/abs/2303.05499)** (Liu et al., IDEA Research, 2023) · ECCV 2024 · arXiv:2303.05499 — Fuses a DINO detector with language so free-text prompts localize arbitrary objects — a workhorse for open-vocabulary grounding/auto-labeling.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Retrieval & Embeddings
+- **[Scaling Up Visual and Vision-Language Representation Learning With Noisy Text Supervision (ALIGN)](https://arxiv.org/abs/2102.05918)** (Jia et al., Google, 2021) · ICML 2021 · arXiv:2102.05918 — A simple dual-encoder trained on 1B+ noisy alt-text pairs (no cleaning) sets SOTA image-text retrieval, validating scale over curation.
+- **[Sigmoid Loss for Language Image Pre-Training (SigLIP)](https://arxiv.org/abs/2303.15343)** (Zhai et al., Google DeepMind, 2023) · ICCV 2023 · arXiv:2303.15343 — A pairwise sigmoid loss needing no global normalization improves small-batch training and large-scale embedding learning.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Multi-modal Evaluation
+- **[LMMs-Eval: Reality Check on the Evaluation of Large Multimodal Models](https://arxiv.org/abs/2407.12772)** (Zhang, Li, Liu et al., NTU (LMMs-Lab), 2024) · arXiv:2407.12772 — Unified 50+-task evaluation framework (plus a Lite variant and contamination-resistant LiveBench) — the harness to standardize your own VLM/video evals.
+- **[Video-MME: Comprehensive Evaluation Benchmark of Multi-modal LLMs in Video Analysis](https://arxiv.org/abs/2405.21075)** (Fu et al., multi-institution, 2024) · CVPR 2025 · arXiv:2405.21075 — Full-spectrum video benchmark spanning 11s-to-1h clips across 6 domains with subtitle/audio modalities, the standard for long-video VLM eval.
+- **[MMBench: Is Your Multi-modal Model an All-around Player?](https://arxiv.org/abs/2307.06281)** (Liu et al., Shanghai AI Lab / CUHK / NTU, 2023) · ECCV 2024 · arXiv:2307.06281 — Fine-grained bilingual VLM benchmark with a CircularEval protocol that shuffles answer order to reduce position bias in scoring.
+- **[MMMU: Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)** (Yue et al., multi-institution, 2023) · CVPR 2024 · arXiv:2311.16502 — 11.5K college-level questions over 30 subjects and heterogeneous image types, probing knowledge-heavy expert reasoning where even strong VLMs score low.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
