@@ -92,6 +92,7 @@ sections:
       - { key: retrieval,   title: "Retrieval & Vector Databases" }
       - { key: distributed, title: "Distributed Training & Orchestration" }
       - { key: dataset,     title: "AV / Robotics / Video Datasets" }
+      - { key: research,    title: "Autonomous Research Agents (AI Scientists)" }
   - id: courses
     icon: "🎓"
     title: "Courses"
@@ -127,6 +128,7 @@ sections:
       - { key: multimodal,   title: "Multi-modal & Grounding" }
       - { key: retrieval,    title: "Retrieval & Embeddings" }
       - { key: eval,         title: "Multi-modal Evaluation" }
+      - { key: research,     title: "Autonomous Research & AI Scientists" }
   - id: jobs--careers
     icon: "💼"
     title: "Jobs & Careers"

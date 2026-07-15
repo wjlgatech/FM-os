@@ -426,3 +426,89 @@
   category: jax
   vlm: false
   blurb: "DeepMind JAX toolkit for building and visualizing/interpreting models as legible pytrees, useful for research-grade experimentation."
+
+# ── Autonomous research agents (the research-loop track) ─────────────────────
+- name: AI-Scientist
+  repo: SakanaAI/AI-Scientist
+  url: https://github.com/SakanaAI/AI-Scientist
+  category: research
+  vlm: true
+  blurb: "Runs a full loop that generates ideas, writes and executes experiment code, plots results, and drafts a paper with an automated reviewer."
+- name: AI-Scientist-v2
+  repo: SakanaAI/AI-Scientist-v2
+  url: https://github.com/SakanaAI/AI-Scientist-v2
+  category: research
+  vlm: true
+  blurb: "End-to-end agentic system using progressive agentic tree search and VLM feedback on figures to produce workshop-level manuscripts."
+- name: Agent Laboratory
+  repo: SamuelSchmidgall/AgentLaboratory
+  url: https://github.com/SamuelSchmidgall/AgentLaboratory
+  category: research
+  vlm: false
+  blurb: "Multi-agent pipeline that takes a human research idea through literature review, experimentation, and report writing."
+- name: STORM
+  repo: stanford-oval/storm
+  url: https://github.com/stanford-oval/storm
+  category: research
+  vlm: false
+  blurb: "LLM knowledge-curation system that researches a topic via multi-perspective question asking and writes a cited, Wikipedia-style report."
+- name: GPT-Researcher
+  repo: assafelovic/gpt-researcher
+  url: https://github.com/assafelovic/gpt-researcher
+  category: research
+  vlm: false
+  blurb: "Autonomous agent that plans sub-queries, searches and scrapes sources, and synthesizes a cited research report."
+- name: deep-research
+  repo: dzhng/deep-research
+  url: https://github.com/dzhng/deep-research
+  category: research
+  vlm: false
+  blurb: "Minimal agent that runs iterative search-and-reason loops with configurable breadth and depth to produce a report."
+- name: smolagents
+  repo: huggingface/smolagents
+  url: https://github.com/huggingface/smolagents
+  category: research
+  vlm: false
+  blurb: "Barebones code-acting agent library; its examples include Hugging Face's open reproduction of Deep Research."
+- name: ADAS
+  repo: ShengranHu/ADAS
+  url: https://github.com/ShengranHu/ADAS
+  category: research
+  vlm: false
+  blurb: "Meta-agent that iteratively programs and evaluates new agent designs in code, automating the search over agentic systems."
+- name: DSPy
+  repo: stanfordnlp/dspy
+  url: https://github.com/stanfordnlp/dspy
+  category: research
+  vlm: false
+  blurb: "Define LLM pipelines as modules and optimize their prompts/weights against a metric rather than hand-prompting — the rigor layer for agent pipelines."
+- name: AI-Researcher
+  repo: HKUDS/AI-Researcher
+  url: https://github.com/HKUDS/AI-Researcher
+  category: research
+  vlm: false
+  blurb: "Automates the research pipeline from literature analysis through algorithm implementation to paper generation."
+- name: Curie
+  repo: Just-Curieous/Curie
+  url: https://github.com/Just-Curieous/Curie
+  category: research
+  vlm: false
+  blurb: "Experimentation agent that enforces methodological rigor (controlled setup, reproducibility) when running and analyzing experiments."
+- name: MLAgentBench
+  repo: snap-stanford/MLAgentBench
+  url: https://github.com/snap-stanford/MLAgentBench
+  category: eval
+  vlm: false
+  blurb: "Benchmark of end-to-end ML experimentation tasks for measuring how well agents can improve models from a starting codebase."
+- name: Aviary
+  repo: Future-House/aviary
+  url: https://github.com/Future-House/aviary
+  category: eval
+  vlm: false
+  blurb: "Gym-style environment framework for training and evaluating language agents on challenging scientific tasks."
+- name: PaperQA
+  repo: Future-House/paper-qa
+  url: https://github.com/Future-House/paper-qa
+  category: retrieval
+  vlm: false
+  blurb: "Retrieval-augmented QA engine that answers questions over scientific PDFs with grounded in-text citations."

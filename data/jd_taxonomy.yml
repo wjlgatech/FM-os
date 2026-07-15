@@ -100,6 +100,13 @@
   topics: []
   kind: knowledge
 
+- id: research_methodology
+  label: "Research judgment & empirical rigor (experiment loop)"
+  keywords: ["research judgment", "empirical rigor", "design and analyze", experiment, ablation, reproduc, "end-to-end", "iterate quickly"]
+  repo_categories: [research]
+  topics: [research]
+  skill_tag: research
+
 - id: research_publishing
   label: "Publishing research (NeurIPS / CVPR)"
   keywords: [publish, research, neurips, cvpr, iclr, publication]

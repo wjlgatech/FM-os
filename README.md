@@ -48,10 +48,10 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `8`
-- [🧰 Open-Source Repos](#open-source-repos) `69`
+- [🏅 FM-os Certified](#fm-os-certified) `9`
+- [🧰 Open-Source Repos](#open-source-repos) `83`
 - [🎓 Courses](#courses) `26`
-- [📄 Papers](#papers) `56`
+- [📄 Papers](#papers) `70`
 - [💼 Jobs & Careers](#jobs--careers) `11`
 - [🗺️ Learning Roadmap](#learning-roadmap)
 - [🤝 Contribute](#contribute)
@@ -92,6 +92,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
 | [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
 | [vector-rag](https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag) | skill | 94/100 | ✅ certified |
+| [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 92/100 | ✅ certified |
 | [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |
 | [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 80/100 | ✅ certified |
 | eval-llm | skill | — | ⏳ submitted |
@@ -180,6 +181,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[LightEval](https://github.com/huggingface/lighteval)** 🤏 `★ 2,476` — Hugging Face all-in-one evaluator across vLLM/Accelerate/TGI backends with 1000+ tasks for small-model eval.
 - **[lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)** 🎬 — One-command multimodal eval harness across image/video/audio benchmarks, the standard for consistent VLM regression testing.
 - **[VLMEvalKit](https://github.com/open-compass/VLMEvalKit)** 🎬 — Broad LMM evaluation toolkit (220+ models, 80+ benchmarks) with unified data prep, complementary to lmms-eval for coverage.
+- **[MLAgentBench](https://github.com/snap-stanford/MLAgentBench)** — Benchmark of end-to-end ML experimentation tasks for measuring how well agents can improve models from a starting codebase.
+- **[Aviary](https://github.com/Future-House/aviary)** — Gym-style environment framework for training and evaluating language agents on challenging scientific tasks.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -207,6 +210,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Milvus](https://github.com/milvus-io/milvus)** — Distributed vector database for large multimodal embedding corpora, used when single-node indices no longer fit.
 - **[Qdrant](https://github.com/qdrant/qdrant)** — Rust vector DB with payload filtering and good ergonomics, common for production embedding search over image/video/text.
 - **[LanceDB](https://github.com/lancedb/lancedb)** — Embedded columnar vector store on the Lance format, well suited to versioned multimodal datasets and fast on-disk embedding queries.
+- **[PaperQA](https://github.com/Future-House/paper-qa)** — Retrieval-augmented QA engine that answers questions over scientific PDFs with grounded in-text citations.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -222,6 +226,21 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[BDD100K](https://github.com/SysCV/bdd100k-models)** — Model zoo and tooling for the diverse BDD100K driving-video dataset, useful for detection/segmentation/tracking baselines and labels.
 - **[Ego4D](https://github.com/facebookresearch/Ego4d)** — Massive egocentric video dataset with download, feature-extraction, and API tooling, relevant for first-person video understanding and robotics.
 - **[Argoverse 2](https://github.com/argoverse/av2-api)** — Next-gen self-driving datasets (sensor, lidar, motion forecasting) with a maintained Python API and HD maps for multimodal AD research.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Autonomous Research Agents (AI Scientists)
+- **[AI-Scientist](https://github.com/SakanaAI/AI-Scientist)** 🎬 — Runs a full loop that generates ideas, writes and executes experiment code, plots results, and drafts a paper with an automated reviewer.
+- **[AI-Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2)** 🎬 — End-to-end agentic system using progressive agentic tree search and VLM feedback on figures to produce workshop-level manuscripts.
+- **[Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory)** — Multi-agent pipeline that takes a human research idea through literature review, experimentation, and report writing.
+- **[STORM](https://github.com/stanford-oval/storm)** — LLM knowledge-curation system that researches a topic via multi-perspective question asking and writes a cited, Wikipedia-style report.
+- **[GPT-Researcher](https://github.com/assafelovic/gpt-researcher)** — Autonomous agent that plans sub-queries, searches and scrapes sources, and synthesizes a cited research report.
+- **[deep-research](https://github.com/dzhng/deep-research)** — Minimal agent that runs iterative search-and-reason loops with configurable breadth and depth to produce a report.
+- **[smolagents](https://github.com/huggingface/smolagents)** — Barebones code-acting agent library; its examples include Hugging Face's open reproduction of Deep Research.
+- **[ADAS](https://github.com/ShengranHu/ADAS)** — Meta-agent that iteratively programs and evaluates new agent designs in code, automating the search over agentic systems.
+- **[DSPy](https://github.com/stanfordnlp/dspy)** — Define LLM pipelines as modules and optimize their prompts/weights against a metric rather than hand-prompting — the rigor layer for agent pipelines.
+- **[AI-Researcher](https://github.com/HKUDS/AI-Researcher)** — Automates the research pipeline from literature analysis through algorithm implementation to paper generation.
+- **[Curie](https://github.com/Just-Curieous/Curie)** — Experimentation agent that enforces methodological rigor (controlled setup, reproducibility) when running and analyzing experiments.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -400,6 +419,24 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Video-MME: Comprehensive Evaluation Benchmark of Multi-modal LLMs in Video Analysis](https://arxiv.org/abs/2405.21075)** (Fu et al., multi-institution, 2024) · CVPR 2025 · arXiv:2405.21075 — Full-spectrum video benchmark spanning 11s-to-1h clips across 6 domains with subtitle/audio modalities, the standard for long-video VLM eval.
 - **[MMBench: Is Your Multi-modal Model an All-around Player?](https://arxiv.org/abs/2307.06281)** (Liu et al., Shanghai AI Lab / CUHK / NTU, 2023) · ECCV 2024 · arXiv:2307.06281 — Fine-grained bilingual VLM benchmark with a CircularEval protocol that shuffles answer order to reduce position bias in scoring.
 - **[MMMU: Massive Multi-discipline Multimodal Understanding and Reasoning Benchmark](https://arxiv.org/abs/2311.16502)** (Yue et al., multi-institution, 2023) · CVPR 2024 · arXiv:2311.16502 — 11.5K college-level questions over 30 subjects and heterogeneous image types, probing knowledge-heavy expert reasoning where even strong VLMs score low.
+- **[MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation](https://arxiv.org/abs/2310.03302)** (Huang et al., Stanford, 2023) · arXiv:2310.03302 — 13 ML experimentation tasks and metrics for measuring agents that iteratively edit code to improve model performance.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Autonomous Research & AI Scientists
+- **[The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery](https://arxiv.org/abs/2408.06292)** (Lu et al., Sakana AI, 2024) · arXiv:2408.06292 — A pipeline where an LLM generates ideas, runs code experiments, and writes and reviews papers within a fixed compute budget.
+- **[The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search](https://arxiv.org/abs/2504.08066)** (Yamada et al., Sakana AI, 2025) · arXiv:2504.08066 — Agentic tree search plus VLM figure review; one generated manuscript passed workshop peer review above the human acceptance bar.
+- **[Towards an AI Co-Scientist](https://arxiv.org/abs/2502.18864)** (Gottweis et al., Google / DeepMind, 2025) · arXiv:2502.18864 — Multi-agent system on Gemini that generates and debates hypotheses, validated on drug repurposing and antimicrobial-resistance tasks.
+- **[ResearchAgent: Iterative Research Idea Generation over Scientific Literature](https://arxiv.org/abs/2404.07738)** (Baek et al., KAIST / Microsoft Research, 2024) · NAACL 2025 · arXiv:2404.07738 — Generates problems, methods, and experiment designs from literature, refined by reviewing agents with human-aligned feedback.
+- **[Autonomous chemical research with large language models (Coscientist)](https://www.nature.com/articles/s41586-023-06792-0)** (Boiko et al., Carnegie Mellon University, 2023) · Nature 624, 570-578 — A GPT-4 system with search/code/lab-automation tools that designs and physically executes chemistry experiments.
+- **[Automated Design of Agentic Systems (ADAS)](https://arxiv.org/abs/2408.08435)** (Hu, Lu, Clune, UBC / Vector Institute, 2024) · ICLR 2025 · arXiv:2408.08435 — Frames agent design as a search problem where a meta-agent writes code to invent new agents, outperforming hand-designed baselines.
+- **[Assisting in Writing Wikipedia-like Articles From Scratch with LLMs (STORM)](https://arxiv.org/abs/2402.14207)** (Shao et al., Stanford OVAL, 2024) · NAACL 2024 · arXiv:2402.14207 — Simulate multi-perspective question-asking to build an outline, then retrieve sources and write a grounded, cited article.
+- **[A Survey on Large Language Model based Autonomous Agents](https://arxiv.org/abs/2308.11432)** (Wang et al., Renmin University of China, 2023) · arXiv:2308.11432 — Systematic survey of LLM-agent construction, application domains, and evaluation — context for research-loop agents.
+- **[Gödel Agent: A Self-Referential Agent Framework for Recursive Self-Improvement](https://arxiv.org/abs/2410.04444)** (Yin et al., Peking University / UC Santa Barbara, 2025) · ACL 2025 · arXiv:2410.04444 — An agent that reads and rewrites its own logic at runtime to recursively self-improve without a fixed optimization routine.
+- **[Agent Laboratory: Using LLM Agents as Research Assistants](https://arxiv.org/abs/2501.04227)** (Schmidgall et al., AMD / Johns Hopkins University, 2025) · arXiv:2501.04227 — Autonomous framework covering literature review, experimentation, and report writing, with human feedback improving output quality.
+- **[Curie: Toward Rigorous and Automated Scientific Experimentation with AI Agents](https://arxiv.org/abs/2502.16069)** (Kon et al., University of Michigan, 2025) · arXiv:2502.16069 — Adds rigor components — controlled procedure, reproducibility, result interpretation — to agent-run experimentation.
+- **[AI-Researcher: Autonomous Scientific Innovation](https://arxiv.org/abs/2505.18705)** (Tang et al., University of Hong Kong, 2025) · arXiv:2505.18705 — A fully autonomous system spanning idea generation, algorithm implementation, and manuscript writing, released with an open codebase.
+- **[Robin: A Multi-Agent System for Automating Scientific Discovery](https://arxiv.org/abs/2505.13400)** (Ghareeb et al., FutureHouse, 2025) · arXiv:2505.13400 — Couples literature-search and data-analysis agents to run a discovery loop; identified ripasudil as a candidate for dry AMD.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

@@ -468,3 +468,117 @@
   url: https://arxiv.org/abs/2311.16502
   topic: eval
   blurb: "11.5K college-level questions over 30 subjects and heterogeneous image types, probing knowledge-heavy expert reasoning where even strong VLMs score low."
+- title: "MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation"
+  authors: "Huang et al."
+  org: "Stanford"
+  year: 2023
+  venue: "arXiv:2310.03302"
+  url: https://arxiv.org/abs/2310.03302
+  topic: eval
+  blurb: "13 ML experimentation tasks and metrics for measuring agents that iteratively edit code to improve model performance."
+
+# ── Autonomous research & AI scientists ──────────────────────────────────────
+- title: "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery"
+  authors: "Lu et al."
+  org: "Sakana AI"
+  year: 2024
+  venue: "arXiv:2408.06292"
+  url: https://arxiv.org/abs/2408.06292
+  topic: research
+  blurb: "A pipeline where an LLM generates ideas, runs code experiments, and writes and reviews papers within a fixed compute budget."
+- title: "The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search"
+  authors: "Yamada et al."
+  org: "Sakana AI"
+  year: 2025
+  venue: "arXiv:2504.08066"
+  url: https://arxiv.org/abs/2504.08066
+  topic: research
+  blurb: "Agentic tree search plus VLM figure review; one generated manuscript passed workshop peer review above the human acceptance bar."
+- title: "Towards an AI Co-Scientist"
+  authors: "Gottweis et al."
+  org: "Google / DeepMind"
+  year: 2025
+  venue: "arXiv:2502.18864"
+  url: https://arxiv.org/abs/2502.18864
+  topic: research
+  blurb: "Multi-agent system on Gemini that generates and debates hypotheses, validated on drug repurposing and antimicrobial-resistance tasks."
+- title: "ResearchAgent: Iterative Research Idea Generation over Scientific Literature"
+  authors: "Baek et al."
+  org: "KAIST / Microsoft Research"
+  year: 2024
+  venue: "NAACL 2025 · arXiv:2404.07738"
+  url: https://arxiv.org/abs/2404.07738
+  topic: research
+  blurb: "Generates problems, methods, and experiment designs from literature, refined by reviewing agents with human-aligned feedback."
+- title: "Autonomous chemical research with large language models (Coscientist)"
+  authors: "Boiko et al."
+  org: "Carnegie Mellon University"
+  year: 2023
+  venue: "Nature 624, 570-578"
+  url: https://www.nature.com/articles/s41586-023-06792-0
+  topic: research
+  blurb: "A GPT-4 system with search/code/lab-automation tools that designs and physically executes chemistry experiments."
+- title: "Automated Design of Agentic Systems (ADAS)"
+  authors: "Hu, Lu, Clune"
+  org: "UBC / Vector Institute"
+  year: 2024
+  venue: "ICLR 2025 · arXiv:2408.08435"
+  url: https://arxiv.org/abs/2408.08435
+  topic: research
+  blurb: "Frames agent design as a search problem where a meta-agent writes code to invent new agents, outperforming hand-designed baselines."
+- title: "Assisting in Writing Wikipedia-like Articles From Scratch with LLMs (STORM)"
+  authors: "Shao et al."
+  org: "Stanford OVAL"
+  year: 2024
+  venue: "NAACL 2024 · arXiv:2402.14207"
+  url: https://arxiv.org/abs/2402.14207
+  topic: research
+  blurb: "Simulate multi-perspective question-asking to build an outline, then retrieve sources and write a grounded, cited article."
+- title: "A Survey on Large Language Model based Autonomous Agents"
+  authors: "Wang et al."
+  org: "Renmin University of China"
+  year: 2023
+  venue: "arXiv:2308.11432"
+  url: https://arxiv.org/abs/2308.11432
+  topic: research
+  blurb: "Systematic survey of LLM-agent construction, application domains, and evaluation — context for research-loop agents."
+- title: "Gödel Agent: A Self-Referential Agent Framework for Recursive Self-Improvement"
+  authors: "Yin et al."
+  org: "Peking University / UC Santa Barbara"
+  year: 2025
+  venue: "ACL 2025 · arXiv:2410.04444"
+  url: https://arxiv.org/abs/2410.04444
+  topic: research
+  blurb: "An agent that reads and rewrites its own logic at runtime to recursively self-improve without a fixed optimization routine."
+- title: "Agent Laboratory: Using LLM Agents as Research Assistants"
+  authors: "Schmidgall et al."
+  org: "AMD / Johns Hopkins University"
+  year: 2025
+  venue: "arXiv:2501.04227"
+  url: https://arxiv.org/abs/2501.04227
+  topic: research
+  blurb: "Autonomous framework covering literature review, experimentation, and report writing, with human feedback improving output quality."
+- title: "Curie: Toward Rigorous and Automated Scientific Experimentation with AI Agents"
+  authors: "Kon et al."
+  org: "University of Michigan"
+  year: 2025
+  venue: "arXiv:2502.16069"
+  url: https://arxiv.org/abs/2502.16069
+  topic: research
+  blurb: "Adds rigor components — controlled procedure, reproducibility, result interpretation — to agent-run experimentation."
+- title: "AI-Researcher: Autonomous Scientific Innovation"
+  authors: "Tang et al."
+  org: "University of Hong Kong"
+  year: 2025
+  venue: "arXiv:2505.18705"
+  url: https://arxiv.org/abs/2505.18705
+  topic: research
+  blurb: "A fully autonomous system spanning idea generation, algorithm implementation, and manuscript writing, released with an open codebase."
+- title: "Robin: A Multi-Agent System for Automating Scientific Discovery"
+  authors: "Ghareeb et al."
+  org: "FutureHouse"
+  year: 2025
+  venue: "arXiv:2505.13400"
+  url: https://arxiv.org/abs/2505.13400
+  topic: research
+  blurb: "Couples literature-search and data-analysis agents to run a discovery loop; identified ripasudil as a candidate for dry AMD."

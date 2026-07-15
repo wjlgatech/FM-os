@@ -27,6 +27,15 @@ fm-os-sync:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/scripts
   tier: certified
+research-loop:
+  gaps:
+  - correctness (55)
+  kind: skill
+  on_mission: true
+  score: 92
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop
+  tier: certified
 slm-quickstart:
   gaps:
   - correctness (55)

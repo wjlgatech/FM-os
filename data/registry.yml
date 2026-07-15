@@ -36,6 +36,12 @@
   tags: [retrieval]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag
+- name: research-loop
+  kind: skill
+  path: skills/research-loop
+  tags: [research]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop
 - name: fm-os-sync
   kind: workflow
   path: scripts
