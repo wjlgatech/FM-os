@@ -9,20 +9,23 @@
 </head>
 <body>
 <header>
+  <div class="eyebrow">FOUNDATION MODEL OPERATING SYSTEM · SLM-FIRST</div>
   <h1>🛠️ FM-os Copilot</h1>
-  <p>Not a landing page — a copilot that <strong>does things</strong> with the Small Language Model stack: build a path, pick a model for your hardware, generate a training recipe, find the people building this, and contribute back. Every action is grounded in a <a href="https://github.com/wjlgatech/FM-os">curated, verified knowledge base</a>.</p>
+  <p class="lede">An agentic webapp that <strong>does things</strong> with the Small Language Model stack — plan a path, pick a model for your hardware, generate a training recipe, certify a tool, and draft &amp; publish about it. Every action is grounded in a <a href="https://github.com/wjlgatech/FM-os">curated, verified knowledge base</a>.</p>
   <div class="pills" id="counts"></div>
-  <div class="repo-link"><a href="https://github.com/wjlgatech/FM-os">★ Star the repo</a> · <a href="https://github.com/wjlgatech/FM-os/blob/main/CONTRIBUTING.md">Contribute</a></div>
+  <div class="repo-link"><a href="https://github.com/wjlgatech/FM-os">★ Star the repo</a> · <a href="https://wjlgatech.github.io/FM-os/">Hub README</a> · <a href="https://github.com/wjlgatech/FM-os/blob/main/CONTRIBUTING.md">Contribute</a></div>
 </header>
 
 <div class="wrap">
   <div class="copilot">
     <div class="copilot-inner">
-      <input id="ask" type="text" placeholder="Ask or command… e.g. &quot;plan a path to fine-tune an SLM on one GPU&quot; or &quot;what runs in 8GB VRAM?&quot;" autocomplete="off">
+      <input id="ask" type="text" placeholder="Ask or command… e.g. &quot;draft a LinkedIn post about SLMs&quot; or &quot;what runs in 8GB VRAM?&quot;" autocomplete="off">
       <button id="askBtn">Go</button>
     </div>
     <div class="hint">Deterministic actions need no API key. For open-ended answers &amp; drafting, <a id="setKey">add an Anthropic key</a> (stored only in your browser). <span id="keyState"></span></div>
   </div>
+
+  <section id="principles"></section>
 
   <div id="actions"></div>
 </div>

@@ -17,6 +17,7 @@ def main() -> int:
     """Compile all data/*.yml (repos with live stars) into site/data.json."""
     bundle = {
         "generated": True,
+        "meta": load("meta"),
         "repos": repos_with_stars(),
         "courses": load("courses"),
         "papers": load("papers"),

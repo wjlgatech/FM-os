@@ -279,7 +279,145 @@ const ACTIONS = [
       };
     },
   },
+  {
+    id: "certify", pillar: "Skills · Tooling", ic: "🏅", title: "Certify a tool",
+    desc: "See FM-os Certified scores, and earn the badge for your own skill/plugin/workflow.",
+    run(b) {
+      const certs = DB.certifications || {}, reg = DB.registry || [];
+      b.innerHTML = "";
+      b.appendChild(el("p", "sub", "Trust, not just a list. Tools are scored by an automated, evidence-based rubric — security is a blocking gate; no evidence ⇒ no pass."));
+      const tbl = el("table");
+      tbl.innerHTML = "<thead><tr><th>Tool</th><th>Kind</th><th>Score</th><th>Status</th></tr></thead>";
+      const tb = el("tbody");
+      reg.filter(e => certs[e.name]).sort((a, c) => certs[c.name].score - certs[a.name].score).forEach(e => {
+        const c = certs[e.name], tr = el("tr");
+        const nm = e.source ? `<a href="${e.source}" target="_blank">${esc(e.name)}</a>` : esc(e.name);
+        tr.innerHTML = `<td>${nm}</td><td>${esc(c.kind)}</td><td>${c.score}/100</td><td><span class="cert-badge ${c.tier}">${esc(c.tier)}</span></td>`;
+        tb.appendChild(tr);
+      });
+      reg.filter(e => !certs[e.name]).forEach(e => {
+        const tr = el("tr");
+        tr.innerHTML = `<td>${esc(e.name)}</td><td>${esc(e.kind || "—")}</td><td>—</td><td><span class="chip">⏳ submitted</span></td>`;
+        tb.appendChild(tr);
+      });
+      tbl.appendChild(tb);
+      b.appendChild(tbl);
+      b.appendChild(el("h3", null, "Certify your own tool"));
+      b.appendChild(el("p", "sub", "Add the FM-os Certify action to your CI (gates the build; earns the badge):"));
+      const yml = '- uses: wjlgatech/FM-os/.github/actions/fm-os-certify@main\n  with:\n    target: .\n    gate: "75"';
+      b.appendChild(el("pre", null, esc(yml)));
+      const cp = el("button", "btn ghost", "Copy CI step"); cp.onclick = () => copy(yml, cp); b.appendChild(cp);
+      const doc = el("a", "btn", "📖 CERTIFY.md");
+      doc.href = "https://github.com/wjlgatech/FM-os/blob/main/docs/CERTIFY.md"; doc.target = "_blank";
+      doc.style.marginLeft = "8px"; b.appendChild(doc);
+      b.appendChild(el("h3", null, "Embed your badge"));
+      const badge = "![FM-os Certified](https://img.shields.io/endpoint?url=https://wjlgatech.github.io/FM-os/badges/YOUR-TOOL.json)";
+      b.appendChild(el("pre", null, esc(badge)));
+      const cp2 = el("button", "btn ghost", "Copy badge"); cp2.onclick = () => copy(badge, cp2); b.appendChild(cp2);
+    },
+  },
+  {
+    id: "publish", pillar: "Connection", ic: "📣", title: "Draft & publish a post",
+    desc: "Draft an SLM post/article grounded in the hub, then 1-click to LinkedIn or X.",
+    run(b) {
+      const topics = {
+        digest: "SLM Ops weekly digest — what's new & worth knowing",
+        model: "Model spotlight — a small model worth trying",
+        tool: "Certified tool spotlight",
+        why: "Why Small Language Models win for ~80% of tasks",
+        custom: "Custom (type your own angle)",
+      };
+      let platform = "linkedin", fmt = "post";
+      b.innerHTML = `
+        <div class="field"><label>Topic</label><select id="topic">${Object.entries(topics).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></div>
+        <div class="field" id="customWrap" style="display:none"><label>Your angle</label><input id="angle" type="text" placeholder="e.g. lessons from fine-tuning SmolLM2 on one GPU"></div>
+        <div class="field"><label>Platform</label><div class="seg" id="plat"><button data-v="linkedin" class="on">LinkedIn</button><button data-v="x">X</button></div></div>
+        <div class="field"><label>Format</label><div class="seg" id="fmt"><button data-v="post" class="on">Post</button><button data-v="article">Article (LinkedIn)</button></div></div>
+        <button class="btn" id="gen">✍️ Draft it</button>
+        <div class="result" id="out"></div>`;
+      const seg = (id, set) => {
+        const wrap = $("#" + id, b);
+        wrap.querySelectorAll("button").forEach(btn => btn.onclick = () => {
+          wrap.querySelectorAll("button").forEach(x => x.classList.remove("on"));
+          btn.classList.add("on"); set(btn.dataset.v);
+        });
+      };
+      seg("plat", v => { platform = v; });
+      seg("fmt", v => { fmt = v; });
+      $("#topic", b).onchange = () => { $("#customWrap", b).style.display = $("#topic", b).value === "custom" ? "block" : "none"; };
+      $("#gen", b).onclick = async () => {
+        const out = $("#out", b); out.textContent = "Drafting…";
+        const topicKey = $("#topic", b).value, angle = ($("#angle", b) || {}).value || "";
+        const text = await draftPost({ platform, fmt, topicKey, topicLabel: topics[topicKey], angle });
+        out.innerHTML = "";
+        out.appendChild(el("label", null, "Draft (edit before publishing):"));
+        const ta = el("textarea"); ta.value = text; ta.style.minHeight = "220px"; out.appendChild(ta);
+        const acts = el("div", "publish-actions");
+        const cp = el("button", "btn ghost", "Copy"); cp.onclick = () => copy(ta.value, cp); acts.appendChild(cp);
+        const label = platform === "x" ? "𝕏 Open in X" : (fmt === "article" ? "Open LinkedIn article editor" : "Open LinkedIn composer");
+        const pub = el("button", "btn", label); pub.onclick = () => publishTo(platform, fmt, ta.value); acts.appendChild(pub);
+        out.appendChild(acts);
+        out.appendChild(el("p", "sub", platform === "x"
+          ? "X opens prefilled — review and Post."
+          : `Text is copied to your clipboard; LinkedIn opens the ${fmt === "article" ? "article editor" : "composer"} — paste (Cmd/Ctrl+V) and Post.`));
+      };
+    },
+  },
 ];
+
+/* ---------- publisher helpers ---------- */
+function groundingFacts(topicKey) {
+  const c = DB.counts || {};
+  const models = (DB.models || []).slice(0, 4).map(m => `${m.name} (${m.params}, ${m.license})`);
+  const certs = DB.certifications || {};
+  const certified = Object.entries(certs).filter(([, v]) => v.tier === "certified").map(([k, v]) => `${k} ${v.score}/100`);
+  return [
+    `FM-os curates ${c.repos || 0} repos, ${c.courses || 0} courses, ${c.papers || 0} papers, ${c.models || 0} small models — auto-refreshed weekly.`,
+    models.length ? `Notable small models: ${models.join("; ")}.` : "",
+    certified.length ? `FM-os Certified tools: ${certified.join("; ")}.` : "",
+    "Lifecycle: pre-training → post-training → fine-tuning → RL → serving.",
+  ].filter(Boolean).join("\n");
+}
+function templatePost({ platform, fmt, topicKey, angle, facts, url }) {
+  const hook = {
+    digest: "SLM Ops this week 👇", model: "A small model worth your weekend:",
+    tool: "Trust > lists. FM-os certifies SLM tooling:",
+    why: "Small Language Models win ~80% of real tasks: cheaper, faster, private, on-device.",
+    custom: angle || "On Small Language Models:",
+  }[topicKey];
+  if (platform === "x") {
+    return `${hook}\n\n${((DB.models || [])[0] || {}).name || "SmolLM2"} + friends, mapped in one auto-updating hub.\n\n${url}\n#SLM #LLM`;
+  }
+  const body = [hook, "", facts, "", `Full map (repos, courses, papers, certified tools), updated weekly:\n${url}`];
+  if (fmt === "article") {
+    const title = { digest: "SLM Ops Weekly", model: "Small Model Spotlight", tool: "Certifying the SLM Tooling Stack", why: "Why Small Language Models Win", custom: angle || "On SLMs" }[topicKey];
+    body.unshift("# " + title, "");
+  }
+  return body.join("\n");
+}
+async function draftPost({ platform, fmt, topicKey, topicLabel, angle }) {
+  const url = "https://github.com/wjlgatech/FM-os";
+  const facts = groundingFacts(topicKey);
+  if (!getKey()) return templatePost({ platform, fmt, topicKey, angle, facts, url });
+  const shape = platform === "x"
+    ? "a single punchy X post (<=270 chars, 1-2 hashtags)"
+    : (fmt === "article" ? "a LinkedIn long-form article (a title line then 4-7 short paragraphs)" : "a LinkedIn post (hook + 2-4 short paragraphs + a soft CTA)");
+  const sys = `You write ${shape}. Voice: builder, concrete, non-hypey, no em-dashes, no buzzwords. Ground ONLY in the provided facts and include the FM-os link. Output only the post text.`;
+  try {
+    return await llm(`${sys}\n\nFacts:\n${facts}\nLink: ${url}`, `Topic: ${topicLabel}.${angle ? " Angle: " + angle : ""}`);
+  } catch (e) {
+    return templatePost({ platform, fmt, topicKey, angle, facts, url }) + "\n\n(add an API key for an AI-written draft)";
+  }
+}
+function publishTo(platform, fmt, text) {
+  if (platform === "x") {
+    window.open("https://x.com/intent/post?text=" + encodeURIComponent(text), "_blank", "noopener");
+    return;
+  }
+  navigator.clipboard.writeText(text); // LinkedIn blocks free-text prefill → copy + paste
+  const u = fmt === "article" ? "https://www.linkedin.com/article/new/" : "https://www.linkedin.com/feed/?shareActive=true";
+  window.open(u, "_blank", "noopener");
+}
 
 /* ---------- shared chat UI (BYOK actions) ---------- */
 function needKey(e) {
@@ -313,6 +451,8 @@ $("#setKey").onclick = window.promptKey;
 async function route(text) {
   const t = text.toLowerCase();
   const map = [
+    [/(publish|draft|linkedin|tweet|article|post about|share on|write a post)/, "publish"],
+    [/(certify|certified|badge|rubric)/, "certify"],
     [/(path|plan|learn|roadmap|start|beginner)/, "path"],
     [/(run|vram|ram|gb|fit|memory|hardware|gpu|phone)/, "hw"],
     [/(choose|which model|pick|compare|smallest|license)/, "choose"],
@@ -338,6 +478,18 @@ function render() {
   $("#counts").innerHTML = [
     ["repos", "repos"], ["courses", "courses"], ["papers", "papers"], ["models", "models"], ["jobs", "job sources"],
   ].filter(([k]) => DB.counts[k]).map(([k, label]) => `<span class="pill">${DB.counts[k]} ${label}</span>`).join("");
+
+  // Principle band (portfolio-style), grounded in meta.why_different.
+  const pr = $("#principles");
+  if (pr && DB.meta && Array.isArray(DB.meta.why_different)) {
+    pr.innerHTML = DB.meta.why_different.slice(0, 5).map(w => {
+      const m = /\*\*(.+?)\*\*\s*(.*)/.exec(w);
+      const title = m ? m[1] : "";
+      const rest = (m ? m[2] : w).replace(/\*\*/g, "").replace(/`([^`]+)`/g, "$1");
+      return `<div class="principle"><b>${esc(title)}</b><span>${esc(rest)}</span></div>`;
+    }).join("");
+  }
+
   const host = $("#actions");
   const pillars = ["Knowledge", "Skills · Tooling", "Connection"];
   pillars.forEach(p => {
