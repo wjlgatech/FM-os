@@ -33,8 +33,15 @@ def test_build_readme_path_is_under_root():
 
 
 def test_certify_registry_smoke(monkeypatch):
-    # Exercises the --registry write path (yaml.safe_dump) end to end.
-    monkeypatch.setattr(sys, "argv", ["certify", "--registry"])
-    assert certify.main() == 0
+    # Exercises the --registry write path (yaml.safe_dump) end to end, but does
+    # NOT leave the tracked _certifications.yml mutated (freshness shifts over
+    # time, which would otherwise cause spurious README drift in CI).
     out = pathlib.Path(ROOT / "data" / "_certifications.yml")
-    assert out.exists() and "slm-quickstart" in out.read_text()
+    before = out.read_text() if out.exists() else None
+    monkeypatch.setattr(sys, "argv", ["certify", "--registry"])
+    try:
+        assert certify.main() == 0
+        assert out.exists() and "slm-quickstart" in out.read_text()
+    finally:
+        if before is not None:
+            out.write_text(before)  # restore committed snapshot
