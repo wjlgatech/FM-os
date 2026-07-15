@@ -36,6 +36,15 @@ slm-quickstart:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart
   tier: certified
+vector-rag:
+  gaps:
+  - correctness (55)
+  kind: skill
+  on_mission: true
+  score: 94
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag
+  tier: certified
 vlm-quickstart:
   gaps:
   - correctness (55)

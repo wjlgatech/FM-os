@@ -30,6 +30,12 @@
   tags: [curation]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop
+- name: vector-rag
+  kind: skill
+  path: skills/vector-rag
+  tags: [retrieval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag
 - name: fm-os-sync
   kind: workflow
   path: scripts
