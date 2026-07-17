@@ -51,3 +51,22 @@
   url: https://lightseek.org
   github: https://github.com/lightseekorg
   focus: "Foundation accelerating open research and open-source innovation for next-generation AI systems."
+- name: Skyfall AI
+  category: open-research
+  url: https://skyfall.ai
+  github: https://github.com/Skyfall-Research
+  focus: "Enterprise RL company (ex-Maluuba founders); ships MORPHEUS, a persistent, non-resetting enterprise simulation that argues today's LLMs don't durably learn without continual RL."
+- name: Adaptive ML
+  category: finetuning
+  url: https://adaptive-ml.com
+  github: https://github.com/adaptive-ml
+  focus: "RLOps platform (Adaptive Engine) for reinforcement-learning post-training + evaluation of open models on enterprise tasks."
+- name: HUD
+  category: data-platform
+  url: https://www.hud.ai
+  focus: "RL-environment platform for enterprise workflows — standardized, reproducible, closed-loop-training-ready environments and benchmarks."
+- name: CoreWeave
+  category: infra
+  url: https://www.coreweave.com
+  github: https://github.com/coreweave
+  focus: "GPU cloud with a managed RL-as-a-service offering (serverless infra, frameworks, APIs) for post-training agentic models."
