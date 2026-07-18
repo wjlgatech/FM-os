@@ -53,10 +53,10 @@ New to foundation-model ops? Read this in order:
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
 - [🏅 FM-os Certified](#fm-os-certified) `9`
-- [🧰 Open-Source Repos](#open-source-repos) `83`
+- [🧰 Open-Source Repos](#open-source-repos) `89`
 - [🎓 Courses](#courses) `26`
-- [📄 Papers](#papers) `70`
-- [🏛️ Labs & Platforms](#labs--platforms) `10`
+- [📄 Papers](#papers) `73`
+- [🏛️ Labs & Platforms](#labs--platforms) `14`
 - [💼 Jobs & Careers](#jobs--careers) `11`
 - [🗺️ Learning Roadmap](#learning-roadmap)
 - [🤝 Contribute](#contribute)
@@ -178,6 +178,11 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[OpenRLHF](https://github.com/OpenRLHF/OpenRLHF)** 🤏 `★ 9,788` — Ray+vLLM RLHF framework (PPO/GRPO/RLOO) that scales from small models up to 70B+, agent-friendly.
 - **[verl](https://github.com/verl-project/verl)** 🤏 `★ 22,468` — ByteDance HybridFlow RL post-training (PPO/GRPO/DAPO) with vLLM/SGLang; popular for GRPO on small models.
 - **[trlX](https://github.com/CarperAI/trlx)** `★ 4,753` — Distributed RLHF framework (PPO, ILQL) via Accelerate/NeMo; an early, widely-cited RLHF reference.
+- **[Verifiers](https://github.com/PrimeIntellect-ai/verifiers)** 🤏 — Framework (on TRL) for multi-turn RL with verifiable rewards; v1 adds DAG-branching environments that exceed the model context window.
+- **[SkyRL](https://github.com/NovaSky-AI/SkyRL)** 🤏 — Berkeley's flexible RL library focused on multi-turn, long-horizon agentic training.
+- **[Open-AgentRL (RLAnything / AutoTool)](https://github.com/Gen-Verse/Open-AgentRL)** 🤏 — Open RL for LLMs + agentic scenarios (ICML 2026); RLAnything closed-loop-optimizes each component of the training pipeline.
+- **[InternBootcamp](https://github.com/InternLM/InternBootcamp)** 🤏 — Scalable framework of 1000+ verifiable reasoning tasks (code, logic, games) behind one interface for RL-with-verifiable-rewards.
+- **[Gymnasium (Farama)](https://github.com/Farama-Foundation/Gymnasium)** — The maintained successor to OpenAI Gym — the standard environment API most RL training stacks (incl. RLlib) build on.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -188,6 +193,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[VLMEvalKit](https://github.com/open-compass/VLMEvalKit)** 🎬 — Broad LMM evaluation toolkit (220+ models, 80+ benchmarks) with unified data prep, complementary to lmms-eval for coverage.
 - **[MLAgentBench](https://github.com/snap-stanford/MLAgentBench)** — Benchmark of end-to-end ML experimentation tasks for measuring how well agents can improve models from a starting codebase.
 - **[Aviary](https://github.com/Future-House/aviary)** — Gym-style environment framework for training and evaluating language agents on challenging scientific tasks.
+- **[MORPHEUS evals (Skyfall)](https://github.com/Skyfall-Research/morpheus-evals)** — Open eval code for MORPHEUS, a persistent enterprise simulation for CONTINUAL RL: no episode resets, structured non-stationarity (failure-injection + config shifts), composite verifier reward.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -366,6 +372,9 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Training a Helpful and Harmless Assistant with RLHF](https://arxiv.org/abs/2204.05862)** (Bai et al., Anthropic, 2022) · arXiv:2204.05862 — Applies preference modeling and iterated online RLHF to align an assistant, analyzing the reward/KL trade-off.
 - **[DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models](https://arxiv.org/abs/2402.03300)** (Shao et al., DeepSeek, 2024) · arXiv:2402.03300 — Introduces GRPO, a critic-free RL algorithm using group-relative advantages, later central to DeepSeek-R1.
 - **[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948)** (DeepSeek-AI, DeepSeek, 2025) · arXiv:2501.12948 (Nature, 2025) — Elicits reasoning purely via RL (R1-Zero) and distills it into smaller dense models — a key SLM-reasoning recipe.
+- **[MORPHEUS: A Persistent Enterprise Simulation for Continual Reinforcement Learning](https://morpheus.skyfall.ai/)** (Skyfall AI (+ Toronto / Georgia Tech / Alberta), Skyfall AI, 2026) · OpenReview 2026 — Big-world CRL benchmark with structured non-stationarity; PPO/HER/EWC/LCM all show a ~1.0 settled-state gap — no family durably learns without resets.
+- **[The Landscape of Agentic Reinforcement Learning for LLMs: A Survey](https://arxiv.org/abs/2509.02547)** (multi-institution, multi-institution, 2025) · arXiv:2509.02547 — Map of agentic RL for LLMs — environments, verifiable rewards, multi-turn credit assignment, and the open frameworks implementing them.
+- **[Reinforcement Learning Foundations for Deep Research Systems: A Survey](https://arxiv.org/abs/2509.06733)** (multi-institution, multi-institution, 2025) · arXiv:2509.06733 — How RL post-training underpins long-horizon research agents: reward design, tool-use credit assignment, and training infrastructure.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -456,6 +465,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 ### Fine-tuning Platforms
 - **[Unsloth AI](https://unsloth.ai)** — 2x-faster, ~70%-less-VRAM LoRA/QLoRA fine-tuning for small models on a single GPU. · [github](https://github.com/unslothai)
+- **[Adaptive ML](https://adaptive-ml.com)** — RLOps platform (Adaptive Engine) for reinforcement-learning post-training + evaluation of open models on enterprise tasks. · [github](https://github.com/adaptive-ml)
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -470,16 +480,19 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 ### Compute & Infra
 - **[Modal](https://modal.com)** — Serverless GPU cloud — run training/inference code in the cloud with no infra management; an Inkling deployment partner. · [github](https://github.com/modal-labs)
+- **[CoreWeave](https://www.coreweave.com)** — GPU cloud with a managed RL-as-a-service offering (serverless infra, frameworks, APIs) for post-training agentic models. · [github](https://github.com/coreweave)
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Data & Lakehouse
 - **[Databricks](https://databricks.com)** — Data + AI lakehouse (Mosaic AI training, DBRX open model, MLflow); an Inkling deployment partner. · [github](https://github.com/databricks)
+- **[HUD](https://www.hud.ai)** — RL-environment platform for enterprise workflows — standardized, reproducible, closed-loop-training-ready environments and benchmarks.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Open Research
 - **[LightSeek](https://lightseek.org)** — Foundation accelerating open research and open-source innovation for next-generation AI systems. · [github](https://github.com/lightseekorg)
+- **[Skyfall AI](https://skyfall.ai)** — Enterprise RL company (ex-Maluuba founders); ships MORPHEUS, a persistent, non-resetting enterprise simulation that argues today's LLMs don't durably learn without continual RL. · [github](https://github.com/Skyfall-Research)
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

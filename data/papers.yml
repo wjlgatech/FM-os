@@ -582,3 +582,29 @@
   url: https://arxiv.org/abs/2505.13400
   topic: research
   blurb: "Couples literature-search and data-analysis agents to run a discovery loop; identified ripasudil as a candidate for dry AMD."
+
+# ── Agentic & Continual RL ────────────────────────────────────────────────────
+- title: "MORPHEUS: A Persistent Enterprise Simulation for Continual Reinforcement Learning"
+  authors: "Skyfall AI (+ Toronto / Georgia Tech / Alberta)"
+  org: "Skyfall AI"
+  year: 2026
+  venue: "OpenReview 2026"
+  url: https://morpheus.skyfall.ai/
+  topic: rl
+  blurb: "Big-world CRL benchmark with structured non-stationarity; PPO/HER/EWC/LCM all show a ~1.0 settled-state gap — no family durably learns without resets."
+- title: "The Landscape of Agentic Reinforcement Learning for LLMs: A Survey"
+  authors: "multi-institution"
+  org: "multi-institution"
+  year: 2025
+  venue: "arXiv:2509.02547"
+  url: https://arxiv.org/abs/2509.02547
+  topic: rl
+  blurb: "Map of agentic RL for LLMs — environments, verifiable rewards, multi-turn credit assignment, and the open frameworks implementing them."
+- title: "Reinforcement Learning Foundations for Deep Research Systems: A Survey"
+  authors: "multi-institution"
+  org: "multi-institution"
+  year: 2025
+  venue: "arXiv:2509.06733"
+  url: https://arxiv.org/abs/2509.06733
+  topic: rl
+  blurb: "How RL post-training underpins long-horizon research agents: reward design, tool-use credit assignment, and training infrastructure."

@@ -512,3 +512,41 @@
   category: retrieval
   vlm: false
   blurb: "Retrieval-augmented QA engine that answers questions over scientific PDFs with grounded in-text citations."
+
+# ── Agentic RL: environments, verifiers & training frameworks ─────────────────
+- name: Verifiers
+  repo: PrimeIntellect-ai/verifiers
+  url: https://github.com/PrimeIntellect-ai/verifiers
+  category: rl
+  slm: true
+  blurb: "Framework (on TRL) for multi-turn RL with verifiable rewards; v1 adds DAG-branching environments that exceed the model context window."
+- name: SkyRL
+  repo: NovaSky-AI/SkyRL
+  url: https://github.com/NovaSky-AI/SkyRL
+  category: rl
+  slm: true
+  blurb: "Berkeley's flexible RL library focused on multi-turn, long-horizon agentic training."
+- name: Open-AgentRL (RLAnything / AutoTool)
+  repo: Gen-Verse/Open-AgentRL
+  url: https://github.com/Gen-Verse/Open-AgentRL
+  category: rl
+  slm: true
+  blurb: "Open RL for LLMs + agentic scenarios (ICML 2026); RLAnything closed-loop-optimizes each component of the training pipeline."
+- name: InternBootcamp
+  repo: InternLM/InternBootcamp
+  url: https://github.com/InternLM/InternBootcamp
+  category: rl
+  slm: true
+  blurb: "Scalable framework of 1000+ verifiable reasoning tasks (code, logic, games) behind one interface for RL-with-verifiable-rewards."
+- name: Gymnasium (Farama)
+  repo: Farama-Foundation/Gymnasium
+  url: https://github.com/Farama-Foundation/Gymnasium
+  category: rl
+  slm: false
+  blurb: "The maintained successor to OpenAI Gym — the standard environment API most RL training stacks (incl. RLlib) build on."
+- name: MORPHEUS evals (Skyfall)
+  repo: Skyfall-Research/morpheus-evals
+  url: https://github.com/Skyfall-Research/morpheus-evals
+  category: eval
+  slm: false
+  blurb: "Open eval code for MORPHEUS, a persistent enterprise simulation for CONTINUAL RL: no episode resets, structured non-stationarity (failure-injection + config shifts), composite verifier reward."
