@@ -42,6 +42,12 @@
   tags: [research]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop
+- name: continual-rl-eval
+  kind: skill
+  path: skills/continual-rl-eval
+  tags: [rl, eval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval
 - name: fm-os-sync
   kind: workflow
   path: scripts
