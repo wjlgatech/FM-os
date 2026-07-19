@@ -44,20 +44,35 @@ or "test an agent under drift."
 
 ## Example
 
+A **runnable reference** ships in [`reference/`](reference/) — pure stdlib Python, no deps, so it
+runs anywhere including CI. A persistent warehouse world whose optimal staffing shifts by regime:
+
 ```bash
-python build_env.py --domain warehouse-outbound --persist --out env.json
-python inject.py --env env.json --failures realistic --shift-schedule shifts.yaml --out run.json
-python train.py --algo ewc --env run.json --init sft_ckpt/ --steps 200000 --out policy/
-python score.py --policy policy/ --run run.json --report metrics.json   # forgetting, recovery, gap
-# -> if gap-to-upper-bound doesn't close across configs, the agent isn't learning — report it
+python3 reference/run_demo.py --policy adaptive   # a continual learner   -> PASS (exit 0)
+python3 reference/run_demo.py --policy static      # coasts on hard regimes -> FAIL (exit 1)
+python3 reference/test_env.py                       # 12 property tests, all green
 ```
+
+`run_demo.py` drives one policy across a schedule of regime shifts (calm → surge → storm → calm)
+applied by the harness on fixed timesteps, and reports per-config reward, gap-to-upper-bound,
+recovery, and forgetting. Swap in a real PPO/EWC policy by implementing the same `act`/`update`
+interface; the env is Gymnasium-shaped.
+
+## Reference implementation
+
+- `reference/env.py` — the persistent `WarehouseEnv`: no reset, compounding state, failure-injection
+  engine (typed failures at 5/8/15/30%), composite verifier reward (failure + ledger + throughput).
+- `reference/run_demo.py` — the config-shift harness, two baseline policies (static vs adaptive),
+  the continual-adaptation metrics, and the gate.
+- `reference/test_env.py` — 12 property tests: persistence, failure-rate accuracy, reward bounds,
+  the shifting optimum, and that the gate actually discriminates a learner from a coaster.
 
 ## Verification (eval-with-teeth)
 
-A run only "passes" if **forgetting stays under threshold AND the gap-to-upper-bound closes across
-successive configurations** — an agent that adapts only to the first regime is a fail, not a ship.
-No trace of durable adaptation in the metrics ⇒ no claim of learning. The gate exits non-zero so it
-blocks CI, exactly like `agentic-eval`.
+A run only "passes" if **the worst regime's gap-to-upper-bound stays under threshold AND forgetting
+stays low** — an agent that aces the calm regime but coasts through the hard one is a fail, not a
+ship (the `static` baseline fails exactly here). No durable adaptation in the metrics ⇒ no claim of
+learning. The gate exits non-zero so it blocks CI, exactly like `agentic-eval`.
 
 ## Safety
 
