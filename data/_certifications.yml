@@ -9,11 +9,10 @@ agentic-eval:
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval
   tier: certified
 continual-rl-eval:
-  gaps:
-  - correctness (55)
+  gaps: []
   kind: skill
   on_mission: true
-  score: 94
+  score: 98
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval
   tier: certified
