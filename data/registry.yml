@@ -48,6 +48,12 @@
   tags: [rl, eval]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval
+- name: fm-os
+  kind: skill
+  path: skills/fm-os
+  tags: [hub, router]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os
 - name: fm-os-sync
   kind: workflow
   path: scripts

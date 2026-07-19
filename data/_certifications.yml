@@ -26,12 +26,21 @@ curation-loop:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop
   tier: certified
+fm-os:
+  gaps:
+  - correctness (55)
+  kind: skill
+  on_mission: true
+  score: 94
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os
+  tier: certified
 fm-os-sync:
   gaps:
   - docs (0)
   kind: workflow
   on_mission: true
-  score: 80
+  score: 83
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/scripts
   tier: certified
