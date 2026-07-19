@@ -1,0 +1,36 @@
+{
+  "generator": "distill.py",
+  "count": 3,
+  "items": [
+    {
+      "slug": "unsloth",
+      "repo": "unslothai/unsloth",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "47e3b4df4997f771",
+      "skill": "distill/unsloth/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "vllm",
+      "repo": "vllm-project/vllm",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "bd19c40f6db3de44",
+      "skill": "distill/vllm/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "verifiers",
+      "repo": "PrimeIntellect-ai/verifiers",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "62740c70236d82b2",
+      "skill": "distill/verifiers/SKILL.md",
+      "certified": null
+    }
+  ]
+}

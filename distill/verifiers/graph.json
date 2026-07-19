@@ -1,0 +1,89 @@
+{
+  "repo": "PrimeIntellect-ai/verifiers",
+  "slug": "verifiers",
+  "category": "rl",
+  "source_hash": "62740c70236d82b2",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:verifiers",
+      "type": "repo",
+      "label": "Verifiers",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:rl",
+      "type": "category",
+      "label": "rl",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:rl_posttraining",
+      "type": "concept",
+      "label": "Post-training / RL / alignment",
+      "provenance": "jd_taxonomy:rl_posttraining via category 'rl'"
+    },
+    {
+      "id": "repo:trl",
+      "type": "repo",
+      "label": "TRL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:openrlhf",
+      "type": "repo",
+      "label": "OpenRLHF",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:verl",
+      "type": "repo",
+      "label": "verl",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:trlx",
+      "type": "repo",
+      "label": "trlX",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:verifiers",
+      "to": "category:rl",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:verifiers",
+      "to": "concept:rl_posttraining",
+      "rel": "covers",
+      "provenance": "category 'rl'"
+    },
+    {
+      "from": "repo:verifiers",
+      "to": "repo:trl",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:verifiers",
+      "to": "repo:openrlhf",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:verifiers",
+      "to": "repo:verl",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:verifiers",
+      "to": "repo:trlx",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    }
+  ]
+}

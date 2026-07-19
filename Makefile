@@ -1,4 +1,4 @@
-.PHONY: check build validate test ainative sync site certify clean help
+.PHONY: check build validate test ainative sync site certify distill distill-check clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
@@ -29,8 +29,18 @@ ainative:
 
 # The finish line: code behaves (pytest), data is well-formed (validate), the
 # committed README matches the generator (drift), AND we stay AI-native (audit).
-check: validate test ainative
+check: validate test ainative distill-check
 	python3 scripts/build_readme.py --check
+
+# Distill cited repos -> per-repo knowledge graph + tooling scaffold under distill/.
+#   make distill              regenerate every distilled repo (spec = data/repos.yml)
+#   make distill SLICE=a,b,c  distill a thin slice
+distill:
+	python3 scripts/distill.py $(if $(SLICE),--slugs $(SLICE),--all)
+
+# Validate every distilled graph (provenance, no orphans/dangling edges) + flag drift. Gates CI.
+distill-check:
+	python3 scripts/distill.py --check
 
 sync:
 	python3 scripts/sync.py
