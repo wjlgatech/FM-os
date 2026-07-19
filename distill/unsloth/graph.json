@@ -1,0 +1,113 @@
+{
+  "repo": "unslothai/unsloth",
+  "slug": "unsloth",
+  "category": "finetuning",
+  "source_hash": "47e3b4df4997f771",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:unsloth",
+      "type": "repo",
+      "label": "Unsloth",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:finetuning",
+      "type": "category",
+      "label": "finetuning",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:python_pytorch",
+      "type": "concept",
+      "label": "Python / PyTorch / large-scale ML workflows",
+      "provenance": "jd_taxonomy:python_pytorch via category 'finetuning'"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'finetun'"
+    },
+    {
+      "id": "lab:unsloth-ai",
+      "type": "lab",
+      "label": "Unsloth AI",
+      "provenance": "data/labs.yml"
+    },
+    {
+      "id": "repo:peft",
+      "type": "repo",
+      "label": "PEFT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:axolotl",
+      "type": "repo",
+      "label": "Axolotl",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:llama-factory",
+      "type": "repo",
+      "label": "LLaMA-Factory",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:torchtune",
+      "type": "repo",
+      "label": "torchtune",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:unsloth",
+      "to": "category:finetuning",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:unsloth",
+      "to": "concept:python_pytorch",
+      "rel": "covers",
+      "provenance": "category 'finetuning'"
+    },
+    {
+      "from": "repo:unsloth",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'finetun'"
+    },
+    {
+      "from": "repo:unsloth",
+      "to": "lab:unsloth-ai",
+      "rel": "maintained_by",
+      "provenance": "owner 'unslothai' == labs github org"
+    },
+    {
+      "from": "repo:unsloth",
+      "to": "repo:peft",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:unsloth",
+      "to": "repo:axolotl",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:unsloth",
+      "to": "repo:llama-factory",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:unsloth",
+      "to": "repo:torchtune",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    }
+  ]
+}

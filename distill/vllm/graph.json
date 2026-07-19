@@ -1,0 +1,89 @@
+{
+  "repo": "vllm-project/vllm",
+  "slug": "vllm",
+  "category": "serving",
+  "source_hash": "bd19c40f6db3de44",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:vllm",
+      "type": "repo",
+      "label": "vLLM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:serving",
+      "type": "category",
+      "label": "serving",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:gpu_optimization",
+      "type": "concept",
+      "label": "GPU optimization / efficient inference",
+      "provenance": "jd_taxonomy:gpu_optimization via keyword 'throughput'"
+    },
+    {
+      "id": "repo:llama-cpp",
+      "type": "repo",
+      "label": "llama.cpp",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ollama",
+      "type": "repo",
+      "label": "Ollama",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:mlc-llm",
+      "type": "repo",
+      "label": "MLC-LLM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:sglang",
+      "type": "repo",
+      "label": "SGLang",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:vllm",
+      "to": "category:serving",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:vllm",
+      "to": "concept:gpu_optimization",
+      "rel": "covers",
+      "provenance": "blurb keyword 'throughput'"
+    },
+    {
+      "from": "repo:vllm",
+      "to": "repo:llama-cpp",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    },
+    {
+      "from": "repo:vllm",
+      "to": "repo:ollama",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    },
+    {
+      "from": "repo:vllm",
+      "to": "repo:mlc-llm",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    },
+    {
+      "from": "repo:vllm",
+      "to": "repo:sglang",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    }
+  ]
+}
