@@ -1,4 +1,4 @@
-.PHONY: check build validate test ainative sync site certify distill distill-check clean help
+.PHONY: check build validate test ainative sync site certify distill distill-check build-router clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
@@ -15,6 +15,7 @@ help:
 
 build:
 	python3 scripts/build_readme.py
+	python3 scripts/build_router.py
 
 validate:
 	python3 scripts/validate.py
@@ -31,6 +32,7 @@ ainative:
 # committed README matches the generator (drift), AND we stay AI-native (audit).
 check: validate test ainative distill-check
 	python3 scripts/build_readme.py --check
+	python3 scripts/build_router.py --check
 
 # Distill cited repos -> per-repo knowledge graph + tooling scaffold under distill/.
 #   make distill              regenerate every distilled repo (spec = data/repos.yml)
@@ -53,6 +55,7 @@ site:
 certify:
 	python3 scripts/certify.py --registry
 	python3 scripts/build_readme.py
+	python3 scripts/build_router.py
 
 # Score how well FM-os equips a candidate for a JD:  make jdfit JD=path/to/jd.txt
 jdfit:
