@@ -52,7 +52,7 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `9`
+- [🏅 FM-os Certified](#fm-os-certified) `10`
 - [🧰 Open-Source Repos](#open-source-repos) `89`
 - [🎓 Courses](#courses) `26`
 - [📄 Papers](#papers) `73`
@@ -97,6 +97,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
 | [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
 | [vector-rag](https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag) | skill | 94/100 | ✅ certified |
+| [continual-rl-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval) | skill | 94/100 | ✅ certified |
 | [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 92/100 | ✅ certified |
 | [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |
 | [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 80/100 | ✅ certified |
