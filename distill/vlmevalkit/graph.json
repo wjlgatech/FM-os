@@ -1,0 +1,113 @@
+{
+  "repo": "open-compass/VLMEvalKit",
+  "slug": "vlmevalkit",
+  "category": "eval",
+  "source_hash": "04d8cfcc21156a2f",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:vlmevalkit",
+      "type": "repo",
+      "label": "VLMEvalKit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:eval",
+      "type": "category",
+      "label": "eval",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'eval'"
+    },
+    {
+      "id": "concept:retrieval_vectordb",
+      "type": "concept",
+      "label": "Retrieval, embeddings & vector databases",
+      "provenance": "jd_taxonomy:retrieval_vectordb via keyword 'rag'"
+    },
+    {
+      "id": "repo:lm-evaluation-harness",
+      "type": "repo",
+      "label": "lm-evaluation-harness",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lighteval",
+      "type": "repo",
+      "label": "LightEval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lmms-eval",
+      "type": "repo",
+      "label": "lmms-eval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:mlagentbench",
+      "type": "repo",
+      "label": "MLAgentBench",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:vlmevalkit",
+      "to": "category:eval",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:vlmevalkit",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:vlmevalkit",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'eval'"
+    },
+    {
+      "from": "repo:vlmevalkit",
+      "to": "concept:retrieval_vectordb",
+      "rel": "covers",
+      "provenance": "blurb keyword 'rag'"
+    },
+    {
+      "from": "repo:vlmevalkit",
+      "to": "repo:lm-evaluation-harness",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:vlmevalkit",
+      "to": "repo:lighteval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:vlmevalkit",
+      "to": "repo:lmms-eval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:vlmevalkit",
+      "to": "repo:mlagentbench",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    }
+  ]
+}

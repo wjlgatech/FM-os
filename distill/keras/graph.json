@@ -1,0 +1,101 @@
+{
+  "repo": "keras-team/keras",
+  "slug": "keras",
+  "category": "jax",
+  "source_hash": "b21325612f735bec",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:keras",
+      "type": "repo",
+      "label": "Keras",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:jax",
+      "type": "category",
+      "label": "jax",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:python_pytorch",
+      "type": "concept",
+      "label": "Python / PyTorch / large-scale ML workflows",
+      "provenance": "jd_taxonomy:python_pytorch via keyword 'pytorch'"
+    },
+    {
+      "id": "concept:framework_breadth",
+      "type": "concept",
+      "label": "Framework breadth (JAX / TensorFlow / Flax)",
+      "provenance": "jd_taxonomy:framework_breadth via keyword 'jax'"
+    },
+    {
+      "id": "repo:jax",
+      "type": "repo",
+      "label": "JAX",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:flax",
+      "type": "repo",
+      "label": "Flax",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:maxtext",
+      "type": "repo",
+      "label": "MaxText",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:levanter",
+      "type": "repo",
+      "label": "Levanter",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:keras",
+      "to": "category:jax",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:keras",
+      "to": "concept:python_pytorch",
+      "rel": "covers",
+      "provenance": "blurb keyword 'pytorch'"
+    },
+    {
+      "from": "repo:keras",
+      "to": "concept:framework_breadth",
+      "rel": "covers",
+      "provenance": "blurb keyword 'jax'"
+    },
+    {
+      "from": "repo:keras",
+      "to": "repo:jax",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    },
+    {
+      "from": "repo:keras",
+      "to": "repo:flax",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    },
+    {
+      "from": "repo:keras",
+      "to": "repo:maxtext",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    },
+    {
+      "from": "repo:keras",
+      "to": "repo:levanter",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    }
+  ]
+}

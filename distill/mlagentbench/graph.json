@@ -1,0 +1,113 @@
+{
+  "repo": "snap-stanford/MLAgentBench",
+  "slug": "mlagentbench",
+  "category": "eval",
+  "source_hash": "74b78c3c0f961fab",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:mlagentbench",
+      "type": "repo",
+      "label": "MLAgentBench",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:eval",
+      "type": "category",
+      "label": "eval",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'benchmark'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'eval'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via keyword 'experiment'"
+    },
+    {
+      "id": "repo:lm-evaluation-harness",
+      "type": "repo",
+      "label": "lm-evaluation-harness",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lighteval",
+      "type": "repo",
+      "label": "LightEval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lmms-eval",
+      "type": "repo",
+      "label": "lmms-eval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:vlmevalkit",
+      "type": "repo",
+      "label": "VLMEvalKit",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:mlagentbench",
+      "to": "category:eval",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:mlagentbench",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'benchmark'"
+    },
+    {
+      "from": "repo:mlagentbench",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'eval'"
+    },
+    {
+      "from": "repo:mlagentbench",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "blurb keyword 'experiment'"
+    },
+    {
+      "from": "repo:mlagentbench",
+      "to": "repo:lm-evaluation-harness",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:mlagentbench",
+      "to": "repo:lighteval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:mlagentbench",
+      "to": "repo:lmms-eval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:mlagentbench",
+      "to": "repo:vlmevalkit",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    }
+  ]
+}

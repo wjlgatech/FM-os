@@ -1,0 +1,77 @@
+{
+  "repo": "QwenLM/Qwen3",
+  "slug": "qwen3",
+  "category": "models",
+  "source_hash": "21d233a250f885b3",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:qwen3",
+      "type": "repo",
+      "label": "Qwen3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:models",
+      "type": "category",
+      "label": "models",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "repo:smollm",
+      "type": "repo",
+      "label": "SmolLM / SmolLM2 / SmolLM3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:phicookbook",
+      "type": "repo",
+      "label": "Phi Cookbook",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gemma",
+      "type": "repo",
+      "label": "Gemma (DeepMind)",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gemma-pytorch",
+      "type": "repo",
+      "label": "gemma_pytorch",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:qwen3",
+      "to": "category:models",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:qwen3",
+      "to": "repo:smollm",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:qwen3",
+      "to": "repo:phicookbook",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:qwen3",
+      "to": "repo:gemma",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:qwen3",
+      "to": "repo:gemma-pytorch",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "repo": "mlflow/mlflow",
+  "slug": "mlflow",
+  "category": "distributed",
+  "source_hash": "def9af24a7b20833",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:mlflow",
+      "type": "repo",
+      "label": "MLflow",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:distributed",
+      "type": "category",
+      "label": "distributed",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:distributed_training",
+      "type": "concept",
+      "label": "Distributed training & ML orchestration",
+      "provenance": "jd_taxonomy:distributed_training via category 'distributed'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via keyword 'experiment'"
+    },
+    {
+      "id": "repo:ray",
+      "type": "repo",
+      "label": "Ray",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:mlflow",
+      "to": "category:distributed",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:mlflow",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:mlflow",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:mlflow",
+      "to": "concept:distributed_training",
+      "rel": "covers",
+      "provenance": "category 'distributed'"
+    },
+    {
+      "from": "repo:mlflow",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "blurb keyword 'experiment'"
+    },
+    {
+      "from": "repo:mlflow",
+      "to": "repo:ray",
+      "rel": "related",
+      "provenance": "same category 'distributed'"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "repo": "OpenBMB/MiniCPM-V",
+  "slug": "minicpm-v",
+  "category": "multimodal",
+  "source_hash": "265e439dcebc42d6",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:minicpm-v",
+      "type": "repo",
+      "label": "MiniCPM-V",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:multimodal",
+      "type": "category",
+      "label": "multimodal",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'vlm'"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'video'"
+    },
+    {
+      "id": "concept:gpu_optimization",
+      "type": "concept",
+      "label": "GPU optimization / efficient inference",
+      "provenance": "jd_taxonomy:gpu_optimization via keyword 'inference'"
+    },
+    {
+      "id": "repo:qwen2-5-vl",
+      "type": "repo",
+      "label": "Qwen2.5-VL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:llava-next",
+      "type": "repo",
+      "label": "LLaVA-NeXT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:internvl",
+      "type": "repo",
+      "label": "InternVL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:videollama3",
+      "type": "repo",
+      "label": "VideoLLaMA3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:video-llava",
+      "type": "repo",
+      "label": "Video-LLaVA",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:minicpm-v",
+      "to": "category:multimodal",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'vlm'"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'video'"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "concept:gpu_optimization",
+      "rel": "covers",
+      "provenance": "blurb keyword 'inference'"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "repo:qwen2-5-vl",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "repo:llava-next",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "repo:internvl",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "repo:videollama3",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:minicpm-v",
+      "to": "repo:video-llava",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    }
+  ]
+}

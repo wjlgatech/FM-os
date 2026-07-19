@@ -1,0 +1,101 @@
+{
+  "repo": "facebookresearch/MobileLLM",
+  "slug": "mobilellm",
+  "category": "models",
+  "source_hash": "925c946494cf3d05",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:mobilellm",
+      "type": "repo",
+      "label": "MobileLLM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:models",
+      "type": "category",
+      "label": "models",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:research_publishing",
+      "type": "concept",
+      "label": "Publishing research (NeurIPS / CVPR)",
+      "provenance": "jd_taxonomy:research_publishing via keyword 'research'"
+    },
+    {
+      "id": "repo:smollm",
+      "type": "repo",
+      "label": "SmolLM / SmolLM2 / SmolLM3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:phicookbook",
+      "type": "repo",
+      "label": "Phi Cookbook",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gemma",
+      "type": "repo",
+      "label": "Gemma (DeepMind)",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:qwen3",
+      "type": "repo",
+      "label": "Qwen3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gemma-pytorch",
+      "type": "repo",
+      "label": "gemma_pytorch",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:mobilellm",
+      "to": "category:models",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:mobilellm",
+      "to": "concept:research_publishing",
+      "rel": "covers",
+      "provenance": "blurb keyword 'research'"
+    },
+    {
+      "from": "repo:mobilellm",
+      "to": "repo:smollm",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:mobilellm",
+      "to": "repo:phicookbook",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:mobilellm",
+      "to": "repo:gemma",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:mobilellm",
+      "to": "repo:qwen3",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:mobilellm",
+      "to": "repo:gemma-pytorch",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    }
+  ]
+}

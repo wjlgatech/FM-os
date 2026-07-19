@@ -1,0 +1,101 @@
+{
+  "repo": "SakanaAI/AI-Scientist-v2",
+  "slug": "ai-scientist-v2",
+  "category": "research",
+  "source_hash": "073d9f83c7d2fe39",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:ai-scientist-v2",
+      "type": "repo",
+      "label": "AI-Scientist-v2",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:research",
+      "type": "category",
+      "label": "research",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'vlm'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via keyword 'end-to-end'"
+    },
+    {
+      "id": "repo:ai-scientist",
+      "type": "repo",
+      "label": "AI-Scientist",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:agentlaboratory",
+      "type": "repo",
+      "label": "Agent Laboratory",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:storm",
+      "type": "repo",
+      "label": "STORM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gpt-researcher",
+      "type": "repo",
+      "label": "GPT-Researcher",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:ai-scientist-v2",
+      "to": "category:research",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:ai-scientist-v2",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'vlm'"
+    },
+    {
+      "from": "repo:ai-scientist-v2",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "blurb keyword 'end-to-end'"
+    },
+    {
+      "from": "repo:ai-scientist-v2",
+      "to": "repo:ai-scientist",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:ai-scientist-v2",
+      "to": "repo:agentlaboratory",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:ai-scientist-v2",
+      "to": "repo:storm",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:ai-scientist-v2",
+      "to": "repo:gpt-researcher",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    }
+  ]
+}

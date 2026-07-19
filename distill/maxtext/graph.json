@@ -1,0 +1,113 @@
+{
+  "repo": "AI-Hypercomputer/maxtext",
+  "slug": "maxtext",
+  "category": "jax",
+  "source_hash": "f0a623ac3f488a87",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:maxtext",
+      "type": "repo",
+      "label": "MaxText",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:jax",
+      "type": "category",
+      "label": "jax",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:framework_breadth",
+      "type": "concept",
+      "label": "Framework breadth (JAX / TensorFlow / Flax)",
+      "provenance": "jd_taxonomy:framework_breadth via keyword 'jax'"
+    },
+    {
+      "id": "concept:distributed_training",
+      "type": "concept",
+      "label": "Distributed training & ML orchestration",
+      "provenance": "jd_taxonomy:distributed_training via keyword 'distributed'"
+    },
+    {
+      "id": "repo:jax",
+      "type": "repo",
+      "label": "JAX",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:flax",
+      "type": "repo",
+      "label": "Flax",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:keras",
+      "type": "repo",
+      "label": "Keras",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:levanter",
+      "type": "repo",
+      "label": "Levanter",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:maxtext",
+      "to": "category:jax",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:maxtext",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:maxtext",
+      "to": "concept:framework_breadth",
+      "rel": "covers",
+      "provenance": "blurb keyword 'jax'"
+    },
+    {
+      "from": "repo:maxtext",
+      "to": "concept:distributed_training",
+      "rel": "covers",
+      "provenance": "blurb keyword 'distributed'"
+    },
+    {
+      "from": "repo:maxtext",
+      "to": "repo:jax",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    },
+    {
+      "from": "repo:maxtext",
+      "to": "repo:flax",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    },
+    {
+      "from": "repo:maxtext",
+      "to": "repo:keras",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    },
+    {
+      "from": "repo:maxtext",
+      "to": "repo:levanter",
+      "rel": "related",
+      "provenance": "same category 'jax'"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "repo": "google/gemma_pytorch",
+  "slug": "gemma-pytorch",
+  "category": "models",
+  "source_hash": "7be0e92532443a04",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:gemma-pytorch",
+      "type": "repo",
+      "label": "gemma_pytorch",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:models",
+      "type": "category",
+      "label": "models",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:python_pytorch",
+      "type": "concept",
+      "label": "Python / PyTorch / large-scale ML workflows",
+      "provenance": "jd_taxonomy:python_pytorch via keyword 'pytorch'"
+    },
+    {
+      "id": "concept:gpu_optimization",
+      "type": "concept",
+      "label": "GPU optimization / efficient inference",
+      "provenance": "jd_taxonomy:gpu_optimization via keyword 'inference'"
+    },
+    {
+      "id": "repo:smollm",
+      "type": "repo",
+      "label": "SmolLM / SmolLM2 / SmolLM3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:phicookbook",
+      "type": "repo",
+      "label": "Phi Cookbook",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gemma",
+      "type": "repo",
+      "label": "Gemma (DeepMind)",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:qwen3",
+      "type": "repo",
+      "label": "Qwen3",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:gemma-pytorch",
+      "to": "category:models",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:gemma-pytorch",
+      "to": "concept:python_pytorch",
+      "rel": "covers",
+      "provenance": "blurb keyword 'pytorch'"
+    },
+    {
+      "from": "repo:gemma-pytorch",
+      "to": "concept:gpu_optimization",
+      "rel": "covers",
+      "provenance": "blurb keyword 'inference'"
+    },
+    {
+      "from": "repo:gemma-pytorch",
+      "to": "repo:smollm",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:gemma-pytorch",
+      "to": "repo:phicookbook",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:gemma-pytorch",
+      "to": "repo:gemma",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:gemma-pytorch",
+      "to": "repo:qwen3",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    }
+  ]
+}

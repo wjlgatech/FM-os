@@ -1,0 +1,113 @@
+{
+  "repo": "EleutherAI/gpt-neox",
+  "slug": "gpt-neox",
+  "category": "frameworks",
+  "source_hash": "d8a028abfea0b14d",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:gpt-neox",
+      "type": "repo",
+      "label": "GPT-NeoX",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:frameworks",
+      "type": "category",
+      "label": "frameworks",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:python_pytorch",
+      "type": "concept",
+      "label": "Python / PyTorch / large-scale ML workflows",
+      "provenance": "jd_taxonomy:python_pytorch via category 'frameworks'"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:distributed_training",
+      "type": "concept",
+      "label": "Distributed training & ML orchestration",
+      "provenance": "jd_taxonomy:distributed_training via keyword 'deepspeed'"
+    },
+    {
+      "id": "repo:nanogpt",
+      "type": "repo",
+      "label": "nanoGPT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:litgpt",
+      "type": "repo",
+      "label": "LitGPT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:megatron-lm",
+      "type": "repo",
+      "label": "Megatron-LM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:torchtitan",
+      "type": "repo",
+      "label": "TorchTitan",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:gpt-neox",
+      "to": "category:frameworks",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:gpt-neox",
+      "to": "concept:python_pytorch",
+      "rel": "covers",
+      "provenance": "category 'frameworks'"
+    },
+    {
+      "from": "repo:gpt-neox",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:gpt-neox",
+      "to": "concept:distributed_training",
+      "rel": "covers",
+      "provenance": "blurb keyword 'deepspeed'"
+    },
+    {
+      "from": "repo:gpt-neox",
+      "to": "repo:nanogpt",
+      "rel": "related",
+      "provenance": "same category 'frameworks'"
+    },
+    {
+      "from": "repo:gpt-neox",
+      "to": "repo:litgpt",
+      "rel": "related",
+      "provenance": "same category 'frameworks'"
+    },
+    {
+      "from": "repo:gpt-neox",
+      "to": "repo:megatron-lm",
+      "rel": "related",
+      "provenance": "same category 'frameworks'"
+    },
+    {
+      "from": "repo:gpt-neox",
+      "to": "repo:torchtitan",
+      "rel": "related",
+      "provenance": "same category 'frameworks'"
+    }
+  ]
+}
