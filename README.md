@@ -117,143 +117,143 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 <h2 id="open-source-repos">🧰 Open-Source Repos</h2>
 
 ### Small & Efficient Models
-- **[SmolLM / SmolLM2 / SmolLM3](https://github.com/huggingface/smollm)** 🤏 `★ 3,844` — Fully open recipes, data, and weights for the 135M-3B SmolLM family, the reference open SLM line.
-- **[Phi Cookbook](https://github.com/microsoft/PhiCookBook)** 🤏 `★ 3,767` — Microsoft's official hub for the Phi SLM family with inference, fine-tuning, quantization, and edge-deployment recipes.
-- **[Gemma (DeepMind)](https://github.com/google-deepmind/gemma)** 🤏 `★ 5,555` — Official JAX library for Gemma open weights including the 1B/2B and 3n on-device small variants.
-- **[Qwen3](https://github.com/QwenLM/Qwen3)** 🤏 `★ 27,393` — Alibaba's Qwen series spanning 0.6B/1.7B/4B dense SLMs with strong multilingual and reasoning quality.
-- **[gemma_pytorch](https://github.com/google/gemma_pytorch)** 🤏 `★ 5,711` — Official PyTorch inference implementation of Gemma (incl. small text-only variants) for CPU/GPU/TPU.
-- **[TinyLlama](https://github.com/jzhang38/TinyLlama)** 🤏 `★ 9,011` — Compact 1.1B Llama pretrained on 3T tokens; a canonical, reproducible sub-2B pretraining reference.
-- **[MobileLLM](https://github.com/facebookresearch/MobileLLM)** 🤏 `★ 1,451` — Meta research on sub-billion-parameter, deep-thin architectures optimized for on-device use (ICML 2024).
-- **[OLMo](https://github.com/allenai/OLMo)** 🤏 `★ 6,587` — AI2's fully open model+data+training stack including small 1B variants for reproducible SLM research.
-- **[Llama Models](https://github.com/meta-llama/llama-models)** 🤏 `★ 7,651` — Meta's official utilities and model cards for Llama, including the 1B/3B Llama 3.2 on-device SLMs.
+- **[SmolLM / SmolLM2 / SmolLM3](https://github.com/huggingface/smollm)** 🤏 `★ 3,848` — Fully open recipes, data, and weights for the 135M-3B SmolLM family, the reference open SLM line.
+- **[Phi Cookbook](https://github.com/microsoft/PhiCookBook)** 🤏 `★ 3,771` — Microsoft's official hub for the Phi SLM family with inference, fine-tuning, quantization, and edge-deployment recipes.
+- **[Gemma (DeepMind)](https://github.com/google-deepmind/gemma)** 🤏 `★ 5,573` — Official JAX library for Gemma open weights including the 1B/2B and 3n on-device small variants.
+- **[Qwen3](https://github.com/QwenLM/Qwen3)** 🤏 `★ 27,409` — Alibaba's Qwen series spanning 0.6B/1.7B/4B dense SLMs with strong multilingual and reasoning quality.
+- **[gemma_pytorch](https://github.com/google/gemma_pytorch)** 🤏 `★ 5,714` — Official PyTorch inference implementation of Gemma (incl. small text-only variants) for CPU/GPU/TPU.
+- **[TinyLlama](https://github.com/jzhang38/TinyLlama)** 🤏 `★ 9,014` — Compact 1.1B Llama pretrained on 3T tokens; a canonical, reproducible sub-2B pretraining reference.
+- **[MobileLLM](https://github.com/facebookresearch/MobileLLM)** 🤏 `★ 1,452` — Meta research on sub-billion-parameter, deep-thin architectures optimized for on-device use (ICML 2024).
+- **[OLMo](https://github.com/allenai/OLMo)** 🤏 `★ 6,595` — AI2's fully open model+data+training stack including small 1B variants for reproducible SLM research.
+- **[Llama Models](https://github.com/meta-llama/llama-models)** 🤏 `★ 7,656` — Meta's official utilities and model cards for Llama, including the 1B/3B Llama 3.2 on-device SLMs.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Vision-Language & Video Models
-- **[Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL)** 🎬 — Strong open VLM family with native dynamic-resolution and long-video/temporal grounding, a common backbone for fine-tuning on driving footage.
-- **[LLaVA-NeXT](https://github.com/LLaVA-VL/LLaVA-NeXT)** 🎬 — Actively maintained LLaVA line (incl. OneVision and Video variants) with training and eval recipes for image, multi-image, and video.
-- **[InternVL](https://github.com/OpenGVLab/InternVL)** 🎬 — Scaled open VLM series with large vision encoders and full training code, competitive on high-resolution perception and video benchmarks.
-- **[VideoLLaMA3](https://github.com/DAMO-NLP-SG/VideoLLaMA3)** 🎬 — Vision-centric image/video foundation model with released training and inference code, directly targeting long-form video understanding.
-- **[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA)** 🎬 — Unified image+video projection into one representation before the LLM, a compact reference for joint image/video instruction tuning.
-- **[CLIP](https://github.com/openai/CLIP)** 🎬 — Original contrastive image-text model; the reference whose embeddings still anchor most multimodal retrieval and probing.
-- **[open_clip](https://github.com/mlfoundations/open_clip)** 🎬 — Open training/eval for CLIP-style models at scale, the go-to for reproducible contrastive image-text encoders and domain pretraining.
-- **[MiniCPM-V](https://github.com/OpenBMB/MiniCPM-V)** 🎬 — Efficient end-side VLM series with strong image/video/OCR performance, relevant where on-vehicle or edge inference budgets are tight.
-- **[Molmo](https://github.com/allenai/molmo)** 🎬 — Ai2's fully open VLM with training code and the PixMo data, a transparent reproducible baseline including pointing/grounding.
+- **[Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL)** 🎬 `★ 19,627` — Strong open VLM family with native dynamic-resolution and long-video/temporal grounding, a common backbone for fine-tuning on driving footage.
+- **[LLaVA-NeXT](https://github.com/LLaVA-VL/LLaVA-NeXT)** 🎬 `★ 4,708` — Actively maintained LLaVA line (incl. OneVision and Video variants) with training and eval recipes for image, multi-image, and video.
+- **[InternVL](https://github.com/OpenGVLab/InternVL)** 🎬 `★ 10,098` — Scaled open VLM series with large vision encoders and full training code, competitive on high-resolution perception and video benchmarks.
+- **[VideoLLaMA3](https://github.com/DAMO-NLP-SG/VideoLLaMA3)** 🎬 `★ 1,172` — Vision-centric image/video foundation model with released training and inference code, directly targeting long-form video understanding.
+- **[Video-LLaVA](https://github.com/PKU-YuanGroup/Video-LLaVA)** 🎬 `★ 3,493` — Unified image+video projection into one representation before the LLM, a compact reference for joint image/video instruction tuning.
+- **[CLIP](https://github.com/openai/CLIP)** 🎬 `★ 34,034` — Original contrastive image-text model; the reference whose embeddings still anchor most multimodal retrieval and probing.
+- **[open_clip](https://github.com/mlfoundations/open_clip)** 🎬 `★ 14,005` — Open training/eval for CLIP-style models at scale, the go-to for reproducible contrastive image-text encoders and domain pretraining.
+- **[MiniCPM-V](https://github.com/OpenBMB/MiniCPM-V)** 🎬 `★ 25,941` — Efficient end-side VLM series with strong image/video/OCR performance, relevant where on-vehicle or edge inference budgets are tight.
+- **[Molmo](https://github.com/allenai/molmo)** 🎬 `★ 918` — Ai2's fully open VLM with training code and the PixMo data, a transparent reproducible baseline including pointing/grounding.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Pre-training & Training Frameworks
-- **[nanoGPT](https://github.com/karpathy/nanoGPT)** 🤏 `★ 61,156` — Minimal ~300-line GPT training/finetuning loop; the standard starting point for training small GPTs from scratch.
-- **[LitGPT](https://github.com/Lightning-AI/litgpt)** 🤏 `★ 13,482` — 20+ hackable LLM implementations with pretrain/finetune/deploy recipes, including small Phi/Qwen/Gemma models.
-- **[GPT-NeoX](https://github.com/EleutherAI/gpt-neox)** `★ 7,443` — EleutherAI's Megatron+DeepSpeed training stack for autoregressive transformers with 3D parallelism.
-- **[Megatron-LM](https://github.com/NVIDIA/Megatron-LM)** `★ 17,064` — NVIDIA's GPU-optimized library and building blocks for large-scale transformer pretraining.
-- **[TorchTitan](https://github.com/pytorch/torchtitan)** `★ 5,532` — PyTorch-native platform for generative-model pretraining with composable FSDP2/TP/PP/CP parallelism.
-- **[Nanotron](https://github.com/huggingface/nanotron)** `★ 2,747` — Minimalistic 3D-parallelism pretraining library from Hugging Face, basis of the Ultrascale Playbook.
-- **[Hugging Face Transformers](https://github.com/huggingface/transformers)** 🎬 — De facto model hub and API with first-class VLM/video-LLM support, the integration surface most training and serving stacks build on.
-- **[DeepSpeed](https://github.com/deepspeedai/DeepSpeed)** — ZeRO sharding, offload, and pipeline/tensor parallelism that make large VLM training fit real GPU budgets; wired into most trainers.
+- **[nanoGPT](https://github.com/karpathy/nanoGPT)** 🤏 `★ 61,336` — Minimal ~300-line GPT training/finetuning loop; the standard starting point for training small GPTs from scratch.
+- **[LitGPT](https://github.com/Lightning-AI/litgpt)** 🤏 `★ 13,491` — 20+ hackable LLM implementations with pretrain/finetune/deploy recipes, including small Phi/Qwen/Gemma models.
+- **[GPT-NeoX](https://github.com/EleutherAI/gpt-neox)** `★ 7,444` — EleutherAI's Megatron+DeepSpeed training stack for autoregressive transformers with 3D parallelism.
+- **[Megatron-LM](https://github.com/NVIDIA/Megatron-LM)** `★ 17,118` — NVIDIA's GPU-optimized library and building blocks for large-scale transformer pretraining.
+- **[TorchTitan](https://github.com/pytorch/torchtitan)** `★ 5,543` — PyTorch-native platform for generative-model pretraining with composable FSDP2/TP/PP/CP parallelism.
+- **[Nanotron](https://github.com/huggingface/nanotron)** `★ 2,755` — Minimalistic 3D-parallelism pretraining library from Hugging Face, basis of the Ultrascale Playbook.
+- **[Hugging Face Transformers](https://github.com/huggingface/transformers)** 🎬 `★ 162,755` — De facto model hub and API with first-class VLM/video-LLM support, the integration surface most training and serving stacks build on.
+- **[DeepSpeed](https://github.com/deepspeedai/DeepSpeed)** `★ 42,751` — ZeRO sharding, offload, and pipeline/tensor parallelism that make large VLM training fit real GPU budgets; wired into most trainers.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### JAX / TensorFlow Ecosystem
-- **[JAX](https://github.com/jax-ml/jax)** — Composable NumPy with autodiff, XLA compilation, and pmap/shard_map, the base for large-scale research training on TPUs/GPUs.
-- **[Flax](https://github.com/google/flax)** — Neural-network library for JAX (the NNX API) used across DeepMind/Google research models, including many multimodal architectures.
-- **[Keras](https://github.com/keras-team/keras)** — Multi-backend (JAX / TensorFlow / PyTorch) high-level API, handy for portable model code across the three frameworks this role expects.
-- **[MaxText](https://github.com/AI-Hypercomputer/maxtext)** — High-performance, scalable JAX LLM reference (Google) for TPU/GPU pods, a clean example of large-scale distributed training in JAX.
-- **[Levanter](https://github.com/marin-community/levanter)** — JAX/Equinox framework for legible, scalable, reproducible foundation-model training with bitwise determinism across hardware.
-- **[Penzai](https://github.com/google-deepmind/penzai)** — DeepMind JAX toolkit for building and visualizing/interpreting models as legible pytrees, useful for research-grade experimentation.
+- **[JAX](https://github.com/jax-ml/jax)** `★ 36,021` — Composable NumPy with autodiff, XLA compilation, and pmap/shard_map, the base for large-scale research training on TPUs/GPUs.
+- **[Flax](https://github.com/google/flax)** `★ 7,272` — Neural-network library for JAX (the NNX API) used across DeepMind/Google research models, including many multimodal architectures.
+- **[Keras](https://github.com/keras-team/keras)** `★ 64,168` — Multi-backend (JAX / TensorFlow / PyTorch) high-level API, handy for portable model code across the three frameworks this role expects.
+- **[MaxText](https://github.com/AI-Hypercomputer/maxtext)** `★ 2,365` — High-performance, scalable JAX LLM reference (Google) for TPU/GPU pods, a clean example of large-scale distributed training in JAX.
+- **[Levanter](https://github.com/marin-community/levanter)** `★ 706` — JAX/Equinox framework for legible, scalable, reproducible foundation-model training with bitwise determinism across hardware.
+- **[Penzai](https://github.com/google-deepmind/penzai)** `★ 1,893` — DeepMind JAX toolkit for building and visualizing/interpreting models as legible pytrees, useful for research-grade experimentation.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Fine-tuning & PEFT
-- **[PEFT](https://github.com/huggingface/peft)** 🤏 `★ 21,394` — Reference library for LoRA/QLoRA and other parameter-efficient methods, enabling SLM tuning on consumer GPUs.
-- **[Unsloth](https://github.com/unslothai/unsloth)** 🤏 `★ 68,200` — 2x-faster, ~70%-less-VRAM finetuning for small models, ideal for LoRA/QLoRA on single-GPU setups.
-- **[Axolotl](https://github.com/axolotl-ai-cloud/axolotl)** 🤏 `★ 12,197` — Config-driven post-training framework covering SFT/LoRA/DPO across many small and large model families.
-- **[LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)** 🤏 `★ 73,271` — Unified zero-code fine-tuning of 100+ LLMs/VLMs with LoRA/QLoRA/DPO and a web UI, common for SLM tuning.
-- **[torchtune](https://github.com/meta-pytorch/torchtune)** 🤏 `★ 5,783` — PyTorch-native post-training recipes (SFT, distillation, DPO/PPO/GRPO, QAT) tuned for memory-limited hardware.
-- **[ms-swift](https://github.com/modelscope/ms-swift)** 🎬 — Unified SFT/DPO/GRPO toolkit covering 300+ multimodal models (Qwen-VL, InternVL, LLaVA), a fast path to fine-tune VLMs on custom data.
-- **[XTuner](https://github.com/InternLM/xtuner)** 🎬 — Memory-efficient LLM/VLM fine-tuning engine (LLaVA-style pipelines, large-MoE support) for constrained or very large setups.
+- **[PEFT](https://github.com/huggingface/peft)** 🤏 `★ 21,419` — Reference library for LoRA/QLoRA and other parameter-efficient methods, enabling SLM tuning on consumer GPUs.
+- **[Unsloth](https://github.com/unslothai/unsloth)** 🤏 `★ 68,445` — 2x-faster, ~70%-less-VRAM finetuning for small models, ideal for LoRA/QLoRA on single-GPU setups.
+- **[Axolotl](https://github.com/axolotl-ai-cloud/axolotl)** 🤏 `★ 12,217` — Config-driven post-training framework covering SFT/LoRA/DPO across many small and large model families.
+- **[LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory)** 🤏 `★ 73,386` — Unified zero-code fine-tuning of 100+ LLMs/VLMs with LoRA/QLoRA/DPO and a web UI, common for SLM tuning.
+- **[torchtune](https://github.com/meta-pytorch/torchtune)** 🤏 `★ 5,784` — PyTorch-native post-training recipes (SFT, distillation, DPO/PPO/GRPO, QAT) tuned for memory-limited hardware.
+- **[ms-swift](https://github.com/modelscope/ms-swift)** 🎬 `★ 14,861` — Unified SFT/DPO/GRPO toolkit covering 300+ multimodal models (Qwen-VL, InternVL, LLaVA), a fast path to fine-tune VLMs on custom data.
+- **[XTuner](https://github.com/InternLM/xtuner)** 🎬 `★ 5,161` — Memory-efficient LLM/VLM fine-tuning engine (LLaVA-style pipelines, large-MoE support) for constrained or very large setups.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Post-training & RL (RLHF / DPO / GRPO)
-- **[TRL](https://github.com/huggingface/trl)** 🤏 `★ 18,840` — Hugging Face post-training library with SFT/DPO/GRPO trainers widely used to align small reasoning models.
-- **[OpenRLHF](https://github.com/OpenRLHF/OpenRLHF)** 🤏 `★ 9,788` — Ray+vLLM RLHF framework (PPO/GRPO/RLOO) that scales from small models up to 70B+, agent-friendly.
-- **[verl](https://github.com/verl-project/verl)** 🤏 `★ 22,468` — ByteDance HybridFlow RL post-training (PPO/GRPO/DAPO) with vLLM/SGLang; popular for GRPO on small models.
+- **[TRL](https://github.com/huggingface/trl)** 🤏 `★ 18,886` — Hugging Face post-training library with SFT/DPO/GRPO trainers widely used to align small reasoning models.
+- **[OpenRLHF](https://github.com/OpenRLHF/OpenRLHF)** 🤏 `★ 9,827` — Ray+vLLM RLHF framework (PPO/GRPO/RLOO) that scales from small models up to 70B+, agent-friendly.
+- **[verl](https://github.com/verl-project/verl)** 🤏 `★ 22,561` — ByteDance HybridFlow RL post-training (PPO/GRPO/DAPO) with vLLM/SGLang; popular for GRPO on small models.
 - **[trlX](https://github.com/CarperAI/trlx)** `★ 4,753` — Distributed RLHF framework (PPO, ILQL) via Accelerate/NeMo; an early, widely-cited RLHF reference.
-- **[Verifiers](https://github.com/PrimeIntellect-ai/verifiers)** 🤏 — Framework (on TRL) for multi-turn RL with verifiable rewards; v1 adds DAG-branching environments that exceed the model context window.
-- **[SkyRL](https://github.com/NovaSky-AI/SkyRL)** 🤏 — Berkeley's flexible RL library focused on multi-turn, long-horizon agentic training.
-- **[Open-AgentRL (RLAnything / AutoTool)](https://github.com/Gen-Verse/Open-AgentRL)** 🤏 — Open RL for LLMs + agentic scenarios (ICML 2026); RLAnything closed-loop-optimizes each component of the training pipeline.
-- **[InternBootcamp](https://github.com/InternLM/InternBootcamp)** 🤏 — Scalable framework of 1000+ verifiable reasoning tasks (code, logic, games) behind one interface for RL-with-verifiable-rewards.
-- **[Gymnasium (Farama)](https://github.com/Farama-Foundation/Gymnasium)** — The maintained successor to OpenAI Gym — the standard environment API most RL training stacks (incl. RLlib) build on.
+- **[Verifiers](https://github.com/PrimeIntellect-ai/verifiers)** 🤏 `★ 4,389` — Framework (on TRL) for multi-turn RL with verifiable rewards; v1 adds DAG-branching environments that exceed the model context window.
+- **[SkyRL](https://github.com/NovaSky-AI/SkyRL)** 🤏 `★ 2,080` — Berkeley's flexible RL library focused on multi-turn, long-horizon agentic training.
+- **[Open-AgentRL (RLAnything / AutoTool)](https://github.com/Gen-Verse/Open-AgentRL)** 🤏 `★ 586` — Open RL for LLMs + agentic scenarios (ICML 2026); RLAnything closed-loop-optimizes each component of the training pipeline.
+- **[InternBootcamp](https://github.com/InternLM/InternBootcamp)** 🤏 `★ 348` — Scalable framework of 1000+ verifiable reasoning tasks (code, logic, games) behind one interface for RL-with-verifiable-rewards.
+- **[Gymnasium (Farama)](https://github.com/Farama-Foundation/Gymnasium)** `★ 12,194` — The maintained successor to OpenAI Gym — the standard environment API most RL training stacks (incl. RLlib) build on.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Evaluation
-- **[lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)** 🤏 `★ 13,279` — De-facto standard few-shot eval harness (60+ benchmarks) backing the Open LLM Leaderboard, ideal for SLM benchmarking.
-- **[LightEval](https://github.com/huggingface/lighteval)** 🤏 `★ 2,476` — Hugging Face all-in-one evaluator across vLLM/Accelerate/TGI backends with 1000+ tasks for small-model eval.
-- **[lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)** 🎬 — One-command multimodal eval harness across image/video/audio benchmarks, the standard for consistent VLM regression testing.
-- **[VLMEvalKit](https://github.com/open-compass/VLMEvalKit)** 🎬 — Broad LMM evaluation toolkit (220+ models, 80+ benchmarks) with unified data prep, complementary to lmms-eval for coverage.
-- **[MLAgentBench](https://github.com/snap-stanford/MLAgentBench)** — Benchmark of end-to-end ML experimentation tasks for measuring how well agents can improve models from a starting codebase.
-- **[Aviary](https://github.com/Future-House/aviary)** — Gym-style environment framework for training and evaluating language agents on challenging scientific tasks.
+- **[lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)** 🤏 `★ 13,339` — De-facto standard few-shot eval harness (60+ benchmarks) backing the Open LLM Leaderboard, ideal for SLM benchmarking.
+- **[LightEval](https://github.com/huggingface/lighteval)** 🤏 `★ 2,486` — Hugging Face all-in-one evaluator across vLLM/Accelerate/TGI backends with 1000+ tasks for small-model eval.
+- **[lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval)** 🎬 `★ 4,320` — One-command multimodal eval harness across image/video/audio benchmarks, the standard for consistent VLM regression testing.
+- **[VLMEvalKit](https://github.com/open-compass/VLMEvalKit)** 🎬 `★ 4,290` — Broad LMM evaluation toolkit (220+ models, 80+ benchmarks) with unified data prep, complementary to lmms-eval for coverage.
+- **[MLAgentBench](https://github.com/snap-stanford/MLAgentBench)** `★ 346` — Benchmark of end-to-end ML experimentation tasks for measuring how well agents can improve models from a starting codebase.
+- **[Aviary](https://github.com/Future-House/aviary)** `★ 275` — Gym-style environment framework for training and evaluating language agents on challenging scientific tasks.
 - **[MORPHEUS evals (Skyfall)](https://github.com/Skyfall-Research/morpheus-evals)** — Open eval code for MORPHEUS, a persistent enterprise simulation for CONTINUAL RL: no episode resets, structured non-stationarity (failure-injection + config shifts), composite verifier reward.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Serving, Inference & On-Device
-- **[llama.cpp](https://github.com/ggml-org/llama.cpp)** 🤏 `★ 120,340` — C/C++ GGUF inference engine that runs quantized SLMs efficiently on CPUs, laptops, and edge devices.
-- **[vLLM](https://github.com/vllm-project/vllm)** `★ 86,247` — High-throughput PagedAttention serving engine; the default for scalable OpenAI-compatible model serving.
-- **[Ollama](https://github.com/ollama/ollama)** 🤏 `★ 176,100` — One-command local runner for small open models, the easiest path to running SLMs on a personal machine.
-- **[MLC-LLM](https://github.com/mlc-ai/mlc-llm)** 🤏 `★ 22,948` — ML-compilation deployment engine that compiles SLMs to iOS, Android, WebGPU, and diverse GPUs/CPUs.
-- **[SGLang](https://github.com/sgl-project/sglang)** 🎬 — Fast serving runtime with RadixAttention and structured decoding plus VLM support, strong for high-concurrency multimodal endpoints.
-- **[LMDeploy](https://github.com/InternLM/lmdeploy)** 🎬 — Compression + serving toolkit with a dedicated VLM pipeline, for quantized, low-latency deployment of vision-language models.
+- **[llama.cpp](https://github.com/ggml-org/llama.cpp)** 🤏 `★ 121,009` — C/C++ GGUF inference engine that runs quantized SLMs efficiently on CPUs, laptops, and edge devices.
+- **[vLLM](https://github.com/vllm-project/vllm)** `★ 86,683` — High-throughput PagedAttention serving engine; the default for scalable OpenAI-compatible model serving.
+- **[Ollama](https://github.com/ollama/ollama)** 🤏 `★ 176,490` — One-command local runner for small open models, the easiest path to running SLMs on a personal machine.
+- **[MLC-LLM](https://github.com/mlc-ai/mlc-llm)** 🤏 `★ 22,974` — ML-compilation deployment engine that compiles SLMs to iOS, Android, WebGPU, and diverse GPUs/CPUs.
+- **[SGLang](https://github.com/sgl-project/sglang)** 🎬 `★ 30,534` — Fast serving runtime with RadixAttention and structured decoding plus VLM support, strong for high-concurrency multimodal endpoints.
+- **[LMDeploy](https://github.com/InternLM/lmdeploy)** 🎬 `★ 7,965` — Compression + serving toolkit with a dedicated VLM pipeline, for quantized, low-latency deployment of vision-language models.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Distillation & Compression
-- **[BitNet](https://github.com/microsoft/BitNet)** 🤏 `★ 39,724` — Official 1-bit (1.58-bit) LLM inference framework with optimized CPU/GPU kernels for extreme efficiency.
-- **[LLM-AWQ](https://github.com/mit-han-lab/llm-awq)** 🤏 `★ 3,589` — Activation-aware INT3/4 weight quantization (MLSys 2024) plus TinyChat for on-device/edge SLM inference.
-- **[GPTQModel](https://github.com/ModelCloud/GPTQModel)** 🤏 `★ 1,205` — Actively maintained GPTQ quantization toolkit with HF/vLLM/SGLang support across NVIDIA/AMD/Intel/Apple hardware.
-- **[LightCompress (LLMC)](https://github.com/ModelTC/LightCompress)** 🤏 `★ 733` — Broad model-compression toolkit (quantization, sparsity, pruning) for shrinking LLMs/VLMs to deployable sizes.
-- **[DistillKit](https://github.com/arcee-ai/DistillKit)** 🤏 `★ 976` — Open toolkit for knowledge distillation, training smaller student models from larger teachers (logit + hidden-state).
+- **[BitNet](https://github.com/microsoft/BitNet)** 🤏 `★ 39,763` — Official 1-bit (1.58-bit) LLM inference framework with optimized CPU/GPU kernels for extreme efficiency.
+- **[LLM-AWQ](https://github.com/mit-han-lab/llm-awq)** 🤏 `★ 3,591` — Activation-aware INT3/4 weight quantization (MLSys 2024) plus TinyChat for on-device/edge SLM inference.
+- **[GPTQModel](https://github.com/ModelCloud/GPTQModel)** 🤏 `★ 1,208` — Actively maintained GPTQ quantization toolkit with HF/vLLM/SGLang support across NVIDIA/AMD/Intel/Apple hardware.
+- **[LightCompress (LLMC)](https://github.com/ModelTC/LightCompress)** 🤏 `★ 734` — Broad model-compression toolkit (quantization, sparsity, pruning) for shrinking LLMs/VLMs to deployable sizes.
+- **[DistillKit](https://github.com/arcee-ai/DistillKit)** 🤏 `★ 986` — Open toolkit for knowledge distillation, training smaller student models from larger teachers (logit + hidden-state).
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Retrieval & Vector Databases
-- **[FAISS](https://github.com/facebookresearch/faiss)** — Battle-tested library for billion-scale similarity search over image/video embeddings, the baseline for mining and nearest-neighbor lookup.
-- **[Milvus](https://github.com/milvus-io/milvus)** — Distributed vector database for large multimodal embedding corpora, used when single-node indices no longer fit.
-- **[Qdrant](https://github.com/qdrant/qdrant)** — Rust vector DB with payload filtering and good ergonomics, common for production embedding search over image/video/text.
-- **[LanceDB](https://github.com/lancedb/lancedb)** — Embedded columnar vector store on the Lance format, well suited to versioned multimodal datasets and fast on-disk embedding queries.
-- **[PaperQA](https://github.com/Future-House/paper-qa)** — Retrieval-augmented QA engine that answers questions over scientific PDFs with grounded in-text citations.
+- **[FAISS](https://github.com/facebookresearch/faiss)** `★ 40,544` — Battle-tested library for billion-scale similarity search over image/video embeddings, the baseline for mining and nearest-neighbor lookup.
+- **[Milvus](https://github.com/milvus-io/milvus)** `★ 45,277` — Distributed vector database for large multimodal embedding corpora, used when single-node indices no longer fit.
+- **[Qdrant](https://github.com/qdrant/qdrant)** `★ 33,423` — Rust vector DB with payload filtering and good ergonomics, common for production embedding search over image/video/text.
+- **[LanceDB](https://github.com/lancedb/lancedb)** `★ 10,936` — Embedded columnar vector store on the Lance format, well suited to versioned multimodal datasets and fast on-disk embedding queries.
+- **[PaperQA](https://github.com/Future-House/paper-qa)** `★ 8,898` — Retrieval-augmented QA engine that answers questions over scientific PDFs with grounded in-text citations.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Distributed Training & Orchestration
-- **[Ray](https://github.com/ray-project/ray)** — Distributed compute for data loading, training, and batch multimodal inference, the orchestration layer for scaling VLM pipelines across a cluster.
-- **[MLflow](https://github.com/mlflow/mlflow)** — Experiment tracking, model registry, and artifact logging for reproducible large-scale training and eval runs.
+- **[Ray](https://github.com/ray-project/ray)** `★ 43,289` — Distributed compute for data loading, training, and batch multimodal inference, the orchestration layer for scaling VLM pipelines across a cluster.
+- **[MLflow](https://github.com/mlflow/mlflow)** `★ 27,110` — Experiment tracking, model registry, and artifact logging for reproducible large-scale training and eval runs.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### AV / Robotics / Video Datasets
-- **[nuScenes devkit](https://github.com/nutonomy/nuscenes-devkit)** — Official devkit for the multimodal nuScenes AD dataset (camera, lidar, radar), the standard toolkit for sensor+video data loading and eval.
-- **[Waymo Open Dataset](https://github.com/waymo-research/waymo-open-dataset)** — Large-scale AD perception/motion/end-to-end datasets with eval code, a primary source of camera+lidar video for driving models.
-- **[BDD100K](https://github.com/SysCV/bdd100k-models)** — Model zoo and tooling for the diverse BDD100K driving-video dataset, useful for detection/segmentation/tracking baselines and labels.
-- **[Ego4D](https://github.com/facebookresearch/Ego4d)** — Massive egocentric video dataset with download, feature-extraction, and API tooling, relevant for first-person video understanding and robotics.
-- **[Argoverse 2](https://github.com/argoverse/av2-api)** — Next-gen self-driving datasets (sensor, lidar, motion forecasting) with a maintained Python API and HD maps for multimodal AD research.
+- **[nuScenes devkit](https://github.com/nutonomy/nuscenes-devkit)** `★ 2,779` — Official devkit for the multimodal nuScenes AD dataset (camera, lidar, radar), the standard toolkit for sensor+video data loading and eval.
+- **[Waymo Open Dataset](https://github.com/waymo-research/waymo-open-dataset)** `★ 3,369` — Large-scale AD perception/motion/end-to-end datasets with eval code, a primary source of camera+lidar video for driving models.
+- **[BDD100K](https://github.com/SysCV/bdd100k-models)** `★ 340` — Model zoo and tooling for the diverse BDD100K driving-video dataset, useful for detection/segmentation/tracking baselines and labels.
+- **[Ego4D](https://github.com/facebookresearch/Ego4d)** `★ 621` — Massive egocentric video dataset with download, feature-extraction, and API tooling, relevant for first-person video understanding and robotics.
+- **[Argoverse 2](https://github.com/argoverse/av2-api)** `★ 413` — Next-gen self-driving datasets (sensor, lidar, motion forecasting) with a maintained Python API and HD maps for multimodal AD research.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
 ### Autonomous Research Agents (AI Scientists)
-- **[AI-Scientist](https://github.com/SakanaAI/AI-Scientist)** 🎬 — Runs a full loop that generates ideas, writes and executes experiment code, plots results, and drafts a paper with an automated reviewer.
-- **[AI-Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2)** 🎬 — End-to-end agentic system using progressive agentic tree search and VLM feedback on figures to produce workshop-level manuscripts.
-- **[Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory)** — Multi-agent pipeline that takes a human research idea through literature review, experimentation, and report writing.
-- **[STORM](https://github.com/stanford-oval/storm)** — LLM knowledge-curation system that researches a topic via multi-perspective question asking and writes a cited, Wikipedia-style report.
-- **[GPT-Researcher](https://github.com/assafelovic/gpt-researcher)** — Autonomous agent that plans sub-queries, searches and scrapes sources, and synthesizes a cited research report.
-- **[deep-research](https://github.com/dzhng/deep-research)** — Minimal agent that runs iterative search-and-reason loops with configurable breadth and depth to produce a report.
-- **[smolagents](https://github.com/huggingface/smolagents)** — Barebones code-acting agent library; its examples include Hugging Face's open reproduction of Deep Research.
-- **[ADAS](https://github.com/ShengranHu/ADAS)** — Meta-agent that iteratively programs and evaluates new agent designs in code, automating the search over agentic systems.
-- **[DSPy](https://github.com/stanfordnlp/dspy)** — Define LLM pipelines as modules and optimize their prompts/weights against a metric rather than hand-prompting — the rigor layer for agent pipelines.
-- **[AI-Researcher](https://github.com/HKUDS/AI-Researcher)** — Automates the research pipeline from literature analysis through algorithm implementation to paper generation.
-- **[Curie](https://github.com/Just-Curieous/Curie)** — Experimentation agent that enforces methodological rigor (controlled setup, reproducibility) when running and analyzing experiments.
+- **[AI-Scientist](https://github.com/SakanaAI/AI-Scientist)** 🎬 `★ 14,253` — Runs a full loop that generates ideas, writes and executes experiment code, plots results, and drafts a paper with an automated reviewer.
+- **[AI-Scientist-v2](https://github.com/SakanaAI/AI-Scientist-v2)** 🎬 `★ 6,878` — End-to-end agentic system using progressive agentic tree search and VLM feedback on figures to produce workshop-level manuscripts.
+- **[Agent Laboratory](https://github.com/SamuelSchmidgall/AgentLaboratory)** `★ 5,760` — Multi-agent pipeline that takes a human research idea through literature review, experimentation, and report writing.
+- **[STORM](https://github.com/stanford-oval/storm)** `★ 30,153` — LLM knowledge-curation system that researches a topic via multi-perspective question asking and writes a cited, Wikipedia-style report.
+- **[GPT-Researcher](https://github.com/assafelovic/gpt-researcher)** `★ 28,472` — Autonomous agent that plans sub-queries, searches and scrapes sources, and synthesizes a cited research report.
+- **[deep-research](https://github.com/dzhng/deep-research)** `★ 19,383` — Minimal agent that runs iterative search-and-reason loops with configurable breadth and depth to produce a report.
+- **[smolagents](https://github.com/huggingface/smolagents)** `★ 28,442` — Barebones code-acting agent library; its examples include Hugging Face's open reproduction of Deep Research.
+- **[ADAS](https://github.com/ShengranHu/ADAS)** `★ 1,615` — Meta-agent that iteratively programs and evaluates new agent designs in code, automating the search over agentic systems.
+- **[DSPy](https://github.com/stanfordnlp/dspy)** `★ 36,240` — Define LLM pipelines as modules and optimize their prompts/weights against a metric rather than hand-prompting — the rigor layer for agent pipelines.
+- **[AI-Researcher](https://github.com/HKUDS/AI-Researcher)** `★ 5,599` — Automates the research pipeline from literature analysis through algorithm implementation to paper generation.
+- **[Curie](https://github.com/Just-Curieous/Curie)** `★ 368` — Experimentation agent that enforces methodological rigor (controlled setup, reproducibility) when running and analyzing experiments.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
