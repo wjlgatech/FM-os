@@ -1,0 +1,118 @@
+[
+  {
+    "id": "rc0001",
+    "delivery": "Installed OpenSpace (HKUDS) in a 3.12 venv, registered FM-os's 8 skills, ran 3 tasks, proved skills execute + get judged after a safe allow-rule fix",
+    "objective": "Make FM-os's skills usable + quality-graded inside an external agent hub",
+    "created_at": "2026-07-21T13:20:03Z",
+    "key_results": [
+      {
+        "text": "FM-os skills registered + discovered as OpenSpace top-priority root",
+        "target": "8 skills",
+        "score": 1.0,
+        "evidence": "openspace.db skill_events(listed)+host skill dir"
+      },
+      {
+        "text": "3/3 tasks matched correct skill; all applied+judged after allow-rule",
+        "target": "3/3",
+        "score": 1.0,
+        "evidence": "skill_judgments skill_applied=1 + execution_analyses completed=1"
+      },
+      {
+        "text": "Headless skill-load gate fixed with minimal safe allow-rule (Skill only, bash gated)",
+        "target": "secure default",
+        "score": 1.0,
+        "evidence": ".openspace/settings.local.json; Skill 3/6 success"
+      }
+    ]
+  },
+  {
+    "id": "rc0002",
+    "delivery": "Fold the RL/CRL landscape (Morpheus/Skyfall + frameworks) into the knowledge base",
+    "objective": "Keep FM-os the up-to-date hub of foundation-model knowledge",
+    "created_at": "2026-07-21T20:56:02Z",
+    "key_results": [
+      {
+        "text": "PR #1 merged; README regenerated; make check green",
+        "target": "merged",
+        "score": 1.0,
+        "evidence": "github.com/wjlgatech/FM-os/pull/1 (5f490ff)"
+      }
+    ]
+  },
+  {
+    "id": "rc0003",
+    "delivery": "Ship continual-rl-eval skill + runnable reference env with CI tests",
+    "objective": "Turn research into certified, executed tooling",
+    "created_at": "2026-07-21T20:56:02Z",
+    "key_results": [
+      {
+        "text": "PRs #2-3 merged; certified 98/100; 12 property tests + 2 CI tests green",
+        "target": "98/100",
+        "score": 1.0,
+        "evidence": "FM-os/pull/2,#3"
+      }
+    ]
+  },
+  {
+    "id": "rc0004",
+    "delivery": "Build the distillery: per-repo knowledge graph + tooling scaffold factory",
+    "objective": "Turn each cited repo into knowledge + tooling (+experts via repo->lab edges)",
+    "created_at": "2026-07-21T20:56:02Z",
+    "key_results": [
+      {
+        "text": "PR #4 merged; spec-as-data + drift gate",
+        "target": "merged",
+        "score": 1.0,
+        "evidence": "FM-os/pull/4"
+      }
+    ]
+  },
+  {
+    "id": "rc0005",
+    "delivery": "Add the /FM-os hub skill (backbone + progressive-disclosure router)",
+    "objective": "One entry point that routes to every toolset, loaded on demand",
+    "created_at": "2026-07-21T20:56:02Z",
+    "key_results": [
+      {
+        "text": "PR #5 merged; fm-os certified 94/100; generated router",
+        "target": "94/100",
+        "score": 1.0,
+        "evidence": "FM-os/pull/5"
+      }
+    ]
+  },
+  {
+    "id": "rc0006",
+    "delivery": "Distill ALL 89 cited repos; /FM-os routes 96 toolsets",
+    "objective": "Make /FM-os the single door to the whole hub",
+    "created_at": "2026-07-21T20:56:02Z",
+    "key_results": [
+      {
+        "text": "PR #6 merged; 89/89 KGs valid + 89/89 scaffolds certified",
+        "target": "89/89",
+        "score": 1.0,
+        "evidence": "FM-os/pull/6"
+      }
+    ]
+  },
+  {
+    "id": "rc0007",
+    "delivery": "Cleaned up the OpenSpace scratch install (334M) and wired the accountability loop for real: scaffolded FM-os's Journey webapp + report-card store",
+    "objective": "Make the where-we-came-from \u2192 where-we're-heading view real + deployable per-repo",
+    "created_at": "2026-07-21T20:57:35Z",
+    "key_results": [
+      {
+        "text": "Journey Next.js app scaffolded + builds clean (static export)",
+        "target": "builds",
+        "score": 1.0,
+        "evidence": "pnpm build exit 0, routes generated"
+      },
+      {
+        "text": "7 evidenced cards recording the session's arc (OpenSpace + PRs #1-6)",
+        "target": "7 cards",
+        "score": 1.0,
+        "evidence": "journey/data/collection.json"
+      }
+    ]
+  }
+]
