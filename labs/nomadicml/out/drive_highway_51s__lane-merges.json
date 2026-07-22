@@ -1,0 +1,10 @@
+{
+  "video_id": "vid-0cc817fbfa",
+  "analysis_id": "mini-45c173d507bc",
+  "analysis": "The video shows a dashboard view of a vehicle stopped in traffic at an intersection with multiple parallel lanes. No instances of lanes physically merging (e.g., two lanes becoming one or an on-ramp merging) are observed in the road geometry or by other vehicles.",
+  "metadata": {
+    "backend": "gemini/gemini-2.5-flash/thinking",
+    "prompt": "Find lane merge instances."
+  },
+  "events": []
+}

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nomadic_mini — reverse-engineering lab demo</title>
+<style>
+  :root{
+    --bg:#0e1116; --panel:#161b23; --panel2:#1d242f; --line:#2a3341;
+    --ink:#e8edf4; --dim:#9aa7b8; --accent:#5eb0ff; --accent2:#7ce3b1;
+    --warn:#ffd166; --bad:#ff7b72; --theirs:#c9a7ff;
+    --sev-low:#7ce3b1; --sev-medium:#ffd166; --sev-high:#ff7b72;
+    font-family:-apple-system,'Segoe UI',Inter,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink)}
+  main{max-width:1060px;margin:0 auto;padding:28px 24px 120px;
+       padding-right:min(420px,36vw)}
+  h1{font-size:26px;margin:0 0 4px} h2{font-size:17px;margin:42px 0 14px;color:var(--accent)}
+  .sub{color:var(--dim);font-size:14px;margin-bottom:18px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+  .chip{background:var(--panel2);border:1px solid var(--line);border-radius:999px;
+        padding:5px 12px;font-size:12.5px;color:var(--dim)}
+  .chip b{color:var(--accent2);font-weight:600}
+  /* pipeline */
+  .lane{display:flex;align-items:center;gap:0;margin:10px 0;flex-wrap:wrap}
+  .lane .tag{width:86px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  .node{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+        padding:9px 13px;font-size:12.5px;line-height:1.45;min-width:118px}
+  .node small{display:block;color:var(--dim);font-size:11px}
+  .theirs .node{border-color:#4a3d6b} .theirs .node small{color:var(--theirs)}
+  .arrow{color:var(--dim);padding:0 7px;font-size:15px}
+  .parity-link{ text-align:center;color:var(--accent2);font-size:11.5px;margin:2px 0 2px 86px;
+        border-left:1px dashed var(--accent2);padding:4px 0 4px 10px;width:fit-content}
+  /* clips */
+  .clip{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+        padding:16px;margin:16px 0}
+  .clip video{width:100%;border-radius:9px;background:#000}
+  .timeline{position:relative;height:26px;background:var(--panel2);border-radius:6px;
+        margin:10px 0 2px;overflow:hidden}
+  .marker{position:absolute;top:3px;bottom:3px;border-radius:4px;opacity:.85;cursor:pointer;
+        min-width:6px;transition:opacity .15s}
+  .marker:hover{opacity:1;outline:1.5px solid #fff}
+  .tscale{display:flex;justify-content:space-between;color:var(--dim);font-size:10.5px}
+  .events{margin-top:10px;display:grid;gap:8px}
+  .ev{display:flex;gap:10px;align-items:baseline;background:var(--panel2);
+        border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:12.5px;cursor:pointer}
+  .ev .t{color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .ev .cat{font-size:10.5px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;
+        color:var(--dim);white-space:nowrap}
+  .ev .why{color:var(--dim)} .ev b{font-weight:600}
+  .none{color:var(--dim);font-size:12.5px;font-style:italic}
+  .qh{font-size:12px;color:var(--dim);margin:14px 0 6px}
+  .qh code{color:var(--ink);background:var(--panel2);padding:2px 7px;border-radius:5px;font-size:11.5px}
+  /* findings */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:12.5px;line-height:1.55}
+  .card h3{margin:0 0 8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .vs div{border-radius:8px;padding:8px 10px;font-size:11.5px;line-height:1.5}
+  .vs .docs{background:#20242c;border:1px solid var(--line)}
+  .vs .prod{background:#152430;border:1px solid #24455c}
+  .vs em{display:block;font-style:normal;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
+  .ok{color:var(--accent2)} .warnc{color:var(--warn)} .badc{color:var(--bad)}
+  ul.tight{margin:6px 0;padding-left:18px} ul.tight li{margin:5px 0;font-size:12.5px;line-height:1.5}
+  .road{display:flex;gap:10px;flex-wrap:wrap}
+  .road .card{flex:1;min-width:180px}
+  .road .card b{color:var(--accent)}
+  /* copilot dock */
+  #dock{position:fixed;top:0;right:0;bottom:0;width:min(400px,34vw);background:var(--panel);
+        border-left:1px solid var(--line);display:flex;flex-direction:column}
+  #dock header{padding:14px 16px;border-bottom:1px solid var(--line)}
+  #dock header b{font-size:14px} #dock header span{display:block;font-size:11.5px;color:var(--dim);margin-top:2px}
+  #log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .msg{border-radius:10px;padding:9px 12px;font-size:12.8px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word}
+  .msg.user{background:#1f3350;align-self:flex-end;max-width:88%}
+  .msg.bot{background:var(--panel2);border:1px solid var(--line);max-width:94%}
+  .sugg{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}
+  .sugg button{background:var(--panel2);border:1px solid var(--line);color:var(--dim);
+        border-radius:999px;padding:5px 10px;font-size:11px;cursor:pointer}
+  .sugg button:hover{color:var(--ink);border-color:var(--accent)}
+  #bar{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
+  #q{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;
+        color:var(--ink);padding:10px 12px;font-size:13px;outline:none}
+  #send{background:var(--accent);border:0;border-radius:9px;color:#08121f;font-weight:700;
+        padding:0 16px;cursor:pointer;font-size:13px}
+  @media (max-width:900px){ #dock{display:none} main{padding-right:24px} }
+</style>
+</head>
+<body>
+<main>
+  <h1>nomadic_mini <span style="color:var(--dim);font-weight:400">— NomadicML, reverse-engineered at small scale</span></h1>
+  <div class="sub">Clean-room clone from public surfaces only · every claim gated by a test or a measured HTTP response</div>
+  <div class="chips">
+    <div class="chip">offline contracts <b>12/12 ✓</b></div>
+    <div class="chip">VLM e2e on real clip <b>✓ 22s</b></div>
+    <div class="chip">live key verify <b>✓ api-prod</b></div>
+    <div class="chip">upload roundtrip <b style="color:var(--warn)">402-gated · honest skip</b></div>
+    <div class="chip">their examples recovered <b>20/20</b></div>
+  </div>
+
+  <h2>1 · One pipeline, two implementations</h2>
+  <div class="lane theirs">
+    <div class="tag">Theirs</div>
+    <div class="node">upload<small>POST /api/upload-video</small></div><div class="arrow">→</div>
+    <div class="node">analyze<small>router/v2 + SSE · Nomadic-VL-XLarge</small></div><div class="arrow">→</div>
+    <div class="node">events<small>label · t_start · category · severity · aiAnalysis</small></div><div class="arrow">→</div>
+    <div class="node">search<small>summary · thoughts · matches</small></div>
+  </div>
+  <div class="parity-link">⇅ term-by-term parity — same verbs, same field names, diffed by tests</div>
+  <div class="lane">
+    <div class="tag">Ours</div>
+    <div class="node">upload<small>MiniClient registry</small></div><div class="arrow">→</div>
+    <div class="node">analyze<small>Gemini flash · thinking / fast</small></div><div class="arrow">→</div>
+    <div class="node">events<small>same 9 fields, pydantic-enforced</small></div><div class="arrow">→</div>
+    <div class="node">search<small>same 3-field response</small></div>
+  </div>
+
+  <h2>2 · Their queries, our clips — real events, honest zeros</h2>
+  <div class="sub">Verbatim queries from nomadicai.com/examples · markers are clickable → video seeks</div>
+  <div id="clips"></div>
+
+  <h2>3 · Measured against production (docs vs reality)</h2>
+  <div class="grid2" id="findings"></div>
+
+  <h2>4 · Strengths / weaknesses</h2>
+  <div class="grid2">
+    <div class="card"><h3 class="ok">Strengths</h3><ul class="tight">
+      <li>Term-by-term verifiable — every field traces to SDK file:line or a measured response</li>
+      <li>Honest by construction — zero-events reported, paywalls skip, probing stops at auth walls</li>
+      <li>Found real docs↔production drift their own team would care about</li>
+      <li>~600 lines, fully test-gated, offline-first CI</li>
+    </ul></div>
+    <div class="card"><h3 class="badc">Weaknesses (named, not hidden)</h3><ul class="tight">
+      <li>No trained model — we orchestrate frontier VLMs; they trained Nomadic-VL-XLarge</li>
+      <li>2 clips ≠ fleet scale (no batching, no 500-video cost model)</li>
+      <li>No sensor fusion — overlay/GPS/joint-telemetry never populated</li>
+      <li>Search is one-shot cosine; their <code>thoughts[]</code> shows agentic multi-step reasoning</li>
+    </ul></div>
+  </div>
+
+  <h2>5 · Future plan</h2>
+  <div class="road">
+    <div class="card"><b>P0</b> · full live roundtrip on one clip (web-UI upload) + demo rehearsal</div>
+    <div class="card"><b>P1</b> · batch mirror on 20–50 BDD100K clips; temporal-IoU eval vs their approved events</div>
+    <div class="card"><b>P2</b> · curation loop: clone↔API disagreements become the mined edge-case set → fine-tune small VLM</div>
+    <div class="card"><b>P3</b> · agentic search with real <code>thoughts[]</code> traces</div>
+  </div>
+</main>
+
+<aside id="dock">
+  <header><b>Lab copilot</b><span>knows the whole lab: architecture · spec · parity findings · gaps · roadmap</span></header>
+  <div id="log"><div class="msg bot">Ask me anything about this reverse-engineering lab — how the schema mirroring works, what we measured against api-prod, why the U-Haul event matters, or what P1 looks like.</div></div>
+  <div class="sugg">
+    <button>How does the event schema mirror theirs?</button>
+    <button>What did we find that contradicts their docs?</button>
+    <button>What are the weaknesses of this clone?</button>
+    <button>Walk me through the architecture.</button>
+  </div>
+  <div id="bar"><input id="q" placeholder="Ask the lab copilot…"><button id="send">Ask</button></div>
+</aside>
+
+<script>
+const CATC = {"Lane Change Detection":"#5eb0ff","Vehicle Turns":"#c9a7ff","Relative Motion Analysis":"#7ce3b1","Driving Violations":"#ff7b72","Edge Case":"#ffd166","Other":"#9aa7b8"};
+const SEV = {low:"var(--sev-low)",medium:"var(--sev-medium)",high:"var(--sev-high)"};
+const mmss = s => { const [m,x]=s.split(":").map(Number); return m*60+x; };
+
+async function loadResults(){
+  const {documents} = await (await fetch("/api/results")).json();
+  const byClip = {};
+  for (const d of documents) (byClip[d._clip] ||= []).push(d);
+  const root = document.getElementById("clips");
+  for (const [clip, docs] of Object.entries(byClip)){
+    const box = document.createElement("div"); box.className="clip";
+    box.innerHTML = `<b style="font-size:13px">${clip}</b>
+      <video src="/data/${clip}" controls preload="metadata"></video>`;
+    const video = box.querySelector("video");
+    for (const d of docs){
+      const q = document.createElement("div"); q.className="qh";
+      q.innerHTML = `query <code>${d.metadata.prompt}</code>`;
+      box.appendChild(q);
+      const tl = document.createElement("div"); tl.className="timeline"; box.appendChild(tl);
+      const evs = document.createElement("div"); evs.className="events"; box.appendChild(evs);
+      if (!d.events.length){ evs.innerHTML = `<div class="none">no events — honest zero (nothing matching in this clip)</div>`; continue; }
+      video.addEventListener("loadedmetadata", () => {
+        for (const e of d.events){
+          const m = document.createElement("div"); m.className="marker";
+          const a = mmss(e.t_start), b = Math.max(mmss(e.t_end), a+1);
+          m.style.left = (a/video.duration*100)+"%";
+          m.style.width = ((b-a)/video.duration*100)+"%";
+          m.style.background = CATC[e.category] || "#9aa7b8";
+          m.title = `[${e.t_start}–${e.t_end}] ${e.label}`;
+          m.onclick = () => { video.currentTime = a; video.play(); };
+          tl.appendChild(m);
+        }
+      });
+      for (const e of d.events){
+        const el = document.createElement("div"); el.className="ev";
+        el.innerHTML = `<span class="t">${e.t_start}–${e.t_end}</span><b>${e.label}</b>
+          <span class="cat" style="color:${CATC[e.category]};border-color:${CATC[e.category]}55">${e.category}</span>
+          <span style="color:${SEV[e.severity]}">${e.severity}</span>
+          <span class="why">conf ${e.confidence.toFixed(2)} — ${e.aiAnalysis}</span>`;
+        el.onclick = () => { video.currentTime = mmss(e.t_start); video.play(); box.scrollIntoView({behavior:"smooth"}); };
+        evs.appendChild(el);
+      }
+    }
+    root.appendChild(box);
+  }
+}
+
+const FINDINGS = [
+ {t:"verify-key schema drift", docs:"returns {valid, user_id, uid, email, org_id}",
+  prod:"returns {valid, key_id, user_id, scope, expires_at} — and the key expires in 1 year, not the documented 90 days"},
+ {t:"auth header “or” is wrong", docs:"Authorization: Bearer OR X-API-Key",
+  prod:"Bearer-only on GETs is parsed as a Firebase ID token and fails — explains why their SDK always sends BOTH headers"},
+ {t:"upload paywall (undocumented)", docs:"POST /api/upload-video documented plainly",
+  prod:"free trial → HTTP 402 “Video upload is not available on the free trial” (file AND video_url)"},
+ {t:"demo batches properly scoped", docs:"—",
+  prod:"their public demo batch IDs return “Access denied” for an outside key — correct authorization; probing stopped there"},
+];
+document.getElementById("findings").innerHTML = FINDINGS.map(f=>`
+  <div class="card"><h3>${f.t}</h3><div class="vs">
+    <div class="docs"><em>docs say</em>${f.docs}</div>
+    <div class="prod"><em>production says</em>${f.prod}</div>
+  </div></div>`).join("");
+
+/* copilot */
+const log = document.getElementById("log"), q = document.getElementById("q");
+const history = [];
+function add(cls, text){ const d=document.createElement("div"); d.className="msg "+cls; d.textContent=text; log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
+async function ask(text){
+  if(!text.trim()) return;
+  add("user", text); history.push({role:"user", content:text}); q.value="";
+  const bot = add("bot",""); let acc="";
+  const res = await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({messages:history})});
+  const rd = res.body.getReader(), dec = new TextDecoder(); let buf="";
+  while(true){
+    const {done,value} = await rd.read(); if(done) break;
+    buf += dec.decode(value,{stream:true});
+    for(const line of buf.split("\n\n").slice(0,-1).map(l=>l.trim())){
+      if(!line.startsWith("data:")) continue;
+      const j = JSON.parse(line.slice(5));
+      if(j.delta){ acc+=j.delta; bot.textContent=acc; log.scrollTop=log.scrollHeight; }
+      if(j.error){ bot.textContent = "⚠ "+j.error; }
+    }
+    buf = buf.slice(buf.lastIndexOf("\n\n")+2);
+  }
+  history.push({role:"assistant", content:acc});
+}
+document.getElementById("send").onclick = () => ask(q.value);
+q.addEventListener("keydown", e => { if(e.key==="Enter") ask(q.value); });
+document.querySelectorAll(".sugg button").forEach(b => b.onclick = () => ask(b.textContent));
+
+loadResults();
+</script>
+</body>
+</html>

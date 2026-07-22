@@ -1,0 +1,33 @@
+{
+  "video_id": "vid-894822d079",
+  "analysis_id": "mini-142d2e84596e",
+  "analysis": "The video captures several instances of vehicles performing lane changes and merges on a multi-lane highway. Two specific events involve vehicles merging onto the highway from an on-ramp, interacting with the existing traffic flow.",
+  "metadata": {
+    "backend": "gemini/gemini-2.5-flash/thinking",
+    "prompt": "Find lane merge instances."
+  },
+  "events": [
+    {
+      "label": "Silver car merges onto highway",
+      "t_start": "00:20",
+      "t_end": "00:23",
+      "category": "Lane Change Detection",
+      "severity": "low",
+      "aiAnalysis": "A silver car merges smoothly from an on-ramp onto the rightmost lane of the highway. The car maintains a safe distance and speed relative to the ego vehicle.",
+      "confidence": 0.95,
+      "approval": "pending",
+      "overlay": {}
+    },
+    {
+      "label": "White SUV merges onto highway",
+      "t_start": "00:25",
+      "t_end": "00:29",
+      "category": "Lane Change Detection",
+      "severity": "low",
+      "aiAnalysis": "A white SUV merges from an on-ramp onto the rightmost lane of the highway, following the silver car. The maneuver is executed without incident, integrating into traffic ahead of the ego vehicle.",
+      "confidence": 0.95,
+      "approval": "pending",
+      "overlay": {}
+    }
+  ]
+}
