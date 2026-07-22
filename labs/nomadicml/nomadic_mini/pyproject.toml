@@ -1,0 +1,28 @@
+[project]
+name = "nomadic-mini"
+version = "0.1.0"
+description = "Clean-room, small-scale reconstruction of the NomadicML video-analysis pipeline: video -> VLM -> structured motion events -> embedding search. Built from public docs + published SDK surface only, as interview proof-of-capability."
+requires-python = ">=3.10"
+dependencies = [
+    "google-genai>=1.0",
+    "anthropic>=0.40",
+    "numpy>=1.26",
+    "pydantic>=2.0",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["nomadic_mini"]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: tests that hit the real NomadicML API (require NOMADICML_API_KEY)",
+    "vlm: tests that call a VLM backend (require GEMINI_API_KEY or ANTHROPIC_API_KEY)",
+]

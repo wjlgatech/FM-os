@@ -1,0 +1,22 @@
+{
+  "video_id": "vid-0cc817fbfa",
+  "analysis_id": "mini-8bceb7ea5e13",
+  "analysis": "The ego vehicle is traveling in congested traffic when it encounters a disabled U-Haul truck with its ramp down, blocking the rightmost travel lane ahead. This obstruction significantly impacts traffic flow and creates a hazardous situation, though the ego vehicle itself is in an adjacent lane and merely stops as part of the overall traffic queue.",
+  "metadata": {
+    "backend": "gemini/gemini-2.5-flash/thinking",
+    "prompt": "Determine whether a stopped, disabled, or roadside vehicle creates a hazard for the ego vehicle — close enough to the travel lane to narrow the path, require a lane shift or move-over, or create a close-pass risk."
+  },
+  "events": [
+    {
+      "label": "Disabled U-Haul truck obstructing right lane",
+      "t_start": "00:07",
+      "t_end": "00:50",
+      "category": "Edge Case",
+      "severity": "medium",
+      "aiAnalysis": "A U-Haul truck, likely disabled or in the process of loading/unloading with its ramp down, is stopped in the rightmost travel lane. This creates a significant obstruction for vehicles in that lane, causing a traffic bottleneck. While the ego vehicle is in the adjacent lane and not directly forced to take evasive action, the blocked lane creates an indirect hazard by causing congestion and the potential for other vehicles to merge into the ego vehicle's path.",
+      "confidence": 0.9,
+      "approval": "pending",
+      "overlay": {}
+    }
+  ]
+}

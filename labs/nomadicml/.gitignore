@@ -1,0 +1,8 @@
+# Reproducible clips (see data/SOURCES.txt for Pexels IDs — one curl to re-fetch)
+data/*.mp4
+# Python / pytest cruft
+__pycache__/
+*.pyc
+.pytest_cache/
+# Generated derivatives kept for reference; regenerate with scripts/run_examples.py
+# (out/ is intentionally tracked — it holds the real analysis results the demo reads)

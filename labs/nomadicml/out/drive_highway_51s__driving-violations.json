@@ -1,0 +1,10 @@
+{
+  "video_id": "vid-0cc817fbfa",
+  "analysis_id": "mini-7d34f093eb8e",
+  "analysis": "The video shows the ego vehicle approaching and stopping at a red traffic light, waiting for it to turn green, and then proceeding. No driving violations were observed by the ego vehicle or other vehicles in the frame.",
+  "metadata": {
+    "backend": "gemini/gemini-2.5-flash/thinking",
+    "prompt": "Find driving violations and cite their relevant DMV code."
+  },
+  "events": []
+}
