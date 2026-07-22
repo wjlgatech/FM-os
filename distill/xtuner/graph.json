@@ -1,0 +1,125 @@
+{
+  "repo": "InternLM/xtuner",
+  "slug": "xtuner",
+  "category": "finetuning",
+  "source_hash": "ab10d156918f1c0d",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:xtuner",
+      "type": "repo",
+      "label": "XTuner",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:finetuning",
+      "type": "category",
+      "label": "finetuning",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:python_pytorch",
+      "type": "concept",
+      "label": "Python / PyTorch / large-scale ML workflows",
+      "provenance": "jd_taxonomy:python_pytorch via category 'finetuning'"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'vlm'"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'fine-tun'"
+    },
+    {
+      "id": "repo:peft",
+      "type": "repo",
+      "label": "PEFT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:unsloth",
+      "type": "repo",
+      "label": "Unsloth",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:axolotl",
+      "type": "repo",
+      "label": "Axolotl",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:llama-factory",
+      "type": "repo",
+      "label": "LLaMA-Factory",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:torchtune",
+      "type": "repo",
+      "label": "torchtune",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:xtuner",
+      "to": "category:finetuning",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "concept:python_pytorch",
+      "rel": "covers",
+      "provenance": "category 'finetuning'"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'vlm'"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'fine-tun'"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "repo:peft",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "repo:unsloth",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "repo:axolotl",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "repo:llama-factory",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:xtuner",
+      "to": "repo:torchtune",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "repo": "EvolvingLMMs-Lab/lmms-eval",
+  "slug": "lmms-eval",
+  "category": "eval",
+  "source_hash": "d5c7b294a19fb02c",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:lmms-eval",
+      "type": "repo",
+      "label": "lmms-eval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:eval",
+      "type": "category",
+      "label": "eval",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'vlm'"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'video'"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'eval'"
+    },
+    {
+      "id": "repo:lm-evaluation-harness",
+      "type": "repo",
+      "label": "lm-evaluation-harness",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lighteval",
+      "type": "repo",
+      "label": "LightEval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:vlmevalkit",
+      "type": "repo",
+      "label": "VLMEvalKit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:mlagentbench",
+      "type": "repo",
+      "label": "MLAgentBench",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:lmms-eval",
+      "to": "category:eval",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'vlm'"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'video'"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'eval'"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "repo:lm-evaluation-harness",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "repo:lighteval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "repo:vlmevalkit",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:lmms-eval",
+      "to": "repo:mlagentbench",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    }
+  ]
+}

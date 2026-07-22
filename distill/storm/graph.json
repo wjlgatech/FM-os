@@ -1,0 +1,113 @@
+{
+  "repo": "stanford-oval/storm",
+  "slug": "storm",
+  "category": "research",
+  "source_hash": "c72a1e572ecb029d",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:storm",
+      "type": "repo",
+      "label": "STORM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:research",
+      "type": "category",
+      "label": "research",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:data_curation",
+      "type": "concept",
+      "label": "Dataset curation loops (\"AI training AI\")",
+      "provenance": "jd_taxonomy:data_curation via keyword 'curation'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via category 'research'"
+    },
+    {
+      "id": "concept:research_publishing",
+      "type": "concept",
+      "label": "Publishing research (NeurIPS / CVPR)",
+      "provenance": "jd_taxonomy:research_publishing via keyword 'research'"
+    },
+    {
+      "id": "repo:ai-scientist",
+      "type": "repo",
+      "label": "AI-Scientist",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ai-scientist-v2",
+      "type": "repo",
+      "label": "AI-Scientist-v2",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:agentlaboratory",
+      "type": "repo",
+      "label": "Agent Laboratory",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gpt-researcher",
+      "type": "repo",
+      "label": "GPT-Researcher",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:storm",
+      "to": "category:research",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:storm",
+      "to": "concept:data_curation",
+      "rel": "covers",
+      "provenance": "blurb keyword 'curation'"
+    },
+    {
+      "from": "repo:storm",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "category 'research'"
+    },
+    {
+      "from": "repo:storm",
+      "to": "concept:research_publishing",
+      "rel": "covers",
+      "provenance": "blurb keyword 'research'"
+    },
+    {
+      "from": "repo:storm",
+      "to": "repo:ai-scientist",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:storm",
+      "to": "repo:ai-scientist-v2",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:storm",
+      "to": "repo:agentlaboratory",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:storm",
+      "to": "repo:gpt-researcher",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    }
+  ]
+}

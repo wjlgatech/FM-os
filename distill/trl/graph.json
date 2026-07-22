@@ -1,0 +1,101 @@
+{
+  "repo": "huggingface/trl",
+  "slug": "trl",
+  "category": "rl",
+  "source_hash": "5b97fb3ec692caba",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:trl",
+      "type": "repo",
+      "label": "TRL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:rl",
+      "type": "category",
+      "label": "rl",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:rl_posttraining",
+      "type": "concept",
+      "label": "Post-training / RL / alignment",
+      "provenance": "jd_taxonomy:rl_posttraining via keyword 'dpo'"
+    },
+    {
+      "id": "repo:openrlhf",
+      "type": "repo",
+      "label": "OpenRLHF",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:verl",
+      "type": "repo",
+      "label": "verl",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:trlx",
+      "type": "repo",
+      "label": "trlX",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:verifiers",
+      "type": "repo",
+      "label": "Verifiers",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:trl",
+      "to": "category:rl",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:trl",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:trl",
+      "to": "concept:rl_posttraining",
+      "rel": "covers",
+      "provenance": "blurb keyword 'dpo'"
+    },
+    {
+      "from": "repo:trl",
+      "to": "repo:openrlhf",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:trl",
+      "to": "repo:verl",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:trl",
+      "to": "repo:trlx",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:trl",
+      "to": "repo:verifiers",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    }
+  ]
+}

@@ -1,7 +1,167 @@
 {
   "generator": "distill.py",
-  "count": 3,
+  "count": 89,
   "items": [
+    {
+      "slug": "smollm",
+      "repo": "huggingface/smollm",
+      "nodes": 6,
+      "edges": 5,
+      "kg_valid": true,
+      "source_hash": "0673146e0f901151",
+      "skill": "distill/smollm/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "phicookbook",
+      "repo": "microsoft/PhiCookBook",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "5b3d3598fb4a6336",
+      "skill": "distill/phicookbook/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "gemma",
+      "repo": "google-deepmind/gemma",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "492104c3b067b9f3",
+      "skill": "distill/gemma/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "qwen3",
+      "repo": "QwenLM/Qwen3",
+      "nodes": 6,
+      "edges": 5,
+      "kg_valid": true,
+      "source_hash": "21d233a250f885b3",
+      "skill": "distill/qwen3/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "gemma-pytorch",
+      "repo": "google/gemma_pytorch",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "7be0e92532443a04",
+      "skill": "distill/gemma-pytorch/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "tinyllama",
+      "repo": "jzhang38/TinyLlama",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "19cf89d2917d1481",
+      "skill": "distill/tinyllama/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "mobilellm",
+      "repo": "facebookresearch/MobileLLM",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "925c946494cf3d05",
+      "skill": "distill/mobilellm/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "olmo",
+      "repo": "allenai/OLMo",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "77243b206b133007",
+      "skill": "distill/olmo/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "llama-models",
+      "repo": "meta-llama/llama-models",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "e5efbec4ba2f1a54",
+      "skill": "distill/llama-models/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "nanogpt",
+      "repo": "karpathy/nanoGPT",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "8b49e416a18cb819",
+      "skill": "distill/nanogpt/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "litgpt",
+      "repo": "Lightning-AI/litgpt",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "246a0b36656da657",
+      "skill": "distill/litgpt/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "gpt-neox",
+      "repo": "EleutherAI/gpt-neox",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "d8a028abfea0b14d",
+      "skill": "distill/gpt-neox/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "megatron-lm",
+      "repo": "NVIDIA/Megatron-LM",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "fa7387cbbc19dd5b",
+      "skill": "distill/megatron-lm/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "torchtitan",
+      "repo": "pytorch/torchtitan",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "33000660998cffe9",
+      "skill": "distill/torchtitan/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "nanotron",
+      "repo": "huggingface/nanotron",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "45bed9767e09ae51",
+      "skill": "distill/nanotron/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "peft",
+      "repo": "huggingface/peft",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "b91165358d13eab6",
+      "skill": "distill/peft/SKILL.md",
+      "certified": null
+    },
     {
       "slug": "unsloth",
       "repo": "unslothai/unsloth",
@@ -10,6 +170,106 @@
       "kg_valid": true,
       "source_hash": "47e3b4df4997f771",
       "skill": "distill/unsloth/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "axolotl",
+      "repo": "axolotl-ai-cloud/axolotl",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "2c87308f0b3587bd",
+      "skill": "distill/axolotl/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "llama-factory",
+      "repo": "hiyouga/LLaMA-Factory",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "53177875af6c39c4",
+      "skill": "distill/llama-factory/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "torchtune",
+      "repo": "meta-pytorch/torchtune",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "988e73ea70f138e8",
+      "skill": "distill/torchtune/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "trl",
+      "repo": "huggingface/trl",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "5b97fb3ec692caba",
+      "skill": "distill/trl/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "openrlhf",
+      "repo": "OpenRLHF/OpenRLHF",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "3042ecbf99fc5c6a",
+      "skill": "distill/openrlhf/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "verl",
+      "repo": "verl-project/verl",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "e0e5efa1cad457fc",
+      "skill": "distill/verl/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "trlx",
+      "repo": "CarperAI/trlx",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "fedbe6b7b653171a",
+      "skill": "distill/trlx/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "lm-evaluation-harness",
+      "repo": "EleutherAI/lm-evaluation-harness",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "0190a5280e1b4d49",
+      "skill": "distill/lm-evaluation-harness/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "lighteval",
+      "repo": "huggingface/lighteval",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "699f62c09ae2aab0",
+      "skill": "distill/lighteval/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "llama-cpp",
+      "repo": "ggml-org/llama.cpp",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "01a11c601fb7a979",
+      "skill": "distill/llama-cpp/SKILL.md",
       "certified": null
     },
     {
@@ -23,6 +283,556 @@
       "certified": null
     },
     {
+      "slug": "ollama",
+      "repo": "ollama/ollama",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "ba0ea3eeac517bc0",
+      "skill": "distill/ollama/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "mlc-llm",
+      "repo": "mlc-ai/mlc-llm",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "ee6d7cb9e537b4ef",
+      "skill": "distill/mlc-llm/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "bitnet",
+      "repo": "microsoft/BitNet",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "8eb0befe24368568",
+      "skill": "distill/bitnet/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "llm-awq",
+      "repo": "mit-han-lab/llm-awq",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "f6be79903a509ef4",
+      "skill": "distill/llm-awq/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "gptqmodel",
+      "repo": "ModelCloud/GPTQModel",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "153d0c772d88a66a",
+      "skill": "distill/gptqmodel/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "lightcompress",
+      "repo": "ModelTC/LightCompress",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "7db568a6aa210730",
+      "skill": "distill/lightcompress/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "distillkit",
+      "repo": "arcee-ai/DistillKit",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "0ea1bf6f0870a5e8",
+      "skill": "distill/distillkit/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "qwen2-5-vl",
+      "repo": "QwenLM/Qwen2.5-VL",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "c56d8b1a3e0f9c50",
+      "skill": "distill/qwen2-5-vl/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "llava-next",
+      "repo": "LLaVA-VL/LLaVA-NeXT",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "ab54ab6abd257d32",
+      "skill": "distill/llava-next/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "internvl",
+      "repo": "OpenGVLab/InternVL",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "e2b3bd3d5e27ff02",
+      "skill": "distill/internvl/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "videollama3",
+      "repo": "DAMO-NLP-SG/VideoLLaMA3",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "bff18dbde6c606f7",
+      "skill": "distill/videollama3/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "video-llava",
+      "repo": "PKU-YuanGroup/Video-LLaVA",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "e316b24d2a758569",
+      "skill": "distill/video-llava/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "clip",
+      "repo": "openai/CLIP",
+      "nodes": 11,
+      "edges": 10,
+      "kg_valid": true,
+      "source_hash": "c61b86e2444db906",
+      "skill": "distill/clip/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "open-clip",
+      "repo": "mlfoundations/open_clip",
+      "nodes": 12,
+      "edges": 11,
+      "kg_valid": true,
+      "source_hash": "a8ee9f6bf60b5aa2",
+      "skill": "distill/open-clip/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "minicpm-v",
+      "repo": "OpenBMB/MiniCPM-V",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "265e439dcebc42d6",
+      "skill": "distill/minicpm-v/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "molmo",
+      "repo": "allenai/molmo",
+      "nodes": 11,
+      "edges": 10,
+      "kg_valid": true,
+      "source_hash": "6d91c84db16dae2e",
+      "skill": "distill/molmo/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "transformers",
+      "repo": "huggingface/transformers",
+      "nodes": 12,
+      "edges": 11,
+      "kg_valid": true,
+      "source_hash": "0706ecdc800bb587",
+      "skill": "distill/transformers/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "deepspeed",
+      "repo": "deepspeedai/DeepSpeed",
+      "nodes": 11,
+      "edges": 10,
+      "kg_valid": true,
+      "source_hash": "53792d658cf21a1a",
+      "skill": "distill/deepspeed/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "ms-swift",
+      "repo": "modelscope/ms-swift",
+      "nodes": 11,
+      "edges": 10,
+      "kg_valid": true,
+      "source_hash": "9ec6b2e2cc08e14f",
+      "skill": "distill/ms-swift/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "xtuner",
+      "repo": "InternLM/xtuner",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "ab10d156918f1c0d",
+      "skill": "distill/xtuner/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "lmms-eval",
+      "repo": "EvolvingLMMs-Lab/lmms-eval",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "d5c7b294a19fb02c",
+      "skill": "distill/lmms-eval/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "vlmevalkit",
+      "repo": "open-compass/VLMEvalKit",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "04d8cfcc21156a2f",
+      "skill": "distill/vlmevalkit/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "sglang",
+      "repo": "sgl-project/sglang",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "57d81b1cbe20e865",
+      "skill": "distill/sglang/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "lmdeploy",
+      "repo": "InternLM/lmdeploy",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "4945560cf0a0dff7",
+      "skill": "distill/lmdeploy/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "faiss",
+      "repo": "facebookresearch/faiss",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "ceb91258c2e05493",
+      "skill": "distill/faiss/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "milvus",
+      "repo": "milvus-io/milvus",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "5dd7ef7e16f32eda",
+      "skill": "distill/milvus/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "qdrant",
+      "repo": "qdrant/qdrant",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "9c80b4f822b6e643",
+      "skill": "distill/qdrant/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "lancedb",
+      "repo": "lancedb/lancedb",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "6d70e00f7d4d456c",
+      "skill": "distill/lancedb/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "ray",
+      "repo": "ray-project/ray",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "fd096dcf6615bde2",
+      "skill": "distill/ray/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "mlflow",
+      "repo": "mlflow/mlflow",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "def9af24a7b20833",
+      "skill": "distill/mlflow/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "nuscenes-devkit",
+      "repo": "nutonomy/nuscenes-devkit",
+      "nodes": 12,
+      "edges": 11,
+      "kg_valid": true,
+      "source_hash": "41cbb9f4ecfb625c",
+      "skill": "distill/nuscenes-devkit/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "waymo-open-dataset",
+      "repo": "waymo-research/waymo-open-dataset",
+      "nodes": 12,
+      "edges": 11,
+      "kg_valid": true,
+      "source_hash": "e4cbc2f8d3dded76",
+      "skill": "distill/waymo-open-dataset/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "bdd100k-models",
+      "repo": "SysCV/bdd100k-models",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "79a3fb2f6710ebca",
+      "skill": "distill/bdd100k-models/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "ego4d",
+      "repo": "facebookresearch/Ego4d",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "1b40c0f43f8a6d85",
+      "skill": "distill/ego4d/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "av2-api",
+      "repo": "argoverse/av2-api",
+      "nodes": 13,
+      "edges": 12,
+      "kg_valid": true,
+      "source_hash": "edadfc5c938b8dc5",
+      "skill": "distill/av2-api/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "jax",
+      "repo": "jax-ml/jax",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "67d6518fae1a1d54",
+      "skill": "distill/jax/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "flax",
+      "repo": "google/flax",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "1da46871aca5415f",
+      "skill": "distill/flax/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "keras",
+      "repo": "keras-team/keras",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "b21325612f735bec",
+      "skill": "distill/keras/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "maxtext",
+      "repo": "AI-Hypercomputer/maxtext",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "f0a623ac3f488a87",
+      "skill": "distill/maxtext/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "levanter",
+      "repo": "marin-community/levanter",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "db99b2d1ae3e2846",
+      "skill": "distill/levanter/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "penzai",
+      "repo": "google-deepmind/penzai",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "1fa4b7295d8e15e4",
+      "skill": "distill/penzai/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "ai-scientist",
+      "repo": "SakanaAI/AI-Scientist",
+      "nodes": 7,
+      "edges": 6,
+      "kg_valid": true,
+      "source_hash": "b80eda7e10f4371f",
+      "skill": "distill/ai-scientist/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "ai-scientist-v2",
+      "repo": "SakanaAI/AI-Scientist-v2",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "073d9f83c7d2fe39",
+      "skill": "distill/ai-scientist-v2/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "agentlaboratory",
+      "repo": "SamuelSchmidgall/AgentLaboratory",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "22adc4f4c296f5c3",
+      "skill": "distill/agentlaboratory/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "storm",
+      "repo": "stanford-oval/storm",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "c72a1e572ecb029d",
+      "skill": "distill/storm/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "gpt-researcher",
+      "repo": "assafelovic/gpt-researcher",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "15bc3eab9e6a1a74",
+      "skill": "distill/gpt-researcher/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "deep-research",
+      "repo": "dzhng/deep-research",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "3a6d068c2e1ff501",
+      "skill": "distill/deep-research/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "smolagents",
+      "repo": "huggingface/smolagents",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "5cc8ea9a411d17f6",
+      "skill": "distill/smolagents/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "adas",
+      "repo": "ShengranHu/ADAS",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "de09f99e7a9aa678",
+      "skill": "distill/adas/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "dspy",
+      "repo": "stanfordnlp/dspy",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "d247b0d77ab5cf0d",
+      "skill": "distill/dspy/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "ai-researcher",
+      "repo": "HKUDS/AI-Researcher",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "0b006a12426eb5a9",
+      "skill": "distill/ai-researcher/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "curie",
+      "repo": "Just-Curieous/Curie",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "cbe3119373a86216",
+      "skill": "distill/curie/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "mlagentbench",
+      "repo": "snap-stanford/MLAgentBench",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "74b78c3c0f961fab",
+      "skill": "distill/mlagentbench/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "aviary",
+      "repo": "Future-House/aviary",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "51fae3d4dc5a1288",
+      "skill": "distill/aviary/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "paper-qa",
+      "repo": "Future-House/paper-qa",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "4ca3ac152aacc0be",
+      "skill": "distill/paper-qa/SKILL.md",
+      "certified": null
+    },
+    {
       "slug": "verifiers",
       "repo": "PrimeIntellect-ai/verifiers",
       "nodes": 7,
@@ -30,6 +840,56 @@
       "kg_valid": true,
       "source_hash": "62740c70236d82b2",
       "skill": "distill/verifiers/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "skyrl",
+      "repo": "NovaSky-AI/SkyRL",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "f863d98909c3af56",
+      "skill": "distill/skyrl/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "open-agentrl",
+      "repo": "Gen-Verse/Open-AgentRL",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "30e31ea9d810c7d7",
+      "skill": "distill/open-agentrl/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "internbootcamp",
+      "repo": "InternLM/InternBootcamp",
+      "nodes": 8,
+      "edges": 7,
+      "kg_valid": true,
+      "source_hash": "b6767151884a0689",
+      "skill": "distill/internbootcamp/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "gymnasium",
+      "repo": "Farama-Foundation/Gymnasium",
+      "nodes": 9,
+      "edges": 8,
+      "kg_valid": true,
+      "source_hash": "a5b8b872a1467137",
+      "skill": "distill/gymnasium/SKILL.md",
+      "certified": null
+    },
+    {
+      "slug": "morpheus-evals",
+      "repo": "Skyfall-Research/morpheus-evals",
+      "nodes": 10,
+      "edges": 9,
+      "kg_valid": true,
+      "source_hash": "0b3b64756ac9d753",
+      "skill": "distill/morpheus-evals/SKILL.md",
       "certified": null
     }
   ]

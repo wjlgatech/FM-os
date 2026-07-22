@@ -1,0 +1,113 @@
+{
+  "repo": "sgl-project/sglang",
+  "slug": "sglang",
+  "category": "serving",
+  "source_hash": "57d81b1cbe20e865",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:sglang",
+      "type": "repo",
+      "label": "SGLang",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:serving",
+      "type": "category",
+      "label": "serving",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'vlm'"
+    },
+    {
+      "id": "concept:rl_posttraining",
+      "type": "concept",
+      "label": "Post-training / RL / alignment",
+      "provenance": "jd_taxonomy:rl_posttraining via keyword 'dpo'"
+    },
+    {
+      "id": "concept:gpu_optimization",
+      "type": "concept",
+      "label": "GPU optimization / efficient inference",
+      "provenance": "jd_taxonomy:gpu_optimization via category 'serving'"
+    },
+    {
+      "id": "repo:llama-cpp",
+      "type": "repo",
+      "label": "llama.cpp",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:vllm",
+      "type": "repo",
+      "label": "vLLM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ollama",
+      "type": "repo",
+      "label": "Ollama",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:mlc-llm",
+      "type": "repo",
+      "label": "MLC-LLM",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:sglang",
+      "to": "category:serving",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:sglang",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'vlm'"
+    },
+    {
+      "from": "repo:sglang",
+      "to": "concept:rl_posttraining",
+      "rel": "covers",
+      "provenance": "blurb keyword 'dpo'"
+    },
+    {
+      "from": "repo:sglang",
+      "to": "concept:gpu_optimization",
+      "rel": "covers",
+      "provenance": "category 'serving'"
+    },
+    {
+      "from": "repo:sglang",
+      "to": "repo:llama-cpp",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    },
+    {
+      "from": "repo:sglang",
+      "to": "repo:vllm",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    },
+    {
+      "from": "repo:sglang",
+      "to": "repo:ollama",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    },
+    {
+      "from": "repo:sglang",
+      "to": "repo:mlc-llm",
+      "rel": "related",
+      "provenance": "same category 'serving'"
+    }
+  ]
+}

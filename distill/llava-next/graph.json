@@ -1,0 +1,125 @@
+{
+  "repo": "LLaVA-VL/LLaVA-NeXT",
+  "slug": "llava-next",
+  "category": "multimodal",
+  "source_hash": "ab54ab6abd257d32",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:llava-next",
+      "type": "repo",
+      "label": "LLaVA-NeXT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:multimodal",
+      "type": "category",
+      "label": "multimodal",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via category 'multimodal'"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'video'"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "repo:qwen2-5-vl",
+      "type": "repo",
+      "label": "Qwen2.5-VL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:internvl",
+      "type": "repo",
+      "label": "InternVL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:videollama3",
+      "type": "repo",
+      "label": "VideoLLaMA3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:video-llava",
+      "type": "repo",
+      "label": "Video-LLaVA",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:llava-next",
+      "to": "category:multimodal",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "category 'multimodal'"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'video'"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "repo:qwen2-5-vl",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "repo:internvl",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "repo:videollama3",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:llava-next",
+      "to": "repo:video-llava",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    }
+  ]
+}

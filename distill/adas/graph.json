@@ -1,0 +1,113 @@
+{
+  "repo": "ShengranHu/ADAS",
+  "slug": "adas",
+  "category": "research",
+  "source_hash": "de09f99e7a9aa678",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:adas",
+      "type": "repo",
+      "label": "ADAS",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:research",
+      "type": "category",
+      "label": "research",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via category 'research'"
+    },
+    {
+      "id": "repo:ai-scientist",
+      "type": "repo",
+      "label": "AI-Scientist",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ai-scientist-v2",
+      "type": "repo",
+      "label": "AI-Scientist-v2",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:agentlaboratory",
+      "type": "repo",
+      "label": "Agent Laboratory",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:storm",
+      "type": "repo",
+      "label": "STORM",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gpt-researcher",
+      "type": "repo",
+      "label": "GPT-Researcher",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:adas",
+      "to": "category:research",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:adas",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:adas",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "category 'research'"
+    },
+    {
+      "from": "repo:adas",
+      "to": "repo:ai-scientist",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:adas",
+      "to": "repo:ai-scientist-v2",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:adas",
+      "to": "repo:agentlaboratory",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:adas",
+      "to": "repo:storm",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    },
+    {
+      "from": "repo:adas",
+      "to": "repo:gpt-researcher",
+      "rel": "related",
+      "provenance": "same category 'research'"
+    }
+  ]
+}

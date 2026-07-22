@@ -1,0 +1,101 @@
+{
+  "repo": "EleutherAI/lm-evaluation-harness",
+  "slug": "lm-evaluation-harness",
+  "category": "eval",
+  "source_hash": "0190a5280e1b4d49",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:lm-evaluation-harness",
+      "type": "repo",
+      "label": "lm-evaluation-harness",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:eval",
+      "type": "category",
+      "label": "eval",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'eval'"
+    },
+    {
+      "id": "repo:lighteval",
+      "type": "repo",
+      "label": "LightEval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lmms-eval",
+      "type": "repo",
+      "label": "lmms-eval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:vlmevalkit",
+      "type": "repo",
+      "label": "VLMEvalKit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:mlagentbench",
+      "type": "repo",
+      "label": "MLAgentBench",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:lm-evaluation-harness",
+      "to": "category:eval",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:lm-evaluation-harness",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:lm-evaluation-harness",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'eval'"
+    },
+    {
+      "from": "repo:lm-evaluation-harness",
+      "to": "repo:lighteval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:lm-evaluation-harness",
+      "to": "repo:lmms-eval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:lm-evaluation-harness",
+      "to": "repo:vlmevalkit",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:lm-evaluation-harness",
+      "to": "repo:mlagentbench",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    }
+  ]
+}

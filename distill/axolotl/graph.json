@@ -1,0 +1,113 @@
+{
+  "repo": "axolotl-ai-cloud/axolotl",
+  "slug": "axolotl",
+  "category": "finetuning",
+  "source_hash": "2c87308f0b3587bd",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:axolotl",
+      "type": "repo",
+      "label": "Axolotl",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:finetuning",
+      "type": "category",
+      "label": "finetuning",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:python_pytorch",
+      "type": "concept",
+      "label": "Python / PyTorch / large-scale ML workflows",
+      "provenance": "jd_taxonomy:python_pytorch via category 'finetuning'"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:rl_posttraining",
+      "type": "concept",
+      "label": "Post-training / RL / alignment",
+      "provenance": "jd_taxonomy:rl_posttraining via keyword 'dpo'"
+    },
+    {
+      "id": "repo:peft",
+      "type": "repo",
+      "label": "PEFT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:unsloth",
+      "type": "repo",
+      "label": "Unsloth",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:llama-factory",
+      "type": "repo",
+      "label": "LLaMA-Factory",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:torchtune",
+      "type": "repo",
+      "label": "torchtune",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:axolotl",
+      "to": "category:finetuning",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:axolotl",
+      "to": "concept:python_pytorch",
+      "rel": "covers",
+      "provenance": "category 'finetuning'"
+    },
+    {
+      "from": "repo:axolotl",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:axolotl",
+      "to": "concept:rl_posttraining",
+      "rel": "covers",
+      "provenance": "blurb keyword 'dpo'"
+    },
+    {
+      "from": "repo:axolotl",
+      "to": "repo:peft",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:axolotl",
+      "to": "repo:unsloth",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:axolotl",
+      "to": "repo:llama-factory",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    },
+    {
+      "from": "repo:axolotl",
+      "to": "repo:torchtune",
+      "rel": "related",
+      "provenance": "same category 'finetuning'"
+    }
+  ]
+}

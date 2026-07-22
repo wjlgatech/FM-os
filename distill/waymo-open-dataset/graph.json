@@ -1,0 +1,149 @@
+{
+  "repo": "waymo-research/waymo-open-dataset",
+  "slug": "waymo-open-dataset",
+  "category": "dataset",
+  "source_hash": "e4cbc2f8d3dded76",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:waymo-open-dataset",
+      "type": "repo",
+      "label": "Waymo Open Dataset",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:dataset",
+      "type": "category",
+      "label": "dataset",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'video'"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'dataset'"
+    },
+    {
+      "id": "concept:data_curation",
+      "type": "concept",
+      "label": "Dataset curation loops (\"AI training AI\")",
+      "provenance": "jd_taxonomy:data_curation via category 'dataset'"
+    },
+    {
+      "id": "concept:av_robotics_data",
+      "type": "concept",
+      "label": "Autonomous-driving / robotics datasets",
+      "provenance": "jd_taxonomy:av_robotics_data via keyword 'driving'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via keyword 'end-to-end'"
+    },
+    {
+      "id": "repo:nuscenes-devkit",
+      "type": "repo",
+      "label": "nuScenes devkit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:bdd100k-models",
+      "type": "repo",
+      "label": "BDD100K",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ego4d",
+      "type": "repo",
+      "label": "Ego4D",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:av2-api",
+      "type": "repo",
+      "label": "Argoverse 2",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "category:dataset",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'video'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "concept:data_curation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "concept:av_robotics_data",
+      "rel": "covers",
+      "provenance": "blurb keyword 'driving'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "blurb keyword 'end-to-end'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "repo:nuscenes-devkit",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "repo:bdd100k-models",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "repo:ego4d",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:waymo-open-dataset",
+      "to": "repo:av2-api",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    }
+  ]
+}

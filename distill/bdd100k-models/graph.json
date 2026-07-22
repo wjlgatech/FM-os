@@ -1,0 +1,125 @@
+{
+  "repo": "SysCV/bdd100k-models",
+  "slug": "bdd100k-models",
+  "category": "dataset",
+  "source_hash": "79a3fb2f6710ebca",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:bdd100k-models",
+      "type": "repo",
+      "label": "BDD100K",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:dataset",
+      "type": "category",
+      "label": "dataset",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'video'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'dataset'"
+    },
+    {
+      "id": "concept:data_curation",
+      "type": "concept",
+      "label": "Dataset curation loops (\"AI training AI\")",
+      "provenance": "jd_taxonomy:data_curation via category 'dataset'"
+    },
+    {
+      "id": "concept:av_robotics_data",
+      "type": "concept",
+      "label": "Autonomous-driving / robotics datasets",
+      "provenance": "jd_taxonomy:av_robotics_data via keyword 'driving'"
+    },
+    {
+      "id": "repo:nuscenes-devkit",
+      "type": "repo",
+      "label": "nuScenes devkit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:waymo-open-dataset",
+      "type": "repo",
+      "label": "Waymo Open Dataset",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ego4d",
+      "type": "repo",
+      "label": "Ego4D",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:av2-api",
+      "type": "repo",
+      "label": "Argoverse 2",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:bdd100k-models",
+      "to": "category:dataset",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'video'"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "concept:data_curation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "concept:av_robotics_data",
+      "rel": "covers",
+      "provenance": "blurb keyword 'driving'"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "repo:nuscenes-devkit",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "repo:waymo-open-dataset",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "repo:ego4d",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:bdd100k-models",
+      "to": "repo:av2-api",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    }
+  ]
+}

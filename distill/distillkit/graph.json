@@ -1,0 +1,101 @@
+{
+  "repo": "arcee-ai/DistillKit",
+  "slug": "distillkit",
+  "category": "compression",
+  "source_hash": "0ea1bf6f0870a5e8",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:distillkit",
+      "type": "repo",
+      "label": "DistillKit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:compression",
+      "type": "category",
+      "label": "compression",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:gpu_optimization",
+      "type": "concept",
+      "label": "GPU optimization / efficient inference",
+      "provenance": "jd_taxonomy:gpu_optimization via category 'compression'"
+    },
+    {
+      "id": "repo:bitnet",
+      "type": "repo",
+      "label": "BitNet",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:llm-awq",
+      "type": "repo",
+      "label": "LLM-AWQ",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gptqmodel",
+      "type": "repo",
+      "label": "GPTQModel",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lightcompress",
+      "type": "repo",
+      "label": "LightCompress (LLMC)",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:distillkit",
+      "to": "category:compression",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:distillkit",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:distillkit",
+      "to": "concept:gpu_optimization",
+      "rel": "covers",
+      "provenance": "category 'compression'"
+    },
+    {
+      "from": "repo:distillkit",
+      "to": "repo:bitnet",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    },
+    {
+      "from": "repo:distillkit",
+      "to": "repo:llm-awq",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    },
+    {
+      "from": "repo:distillkit",
+      "to": "repo:gptqmodel",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    },
+    {
+      "from": "repo:distillkit",
+      "to": "repo:lightcompress",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    }
+  ]
+}

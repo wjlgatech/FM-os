@@ -1,0 +1,89 @@
+{
+  "repo": "microsoft/BitNet",
+  "slug": "bitnet",
+  "category": "compression",
+  "source_hash": "8eb0befe24368568",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:bitnet",
+      "type": "repo",
+      "label": "BitNet",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:compression",
+      "type": "category",
+      "label": "compression",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:gpu_optimization",
+      "type": "concept",
+      "label": "GPU optimization / efficient inference",
+      "provenance": "jd_taxonomy:gpu_optimization via keyword 'inference'"
+    },
+    {
+      "id": "repo:llm-awq",
+      "type": "repo",
+      "label": "LLM-AWQ",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gptqmodel",
+      "type": "repo",
+      "label": "GPTQModel",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lightcompress",
+      "type": "repo",
+      "label": "LightCompress (LLMC)",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:distillkit",
+      "type": "repo",
+      "label": "DistillKit",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:bitnet",
+      "to": "category:compression",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:bitnet",
+      "to": "concept:gpu_optimization",
+      "rel": "covers",
+      "provenance": "blurb keyword 'inference'"
+    },
+    {
+      "from": "repo:bitnet",
+      "to": "repo:llm-awq",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    },
+    {
+      "from": "repo:bitnet",
+      "to": "repo:gptqmodel",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    },
+    {
+      "from": "repo:bitnet",
+      "to": "repo:lightcompress",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    },
+    {
+      "from": "repo:bitnet",
+      "to": "repo:distillkit",
+      "rel": "related",
+      "provenance": "same category 'compression'"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "repo": "allenai/molmo",
+  "slug": "molmo",
+  "category": "multimodal",
+  "source_hash": "6d91c84db16dae2e",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:molmo",
+      "type": "repo",
+      "label": "Molmo",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:multimodal",
+      "type": "category",
+      "label": "multimodal",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'vlm'"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via category 'multimodal'"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via keyword 'reproduc'"
+    },
+    {
+      "id": "repo:qwen2-5-vl",
+      "type": "repo",
+      "label": "Qwen2.5-VL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:llava-next",
+      "type": "repo",
+      "label": "LLaVA-NeXT",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:internvl",
+      "type": "repo",
+      "label": "InternVL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:videollama3",
+      "type": "repo",
+      "label": "VideoLLaMA3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:video-llava",
+      "type": "repo",
+      "label": "Video-LLaVA",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:molmo",
+      "to": "category:multimodal",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'vlm'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "category 'multimodal'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "blurb keyword 'reproduc'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "repo:qwen2-5-vl",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "repo:llava-next",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "repo:internvl",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "repo:videollama3",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    },
+    {
+      "from": "repo:molmo",
+      "to": "repo:video-llava",
+      "rel": "related",
+      "provenance": "same category 'multimodal'"
+    }
+  ]
+}

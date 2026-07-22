@@ -1,0 +1,113 @@
+{
+  "repo": "jzhang38/TinyLlama",
+  "slug": "tinyllama",
+  "category": "models",
+  "source_hash": "19cf89d2917d1481",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:tinyllama",
+      "type": "repo",
+      "label": "TinyLlama",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:models",
+      "type": "category",
+      "label": "models",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:research_methodology",
+      "type": "concept",
+      "label": "Research judgment & empirical rigor (experiment loop)",
+      "provenance": "jd_taxonomy:research_methodology via keyword 'reproduc'"
+    },
+    {
+      "id": "repo:smollm",
+      "type": "repo",
+      "label": "SmolLM / SmolLM2 / SmolLM3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:phicookbook",
+      "type": "repo",
+      "label": "Phi Cookbook",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gemma",
+      "type": "repo",
+      "label": "Gemma (DeepMind)",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:qwen3",
+      "type": "repo",
+      "label": "Qwen3",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:gemma-pytorch",
+      "type": "repo",
+      "label": "gemma_pytorch",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:tinyllama",
+      "to": "category:models",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:tinyllama",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:tinyllama",
+      "to": "concept:research_methodology",
+      "rel": "covers",
+      "provenance": "blurb keyword 'reproduc'"
+    },
+    {
+      "from": "repo:tinyllama",
+      "to": "repo:smollm",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:tinyllama",
+      "to": "repo:phicookbook",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:tinyllama",
+      "to": "repo:gemma",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:tinyllama",
+      "to": "repo:qwen3",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    },
+    {
+      "from": "repo:tinyllama",
+      "to": "repo:gemma-pytorch",
+      "rel": "related",
+      "provenance": "same category 'models'"
+    }
+  ]
+}

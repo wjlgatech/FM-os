@@ -1,0 +1,113 @@
+{
+  "repo": "Farama-Foundation/Gymnasium",
+  "slug": "gymnasium",
+  "category": "rl",
+  "source_hash": "a5b8b872a1467137",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:gymnasium",
+      "type": "repo",
+      "label": "Gymnasium (Farama)",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:rl",
+      "type": "category",
+      "label": "rl",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:rl_posttraining",
+      "type": "concept",
+      "label": "Post-training / RL / alignment",
+      "provenance": "jd_taxonomy:rl_posttraining via category 'rl'"
+    },
+    {
+      "id": "repo:trl",
+      "type": "repo",
+      "label": "TRL",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:openrlhf",
+      "type": "repo",
+      "label": "OpenRLHF",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:verl",
+      "type": "repo",
+      "label": "verl",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:trlx",
+      "type": "repo",
+      "label": "trlX",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:verifiers",
+      "type": "repo",
+      "label": "Verifiers",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:gymnasium",
+      "to": "category:rl",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:gymnasium",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:gymnasium",
+      "to": "concept:rl_posttraining",
+      "rel": "covers",
+      "provenance": "category 'rl'"
+    },
+    {
+      "from": "repo:gymnasium",
+      "to": "repo:trl",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:gymnasium",
+      "to": "repo:openrlhf",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:gymnasium",
+      "to": "repo:verl",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:gymnasium",
+      "to": "repo:trlx",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    },
+    {
+      "from": "repo:gymnasium",
+      "to": "repo:verifiers",
+      "rel": "related",
+      "provenance": "same category 'rl'"
+    }
+  ]
+}

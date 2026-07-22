@@ -1,0 +1,161 @@
+{
+  "repo": "argoverse/av2-api",
+  "slug": "av2-api",
+  "category": "dataset",
+  "source_hash": "edadfc5c938b8dc5",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:av2-api",
+      "type": "repo",
+      "label": "Argoverse 2",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:dataset",
+      "type": "category",
+      "label": "dataset",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:python_pytorch",
+      "type": "concept",
+      "label": "Python / PyTorch / large-scale ML workflows",
+      "provenance": "jd_taxonomy:python_pytorch via keyword 'python'"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'multimodal'"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'motion'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'dataset'"
+    },
+    {
+      "id": "concept:data_curation",
+      "type": "concept",
+      "label": "Dataset curation loops (\"AI training AI\")",
+      "provenance": "jd_taxonomy:data_curation via category 'dataset'"
+    },
+    {
+      "id": "concept:av_robotics_data",
+      "type": "concept",
+      "label": "Autonomous-driving / robotics datasets",
+      "provenance": "jd_taxonomy:av_robotics_data via keyword 'self-driving'"
+    },
+    {
+      "id": "concept:research_publishing",
+      "type": "concept",
+      "label": "Publishing research (NeurIPS / CVPR)",
+      "provenance": "jd_taxonomy:research_publishing via keyword 'research'"
+    },
+    {
+      "id": "repo:nuscenes-devkit",
+      "type": "repo",
+      "label": "nuScenes devkit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:waymo-open-dataset",
+      "type": "repo",
+      "label": "Waymo Open Dataset",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:bdd100k-models",
+      "type": "repo",
+      "label": "BDD100K",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ego4d",
+      "type": "repo",
+      "label": "Ego4D",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:av2-api",
+      "to": "category:dataset",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "concept:python_pytorch",
+      "rel": "covers",
+      "provenance": "blurb keyword 'python'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'multimodal'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'motion'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "concept:data_curation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "concept:av_robotics_data",
+      "rel": "covers",
+      "provenance": "blurb keyword 'self-driving'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "concept:research_publishing",
+      "rel": "covers",
+      "provenance": "blurb keyword 'research'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "repo:nuscenes-devkit",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "repo:waymo-open-dataset",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "repo:bdd100k-models",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:av2-api",
+      "to": "repo:ego4d",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    }
+  ]
+}

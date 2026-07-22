@@ -1,0 +1,89 @@
+{
+  "repo": "ray-project/ray",
+  "slug": "ray",
+  "category": "distributed",
+  "source_hash": "fd096dcf6615bde2",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:ray",
+      "type": "repo",
+      "label": "Ray",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:distributed",
+      "type": "category",
+      "label": "distributed",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'vlm'"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:gpu_optimization",
+      "type": "concept",
+      "label": "GPU optimization / efficient inference",
+      "provenance": "jd_taxonomy:gpu_optimization via keyword 'inference'"
+    },
+    {
+      "id": "concept:distributed_training",
+      "type": "concept",
+      "label": "Distributed training & ML orchestration",
+      "provenance": "jd_taxonomy:distributed_training via keyword 'distributed'"
+    },
+    {
+      "id": "repo:mlflow",
+      "type": "repo",
+      "label": "MLflow",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:ray",
+      "to": "category:distributed",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:ray",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'vlm'"
+    },
+    {
+      "from": "repo:ray",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:ray",
+      "to": "concept:gpu_optimization",
+      "rel": "covers",
+      "provenance": "blurb keyword 'inference'"
+    },
+    {
+      "from": "repo:ray",
+      "to": "concept:distributed_training",
+      "rel": "covers",
+      "provenance": "blurb keyword 'distributed'"
+    },
+    {
+      "from": "repo:ray",
+      "to": "repo:mlflow",
+      "rel": "related",
+      "provenance": "same category 'distributed'"
+    }
+  ]
+}

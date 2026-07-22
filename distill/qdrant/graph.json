@@ -1,0 +1,101 @@
+{
+  "repo": "qdrant/qdrant",
+  "slug": "qdrant",
+  "category": "retrieval",
+  "source_hash": "9c80b4f822b6e643",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:qdrant",
+      "type": "repo",
+      "label": "Qdrant",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:retrieval",
+      "type": "category",
+      "label": "retrieval",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'video'"
+    },
+    {
+      "id": "concept:retrieval_vectordb",
+      "type": "concept",
+      "label": "Retrieval, embeddings & vector databases",
+      "provenance": "jd_taxonomy:retrieval_vectordb via keyword 'embedding'"
+    },
+    {
+      "id": "repo:faiss",
+      "type": "repo",
+      "label": "FAISS",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:milvus",
+      "type": "repo",
+      "label": "Milvus",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lancedb",
+      "type": "repo",
+      "label": "LanceDB",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:paper-qa",
+      "type": "repo",
+      "label": "PaperQA",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:qdrant",
+      "to": "category:retrieval",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:qdrant",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'video'"
+    },
+    {
+      "from": "repo:qdrant",
+      "to": "concept:retrieval_vectordb",
+      "rel": "covers",
+      "provenance": "blurb keyword 'embedding'"
+    },
+    {
+      "from": "repo:qdrant",
+      "to": "repo:faiss",
+      "rel": "related",
+      "provenance": "same category 'retrieval'"
+    },
+    {
+      "from": "repo:qdrant",
+      "to": "repo:milvus",
+      "rel": "related",
+      "provenance": "same category 'retrieval'"
+    },
+    {
+      "from": "repo:qdrant",
+      "to": "repo:lancedb",
+      "rel": "related",
+      "provenance": "same category 'retrieval'"
+    },
+    {
+      "from": "repo:qdrant",
+      "to": "repo:paper-qa",
+      "rel": "related",
+      "provenance": "same category 'retrieval'"
+    }
+  ]
+}

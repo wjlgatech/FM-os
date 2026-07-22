@@ -1,0 +1,149 @@
+{
+  "repo": "nutonomy/nuscenes-devkit",
+  "slug": "nuscenes-devkit",
+  "category": "dataset",
+  "source_hash": "41cbb9f4ecfb625c",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:nuscenes-devkit",
+      "type": "repo",
+      "label": "nuScenes devkit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:dataset",
+      "type": "category",
+      "label": "dataset",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:vlm_multimodal",
+      "type": "concept",
+      "label": "Vision-Language / multi-modal models",
+      "provenance": "jd_taxonomy:vlm_multimodal via keyword 'multimodal'"
+    },
+    {
+      "id": "concept:video_understanding",
+      "type": "concept",
+      "label": "Video / motion understanding, spatiotemporal",
+      "provenance": "jd_taxonomy:video_understanding via keyword 'video'"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'dataset'"
+    },
+    {
+      "id": "concept:data_curation",
+      "type": "concept",
+      "label": "Dataset curation loops (\"AI training AI\")",
+      "provenance": "jd_taxonomy:data_curation via category 'dataset'"
+    },
+    {
+      "id": "concept:av_robotics_data",
+      "type": "concept",
+      "label": "Autonomous-driving / robotics datasets",
+      "provenance": "jd_taxonomy:av_robotics_data via keyword 'nuscenes'"
+    },
+    {
+      "id": "repo:waymo-open-dataset",
+      "type": "repo",
+      "label": "Waymo Open Dataset",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:bdd100k-models",
+      "type": "repo",
+      "label": "BDD100K",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:ego4d",
+      "type": "repo",
+      "label": "Ego4D",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:av2-api",
+      "type": "repo",
+      "label": "Argoverse 2",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "category:dataset",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "concept:vlm_multimodal",
+      "rel": "covers",
+      "provenance": "blurb keyword 'multimodal'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "concept:video_understanding",
+      "rel": "covers",
+      "provenance": "blurb keyword 'video'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "concept:data_curation",
+      "rel": "covers",
+      "provenance": "category 'dataset'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "concept:av_robotics_data",
+      "rel": "covers",
+      "provenance": "blurb keyword 'nuscenes'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "repo:waymo-open-dataset",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "repo:bdd100k-models",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "repo:ego4d",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    },
+    {
+      "from": "repo:nuscenes-devkit",
+      "to": "repo:av2-api",
+      "rel": "related",
+      "provenance": "same category 'dataset'"
+    }
+  ]
+}

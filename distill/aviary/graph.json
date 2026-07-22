@@ -1,0 +1,125 @@
+{
+  "repo": "Future-House/aviary",
+  "slug": "aviary",
+  "category": "eval",
+  "source_hash": "51fae3d4dc5a1288",
+  "generator": "distill.py",
+  "nodes": [
+    {
+      "id": "repo:aviary",
+      "type": "repo",
+      "label": "Aviary",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "category:eval",
+      "type": "category",
+      "label": "eval",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "id": "concept:finetuning",
+      "type": "concept",
+      "label": "Training / fine-tuning foundation models",
+      "provenance": "jd_taxonomy:finetuning via keyword 'train'"
+    },
+    {
+      "id": "concept:agentic_eval",
+      "type": "concept",
+      "label": "Agentic evaluation / benchmarking",
+      "provenance": "jd_taxonomy:agentic_eval via keyword 'eval'"
+    },
+    {
+      "id": "concept:benchmark_creation",
+      "type": "concept",
+      "label": "Building datasets & benchmarks",
+      "provenance": "jd_taxonomy:benchmark_creation via category 'eval'"
+    },
+    {
+      "id": "repo:lm-evaluation-harness",
+      "type": "repo",
+      "label": "lm-evaluation-harness",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lighteval",
+      "type": "repo",
+      "label": "LightEval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:lmms-eval",
+      "type": "repo",
+      "label": "lmms-eval",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:vlmevalkit",
+      "type": "repo",
+      "label": "VLMEvalKit",
+      "provenance": "data/repos.yml"
+    },
+    {
+      "id": "repo:mlagentbench",
+      "type": "repo",
+      "label": "MLAgentBench",
+      "provenance": "data/repos.yml"
+    }
+  ],
+  "edges": [
+    {
+      "from": "repo:aviary",
+      "to": "category:eval",
+      "rel": "in_category",
+      "provenance": "data/repos.yml:category"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "concept:finetuning",
+      "rel": "covers",
+      "provenance": "blurb keyword 'train'"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "concept:agentic_eval",
+      "rel": "covers",
+      "provenance": "blurb keyword 'eval'"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "concept:benchmark_creation",
+      "rel": "covers",
+      "provenance": "category 'eval'"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "repo:lm-evaluation-harness",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "repo:lighteval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "repo:lmms-eval",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "repo:vlmevalkit",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    },
+    {
+      "from": "repo:aviary",
+      "to": "repo:mlagentbench",
+      "rel": "related",
+      "provenance": "same category 'eval'"
+    }
+  ]
+}
