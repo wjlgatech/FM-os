@@ -26,7 +26,7 @@ draw); honors `prefers-reduced-motion`.
 ## Develop / build
 
 ```bash
-cd web
+cd journey
 pnpm install
 pnpm dev              # http://localhost:3000
 pnpm build            # static export to ./out  (output: 'export')
@@ -35,7 +35,7 @@ pnpm sync             # refresh data/collection.json from ../docs/reportcards/co
 
 ## Deploy to Vercel
 
-- Set the project **Root Directory** to `web/`. Vercel auto-detects Next.js.
+- Set the project **Root Directory** to `journey/`. Vercel auto-detects Next.js.
 - The pipeline: `anyagent` auto-fires cards → `collection.json` is committed → push → Vercel
   git-integration redeploys. No database — **git is the store**, so the whole journey is versioned
   and PR-reviewable.
