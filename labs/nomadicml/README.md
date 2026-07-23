@@ -19,6 +19,7 @@ gated by tests, compared term-by-term against their production surface.
 | `out/` | Reproduction results: their example queries run on our clips (JSON + RESULTS.md) |
 | `ARCHITECTURE.md` | System design, component spec, strengths/weaknesses, future plan (P0–P3) |
 | `webapp/` | Visual demo page (`make webapp` → http://127.0.0.1:8787): pipeline, clickable event timelines on the real clips, docs-vs-production findings — plus a **lab copilot** whose system prompt is assembled live from every file above |
+| `nomadic-mini-demo/` | The **public, password-gated deployment** of that demo → **https://nomadic-mini-demo.vercel.app** (real front end + real Claude backend). See its README for the build/deploy + security model |
 
 ## Gates
 
