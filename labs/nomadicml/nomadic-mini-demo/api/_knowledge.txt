@@ -1,0 +1,1732 @@
+You are the lab copilot for `labs/nomadicml` — a clean-room, small-scale reverse-engineering of NomadicML's video-analysis product, built as interview proof-of-capability for the Member of Technical Staff (ML) role. You know every detail below: architecture, detailed spec, term-by-term parity results, measured live-API findings, strengths, weaknesses, and the future plan.
+Answer visually-minded and concise: short paragraphs, concrete file/field names, timestamps, and numbers. When asked about something not in the knowledge, say so plainly — never invent. Attribute every claim (file or measured response).
+
+===== LAB ARTIFACTS =====
+
+----- README.md -----
+# labs/nomadicml — interview proof-of-capability lab
+
+Target: **Member of Technical Staff, Machine Learning @ NomadicML** (Pear VC board).
+Method: clean-room reverse-engineering of their video-analysis product at small scale,
+gated by tests, compared term-by-term against their production surface.
+
+## Map
+
+| Artifact | What it is |
+|---|---|
+| `GOAL-CONTRACT.md` | The original ask, evaluated + 10X'd into 5 verifiable gates (G1–G5) |
+| `recon/SDK-SURFACE.md` | Exhaustive API map of `nomadicml` 0.1.53 (from PyPI wheel source, file:line cited) |
+| `recon/DOCS-KB.md` | Docs knowledge base (from docs.nomadicml.com llms.txt; raw pages in `recon/docs-raw/`) |
+| `recon/EXAMPLES.md` | All 20 public examples + 7 dataset showcases, recovered verbatim from their site bundles |
+| `nomadic_mini/` | The clone: upload → VLM analyze (thinking/fast) → events in their verbatim schema → embedding search |
+| `COMPARISON.md` | Term-by-term matrix: their SDK/API vs ours, plus an honesty ledger of what's scoped out |
+| `EVIDENCE-PACK.md` | JD → artifact mapping, 5-min demo script, gaps + study plan, likely questions |
+| `data/` | Two CC-licensed driving clips (SOURCES.txt has provenance) |
+| `out/` | Reproduction results: their example queries run on our clips (JSON + RESULTS.md) |
+| `ARCHITECTURE.md` | System design, component spec, strengths/weaknesses, future plan (P0–P3) |
+| `webapp/` | Visual demo page (`make webapp` → http://127.0.0.1:8787): pipeline, clickable event timelines on the real clips, docs-vs-production findings — plus a **lab copilot** whose system prompt is assembled live from every file above |
+
+## Gates
+
+```bash
+make check    # offline: schema-contract + search tests (no keys)
+make e2e      # real VLM run on a bundled clip (GEMINI_API_KEY or ANTHROPIC_API_KEY)
+make parity   # live term-by-term vs api-prod.nomadicml.com (NOMADICML_API_KEY; skips honestly)
+```
+
+Provenance: public surfaces only (PyPI wheel, docs llms.txt, site-bundle example data).
+
+
+----- GOAL-CONTRACT.md -----
+# Goal Contract — NomadicML Interview Proof-of-Capability
+
+> Original ask, evaluated and 10X'd per the goal-10x discipline. 2026-07-21.
+
+## The original request (verbatim intent)
+
+Interview prep for **Member of Technical Staff, Machine Learning — NomadicML** (via Pear VC board).
+Build the knowledge + tooling the JD requires; prove qualification by reverse-engineering their
+product at small scale (a few of their public examples), deeply understand their SDK/docs, test
+their live API, and compare term-by-term — "prove our capacity is real and not a surface-level demo."
+
+## Evaluation of the request
+
+**What's strong (keep):**
+- Proof-by-construction instinct — building a working replica beats reciting the docs.
+- "Term-by-term" comparison — demands verbatim schema fidelity, which is checkable, not vibes.
+- Explicit anti-demo stance — the deliverable must survive scrutiny by the founders (ONNX
+  Runtime / DeepSpeed contributor; navigation-AI researcher). They will probe.
+
+**What's weak (fix):**
+1. **Unbounded** — "build knowledge, tooling required by this JD" spans VLM training, GPU
+   pipelines, agentic evals, curation loops, retrieval. Un-scoped = unverifiable.
+2. **No definition of done** — no gates; "deeply understand" is not measurable.
+3. **Hidden human-gated dependency** — testing their live API requires an account + API key
+   (signup is yours to do; the harness must degrade gracefully without it).
+4. **Aims at the wrong altitude, alone** — replicating *product output* proves you understand
+   what they sell. The JD is about *how they build it*: agentic evaluation frameworks, curation
+   loops, VLM fine-tuning. A clone without an eval harness is exactly the surface demo you fear.
+5. **Missing the interview surface** — capability that can't be presented in 5 minutes doesn't
+   transfer in an interview.
+
+**Boundary (explicit):** everything here uses public docs, the published PyPI SDK, and our own
+implementation. No auth-walled scraping, no ToS violations — clean-room comparable capability,
+which is also the honest interview story.
+
+## The 10X'd contract — 5 gates, each machine- or artifact-verifiable
+
+| # | Deliverable | Gate (verify, don't vibe) |
+|---|---|---|
+| G1 | **Recon corpus**: SDK surface map (from source), docs KB (from llms.txt), examples inventory | Files exist with verbatim endpoints/field names, each claim cited to file:line or doc slug |
+| G2 | **`nomadic_mini`** — working small-scale clone: video → VLM → structured motion events (turns, lane changes, anomalies) → embedding search. Gemini video-native primary, frames+Claude fallback | `make check` green: unit tests + end-to-end run on ≥2 real CC-licensed driving clips emitting events in **their** schema (verbatim field names) |
+| G3 | **Parity harness** — the same clip through their live API and our clone; term-by-term diff (API surface, request/response schemas, event vocabulary, output agreement) | Schema-contract tests always run; live tests auto-run when `NOMADICML_API_KEY` is set, `skip` (never fake-pass) otherwise. This harness **is** a JD bullet ("agentic evaluation frameworks") |
+| G4 | **JD evidence pack** — every JD requirement → concrete artifact (FM-os skills: agentic-eval, curation-loop, vector-rag, vlm-quickstart, continual-rl-eval; the clone; the harness). Gaps named honestly + study plan | Zero unmapped JD bullets; gaps listed, not hidden |
+| G5 | **Interview surface** — 5-minute demo script + anticipated technical questions with artifact-grounded answers | Every claim in the script traces to a runnable artifact |
+
+**Where the 10X lives:** the comparison harness is not just a check on G2 — it is itself the
+strongest exhibit. "I built an agentic eval framework that benchmarks my clean-room clone against
+your production API, term by term" is a line no other candidate will have, and it is literally
+the third bullet of the role's responsibilities.
+
+## Status log
+- G1: in progress (3 parallel recon agents: SDK source, docs, examples)
+- G2–G5: pending G1
+- Note: generic `anyagent reverse` on the SPA gated itself 0/100 (honest ✗) — custom pipeline is the path.
+
+
+----- ARCHITECTURE.md -----
+# Architecture — nomadic_mini + demo webapp
+
+## System design (bird's eye)
+
+```
+                      ┌─────────────────────────────────────────────────┐
+                      │                    THEIRS (production)          │
+                      │  app.nomadicml.com ── api-prod.nomadicml.com    │
+                      │  Nomadic-VL-XLarge + OCR + segmentation (VPC)   │
+                      └───────────────▲─────────────────────────────────┘
+                                      │ term-by-term parity (tests/test_parity_live.py)
+                                      │
+ video file ──► MiniClient.upload() ──► analyze(prompt, mode) ──► AnalysisDocument
+                (registry, vid-*)      │                          {video_id, analysis_id,
+                                       │                           analysis, metadata, events[]}
+                              backend seam (analyze.py)                    │
+                              ├─ Gemini 2.5 Flash (native video)           ▼
+                              │   thinking = dynamic budget        EventIndex.add()
+                              │   fast     = budget 0              (search.py)
+                              └─ Claude frames fallback                    │
+                                 (ffmpeg 0.5fps → images)                  ▼
+                                                              search(query) → {summary,
+                                                               thoughts, matches[]}
+```
+
+## Component spec
+
+| Component | File | Contract |
+|---|---|---|
+| Event model | `nomadic_mini/events.py` | Verbatim SDK `RapidReviewEvent` fields (`label, t_start MM:SS, t_end, category, severity, aiAnalysis, confidence, approval, overlay`) + computed docs-variant aliases (`type`, `description`). Pydantic-enforced: MM:SS regex, severity literal, confidence 0–1 |
+| VLM analyzer | `nomadic_mini/analyze.py` | `analyze(path, prompt, mode)` → `AnalysisDocument`. Prompt pins their verbatim category vocabulary; JSON-only output parsed + validated. Backend seam picks Gemini (native video) else Claude (frames) |
+| Frame extraction | `nomadic_mini/frames.py` | ffmpeg → JPEG b64 at capped fps/height — only used by the Claude fallback |
+| Search | `nomadic_mini/search.py` | `EventIndex`: embed event text (gemini-embedding-001 live / hashed BoW offline) → cosine → matches in their verbatim `{summary, thoughts, matches}` shape |
+| Clients | `nomadic_mini/client.py` | `MiniClient` (local, same customer verbs) and `NomadicLive` (real REST: verbatim endpoints, both auth headers, upload→402 fallback to `my_videos()`) |
+| Gates | `Makefile` | `check` (offline contracts) · `e2e` (real VLM) · `parity` (live API, honest skip) |
+| Webapp | `webapp/server.py` + `webapp/static/` | FastAPI: serves the visual demo, `/api/results` (real out/*.json), `/api/chat` (copilot: Anthropic SSE, system prompt assembled **live from these very files** so knowledge never drifts) |
+
+## Key design decisions (and why)
+
+1. **Verbatim schema mirroring** — field names are the comparison; renaming anything would
+   reduce the parity harness to vibes. Even `aiAnalysis` camelCase is preserved.
+2. **Two-schema duality mirrored** — their docs (`type/description`) and SDK (`category/aiAnalysis`)
+   disagree; we model SDK-primary with computed aliases, so we can diff against either surface.
+3. **Backend seam, not backend lock-in** — `analyze()` picks Gemini/Claude by env; their
+   thinking/fast split maps to thinking-budget on/off. Swappable when Nomadic-VL-XLarge-class
+   models become comparable.
+4. **Offline-first gates** — `make check` needs zero keys/network (hashed-BoW embedder, schema
+   contracts), so CI can always run; live tests skip honestly, never fake-pass.
+5. **Knowledge-from-artifacts copilot** — the webapp's agent reads the actual lab files at
+   startup; there is no second copy of the truth to go stale.
+
+## Strengths
+
+- **Term-by-term verifiable**: every claim traces to file:line (SDK) or a measured HTTP response.
+- **Honest by construction**: zero-event results reported; paywalled paths skip with instructions;
+  probing stopped at authorization boundaries.
+- **Real signal found**: docs-vs-production drift (verify-key schema, Bearer-on-GET failure,
+  undocumented 402) — findings their own team would care about.
+- **Small and legible**: ~600 lines of engine code, fully test-gated, one afternoon of work.
+
+## Weaknesses (named, not hidden)
+
+- **No trained model**: we orchestrate frontier VLMs; they trained Nomadic-VL-XLarge. The clone
+  proves pipeline/product understanding, not model-training capability (FM-os `vlm-quickstart`
+  covers that story).
+- **Two clips ≠ fleet scale**: no batching, no 500-video runs, no cost model at scale.
+- **No sensor fusion**: overlay/GPS/joint-telemetry fields exist in the schema but are never
+  populated; ms-precision action segmentation is out of reach for pure-vision sampling.
+- **Full live parity still gated**: free trial blocks API upload; roundtrip comparison awaits a
+  web-UI upload or plan upgrade.
+- **Search is cosine-only**: their production search shows agentic multi-step reasoning
+  (`thoughts[]` traces); ours fills that field with a one-liner.
+
+## Future plan
+
+- **P0 (pre-interview)**: full live roundtrip on one clip (web-UI upload); read their two eval
+  blog posts; rehearse the 5-minute demo on the webapp.
+- **P1**: batch mode (`create-batch`/bulk-fetch mirror) on 20–50 BDD100K clips; temporal-IoU
+  eval of our events vs their approved events — the agentic-eval story made quantitative.
+- **P2**: curation loop demo — disagreements between our clone and their API become the mined
+  edge-case dataset; fine-tune a small open VLM (per FM-os `vlm-quickstart`) on it.
+- **P3**: agentic search — replace one-shot cosine with a plan→retrieve→validate loop that
+  emits real `thoughts[]`, closing the last schema-fidelity gap.
+
+
+----- COMPARISON.md -----
+# Term-by-Term: NomadicML (production) vs `nomadic_mini` (clean-room clone)
+
+Every "theirs" cell is verbatim from the published SDK source (`nomadicml` 0.1.53 off PyPI,
+cited as `video.py:line`) or their public docs (`docs.nomadicml.com`, raw markdown in
+`recon/docs-raw/`). Every "ours" cell is a file in `nomadic_mini/`. Live-API cells are
+verified by `make parity` when `NOMADICML_API_KEY` is set — never claimed otherwise.
+
+## 1. Customer-facing verbs
+
+| Concern | Theirs (SDK 0.1.53) | Ours (`nomadic_mini`) | Parity |
+|---|---|---|---|
+| Client | `NomadicML(api_key, base_url="https://api-prod.nomadicml.com/", timeout=900)` (client.py:42) | `MiniClient()` local; `NomadicLive(api_key)` for their API | same verb set |
+| Upload | `client.upload(video)` → `POST /api/upload-video` (multipart `source=file`), poll `/api/video/{id}/status` until `UPLOADED` (video.py:1512, 4813) | `MiniClient.upload()` (local registry); `NomadicLive.upload()` + `wait_uploaded()` hit the same endpoint/poll verbatim | ✅ endpoint-for-endpoint |
+| Analyze (prompt) | `client.analyze(id, "…", mode="thinking"\|"fast")`; fast → `POST /api/router/query`; thinking → `POST /api/router/v2/query/start` + SSE `/api/router/v2/query/events/{stream_id}` (video.py:2961–3195) | `MiniClient.analyze(id, prompt, mode="thinking"\|"fast")` → VLM; `NomadicLive.analyze_start()/analyze_events()` mirror the start+SSE flow | ✅ same modes, same flow shape |
+| Results | `GET /api/videos/{vid}/analyses/{aid}` → `{video_id, analysis_id, analysis, metadata, events[]}` | `AnalysisDocument` with the same five fields (events.py) | ✅ field-for-field |
+| Search | `client.search(query=…)`: session start → `/api/search` → poll; returns `{summary, thoughts, matches[{video_id, analysis_id, event_index, similarity, reason}], session_id}` (video.py:5964) | `MiniClient.search()` → `SearchResult` with identical field names; cosine over event embeddings | ✅ response-shape identical |
+| Batches | `POST /api/create-batch`, poll `/api/batch/{id}/status`, bulk `POST /api/batch/{id}/analyses/bulk` (≤500) | not reproduced (out of small-scale scope — single-video path only) | ◻ scoped out, documented |
+| Livestream ("Rapid Review" live) | `client.livestream.start_session(source_url=HLS, rapid_review_query=…)` (livestream.py:103) | not reproduced | ◻ scoped out |
+| Custom agents / fine-tune | `create_agent/update_agent` (`prompt_optimization`\|`finetuning`) from approved/rejected events (video.py:6370–6507) | not reproduced; the **concept** is FM-os `curation-loop` + `agentic-eval` skills | ◻ concept covered elsewhere |
+
+## 2. Event schema (the term-by-term core)
+
+| Field | Theirs — SDK `RapidReviewEvent` (types.py:34) | Ours — `MotionEvent` (events.py) |
+|---|---|---|
+| `label` | str | ✅ same name, same meaning |
+| `t_start` / `t_end` | `"MM:SS"` (or HH:MM:SS) | ✅ same name, MM:SS regex-enforced |
+| `category` | str; agent vocabulary "Lane Change Detection", "Vehicle Turns", "Relative Motion Analysis", "Driving Violations" (video.py:174–195) | ✅ same name; `CATEGORIES` pins their verbatim strings |
+| `severity` | str, default `"medium"` | ✅ `Literal["low","medium","high"]` |
+| `aiAnalysis` | str (model reasoning) | ✅ same name (camelCase preserved deliberately) |
+| `confidence` | float, default 0.85 on conversion | ✅ float, 0–1 bound enforced |
+| `approval` | `approved\|rejected\|pending\|invalid`, default `"pending"` (video.py:5288) | ✅ same Literal, same default |
+| `overlay` | `{base: {"start","end"}}` promoted from `frame_*`/`unix_timestamp` pairs; GPS keys `frame_gps_lat/lon` (video.py:568–629) | ✅ same-name dict; population scoped out (needs sensor telemetry) |
+| `annotated_thumbnail_url` | Optional[str] | ✗ not mirrored (server-rendered artifact) |
+
+**Their second schema** — Firestore `UIEvent` `{type, time:"t=X.XX", end_time, severity, description, dmvRule, aiAnalysis, data, approval}` (types.py:49) with conversion `type→category`, `description→label`, `time→t_start` (video.py:646–752). We mirror this duality: `MotionEvent.type` / `.description` are computed aliases, so our documents diff against either surface. (An interview-grade detail: their docs' REST examples and their SDK dataclass disagree on field names; the SDK converts.)
+
+## 3. Analysis modes & models
+
+| Term | Theirs | Ours |
+|---|---|---|
+| `mode="thinking"` | v2 start + SSE, slower/accurate | Gemini flash, dynamic thinking budget |
+| `mode="fast"` | `/api/router/query` `prefer_fast: true, quick_analysis: true` | Gemini flash, `thinking_budget=0` |
+| Model name | `"Nomadic-VL-XLarge"` default everywhere (video.py) — in-house VLM family | `gemini-2.5-flash` / Claude frames fallback; backend recorded in `metadata.backend` |
+| Legacy fixed agents | `AnalysisType`: `rapid_review`, `edge_case_agent`, `lane_change_agent`, `turn_agent`, `relative_motion_agent`, `violation_agent`, `custom_agent`, `action_segmentation` (video.py:99–122) | prompt-path only (their own modern direction; legacy ASK is deprecated for 2026-05-19) |
+| Prompt wire format (legacy ASK) | `"{category}-----------EVENT_DESCRIPTION-----------{description}"` (video.py:172,1000) | n/a (modern path) |
+
+## 4. Auth & transport
+
+| Term | Theirs | Ours (`NomadicLive`) |
+|---|---|---|
+| Base URL | `https://api-prod.nomadicml.com` (client.py:20) | ✅ verbatim |
+| Headers | BOTH `X-API-Key` and `Authorization: Bearer` + `X-Client-Type: SDK`, `X-Request-ID`, `Idempotency-Key` (client.py:61–64, 307–317) | ✅ both auth headers + `X-Client-Type` |
+| Verify | `POST /api/keys/verify` → `{valid, user_id, uid, email, org_id}` | ✅ `verify_key()` |
+| Retry | urllib3 status retry (408/429/5xx/520–527, 3×) + `backoff.expo` on conn errors (client.py:66–88) | ✗ simplified (httpx defaults) — noted, not needed at demo scale |
+| Errors | 401→`AuthenticationError`, ≥400→`APIError(status_code, message, details)` | httpx `raise_for_status` (simplified) |
+
+## 4b. Live-API findings (measured against api-prod, 2026-07-21)
+
+| Surface | Docs claim | Production reality |
+|---|---|---|
+| `POST /api/keys/verify` | returns `{valid, user_id, uid, email, org_id}` | returns `{valid, key_id, user_id, scope, expires_at}` — `uid`/`email`/`org_id` absent, `scope: [read, write]` + 1-year `expires_at` undocumented (docs also say keys expire in 90 days) |
+| Auth headers | docs: `Authorization: Bearer` **or** `X-API-Key` | on GET endpoints, Bearer-only is parsed as a **Firebase ID token** and fails ("Firebase auth: Invalid or expired token"); `X-API-Key` works everywhere. This explains why their SDK unconditionally sends BOTH headers (client.py:61–64, 307–317) — the docs' "or" is wrong in practice |
+| `POST /api/upload-video` | documented plainly | free trial: HTTP **402** `{"detail": "Video upload is not available on the free trial. Upgrade to upload videos."}` — both `source=file` and `source=video_url`; not mentioned in docs |
+| `GET /api/my-videos` | per docs | ✅ works with `X-API-Key`; fresh account returns `{"videos": []}` (sample scope too) |
+| Sample scope | docs: free tier includes sample folders | `GET /api/folders/get?scope=sample` → `{"detail": "Sample scope is read-only"}`; samples not reachable via this API surface on trial |
+| Batch endpoints on public demo batches | n/a | `GET /api/batch/{id}/status` on the demo batches their own site deep-links → `{"detail": "Access denied"}` — org-scoped authorization enforced (correct behavior; probing stopped there) |
+
+## 5. What we deliberately did NOT reproduce (honesty ledger)
+
+- **Their models**: `Nomadic-VL-XLarge` is in-house (VPC docs show large VLM + OCR + segmentation
+  on per-model GPU endpoints). We substitute frontier VLMs — the pipeline shape is the claim, not
+  the weights.
+- **Fleet scale**: their public runs cover 85–500 videos per batch (BDD100K: 500 → 1,969 events);
+  ours is 2 clips by design ("small scale" per the original ask).
+- **Sensor fusion**: overlay telemetry (GPS, joint angles), multi-view stitching, MCAP ingest,
+  3D trajectory viewers, ms-precision action segmentation.
+- **Batch/livestream/custom-agent surfaces** (mapped above, not implemented).
+- **Evidence artifacts**: segmentation overlays, annotated thumbnails, reasoning-trace UI.
+
+## 6. Verification map
+
+| Claim | How it's checked |
+|---|---|
+| Our schema == their SDK schema | `make check` (`tests/test_schema.py`) — offline, always runs |
+| Pipeline works on real video | `make e2e` (`tests/test_e2e_vlm.py`) — real clip, verbatim example query |
+| Their API behaves as documented AND matches our surface | `make parity` (`tests/test_parity_live.py`) — uploads the same clip to api-prod, runs the same verbatim query, diffs document + event fields, prints side-by-side events. Requires `NOMADICML_API_KEY`; skips honestly without it |
+| Example reproduction | `nomadic_mini/scripts/run_examples.py` → `out/RESULTS.md` + JSON docs |
+
+
+----- EVIDENCE-PACK.md -----
+# Interview Evidence Pack — Member of Technical Staff, ML @ NomadicML
+
+Every JD line mapped to an artifact you can open, run, or demo. Gaps are named, not hidden.
+(JD source: Ashby posting, captured 2026-07-21. Company: VLMs as "hydraulic mining" for
+driving/robotics video; founders Mustafa Bal — ONNX Runtime/DeepSpeed contributor — and
+Varun Krishnan; $8.4M seed 2026-03.)
+
+## 1. Responsibilities → evidence
+
+| JD says | Your proof | Where |
+|---|---|---|
+| "Train and evaluate VLMs specialized for motion understanding" | `vlm-quickstart` skill: open-VLM fine-tuning (LoRA/QLoRA) on video + sensor metadata for motion understanding, with spatiotemporal eval | `FM-os/skills/vlm-quickstart` |
+| "Design and scale GPU-accelerated pipelines … multi-modal data" | `slm-quickstart` (train→quantize→serve) + honest gap: no multi-node distributed-training war story — say so, then discuss DeepSpeed ZeRO stages concretely (founder is a DeepSpeed contributor; do NOT bluff here) | `FM-os/skills/slm-quickstart` + study plan §4 |
+| "Build agentic evaluation frameworks that benchmark spatiotemporal reasoning, localization accuracy, narrative consistency" | **Two exhibits**: (a) `agentic-eval` skill — exactly this, verbatim; (b) the **parity harness built here**: benchmarks a clean-room clone against their production API term-by-term | `FM-os/skills/agentic-eval`; `labs/nomadicml/nomadic_mini/tests/test_parity_live.py` |
+| "Develop and productionize curation loops … 'AI training AI'" | `curation-loop` skill: model labels/generates/refines its own video dataset behind quality+safety gates → feeds fine-tuning. Their product version: approve/reject events → `create_agent`/`update_agent` (`prompt_optimization`\|`finetuning`) — you can discuss their actual mechanism from SDK source | `FM-os/skills/curation-loop`; `recon/SDK-SURFACE.md` §2e |
+| "Publish high-impact research … while shipping features" | `research-loop` skill (falsifiable-hypothesis discipline) + FM-os build-in-public flywheel | `FM-os/skills/research-loop` |
+
+## 2. Qualifications → evidence
+
+| JD says | Your proof |
+|---|---|
+| Python, PyTorch, large-scale ML workflows | FM-os certified skills (94→98 certification loop in repo history); `nomadic_mini` built and gated in a day |
+| Research experience in foundation models / VLMs / multi-modal | FM-os knowledge base + skills are SLM/VLM-first by design |
+| Iterate quickly and autonomously, end-to-end | **This lab**: JD → recon → working clone → parity harness in one session, every step gated (`make check` / `e2e` / `parity`) |
+| Training/fine-tuning on video or sensor data | `vlm-quickstart` (video+sensor LoRA); honest gap: no petabyte-scale AV dataset experience — counter with their own funnel (analyze → search → re-analyze) which you've mapped |
+| Retrieval systems, embeddings, GPU optimization | `vector-rag` skill (CLIP/SigLIP video RAG over FAISS/Milvus/Qdrant/LanceDB) + `nomadic_mini/search.py` mirroring their `{summary, thoughts, matches}` search contract |
+| Nice-to-have: vector DBs, distributed training, Ray/Kubeflow/MLflow, AV/robotics datasets | vector DBs ✅ (`vector-rag`); AV datasets: their public showcases (BDD100K, nuReasoning, DROID, ArmBench, VIRAT) are now familiar ground via `recon/EXAMPLES.md`; distributed training = named gap |
+
+## 3. The demo (5 minutes)
+
+1. **Open `recon/EXAMPLES.md`** (30s): "I recovered all 20 of your public examples from your
+   site bundle — here's your Driving Violations demo: CVC 21703 + CVC 22450(a)."
+2. **Run `make check`** (30s): 12 offline tests pin my event model to your SDK's verbatim
+   `RapidReviewEvent` fields — including the `type/description` ↔ `category/aiAnalysis`
+   duality between your docs and your SDK.
+3. **Show `out/RESULTS.md`** (2m): your three automotive example queries, verbatim, run through
+   my small-scale pipeline on my own CC-licensed clips — structured events in your schema, then
+   semantic search over them mirroring your `{summary, thoughts, matches}` contract.
+4. **Open `tests/test_parity_live.py`** (1.5m): "This is an agentic eval framework — JD bullet 3.
+   It uploads the same clip to api-prod.nomadicml.com, runs the same query on your side and mine,
+   and diffs the surfaces field by field. It skips honestly without a key; with one, it's live."
+5. **Close** (30s): "Built from public docs and your published SDK only — clean-room. What I'd do
+   in week 1: point the curation loop at the events my clone disagrees with yours on — those
+   disagreements are exactly the edge cases worth mining."
+
+## 4. Gaps + study plan (say these before they ask)
+
+1. **Distributed training at scale** (DeepSpeed/ZeRO, multi-node) — founder's home turf.
+   Prep: re-run `vlm-quickstart` fine-tune with DeepSpeed ZeRO-2/3 configs; be fluent in
+   ZeRO stages, gradient checkpointing, sequence parallelism for video-token streams.
+2. **Video tokenization economics** — frames/second vs token budget vs localization accuracy;
+   why ms-precision action segmentation (their Franka demo: 37 events at ms precision) likely
+   needs sensor fusion (joint telemetry), not pure vision. You can point at their own excavator
+   example: "segmented from joint-angle trajectory."
+3. **Their eval question, reversed**: how do THEY benchmark Nomadic-VL-XLarge? Blog posts
+   `action-segmentation-benchmark` (2026-07-08) and `av-motion-eval` — read before interview.
+4. **Publication story**: NeurIPS/CVPR ambition in JD — bring one concrete paper idea
+   (e.g., agentic parity-testing of video-understanding APIs as an eval methodology).
+
+## 5. Likely technical questions → grounded answers
+
+- *"How would you evaluate localization accuracy of a VLM on video?"* → temporal IoU per event
+  vs human-labeled spans + narrative-consistency LLM-judge; regression-gate in CI
+  (`agentic-eval` skill implements this shape; parity harness demonstrates the API-level analog).
+- *"Our events need MM:SS precision at fleet scale — how do you keep costs sane?"* → two-tier
+  routing (their own fast/thinking split proves this): cheap pass to shortlist, thinking pass to
+  localize; embedding search (`haystack_search` in their SDK) to avoid re-analyzing.
+- *"How do you stop 'AI training AI' from collapsing?"* → approval gates (their
+  approved/rejected/pending/invalid vocabulary), held-out human-labeled eval that never enters
+  training, and drift alarms — `curation-loop` skill encodes exactly this.
+- *"What did you find in our SDK you'd fix?"* → honest, specific: stale App Runner URL in a
+  shipped test, dead `test.py` module in the wheel, docs/SDK field-name divergence
+  (`type/description` vs `category/aiAnalysis`), `pip install nomadic` vs `nomadicml` naming
+  quirk. (Deliver as an engineer, not a critic.)
+- **Measured live** (free-trial key, 2026-07-21 — see COMPARISON.md §4b): docs say auth is
+  Bearer *or* `X-API-Key`, but Bearer-only gets parsed as a Firebase ID token on GET endpoints
+  and fails — which is exactly why their SDK sends both headers unconditionally; `/api/keys/verify`
+  returns `{valid, key_id, user_id, scope, expires_at}`, not the documented
+  `{valid, user_id, uid, email, org_id}`; API upload is 402-paywalled on trial (undocumented).
+  These prove the comparison ran against production, not just against paper.
+
+## 6. Provenance / ethics line (if asked how you did this)
+
+"Public surfaces only: your PyPI wheel, your docs' llms.txt, and the example data your own site
+ships in its JS bundle. No auth walls crossed, no scraping of gated content; the live-API tests
+use my own key against my own uploads. Clean-room reconstruction — which is also why the parity
+harness matters: it proves fidelity by test, not by copying."
+
+
+----- recon/SDK-SURFACE.md -----
+# NomadicML Python SDK (v0.1.53) — Exhaustive API-Surface Map
+
+Source: unpacked wheel at `/tmp/nomadic/sdk/nomadicml/`. All line references are to that tree.
+The SDK targets the **DriveMonitor** backend (module docstring, `__init__.py:2-5`).
+
+---
+
+## 1. Public entry points
+
+`from nomadicml import ...` exposes (`__init__.py:32-50`):
+
+| Name | Kind | Defined at |
+|---|---|---|
+| `NomadicML` | main client class | `client.py:28` |
+| `VideoClient` | video ops helper | `video.py:149` |
+| `AnalysisType` | enum | `video.py:99` |
+| `OverlayMode` | enum | `video.py:131` |
+| `CloudIntegrationsClient` | cloud storage integrations | `cloud_integrations.py:37` |
+| `LiveStreamClient` | livestream helper | `livestream.py:47` |
+| `LiveSessionStatus` | enum | `livestream.py:32` |
+| `NomadicMLError`, `AuthenticationError`, `APIError`, `VideoUploadError`, `AnalysisError` | exceptions | `exceptions.py` |
+| `VideoSource`, `ProcessingStatus` | enums | `types.py:14,22` |
+| `DEFAULT_BASE_URL` | `"https://api-prod.nomadicml.com/"` | `client.py:20` |
+| `DEFAULT_COLLECTION_NAME` | `"videos"` | `client.py:21` |
+| `DEFAULT_STRUCTURED_ODD_COLUMNS` | list of ODD column dicts | `video.py:6566` |
+
+`__version__ = "0.1.53"`, `__build__ = "5e0b70a"` (`__init__.py:8-9`).
+`__init__.py:24-30` monkey-patches `NomadicML.__init__` so every instance eagerly gets `client.video = VideoClient(client)` (also available lazily via `cached_property`, `client.py:94-104`; alias `client.videos`, `client.py:106-109`).
+
+Note: `nomadicml/test.py` is a leftover scratch module defining alternative `VideoClient` sketches; it is **not imported** by `__init__.py` and is dead code.
+
+### Constructor (`client.py:42-49`)
+
+```python
+NomadicML(
+    api_key: str,                                   # required, non-empty string (utils.py:15-29)
+    base_url: str = "https://api-prod.nomadicml.com/",   # trailing "/" stripped (client.py:54)
+    timeout: int = 900,                             # DEFAULT_TIMEOUT, client.py:23
+    collection_name: str = "videos",                # Firestore collection for videos
+    folder_collection_name: str = "videoFolders",   # DEFAULT_FOLDER_COLLECTION_NAME, client.py:22
+)
+```
+
+(A stale test at `tests/test_client.py:19` still asserts the old default `https://fdixgrmuam.us-west-2.awsapprunner.com` — the shipped code uses `api-prod.nomadicml.com`.)
+
+Dashboard base URL for batch-viewer links (`video.py:1047-1060`): env `NOMADICML_DASHBOARD_BASE_URL`, else `https://app.nomadicml.com` when `collection_name == "videos"`, else `https://main.app.nomadicml.com`. Path pattern: `/use-cases/rapid-review/batch-view/{batch_id}`.
+
+### Flat proxies on `NomadicML` (`client.py:130-260`)
+`upload`, `create_or_get_folder`, `create_folder`, `get_folder`, `analyze`, `analyze_multiview`, `my_videos`, `delete_video`, `search`, `get_visuals`, `get_visual`, `get_batch_analysis`, `get_import_job`, `get_mcap_ingest`, `wait_for_mcap_ingest`, `get_mcap_import_job`, `wait_for_mcap_import_job`, `stitch_mcap`, `get_import_job_videos`, `get_import_job_uploaded_video_ids` (deprecated alias), `add_batch_metadata`, `geovisualizer`, `visualize`, `create_agent`, `update_agent`, `list_agents`, `generate_structured_odd` — all delegate to `client.video.*`.
+
+`NomadicML.verify_auth()` → `POST /api/keys/verify` → JSON incl. `user_id` (`client.py:384-395`, `video.py:755-776`).
+
+---
+
+## 2. Public methods by concern
+
+### 2a. Upload
+
+**`VideoClient.upload(videos, /, *, name=None, folder=None, metadata_file=None, scope="user", upload_timeout=1_200, wait_for_uploaded=True, gcs_integration_id=None, integration_id=None, chunk_size=None, front_channel=None, channel_roles=None, channel_labels=None, **_)`** (`video.py:1512-1879`)
+
+Accepted `videos` shapes:
+- single local path/URL (`str | Path`) — extensions: `.mp4 .webm .mov .avi` for video, `.mcap` for MCAP (`utils.py:34-35`)
+- `(video, metadata)` tuple; dict `{"video":..., "name":..., "metadata":...}`; list mixing all of these (parallel upload, max 4 workers, `video.py:2101`)
+- cloud URIs: `gs://`, `s3://`, `hf://buckets/...` (provider detection `video.py:81-97`); cloud allows only `.mp4` and `.mcap` (`video.py:52`)
+- multi-view mapping `{"front": ..., "rear": ...}` or list of view dicts (view keys `front/rear/back/left/right/top/bottom`, `video.py:1578`; `front` required)
+
+HTTP flows:
+- **Local file / HTTP URL** → `POST /api/upload-video` multipart form: `source` (`file`|`video_url`), `firebase_collection_name`, `scope`, optional `folder_id`, `chunk_size`, `video_url`, `custom_name`; file part `file`, optional part `metadata_file` (`video.py:4813-4851`). Returns backend JSON incl. `video_id`.
+- Then, if `wait_for_uploaded`, polls `GET /api/video/{video_id}/status` (`get_video_status`, `video.py:4925-4948`) until metadata `visual_analysis.status.status == "UPLOADED"` or `chunks_uploaded >= chunks_total` (`_wait_for_uploaded`, `video.py:6220-6260`; exp backoff 15s→30s ±1s jitter). Final return: `{"video_id": ..., "status": "<lowercased status>"}` (`_parse_upload_response`, `video.py:542-548`).
+- **GCS** → `POST /api/gcs/upload` `{integration_id, files:[object_names], collection, folder_id, scope}` → `{"import_job_id": ...}`; SDK returns `{"import_job_id": ..., "status": "importing"}` (async; `wait_for_uploaded` ignored) (`video.py:3953-4002, 4554-4565`).
+- **S3** → `POST /api/s3/upload` `{keys, collection, folder_id, scope, bucket[, integration_id]}` → same import-job shape (`video.py:4004-4071`).
+- **HF bucket** → `POST /api/hf-buckets/upload` `{files, collection, folder_id, scope, bucket[, integration_id]}` (`video.py:4141-4206`).
+- **Local MCAP** → 3 steps (`_upload_mcap_source`, `video.py:4661-4741`): `POST /api/mcap/create-ingest` `{filename, size_bytes, sha256, content_type, folder_id, scope, chunk_size}` → `{mcap_ingest_id, upload_url, upload_headers, source_uri}`; raw `PUT` of file bytes to `upload_url`; `POST /api/mcap/{ingest_id}/process` `{front_channel, channel_roles, channel_labels}`. If waiting, polls `GET /api/mcap/{ingest_id}` until status in `{"completed","partial","failed"}` (`MCAP_TERMINAL_STATUSES`, `video.py:53`). Normalized payload adds `videos`, `video_ids`, `videos_by_channel`, `videos_by_role`, `primary_video_id`, `video_id` (`video.py:4602-4646`).
+- **MCAP from S3** → `POST /api/mcap/cloud-ingest/s3` `{integration_id, files:[{key,filename}], folder_id, scope, chunk_size}` → `{mcap_import_job_id, ...}` (`video.py:4073-4139`); requires an `s3_storage_transfer` integration.
+- **Multi-view local** → per-view uploads then `POST /api/multi-view/stitch` `{primary_view_id, views: {role: video_id}}` (`video.py:4534-4541`); returns front-view `{video_id, status}`.
+- **Multi-view cloud** → `POST /api/gcs/upload` or `/api/s3/upload` with `sets: [{"views": {role: uri}}]` (`video.py:4208-4322`).
+
+**Folders**:
+- `create_or_get_folder(name, *, scope="user", org_id=None, description=None)` → `POST /api/folders/create-or-get` (`video.py:1881-1917`)
+- `create_folder(name, *, scope="user", description=None)` → `POST /api/folders` (`video.py:1919-1952`)
+- `get_folder(name, *, scope="user")` → `GET /api/folders/get?name=&scope=` (`video.py:1954-1979`)
+
+**Import-job status**:
+- `get_import_job(import_job_id)` → `GET /api/import-jobs/{id}` (`video.py:5023-5035`)
+- `get_import_job_videos(id, *, limit=500, cursor=None, offset=None)` → `GET /api/import-jobs/{id}/videos` → `{videos:[{video_id,status,import_source_uri}], total, video_count, has_more, next_cursor}` (`video.py:5037-5068`)
+- MCAP: `get_mcap_ingest(id)` → `GET /api/mcap/{id}`; `wait_for_mcap_ingest(id, *, timeout=1200)`; `get_mcap_import_job(id)` → `GET /api/mcap/import-jobs/{id}`; `wait_for_mcap_import_job(id, *, timeout=1200, poll_interval=10)`; `stitch_mcap(ingest_id, *, front_channel, channel_roles=None, channel_labels=None)` → `POST /api/mcap/{ingest_id}/stitch` (`video.py:4950-5021`)
+
+**Listing / deletion**:
+- `my_videos(folder=None, *, scope=None)` → `GET /api/my-videos?firebase_collection_name=&folder_collection=[&folder=][&scope=]` → list of `{video_id, video_name, duration_s, folder_id, status[, folder_name, org_id]}` (`video.py:6186-6211`)
+- `delete_video(video_id)` → `DELETE /api/video/{video_id}?firebase_collection_name=` (`video.py:6213-6216`)
+
+### 2b. Analyze
+
+**`VideoClient.analyze(ids=None, /, *prompt_args, prompt=None, analysis_type=None, model_id="Nomadic-VL-XLarge", timeout=2_400, wait_for_completion=True, wait=None, folder=None, scope=None, search_query=None, custom_event=None, custom_category=None, concept_ids=None, mode=None, return_subset=False, is_thumbnail=False, use_enhanced_motion_analysis=False, haystack_search=False, confidence="low", custom_agent_id=None, custom_edge_case_agent_id=None, overlay_mode=None, **legacy_kwargs)`** (`video.py:2263-2459`)
+
+Three dispatch paths:
+
+1. **Modern prompt path** — `client.analyze(video_id, "detect hard braking events")`, optional `mode="thinking"|"fast"` (`PROMPT_ANALYSIS_MODES`, `video.py:54`). Rejects all legacy knobs (`_validate_prompt_analysis_options`, `video.py:2810-2866`: only `mode`, `wait`, `timeout` allowed).
+   - fast: `POST /api/router/query` `{query, prefer_fast: true, quick_analysis: true, use_thinking: false, video_id|video_ids}` (`video.py:2961-2989`)
+   - thinking: `POST /api/router/v2/query/start` `{query, client_info: "sdk-analyze-thinking", video_id|video_ids}` → `{stream_id}`, then SSE `GET /api/router/v2/query/events/{stream_id}?last_id=` until event `batch_created`/`done` yields `data.batch_id`; SSE `error` event raises (`video.py:2991-3195`). Fallback on 5xx: streaming `POST /api/router/v2/query/stream`. Reconnects: max 10, 1.0s delay (`video.py:57-58`).
+   - Then polls `GET /api/batch/{batch_id}/status` and fetches results (below). Single-video return: `{video_id, analysis_id, mode, status, summary, events}`.
+2. **Fixed edge-agents** (`analysis_type` in `_AGENT_DEFAULTS`) — `analyze_video_edge` → `POST /api/analyze-video-edge/{video_id}` form `{firebase_collection_name, model_id, edge_case_category, concepts_json, mode, assistant_edge_cases_json, config[, custom_edge_case_agent_id]}` (`video.py:248-277, 4893-4923`) → `{analysis_id}`; then `wait_for_analysis` + `get_video_analysis`; returns `{video_id, mode: "agent", status: "completed", events, analysis_id}`.
+3. **Legacy ASK / CUSTOM_AGENT / ACTION_SEGMENTATION** — `_custom_event_detection` → `POST /api/ask` form `{question, video_id, is_thumbnail, use_enhanced_motion_analysis, config, confidence, custom_agent_id[, custom_workflow_name][, extract_frame_timestamps][, extract_frame_gps][, overlay_mode]}` (`video.py:1002-1028`). `question = f"{category}-----------EVENT_DESCRIPTION-----------{event_description}"` (`_BACKEND_SPLIT_SYMBOL`, `video.py:172,1000`). HTTP 202 → chunked; poll `GET /api/videos/{video_id}/analyses/{analysis_id}/status` (`_wait_for_rapid_review`, `video.py:6114-6183`) until `COMPLETED`; result `{answer, suggested_events, video_id, analysis_id, status}`. SDK return: `{video_id, analysis_id, mode: "rapid_review", status: "completed", summary, events}`.
+   - Legacy `AnalysisType.ASK`+`custom_event` emits `FutureWarning`; hard removal date `"May 19, 2026"` (`LEGACY_ASK_DEPRECATION_DATE`, `video.py:55`; `LEGACY_ASK_HARD_ERROR = False`, `video.py:56`).
+
+**Batch (multiple ids or `folder=`)** — `_analyze_many` (`video.py:3575-3762`):
+- `POST /api/create-batch` form entries (`_prepare_batch_form`, `video.py:1097-1235`): repeated `video_ids`; `analysis_kind` = `"rapid_review"` (ask/custom_agent/action_segmentation) or `"edge_agent"` (agents); ask adds `prompt`, `category`, `concepts_json`, `config`, `confidence`, `is_thumbnail`, `use_enhanced_motion_analysis`, `use_embedding_search` (from `haystack_search`), overlay flags; agents add `model_id`, `edge_case_category`, `agent_mode`, `assistant_edge_cases_json`; always `("start","true")` and `client_batch_id` (uuid hex). Response must contain `batch_id`.
+- Poll `GET /api/batch/{batch_id}/status` (interval 5s) — payload fields: `status` (`completed|failed|cancelled` terminal), `aggregated_progress: {total, completed}`, `videos: [{video_id, status, analysis_id, last_error, ...}]`, `config`, `created_at` (`video.py:1253-1304`).
+- Bulk fetch: `POST /api/batch/{batch_id}/analyses/bulk` json `{video_ids: [...]}` (chunks of 100, ≤10 threads; backend limit 500) `?include_source_uri=true` → `{analyses:[{video_id, analysis_id, analysis, pointer, import_source_uri, filename}], unresolved_video_ids, not_found_analysis_ids}` (`video.py:1306-1417`).
+- Return: `{"batch_metadata": {batch_id, batch_viewer_url, batch_type ("ask"|"agent")}, "results": [{video_id, analysis_id, mode, status, events[, summary][, import_source_uri][, error]}]}`.
+
+**`analyze_multiview(view_dict, *, analysis_type, model_id="Nomadic-VL-XLarge", timeout=2_400, wait_for_completion=True, custom_event=None, custom_category=None, concept_ids=None, mode="assistant", return_subset=False, is_thumbnail=False, use_enhanced_motion_analysis=False, haystack_search=False, confidence="low", custom_agent_id=None, custom_edge_case_agent_id=None, overlay_mode=None, filter_results=False, top_k=None)`** (`video.py:2461-2611`): runs `analyze` per view (e.g. `{"FRONT":[ids], "REAR":[ids]}`), optionally `POST /api/batch/{batch_id}/sort_edge_cases` (uniqueness sort, `video.py:2640-2668`), then fuses via `POST /api/fuse_multiview_results` `{batch_ids, view_keys}` (`video.py:2613-2638`). Fused return has `view_types`, `fusion_method: "source_uri_matching"`, `results`, `unmatched_results`, `batch_ids_by_view`; fallback: `{batch_ids_by_view, batch_results}`.
+
+**Low-level singles**:
+- `analyze_video(video_id, model_id="Nomadic-VL-XLarge")` → `POST /api/analyze-video/{video_id}` form `{firebase_collection_name, model_id}` (`video.py:4860-4891`)
+- `analyze_video_edge(video_id, agent_type, *, model_id="Nomadic-VL-XLarge", concept_ids=None, _config="default", custom_edge_case_agent_id=None)` (`video.py:4893-4923`)
+
+### 2c. Status / results / events
+
+- `get_video_status(video_id)` → `GET /api/video/{video_id}/status?firebase_collection_name=` (`video.py:4925-4948`)
+- `wait_for_analysis(video_id, timeout=2_400, poll_interval=5, analysis_id=None)` (`video.py:5088-5155`): with `analysis_id` polls `get_video_analysis` and reads `payload["analysis"]["status"]`; terminal `{"COMPLETED","FAILED"}`. Without, polls `get_video_status` `payload["status"]`.
+- `wait_for_analyses(video_ids, timeout=4800, poll_interval=5)` — parallel (`video.py:5157-5176`)
+- `get_video_analysis(video_id, analysis_id=None)`: with id → `GET /api/videos/{video_id}/analyses/{analysis_id}?firebase_collection_name=`; without → legacy `GET /api/video/{video_id}/analysis?firebase_collection_name=` (`video.py:5178-5217`)
+- `get_video_analyses(video_ids)` — sequential loop (`video.py:5219-5237`)
+- `get_detected_events(video_id)` → parses events out of `get_video_analysis` (`video.py:5239-5253`)
+- `get_batch_analysis(batch_id, filter=None, as_csv=False)` (`video.py:5255-5427`): status + bulk fetch; `filter` ∈ `{'approved','rejected','pending','invalid'}` (approval filter, client-side). `batch_metadata` includes `batch_id, batch_viewer_url, batch_type, analysis_type, created_at`, and for ask: `prompt, category, is_thumbnail, use_enhanced_motion_analysis`. CSV columns (`video.py:5523-5543`): `Query, Video Name, Approval Status, Timestamp, unix_timestamp_start, unix_timestamp_end, Category, Label, AI Analysis, Severity, Video ID, Analysis ID, Batch ID, Batch Viewer URL, Status, Confidence, Annotated Thumbnail URL, Import Source URI, Summary`.
+- `add_batch_metadata(batch_id, metadata)` → `POST /api/batch/{batch_id}/metadata` json `{"metadata": "<json string>"}`; flat str/int values only (`video.py:5908-5958`)
+- `get_visuals(video_id, analysis_id)` → `POST /api/videos/{video_id}/analyses/{analysis_id}/generate-thumbnails` form `{firebase_collection_name}`; returns list of `annotated_thumbnail_url` strings (`video.py:6301-6339`)
+- `get_visual(video_id, analysis_id, event_idx)` — indexes into `get_visuals` (`video.py:6341-6368`)
+- `visualize(result_or_batch=None, *, batch_id=None, width=860, display=True, output_path=None, expires_in=900, only_with_events=False)` — self-contained HTML viewer; uses `POST /api/video/{video_id}/signed-url` json `{"expires_in": 900}` → `{"url"}` (`video.py:5552-5792`)
+- `geovisualizer(batch_id, *, filter=None)` — GeoJSON FeatureCollection from events having `overlay.frame_gps_lat/frame_gps_lon`; properties: `id, video_id, analysis_id, label, category, severity, approval, t_start, t_end, start_seconds, end_seconds, video_offset, annotated_thumbnail_url, type ("point"|"path")` (`video.py:5794-5906`)
+- `generate_structured_odd(video_id, *, columns=None, reasoning_trace_path=None, timeout=None)` → `POST /api/ask-question` form `{question: "odd_export", prompt_type: "odd_export", video_id, reasoning_trace_path, custom_columns}` → `StructuredOddResult {csv, share_id, share_url, processing_time, reasoning_trace_path, columns, raw}` (`video.py:869-956`). Reasoning path default: `user-status/{pro|dev}/users/{user_id}/reasoning-traces/structured-output` (`video.py:902-911`); env override `DRIVEMONITOR_IS_PROD` (`video.py:778-790`).
+
+### 2d. Search
+
+`search(*, query, folder_name, scope="user")` (`video.py:5964-6085`):
+1. `POST /api/search-sessions/start` json `{query, folder_name, scope}` where scope maps `user→"my"`, `org→"org"`, `sample→"sample"` → `{session_id, owner_uid, session_doc_path, reasoning_trace_path}`
+2. `POST /api/search?folder_collection={scope}` form `{query, folder, session_id, session_doc_path, reasoning_trace_path[, is_sample_videos]}`
+3. Poll `GET /api/search-sessions/{owner_uid}/{session_id}` until `data.status == "completed"` (backoff 1s×1.5 → max 10s; overall timeout = `client.timeout`).
+Return: `{"summary", "thoughts", "matches": [{video_id, analysis_id, event_index, similarity, reason}], "session_id"}`.
+Deprecated: `apply_search(...)` raises (`video.py:6091-6100`); `AnalysisType.SEARCH`/`search_query` removed (`video.py:2743-2754`).
+
+### 2e. Custom agents (fine-tuned)
+
+- `create_agent(name, batch_ids=[], analysis_ids=[], wait_for_completion=False)` → `POST /api/create-agent` json `{batch_ids, analysis_ids, name, wait_for_completion, client_agent_id}` (idempotency uuid), timeout 10_800s; returns dict incl. `job_id` (`video.py:6370-6434`)
+- `update_agent(agent_id, batch_ids=[], analysis_ids=[], wait_for_completion=False)` → `POST /api/update-agent`; returns incl. `update_type` (`"prompt_optimization"|"finetuning"`), `total_approved`, `total_rejected` (`video.py:6436-6507`). `analysis_ids` format: `"video_id:analysis_id"`.
+- `list_agents(scope="user")` → `POST /api/list-agents` json `{scope}` → `result["agents"]`: `[{agent_id, name, status}]` (`video.py:6509-6565`)
+
+### 2f. Livestream (`livestream.py`)
+
+- `attach_stream(stream_id, stream_name, source_url)` → `POST /api/live/attach-stream` (form) → `{"ok": true}` (:64-97)
+- `start_session(source_url, name, rapid_review_query=None, stream_id=None)` → `POST /api/live/start-session` (form) → `{"session_id": ...}` (:103-158)
+- `end_session(stream_id, session_id)` → `POST /api/live/end-session` → `{"status": "ended"|"already_ended"}` (:160-194)
+- `get_sessions(scope=None)` (`None`/`"personal"`/`"org"`) → `GET /api/live/live-sessions[?scope=]` → `sessions` list; each has `session_id, stream_id, name, source_url, status, created_by, created_at, chunk_count, chunks, events` (:200-244)
+- `get_session(stream_id, session_id)` → `GET /api/live/live-sessions/{stream_id}/{session_id}` (:246-267)
+- `get_signed_manifest(session_id)` → `POST /api/live/session/{session_id}/signed-manifest` → `{url, expires_at, method: "GET"}` (:273-299)
+- `monitor_session(stream_id, session_id, *, poll_interval=5.0, timeout=None, on_update=None)` — poll until status ∈ `{FINISHED, FAILED}` (:305-378)
+- `iter_events(stream_id, session_id, *, poll_interval=5.0, timeout=None)` — generator; de-dupes by `event_id`/`id` else `(chunk_index, chunk_relative_time, description)` (:380-443). Live events carry `type`, `description` fields (:404-406).
+- `LiveSessionStatus`: `INITIALIZING, ACTIVE, ENDING, FINISHED, FAILED` (:32-39)
+
+### 2g. Cloud integrations (`cloud_integrations.py`)
+
+- `list(*, type=None)` → `GET /api/cloud-integrations` → list of `CloudIntegration` TypedDict: `{id, name, type ("gcs"|"s3"|"hf_bucket"|"s3_storage_transfer"), bucket, prefix, region, endpoint_url, role_arn, created_at, last_used, created_by, created_by_display_name, is_owner}` (:16-70)
+- `add(*, type, name, bucket, credentials, prefix=None, region=None, endpoint_url=None)`:
+  - gcs → `POST /api/cloud-integrations/gcs` `{name, type, service_account, bucket, prefix}`
+  - s3 → `POST /api/cloud-integrations/s3` `{name, type, access_key_id, secret_access_key, session_token, region, endpoint_url, bucket, prefix}` (region required unless endpoint_url; then `"auto"`)
+  - hf_bucket → `POST /api/cloud-integrations/hf-bucket` `{name, type, token, bucket, prefix}` (:72-170)
+- `add_hf_bucket(*, name, bucket, token, prefix=None)` (:172-187)
+- `get_s3_storage_transfer_setup()` → `GET /api/cloud-integrations/s3-storage-transfer/setup` (:189-198)
+- `add_s3_storage_transfer(*, name, bucket, role_arn, prefix=None)` → `POST /api/cloud-integrations/s3-storage-transfer` (:200-231)
+
+---
+
+## 3. The analysis model
+
+### AnalysisType enum — verbatim values (`video.py:99-122`)
+
+| Member | Value |
+|---|---|
+| `ASK` | `"rapid_review"` (legacy Ask; prompt path replaces it) |
+| `GENERAL_AGENT` | `"edge_case_agent"` |
+| `LANE_CHANGE` | `"lane_change_agent"` |
+| `TURN` | `"turn_agent"` |
+| `RELATIVE_MOTION` | `"relative_motion_agent"` |
+| `DRIVING_VIOLATIONS` | `"violation_agent"` |
+| `CUSTOM_AGENT` | `"custom_agent"` |
+| `ACTION_SEGMENTATION` | `"action_segmentation"` |
+| `SEARCH` | `"search"` (deprecated) |
+| aliases | `AGENT_GENERAL`, `LANE_CHANGE_AGENT`, `TURN_AGENT`, `RELATIVE_MOTION_AGENT`, `VIOLATION_AGENT`, `EDGE_CASE_AGENT` |
+
+String aliases accepted by `_coerce_analysis_type` (`video.py:2874-2893`): `ask`, `general`, `general_agent`, `general-edge-case`, `edge_case_agent`, `lane_change`, `lane-change`, `lane_change_agent`, `turn`, `turn_agent`, `relative_motion`, `relative-motion`, `relative_motion_agent`, `driving_violations`, `driving-violations`, `violation_agent`, `action_segmentation`, `action-segmentation`.
+
+Other enums:
+- `CustomCategory` (`video.py:124-129`): `driving`, `robotics`, `aerial`, `security`, `environment` (default category is `'driving'`, `video.py:999,1144`).
+- `OverlayMode` (`video.py:131-135`): `timestamps` (→ form `extract_frame_timestamps=true`), `gps` (→ `extract_frame_timestamps` + `extract_frame_gps`), `custom` (→ `overlay_mode=true`).
+- `ProcessingStatus` (`types.py:22-31`): `uploading, uploading_failed, uploaded, processing, analyzing, completed, failed`.
+- `VideoSource` (`types.py:14-19`): `file, saved, video_url`.
+- Internal status ranks (`video.py:158-170`): `NOT_STARTED, PREPARE_IN_PROGRESS, PREPARE_COMPLETED, UPLOADED, DETECTING_IN_PROGRESS, PROCESSING, DETECTING_COMPLETED, DETECTING_COMPLETED_NO_EVENTS, SUMMARIZING_IN_PROGRESS, SUMMARIZING_COMPLETED, COMPLETED`.
+- Prompt modes: `{"thinking", "fast"}` (`video.py:54`); default model id everywhere: **`"Nomadic-VL-XLarge"`**.
+
+### Polling & streaming
+
+- Prompt "thinking" uses **SSE** (`GET /api/router/v2/query/events/{stream_id}`; events: `batch_created`, `done`, `error`, generic `message`; fields `id:`, `event:`, `data:` JSON; `data.batch_id`, `data.error`) (`video.py:3067-3264`). Everything else is **HTTP polling** (batch status every 5s; analysis every 5s; upload status exp backoff; search 1s→10s).
+- Rapid-review chunked status payload fields: `status`, `progress`, `chunks_completed`, `chunks_total`, `events`, `answer` (str or list) (`video.py:6120-6156`).
+
+### Analysis document / events payload shapes
+
+Event array candidate keys, in frontend-parity order (`_get_api_events`, `video.py:352-424`): `analysis.events`, then for agent docs `analysis.detected_events`, `analysis.detectedEvents`, `analysis.edge_case_events`, `analysis.edgeCaseEvents`, `analysis.result.events`, then `analysis.visual_analysis.events`; legacy fallbacks `metadata.visual_analysis.events` and `events.visual_analysis.status.quick_summary.events`. Analysis doc summary keys: `analysis.answer` or `analysis.summary`; legacy `metadata.visual_analysis.status.quick_summary.answer` (`video.py:1441-1463`). Analysis id extraction keys: `analysis_id`, `analysis.analysis_id`, `metadata.analysis_id`, `metadata.visual_analysis.analysis_id|analysisId` (`video.py:1419-1439`).
+
+**`RapidReviewEvent`** (SDK-facing, `types.py:34-46`):
+```
+t_start: str  ("MM:SS" or "HH:MM:SS")
+t_end: str
+category: str
+label: str
+severity: str
+aiAnalysis: str
+confidence: float          (default 0.85 when converting; coerced, fallback 0.0)
+annotated_thumbnail_url: Optional[str]
+approval: str              (default "pending")
+overlay: Optional[Dict[str, {"start", "end"}]]
+```
+
+**`UIEvent`** (Firestore storage format, `types.py:49-59`):
+```
+type: str        # maps to category
+time: str        # "t=X.XX"
+end_time: str    # "t=X.XX"
+severity: str
+description: str # maps to label
+dmvRule: str
+aiAnalysis: str
+data: dict       # original event data
+approval: str
+```
+Conversion UI→RapidReview at `video.py:646-752`: `type→category`, `description→label`, `time→t_start`, `end_time→t_end`; severity default `"medium"`; carries `frame_timestamp_start/_end`, `unix_timestamp_start/_end`, and all `frame_*_start|_end` keys (GPS lat/lon floated).
+
+**Legacy agent event shape** (parsed output, `video.py:482-537`): `{label, start_time: float, end_time: float}`; sourced from `description`, `time` (`t=..` regex), `end_time`, and optional `refined_events` JSON list of `[start, end, text]`.
+
+**Overlay map**: keys promoted from `frame_*` / `unix_timestamp` prefixed `*_start`/`*_end` pairs into `event["overlay"] = {base: {"start", "end"}}` (`_OVERLAY_PREFIXES = ("frame_", "unix_timestamp")`, `video.py:568-629`). GPS overlay keys used by geovisualizer: `frame_gps_lat`, `frame_gps_lon`.
+
+**Normalized SDK result** (single analysis): `{video_id, analysis_id, mode, status, summary, events}`; mode values seen: `"rapid_review"`, `"agent"`, `"action_segmentation"`, `"ask"` (batch), `"thinking"|"fast"` (prompt path). Status values: `"started"`, `"completed"`, `"failed"`.
+
+Raw `/api/ask` response fields: `answer`, `suggested_events`, `analysis_id` (`video.py:3507-3537`); batch pointer fields: `status`, `analysis_id`, `last_error` (`video.py:3690-3699`).
+
+---
+
+## 4. Domain vocabulary (verbatim strings)
+
+**Agent categories** (`edge_case_category` form values, `video.py:174-195`): `"agent_mode_placeholder"` (general, mode `"agent"`), `"Lane Change Detection"`, `"Vehicle Turns"`, `"Relative Motion Analysis"`, `"Driving Violations"` (all mode `"assistant"`).
+
+**Assistant edge-case presets** (`video.py:197-246`), `{title, description, importance}`:
+- lane change: title `"lane change"` — "Detect instances where the ego vehicle crosses lane markings to change lanes (left or right)." (80)
+- turn: `"vehicle turns"` — "Detect left or right turns at intersections or driveways." (80)
+- relative motion: `"relative motion"` — "Detect significant relative motion patterns between ego and surrounding vehicles (approach, overtake, diverge)." (70)
+- violations: `"speeding"` (90), `"running red light"` (95), `"failure to stop"` (85), `"improper lane usage"` (80), `"following too closely"` (75) — descriptions reference posted speed limits, traffic signal turning red, complete stops at stop signs / right turns on red, wrong lane / solid lines / emergency/HOV lanes, tailgating.
+
+**Event fields**: `label`, `category`, `severity` (`low|medium|high` implied; default `"medium"`), `aiAnalysis`, `dmvRule` (UIEvent, `types.py:56` — DMV rule reference), `approval` ∈ `{approved, rejected, pending, invalid}` (`video.py:5288`), `confidence`, `t_start/t_end`, `time`/`end_time` (`"t=X.XX"`), `start_time`/`end_time` (float seconds), `frame_timestamp_start/_end`, `unix_timestamp_start/_end`, `frame_gps_lat`, `frame_gps_lon`, `annotated_thumbnail_url`, `refined_events`, `suggested_events`, `detected_events`/`edge_case_events`, `uniqueness_rating`, `uniqueness_reasoning` (sort_edge_cases, `video.py:2675-2687`).
+
+**Canonical example prompt**: `"detect hard braking events"` (`video.py:63, 73`); livestream examples: `"detect hard braking or lane departures"`, `"detect pedestrians entering the road"` (`livestream.py:122,140`).
+
+**Structured ODD vocabulary** (`DEFAULT_STRUCTURED_ODD_COLUMNS`, `video.py:6566-6711`, ASAM OpenODD-aligned): columns `timestamp`, `comment`, `scenery.road.type` (`motorway, rural, urban_street, parking_lot, unpaved, unknown`), `scenery.road.number_of_lanes`, `scenery.road.lane_marking_type` (`clear, blurred, temporary_yellow, none, unknown`), `scenery.road.surface_condition` (`dry, wet, icy, snow_covered, leaves_debris, potholes, uneven, unknown`), `scenery.road.grade_category` (`level, slight_incline, steep_incline, slight_decline, steep_decline, unknown`), `scenery.road.speed_limit` (km/h), `scenery.road.is_construction_zone`, `scenery.junction.type` (`none, t_junction, four_way, roundabout, merge_lane, exit_lane, unknown`), `scenery.junction.traffic_control` (`none, traffic_light, stop_sign, yield_sign, uncontrolled, unknown`), `scenery.junction.is_signalized`, `scenery.participants.{pedestrian,cyclist,car,truck}.count`, `scenery.participants.emergency_vehicle.is_present`, `environment.weather.precipitation_type` (`none, rain, snow, hail, sleet`), `environment.weather.precipitation_intensity` (`none, light, moderate, heavy, violent`), `environment.weather.fog_density` (`none, light, moderate, dense`), `environment.weather.is_sun_glare`, `environment.weather.lighting_condition` (`daylight, dusk_dawn, night_well_lit, night_unlit, tunnel`).
+
+Other terms: "edge case" / "edge-agent" / `analysis_kind` ∈ `{"rapid_review", "edge_agent"}`; "rapid review"; "haystack search" → form key `use_embedding_search`; "enhanced motion analysis"; "concepts" (`concept_ids` → `concepts_json`); "ego vehicle"; robotic workflow `"Robotic Action Segmentation"` with `custom_workflow_name="action-segmentation"` (`video.py:1129-1133, 3465-3480`).
+
+---
+
+## 5. Auth + error model
+
+**Headers** — session-level (`client.py:61-64`): `X-API-Key: <api_key>`, `User-Agent: NomadicML-Python-SDK/<version>`. Per-request (`client.py:307-317`): `Authorization: Bearer <api_key>` (so both header styles are sent), `X-Client-Type: SDK`, `X-Client-Version`, `User-Agent`, `X-Request-ID` (uuid4), and `Idempotency-Key` (same uuid) on POST/PUT/PATCH/DELETE.
+
+**Exceptions** (`exceptions.py`): `NomadicMLError` (base) ← `AuthenticationError`, `APIError(status_code, message, details)` (str: `"API Error ({status_code}): {message}"`), `VideoUploadError`, `AnalysisError`, `ValidationError`. 401 → `AuthenticationError` (special-cased message when body mentions "hugging face"/"hf bucket", `client.py:361-366`); other ≥400 → `APIError`; network → `NomadicMLError("Request failed: ...")`. Error message extraction order: `detail` (incl. FastAPI validation list `loc`/`msg`), `message`, `error` (`utils.py:94-119`).
+
+**Retries** — two layers (`client.py:66-88, 319-338`):
+1. urllib3 `Retry`: status-only, 3 retries, `backoff_factor=0.5`, `status_forcelist=[408, 429, 500, 502, 503, 504, 520-527]`, all methods, respects `Retry-After`. Pool: 100 connections / 100 per host.
+2. `backoff.expo` decorator: on `SSLError, ConnectionError, Timeout, ChunkedEncodingError, ReadTimeout`; `max_tries=4`, `max_time=300`, random jitter.
+
+Extended timeouts: uploads and MCAP calls use `client.timeout * 20` (`video.py:4109, 4697, 4709, 4725, 4850`); agent creation 10_800s.
+
+---
+
+## 6. Minimal re-implementation: the 5-6 core calls
+
+Base URL `https://api-prod.nomadicml.com`; send `Authorization: Bearer <API_KEY>` (or `X-API-Key`).
+
+1. **Verify** (optional): `POST /api/keys/verify` → `{user_id, ...}`.
+2. **Upload**: `POST /api/upload-video` — multipart form `source=file`, `firebase_collection_name=videos`, `scope=user`, file part `file=(name, bytes, mime)` → `{video_id, ...}`. Poll `GET /api/video/{video_id}/status?firebase_collection_name=videos` until `metadata.visual_analysis.status.status == "UPLOADED"`.
+3. **Analyze (prompt, fast)**: `POST /api/router/query` json `{"query": "<prompt>", "video_id": "<id>", "prefer_fast": true, "quick_analysis": true, "use_thinking": false}` → `{batch_id}` or `{analysis_id}`/immediate `result`. (Thinking mode: `POST /api/router/v2/query/start` then SSE `GET /api/router/v2/query/events/{stream_id}` for `batch_created` → `batch_id`.)
+4. **Poll**: `GET /api/batch/{batch_id}/status` until `status ∈ {completed, failed, cancelled}`; read `videos[].{video_id, analysis_id, status}`. (Single analysis: `GET /api/videos/{video_id}/analyses/{analysis_id}` until `analysis.status == "COMPLETED"`.)
+5. **Get events**: `POST /api/batch/{batch_id}/analyses/bulk` json `{"video_ids": [...]}` → `analyses[].analysis.events` (UI format: `type/time/end_time/severity/description/aiAnalysis/approval/data`) — or `GET /api/videos/{video_id}/analyses/{analysis_id}` and read `analysis.events` (agent docs may use `detected_events`/`edge_case_events`). Convert `"t=X.XX"` → seconds; `description→label`, `type→category`.
+6. **Search**: `POST /api/search-sessions/start` json `{query, folder_name, scope: "my"}` → session; `POST /api/search?folder_collection=my` form `{query, folder, session_id, session_doc_path, reasoning_trace_path}`; poll `GET /api/search-sessions/{owner_uid}/{session_id}` until `data.status == "completed"`; read `data.matches[].{video_id, analysis_id, event_index, similarity, reason}`, `data.summary`, `data.thoughts`.
+
+
+----- recon/DOCS-KB.md -----
+# NomadicML Docs — Knowledge Base
+
+Synthesized 2026-07-21 from https://docs.nomadicml.com (Mintlify; every page fetchable as `<slug>.md`; index at `/llms.txt`). Raw pages cached in `/tmp/nomadic/docs/`.
+
+---
+
+## 1. Product Concepts & Analysis Modes
+
+### What Nomadic is
+Video-intelligence platform ("motion analysis platform") for analyzing video with natural-language prompts. Verticals shown in docs: autonomous driving / fleet dashcams (dominant — lane straddling, jaywalking, pedestrians, MUTCD road signs, potholes), robotics (manipulation sub-task segmentation, GR00T/LeRobot), construction ("workers near active machinery"), security. Web app at `app.nomadicml.com`; Python SDK `pip install nomadic` (`from nomadic import NomadicAI`). Source: `overview`, `getting-started/quickstart`, `sdk/sdk-examples`.
+
+### Analysis modes (source: `sdk/analyzing-videos/overview`, `sdk/analyzing-videos/prompt-analysis`, `getting-started/quickstart`)
+The public surface exposes **prompt-based analysis** with two processing modes:
+
+| Mode | SDK value | Behavior |
+|---|---|---|
+| **Thinking** (default) | `mode="thinking"` | "For accurate results, can take a few mins." Matches the router behavior in the web app. |
+| **Fast** | `mode="fast"` | "For quicker results, takes seconds." Speed-preferring router behavior. |
+
+- `client.analyze(id(s) or folder=..., prompt=...)` — detect custom events via natural language. Defaults: `mode="thinking"`, `timeout=2400` s, `wait=True`. `scope` = `'user' | 'org' | 'sample'` for folder-based batches.
+- There is an internal **router** that selects the extraction path (e.g., overlay/telemetry extraction when the prompt asks for speed/GPS/timestamps). Docs explicitly say: "Prompt analysis does not expose router overrides, model selection, overlay flags, reasoning traces, or Wizarding Trace artifacts. Put analysis requirements directly in the prompt." (`sdk/analyzing-videos/prompt-analysis`)
+- **Rapid Review** appears as the *livestream* continuous-detection mode: a live session "runs the rapid-review query on each chunk" (`rapid_review_query` param). Source: `sdk/livestreams`, API `livestreams/start-live-session` ("Start a live-stream ingestion and optional rapid-review analysis session").
+- **Action Segmentation** is a distinct analysis type for robotics: `client.analyze(videos, analysis_type=AnalysisType.ACTION_SEGMENTATION, segmenter_id=...)` (`from nomadic.video import AnalysisType`). Source: `sdk/robotics-lerobot-export`.
+- **"Agent" language**: quickstart says "Reasoning Trace shows how our agents process in the data to provide the results to the user's query" — agentic reasoning traces are visible per event in the web UI; batch results include "Batch reasoning" summaries. No separately named "Agent Analysis" mode exists in current docs.
+- **Semantic search** (`client.search`) over already-analyzed events — see §5.
+- **Structured ODD export** (`client.generate_structured_odd`) — ASAM OpenODD-compliant CSV of the vehicle's operating domain, column-schema driven (name/prompt/type/literals). Returns `csv`, `columns`, `reasoning_trace_path`, `share_id`/`share_url`, `processing_time`, `raw`. Source: `sdk/structured-exports`.
+- Legacy naming: prompt-analysis batches "may currently appear as legacy `\"ask\"`" in `batch_type`. Source: `sdk/batch-results-metadata/get-batch-analysis`.
+
+### When to use which
+- Custom one-off / batch event detection → prompt analysis, Thinking (accuracy) vs Fast (latency).
+- Continuous monitoring of a live HLS stream → livestream session + `rapid_review_query`.
+- Finding specific already-detected events across a folder → `search()`.
+- Robot demonstration data → action segmentation + LeRobot export.
+- Compliance/ODD documentation → structured ODD export.
+
+---
+
+## 2. REST API Surface (source: `api-reference/*` pages; all embed the same OpenAPI 3.0.3 "Nomadic API v1.0.0" spec, "Curated public REST API for Nomadic video operations. Administrative and internal orchestration endpoints are intentionally excluded.")
+
+### Base URL & Auth
+- Production server: `https://api-prod.nomadicml.com` (local dev: `http://localhost:8099`).
+- Two accepted auth schemes on every endpoint:
+  - `bearerAuth`: `Authorization: Bearer <NOMADIC_API_KEY>`
+  - `apiKeyAuth`: header `X-API-Key: <key>` ("alternative API-key header accepted by parts of the API")
+- Keys generated in web app: Profile → API Keys → Generate New Key; default expiry 90 days; shown once. Source: `advanced/authentication`.
+- SDK client config: `NomadicAI(api_key, base_url="https://api-prod.nomadicml.com/", timeout=900, collection_name=...)` — `collection_name` is a **Firestore collection name** used only for self-hosted VPC instances. Source: `advanced/authentication`, `sdk/sdk_installation`.
+- Standard error envelope `ErrorResponse`: `{detail: string|object, message: string, error: string}`; statuses 400/401/403/404/429/500 on all endpoints (429 = rate limited).
+
+### Endpoints (tag → verb path — schema highlights, verbatim field names)
+
+**Authentication**
+- `POST /api/keys/verify` — verify key. 200 → `AuthVerification {valid: bool, user_id, uid, email, org_id}`.
+
+**Uploads**
+- `POST /api/upload-video` — multipart/form-data: `source` (required, enum `file|video_url`), `scope` (`user|org`, default `user`), `folder_id`, `chunk_size` (int ≥1), `video_url` (uri), `custom_name`, `file` (binary), `metadata_file` (binary, "Optional overlay metadata JSON"). 200 → `UploadResponse {video_id, status, visual_analysis: object}`.
+
+**Analysis** (prompt-based; the "router v2 query" API)
+- `POST /api/router/v2/query/start` — body `AnalyzeRequest {query: string (required), video_id: string, video_ids: [string]}`. 200 → `AnalyzeStartResponse {stream_id, status, batch_id}`. Start analysis, get an SSE stream id.
+- `GET /api/router/v2/query/events/{stream_id}?last_id=0` — SSE (`text/event-stream`) progress events for a started analysis; `last_id` = last received SSE event id (default `'0'`) for resumability.
+- `POST /api/router/v2/query/stream` — same `AnalyzeRequest`, but streams SSE progress in the same response. Docs: "Prefer the start/events flow for resumable clients."
+- `GET /api/videos/{video_id}/analyses/{analysis_id}` — 200 → `AnalysisResponse {video_id, analysis_id, analysis: object, metadata: object, events: [object]}` (events are free-form objects; see §3).
+- `GET /api/videos/{video_id}/analyses/{analysis_id}/status` — 200 → `AnalysisStatus {status: string, analysis_id, progress: number}`.
+
+**Batches**
+- `GET /api/batch/{batch_id}/status?include_videos=true` — 200 → `BatchStatus {batch_id, status, aggregated_progress: object, videos: [object]}`.
+- `POST /api/batch/{batch_id}/analyses/bulk?include_source_uri=` — body `BulkAnalysesRequest {video_ids: [string], maxItems 500}`. 200 → `BulkAnalysesResponse {analyses: [object], unresolved_video_ids: [string], not_found_analysis_ids: [string]}`.
+
+**Videos**
+- `GET /api/my-videos?folder=&scope=user|org|sample` — 200 → `VideoListResponse {videos: [VideoSummary]}`; `VideoSummary {video_id, filename, status, folder_id, folder_name, created_at}`.
+- `GET /api/video/{video_id}/status` — 200 → `VideoStatus {video_id, status, metadata: object}`.
+- `POST /api/video/{video_id}/signed-url` — body `SignedUrlRequest {path, expires_in: int default 900 min 60, method: GET|HEAD default GET, share_token, allow_sample: bool default false, batch_id}`. 200 → `SignedUrlResponse {url, expires_at, method}`.
+- `POST /api/video/signed-urls` — bulk: `BulkSignedUrlRequest {requests: [BulkSignedUrlRequestItem], maxItems 50}`; item adds required `request_id`, `video_id`, and `expires_in` max 3600. 200 → `results` map of request_id → `{ok:true, url, expires_at, method}` or `{ok:false, error, status}`.
+- `DELETE /api/video/{video_id}` — 200 → `DeleteVideoResponse {status: "deleted", video_id}`.
+
+**Other tags in the spec** (fetched via llms.txt listing; not pulled in full): Folders (`create-folder`, `create-or-get-folder`, `get-folder-by-name`), Cloud Imports (`import-gcs-objects`, `import-s3-objects`, `import-hugging-face-bucket-objects`, `get-import-job`, `list-import-job-videos`), Cloud Integrations (create GCS / S3 / HF-bucket / S3-Storage-Transfer integration, list/get/delete, `get-role-based-s3-import-setup`), MCAP (`create-mcap-ingest`, `process-mcap-ingest`, `get-mcap-ingest`, `start-s3-mcap-cloud-ingest`, `get-mcap-import-job`, `stitch-mcap-views`), Multi-view (`stitch-uploaded-views`), Livestreams (`start-live-session`, `attach-stream`, `end-live-session`, `get-live-session`, `list-live-sessions`, `create-signed-live-manifest-url`). Full OpenAPI at `https://docs.nomadicml.com/openapi.json`.
+
+---
+
+## 3. Events / Output Schema
+
+### Prompt analysis result (SDK) — source: `sdk/analyzing-videos/prompt-analysis`, `sdk/batch-results-metadata/get-batch-analysis`
+Single video: dict with `video_id`, `analysis_id`, `mode`, `status`, `summary`, `events`.
+Batch: `batch_metadata` {`batch_id`, `batch_viewer_url`, `batch_type` (legacy `"ask"` for prompt batches), `analysis_type`, `review_status`, `review_status_updated_at`, `metadata` (custom KV), plus config like `prompt`, `category`} + `results` (per-video dicts as above).
+
+### Event object fields (seen verbatim across docs)
+- `label` — natural-language event label (`event.get('label')`)
+- `t_start` / `t_end` — human-readable event window (`MM:SS`)
+- `type` — event category (e.g., `"Security"`, `"Motion Anomaly"`)
+- `description` — scene description
+- `severity` — `low` / `medium` / `high` guidance in `advanced/best-practices`: Low = improvement opportunity, Medium = notable, High = critical safety concern
+- `confidence` — float 0–1 (e.g., `0.95`)
+- `overlay` — map of telemetry field → `{start, end}` values extracted from on-screen overlays (e.g., `event["overlay"]["frame_speed"]["start"]`) — only when metadata sidecar was uploaded / overlays visible and prompt requests it (`sdk/sdk-examples` §10)
+- Older/alternate example fields (Supabase example, `sdk/sdk-examples` §11): `time`, `dmvRule`, `aiAnalysis`
+- Approval workflow: every event carries an approval status — `approved | rejected | pending | invalid` — set via web UI Approve/Reject buttons; filterable in `get_batch_analysis(filter=...)`. Reviewed state rolls up to batch `review_status`.
+- REST `AnalysisResponse.events` is intentionally loose: `array of object, additionalProperties: true`.
+
+### Batch CSV columns (`get_batch_analysis(as_csv=True)`) — verbatim
+`Query, Video, Approval Status, Timestamp, Category, Label, AI Analysis, Severity, Video ID, Analysis ID, Batch ID, Batch Viewer URL, Status, Confidence, Import Source URI, Summary` (one row per event; header always included).
+
+### Reasoning / chain-of-thought
+- Web UI: per-event **Reasoning Trace** ("how our agents process the data") + **Batch reasoning** summary; filter by approved/rejected/pending. (`getting-started/quickstart`)
+- Search returns `thoughts` (list of reasoning steps) — see §5.
+- Structured ODD export returns `reasoning_trace_path` ("Final Firestore path used for reasoning logs") — confirms Firestore as the metadata/results store. (`sdk/structured-exports`)
+- SDK prompt analysis explicitly does NOT expose reasoning traces or "Wizarding Trace artifacts" (an internal artifact name that leaks into the docs). (`sdk/analyzing-videos/prompt-analysis`)
+
+### Livestream event schema (source: `sdk/livestreams`) — example verbatim
+```python
+{"type": "Security", "label": "robot picking up an apple", "description": "...",
+ "severity": "low", "confidence": 0.95, "stream_time": 9.0, "chunk_relative_time": 9.0,
+ "t_start": "00:09", "t_end": "00:16", "created_at": "2026-03-07T22:51:55.312121+00:00",
+ "chunk_index": 0, "chunk_id": "session_000", "analysis_id": "session_analysis_000"}
+```
+Timing fields: `stream_time` (main display field, seconds from session start), `capture_time`, `chunk_index`, `chunk_relative_time`, `hls_cumulative_offset`, `t_start`/`t_end`, `created_at`, `analysis_id`, `chunk_id`. Session fields: `stream_id`, `session_id`, `name`, `source_url`, `status` (`INITIALIZING | ACTIVE | FINISHED | FAILED`), `chunk_count`, `events`, `chunks`.
+
+---
+
+## 4. Video / Upload Lifecycle (source: `sdk/uploading-videos/*`, `sdk/cloud-storage`, `sdk/video-folder-management/*`)
+
+`client.upload()` handles everything; return type keys on source:
+- Local files & URLs → `{"video_id": ..., "status": "processing" | "uploaded" | ...}`. Multi-file → list. Video statuses: `processing`, `uploading_failed`, `uploaded` (ready for analysis).
+- Local `.mcap` → `mcap_ingest_id` → `wait_for_mcap_ingest()` → `video_ids`, `videos_by_channel`.
+- Cloud imports (`gs://`, `s3://`, `hf://buckets/...`) → `{"import_job_id": "ij_xxx", "status": "importing"}` → poll `get_import_job()` (`job_id`, `source` = `s3|gcs|hf_bucket`, `bucket`, `prefix`, `folder_id`, `folder_name`, `total`, timestamps) + `get_import_job_videos()` (cursor-paginated: `videos: [{video_id, status, import_source_uri}]`, `has_more`, `next_cursor`; terminal statuses `UPLOADED` / `UPLOADING_FAILED`). No wildcards; list objects explicitly. R2 = S3-compatible via `endpoint_url` on the saved integration.
+- S3 `.mcap` cloud ingest → role-based `s3_storage_transfer` integration (AWS IAM role trusted by Google Storage Transfer via `accounts.google.com:sub` = `google_service_account_subject_id`) → `mcap_import_job_id` → `wait_for_mcap_import_job()`.
+- Multi-view: dict of view→file/URI, `front` required; returns stitched front `video_id` (local) or import job (cloud).
+- Metadata sidecars: JSON with same base filename as video; describes overlay fields (`fields: [{name, type, unit, position, format}]`) per the external "Metadata Ingestion Spec" Google Doc.
+- Upload params: `name`, `folder` (auto-created), `scope` (`user|org`), `upload_timeout=1200`, `wait_for_uploaded=True`, `integration_id`, MCAP-specific `chunk_size`, `front_channel`, `channel_roles`, `channel_labels`.
+- Video quality guidance: ≥720p (1080p rec.), ≥24 fps (30 rec.), ≥4 Mbps (8 rec.), MP4/H.264 best; optimal duration 5–20 min, split >30 min. (`advanced/best-practices`)
+- Folders: `create_folder(name, scope, description)`, `get_folder(name, scope)` → `{id, name, org_id, scope, created_at, created_by, description, video_count}`. `my_videos(folder, scope)` → `[{video_id, video_name, duration_s, folder_id, status, folder_name, org_id}]`.
+- `cloud_integrations` helper: `.list(type=...)`, `.add(type="gcs"|"s3", name, bucket, prefix, region, endpoint_url, credentials)`, `.add_hf_bucket(name, bucket, token, prefix)`, `.add_s3_storage_transfer(name, bucket, prefix, role_arn)`, `.get_s3_storage_transfer_setup()`.
+
+---
+
+## 5. Semantic / Embedding Search (source: `sdk/search`, `sdk/sdk-examples` §4)
+
+`client.search(query, folder_name, scope='user'|'org'|'sample')` — semantic search **across analyzed events inside a folder** (i.e., over analysis results, not raw video). Open-ended natural-language queries ("red pickup truck overtaking", "Find near-misses with pedestrians on crosswalks"). "Nomadic will reason about what fits best."
+
+**Returns** (verbatim):
+- `summary`: string overview of the findings
+- `thoughts`: list of reasoning steps (chain-of-thought) shown in the UI
+- `matches`: list of `{video_id, analysis_id, event_index, similarity, reason}` — similarity score + per-match natural-language reason
+- `session_id`: identifier for the search session (re-fetching / sharing)
+
+Canonical composite workflow (`sdk/sdk-examples` §6): broad `analyze()` over a folder → `search()` to narrow to matching videos → targeted re-`analyze()` on the matched subset → this is the documented funnel/edge-case-mining pattern. Videos never need re-upload for new analyses (§7).
+
+---
+
+## 6. The ML Story (models, VLMs, fine-tuning, curation, edge-case mining)
+
+- **Named model**: `"Nomadic-VL-XLarge"` appears as a `model` metadata value in `add_batch_metadata` example — implies a family of in-house VL (vision-language) models. (`sdk/batch-results-metadata/add-batch-metadata`)
+- **Model stack (VPC page)**: self-hosted deployments provision "model-specific SageMaker endpoints… This is the pattern we use for **large VLM endpoints, OCR, segmentation**, and related GPU workloads" — i.e., the platform composes a large VLM + OCR (overlay/telemetry reading) + segmentation models, each independently deployable/resizable. (`getting-started/vpc-setup`)
+- **Router**: internal analysis router chooses extraction paths per prompt (Thinking vs Fast are router behaviors; overlay-aware queries "the router selects the appropriate extraction path"). Router overrides / model selection are deliberately not exposed. (`sdk/analyzing-videos/prompt-analysis`, `sdk/sdk-examples` §10)
+- **Reasoning agents**: results include per-event agentic reasoning traces; search is chain-of-thought based. (`getting-started/quickstart`, `sdk/search`)
+- **Trainable segmentation models (customer-side fine-tuning)**: `client.train_segmenter(name, external_data=<trajectory .npz>, domain="manipulation"|"construction", epochs=...)` trains a sub-task segmentation model on fleet trajectory data (NPZ schema: `signal (n_channels,T)`, `t_sec (T,)`, `sample_rate_hz`); poll `get_segmenter_status()` → `segmenter_id`; then `analyze(..., analysis_type=AnalysisType.ACTION_SEGMENTATION, segmenter_id=...)`. (`sdk/robotics-lerobot-export`)
+- **Data curation for robot foundation models**: `export_lerobot_dataset(batch_id|results, output_dir, trajectory_tool="manipulator_trajectory", camera_key, robot_type)` → LeRobot v2.1 dataset (`meta/info.json`, `meta/tasks.jsonl`, `meta/modality.json`, per-episode parquet+mp4, per-frame `task_index` sub-task timeline) ready for NVIDIA **GR00T fine-tuning**. Rationale: flat single-sentence labels throw away sub-task structure; Nomadic's action segmentation restores language conditioning per sub-skill. Requires `pip install 'nomadic[lerobot]'` + ffmpeg. Videos need a completed `manipulator_trajectory` artifact for proprioception (else `skipped_segments`; `trajectory_tool=None` → video-only export). (`sdk/robotics-lerobot-export`)
+- **Human-in-the-loop eval/curation**: approve/reject/pending/invalid per event in the web UI; batch-level `review_status`; `get_batch_analysis(filter="approved")` to harvest only human-approved detections — the documented curation loop. Batch `metadata` KV (`experiment_id`, `version`, `model`, `notes`) supports experiment tracking. (`sdk/batch-results-metadata/*`)
+- **Edge-case mining pattern**: broad analyze → semantic search → targeted re-analyze (§5); "Find outlier events" is the canonical demo prompt. (`sdk/sdk-examples`)
+- **Firestore** backs analysis/metadata storage (`collection_name` client param; `reasoning_trace_path` is a Firestore path); GCS/S3 for video objects.
+
+---
+
+## 7. Rate Limits, Plans, Best Practices (source: `advanced/best-practices`, `advanced/authentication`, `getting-started/vpc-setup`)
+
+- **Rate limits**: 60 requests/minute, 10,000/day (published); 429 responses on all endpoints; implement exponential backoff; batch operations to reduce calls.
+- **Pricing/plan hints**: free account signup ("Sign up for a free account"); read-only demo/sample folders (`scope="sample"`) for trying without data; enterprise = self-hosted VPC deployments (AWS or GCP, Terraform-managed, SageMaker or private inference endpoints; contact support@nomadicml.com). No public price list in docs.
+- **API keys**: default 90-day expiry, rotate every 90 days, shown once, minimum permissions, store in env vars/credential stores.
+- **SDK exceptions** (note module inconsistency in docs: `from nomadic import NomadicAI` but `from nomadicml.exceptions import ...`): `AuthenticationError`, `VideoUploadError`, `AnalysisError`, `NomadicError` (also `NomadicMLError`, `ValidationError` referenced in SDK reference pages). PyPI package page is `pypi.org/project/nomadicml/` though install command is `pip install nomadic`; Python 3.8–3.11.
+- **Best practices highlights**: 5–20 min videos; consistent naming `YYYY-MM-DD_Operator_Location.mp4`; metadata/tags at upload; pagination + server-side filters + field selection + gzip; TTL caching; retention tiers 30/90-day/1+ year; audit logging of uploads/deletions/key events; process batches off-peak; compress before upload.
+- **Timeouts**: client default 900 s; `analyze` timeout default 2400 s; upload timeout 1200 s; MCAP import waits up to 7200 s in examples.
+
+---
+
+## 8. Page Index Consulted
+Non-API: `overview`, `getting-started/quickstart`, `getting-started/vpc-setup`, `advanced/authentication`, `advanced/best-practices`, `sdk/sdk_installation`, `sdk/sdk-examples`, `sdk/analyzing-videos/{overview,prompt-analysis}`, `sdk/search`, `sdk/structured-exports`, `sdk/uploading-videos/{overview,local-files-urls,cloud-imports}`, `sdk/cloud-storage`, `sdk/livestreams`, `sdk/robotics-lerobot-export`, `sdk/batch-results-metadata/{add-batch-metadata,get-batch-analysis}`, `sdk/video-folder-management/{folders,my-videos,delete-video}`, `more/{main-services-agreement,privacy-policy}` (not fetched — legal).
+API reference fetched: `analysis/{start-analysis,stream-analysis,read-analysis-events,get-analysis-document,get-analysis-status}`, `authentication/verify-api-key`, `uploads/upload-a-video`, `videos/{list-videos,get-video-status,create-signed-video-url,create-signed-urls-in-bulk,delete-video}`, `batches/{get-batch-status,get-batch-analyses-in-bulk}`. Remaining API pages (folders, cloud-imports, cloud-integrations, mcap, multi-view, livestreams) enumerated in §2 and covered functionally via the SDK pages; full spec at `/openapi.json`.
+
+
+----- recon/EXAMPLES.md -----
+# NomadicML / Nomadic AI — Public Example Demos (recovered 2026-07-21)
+
+## Sources & method (no fabrication)
+All data below was extracted from **embedded state in the sites' own JS bundles** (both sites are Vite SPAs; plain HTML is empty):
+
+- `https://www.nomadicai.com/assets/index-nTEEhlCy.js` (1.95 MB) — contains the **full hard-coded examples array** (`pZ`) that renders `www.nomadicai.com/examples`: every example's id, vertical, title, query, event list with timestamps, batch reasoning, reasoning-trace steps, video/artifact paths, and deep links into the live demo app.
+- `https://app.nomadicml.com/assets/Examples-DKxP86F9.js` (23 KB, lazy chunk of `index-CYsiV9YY.js`) — contains the **full card data** for `app.nomadicml.com/live-demo/examples`: 17 curated example cards + 7 public-dataset showcase cards with stats and event counts.
+- `https://www.nomadicai.com/sitemap.xml`, `robots.txt`, and `llms.txt` — page inventory, customer list, positioning.
+- Marketing copy strings extracted from the same main-site bundle (homepage hero, problem statements).
+
+Confidence: **high** — these are literal string constants from the shipped production bundles, not inference. What was NOT recovered: the actual video files' content (only paths/descriptions), and any behind-the-scenes API responses (the live-demo batch views load per-batch data at runtime; only their URLs are captured here).
+
+---
+
+## 1. Marketing frame (what the examples are meant to prove)
+
+**Positioning:** "Nomadic AI — The Understanding Layer for Physical AI" / "Make Physical AI Work in the Real World."
+
+**Core pitch (homepage meta/hero):** "Nomadic is the understanding layer for Physical AI. Find the failures and edge cases hidden in your operational data, diagnose them with evidence, and turn them into targeted training data. Trusted by Fortune 500s and the most exciting robotics and AV developers."
+
+**From llms.txt:** "Nomadic is the Physical AI understanding platform for autonomous vehicles and robotics. We provide an understanding layer that sits on top of existing perception stacks, transforming multi-sensor video (RGB + lidar + telemetry) into searchable behavior."
+
+**Problem statements the demos answer (homepage section headings):**
+- "Most footage and sensor data are never analyzed"
+- "Failures are found late, and no one can say why"
+- "The feedback loop between failures and training is broken"
+- (Case-study copy) "NATIX captures footage across thousands of cameras, but manual review at that scale was impossible. Most data sat on servers, never analyzed, never used."
+
+**Examples page meta description:** "See how Nomadic turns raw video datasets into curated edge cases, from automotive dashcam footage to robotic arm pick-and-place actions."
+
+**Named customers (llms.txt):** Zoox, Mitsubishi Electric Automotive America, Zendar, NATIX Network. Case-study blog posts: `/blog/natix-case-study`, `/blog/zendar-case-study`. Funding: $8.4M seed (TechCrunch, 2026-03-31: "Nomadic raises $8.4M to wrangle the data pouring off AVs").
+
+**Demo pattern each example follows:** natural-language query → batch of videos analyzed → events found with timestamps → per-event "Reasoning Trace" (Event Validation steps written in first person, e.g. "I tracked 9 pedestrians… I concluded the crossing is a valid jaywalking encounter") → "Evidence Supporting Validation" artifacts (annotated/segmentation overlay video, trajectory & motion plots, stills, maps). The point being proved: agentic, evidence-backed video search + validation at fleet scale, not just detection.
+
+---
+
+## 2. www.nomadicai.com/examples — 20 interactive examples (full data)
+
+All from the embedded `pZ` array. Each links to a live batch at `app.nomadicml.com/live-demo/use-cases/rapid-review/batch-view/<id>`.
+
+### AUTOMOTIVE (input: dashcam / ego-vehicle & surround-camera driving footage)
+
+**1. Driving Violations** (`example-driving-violations`)
+- Query: "Find driving violations and cite their relevant DMV code."
+- Output: 2/2 events approved. Batch reasoning: "We found 2 critical violations in this clip: an unsafe following distance behind a white Lexus, and a rolling stop at a marked STOP intersection…"
+  - Event 1/2 [00:00–00:07] Unsafe Following Distance (CVC 21703)
+  - Event 2/2 [00:07–00:11] Rolling Stop Violation (CVC 22450(a))
+
+**2. Behavior Recognition** (`example-a`)
+- Query: "Find lane merge instances."
+- Output: "We found 15 instances across 11 videos where another vehicle merged into the ego-vehicle's lane…" Featured event: [00:02–00:04] "Red Prius merged into ego lane from the left."
+
+**3. Multi-View Understanding** (`example-multi-view`)
+- Input: synchronized surround-camera (multi-view) footage.
+- Query: "Ego vehicle overtaking pedestrians."
+- Output: 3/3 events ([00:00–00:08], [00:11–00:16], [00:17–00:58]), each validated across views, e.g. "Rear-facing camera shows pedestrians receding near a crosswalk, confirming the ego vehicle has overtaken them" — subtitle "(supported by multiple views)".
+
+**4. GPS Location Identification** (`example-gps-location`)
+- Query: "Find individual potholes show their GPS locations."
+- Output: 5/5 potholes on US-97 pinned to GPS via dashcam telemetry, shown on an interactive map. Events: Pothole cluster in oncoming lane [00:02–00:05]; Potholes spanning both lanes [00:05–00:08]; Pothole chain along centerline [00:08–00:11]; Pothole in left wheel path [00:12–00:14]; Pothole cluster in ego lane [00:16–00:20]. "…so every defect can be located on the map for repair dispatch."
+
+**5. Multi-Query (fleet roadside-hazard review)** (`example-roadside-hazard`)
+- Query: "Determine whether a stopped, disabled, or roadside vehicle creates a hazard for the ego vehicle — close enough to the travel lane to narrow the path, require a lane shift or move-over, or create a close-pass risk."
+- Output: "Across 85 fleet clips this multi-query review surfaced 59 events — 26 matching the roadside-hazard query." 8 parallel queries with per-scene validations:
+  - q0 Hard Brake / Forced Slowdown — scene-0071 [00:08–00:19]: ego brakes to a stop at 'ROAD CLOSED' sign + CAT 950K loader
+  - q1 Road Debris / Obstacle — scene-0018 [00:00–00:09]: cones/barriers in travel lane around an excavator
+  - q2 Stopped / Roadside Hazard — 6 scenes (0099, 0002, 0010, 0051, 0048, 0092): stopped van/pickup/UPS truck near work zone; flatbed with workers; FedEx truck partly in lane; etc.
+  - q3 Erratic / Illegal Maneuver — scene-0068 [00:04–00:13]: seafood delivery truck pulls out without yielding
+  - q4 Closed Roads — scene-0045 [00:10–00:22]: lowered boom barrier, ego stops at gate
+  - q5 Jaywalker Encounters — scene-0024 [00:07–00:16]: "I tracked 9 pedestrians… mid-block crossing, no marked crosswalk"
+  - q6 Yielding/Stopping for Pedestrians — scene-0067 [00:11–00:18]
+  - q7 Double-Parked Maneuvers — scene-0006 [00:04–00:12]: lane change around utility truck behind a cone
+- Evidence artifacts per scene: segmentation-overlay clips, lane–object interaction plots, camera-trajectory plots.
+
+### ROBOTICS — Humanoid (input: egocentric / head-mounted human video)
+
+**6. Egocentric Annotation** (`example-humanoid-egocentric-action-seg`)
+- Query: "Segment all human actions, especially hand movements."
+- Output: 10 events over a 12 s chef/cooking clip: Pour liquid into pan [00:00–00:01]; Move pan to station; Pick up spoon; Add ingredient to pan; Add ingredients and drop spoon; Move pan to stove; Place pan on stove; Grab pan handle; Pull pan back; Reach for bowl [00:11–00:12].
+
+**7. Egocentric Action Search** (`example-humanoid-action-seg`)
+- Query: "Find each time the human puts a plate on the counter."
+- Output: 2 events ([00:01–00:02], [00:24–00:25]) "Place a plate on the counter", with hand/plate/counter interaction validated.
+
+### ROBOTICS — Industrial (input: fixed-camera robot-arm workcell video + gripper/joint telemetry)
+
+**8. Micro-Action Segmentation** (`example-robot-action-segmentation`)
+- Query: "Segment every robot arm micro-action." (Franka arm, NIST-style task board reassembly)
+- Output: "37 AI annotated events" at **millisecond precision** over 03:57.750 — alternating Remove:/Place: for D-SUB, ethernet, square pegs 1–4, round pegs 1–4, USB, waterproof connector, BNC, bolt 4, large/medium/small gears, bracketed by Idle. Includes an **interactive 3D robot trajectory viewer** (20 Hz sampling, 237.75 s window, `/data/action-segmentation-reassemble-trajectory.json`).
+
+**9. Discrete Pick and Place** (`example-pick-place`)
+- Query: "Find all discrete pick and drop actions."
+- Output (ms precision): Pick — watermelon slice toy [00:03.474–00:04.394]; Drop — watermelon slice toy onto counter [00:04.640–00:04.725]; Pick — green pear toy [00:06.065–00:06.592]; Drop — green pear toy onto counter [00:06.820–00:06.953]. Artifacts: gripper/object segmentation video with a 9-class motion legend (lift, lift+, lower, lower+, ±x, ±y, diag), End-Effector Position & Gripper Opening plots; validation cites "gripper sensor data and visual evidence".
+
+**10. Failures and Edge Cases** (`example-find-edge-cases`)
+- Query: "Find failures that occur during placement or just before release."
+- Output: 1 event [00:02.000–00:03.800] "Placement failure during release" with segmentation-overlay + original workspace clips; event-clustering UI.
+
+**11. Manipulation Failures** (`example-safety-edge`)
+- Query: "Segment actions and spot failed grasps."
+- Output: 3 events: Box Pick Up [00:01–00:03] ("arm grasps a merged unit… carrying 2 boxes"), Box Drop Down [00:03–00:05], Picking Failure [00:07–00:09] (knocked box fails to reach the conveyor).
+
+**12. Action Segmentation** (`example-robot-segment-actions`)
+- Query: "Segment robot actions." (robot arm servicing a 3D printer)
+- Output: 6 events: Approaching and Grasping Hood; Opening Hood; Approaching Build Platform; Grasping and Unlatching Handle; Extracting and Moving Platform; Inserting into Washer [00:14–00:16].
+
+### ROBOTICS — Other Industries (input: warehouse AMR/forklift camera footage)
+
+**13. Forklift Speed Adjustment** (`example-amr-forklift-speed`)
+- Query: "Find moments when the forklift adjusts speed to avoid a collision."
+- Output: 1 event [00:01–00:09] "Adjusting speed and path to avoid a crossing forklift" + trajectory & speed plot through the intersection.
+
+**14. Navigation Failures** (`example-amr-stuck`)
+- Query: "Identify moments when an AMR is blocked."
+- Output: 1 event [00:03–00:11] "Forklift Stops Near Busy Workstation" (6–7 workers) + processed trajectory / speed & motion events chart.
+
+### INFRASTRUCTURE — Aerial (input: drone / high-angle surveillance video)
+
+**15. Safety Violations** (`example-safety-violations`)
+- Query: "Find safety violations." (construction/container-terminal aerial view)
+- Output: Worker Missing Safety Helmet [00:00–00:02]; Worker Missing High-Visibility Vest [00:02–00:05]; evidence frame: worker on elevated ledge in hi-vis vest without helmet, phone to ear.
+
+**16. Aerial Multi-Query** (`example-virat-aerial-multi-query`)
+- Input: VIRAT (DARPA) aerial surveillance footage.
+- Query: "Find people running and people who stop to interact with the ground in aerial footage."
+- Output: "Across 25 VIRAT aerial videos… 25 approved activity events: 4 people-running events and 21 ground-interaction events." Sample events: People Running on Dirt Road; Person Running Through Intersection; Person Bent Over Open SUV Hood; People Pick Up and Carry Object; Person Places Ground Markers [00:14–00:30]. Artifacts: annotated aerial clips + motion/trajectory plots.
+
+### INFRASTRUCTURE — Construction (input: fixed-camera + egocentric heavy-equipment video, joint telemetry)
+
+**17. Action Segmentation (excavator)** (`example-excavator-action-segmentation`)
+- Query: "Segment every excavator micro-action."
+- Output: **93 events over 03:00** (34 shown), compound micro-actions like "Raise + Dig (Curl-In) + Extend Arm + Swing Cab", "Extend Arm + Dump (Curl-Out) + Lower", "Hold / Near-Static" — "segmented directly from the excavator's turret, boom, stick, and bucket joint-angle trajectory." Includes 3D trajectory viewer (10 Hz, 180 s window).
+
+**18. Construction Operations** (`example-excavator-dump-loading`)
+- Query: "Find events where an excavator is loading a dump truck."
+- Output: 1 event [00:11–00:22] "Excavator Loading Dump Truck" with a phase-by-phase description (lift bucket 00:11–00:15, swing over truck by 00:16, release dirt 00:17–00:22).
+
+**19. Egocentric Action Search (excavator cycles)** (`example-construction-cycle-segmentation`)
+- Query: "Show the excavator dump, loading, and swing full phases."
+- Output: events 27–29 of 52: Dump [00:00–00:03], Loading [00:06–00:15], Swing full [00:15–00:17], with per-phase camera-trajectory graphs.
+
+**20. Ego-Centric Action Segmentation** (`example-construction-egocentric-action-seg`)
+- Query: "Segment all ego-centric construction actions, especially hand movements."
+- Output: 8 events [00:00–00:10] (Pour liquid into pan, Move pan to station, Pick up spoon, Add ingredient to pan, Return spoon, Move pan to stove, Place pan on stove, Grab pan handle — same kitchen-egocentric clip reused under the construction ego-centric heading). Note: its `description` field in the bundle oddly reads "NVIDIA's autonomous-driving dataset: 1,700+ hours of camera, LiDAR, and radar driving across 25 countries" — likely a copy/paste bug in their data or a nearby dataset blurb; flagged as-is.
+
+---
+
+## 3. app.nomadicml.com/live-demo/examples — 17 example cards + 7 dataset showcases
+
+From `Examples-DKxP86F9.js`. Each card links to a public batch view (`/live-demo/use-cases/rapid-review/batch-view/<id>`), filterable by vertical (All / Automotive / Robotics / Construction / Infrastructure).
+
+### Curated example cards (title — description — stats)
+**Automotive**
+1. **Search Complex Actions** — "Search massive video datasets to detect complex driving actions and extract trajectories." [Semantic Search, Trajectory Extraction, Agentic Validation] — 24 videos analyzed, 7 events found
+2. **Batch Driving Analysis** — "Process thousands of driving videos to track motion, interactions, and behavior at scale." — 100 videos, 5 events
+3. **Mine Critical Driving Events** — "Detect rare, safety-critical events like pedestrian intrusions and cyclist cut-ins at scale." — 336 videos, 9 events
+4. **Analyze Driving Behavior** — "Break down vehicle decisions, timing, and multi-agent interactions across traffic." — 500 videos, 11 events
+5. **Detect Turning Maneuvers** — "Find and classify ego-vehicle turns… including protected and unprotected turns." — 100 videos, 20 events
+
+**Construction**
+6. **Detect Safety Risks** — "Surface unsafe worker behavior, equipment hazards, and proximity risks in real time." — 4 videos, 2 events
+7. **Catch Critical Failures** — "Detect catastrophic failures and high-impact incidents across job sites." (thumb: "Stuck in Mud") — 5 videos, 7 events
+8. **Monitor Jobsite Activity** — "Track workers, equipment, and active zones across large-scale construction sites." — 4 videos, 12 events
+9. **Analyze Equipment Operations** — "Understand how machines operate, move, and interact across workflows." — 5 videos, 18 events
+10. **Segment Construction Workflows** — "Break down construction workflows into structured, step-by-step task sequences." (thumb: Bricklaying) — 4 videos, 8 events
+11. **Detect Equipment Attachments** — "Identify tools and attachments used by machines…" (thumb: "Which Part") — 5 videos, 11 events
+
+**Robotics**
+12. **Create Structured Robot Step Traces** — "Turn robot task videos into step-by-step action traces and capture failure modes like missed grasps, collisions, and incomplete executions." — 4 videos, 8 events
+13. **Segment 3D Robotic Actions** — "Break robot tasks into precise action primitives like grasp, move, and place." — 1 video, **109 events**
+14. **Robot Environment Interactions** — "…query for episodes where an AMR is blocked, causes congestion, or introduces delay and risk." — 9 videos, 2 events
+15. **Understand Task Behavior** — "Analyze action sequences, timing, and task execution across robot workflows." — 5 videos, 5 events
+16. **Diagnose Robot Failures** — "Identify when, how, and why failures occur to improve model performance." — 9 videos, 6 events
+17. **Build Training-Ready Datasets** — "Generate structured, high-quality datasets from robot actions for training and evaluation." — 9 videos, 16 events
+
+### Public-dataset showcase cards (org — dataset — Nomadic's run + event taxonomy w/ counts)
+1. **Motional — nuReasoning** ("long-tail AV dataset, Apache 2.0"): 85 videos → 59 events: Stopped/roadside vehicle hazard 26, Jaywalker encounters 11, Double parked vehicle maneuvers 8, Road debris/obstacle 5, Closed roads 3, Yielding/stopping for pedestrians 3, Hard brake/forced slowdown 2, Erratic/illegal maneuver 1. *(This is the same batch behind the site's "Multi-Query" example.)*
+2. **Torc Robotics — TruckDrive** ("Level 4, Class 8 highway benchmark, 475K synchronized samples"): 24 videos → 5 events: Road Debris/Obstacle 3, Unsecured/Oversized Load 1, VRU/Worker Near Lane 1 (7 more queries with 0 hits listed).
+3. **Amazon Robotics — ArmBench** ("warehouse-robotics benchmark of 235K+ activities"): 200 videos → 130 events: Move-to-destination fail 82, Nominal 70, Package opened 65, Package deconstruction 65, Wait-state fail 31, Approach-place fail 11, plus object-type counts (Books 35, Boxes 25, Bags 5, Other 5) and Approach-grasp fail 3, Move-source fail 3.
+4. **DROID — Manipulation Dataset** ("in-the-wild robot-manipulation: 76K demos, 564 scenes"): 75 videos → 120 events: Pick 61, Place 55, Pick Red Marker 4.
+5. **NATIX — Street Imagery Dataset** ("world's largest decentralized dashcam network"): 240 multi-view videos → 69 events: Tailgating/Close Following 21, Road Debris/Obstacle 12, Merge onto highway 12, General Edge Case 10, Erratic/Illegal Maneuver 6, Double Parked Maneuvers 6, Rolling Stops 2.
+6. **Berkeley DeepDrive — BDD100K** ("100K 40-second driving clips"): 500 videos → **1,969 events**: Traffic signs 1716, Road Debris/Obstacle 58, Adverse Visibility 58, Pedestrian Violations 56, Double Parked Maneuvers 31, Merge onto highway 23, Hard Brake 8, Unprotected Left Turn 5, Stopped/Roadside Hazard 5, Rolling Stops 2, Lane Change 2, Erratic Maneuver 2, General Edge Case 2, Traffic Incidents 1.
+7. **VIRAT — Video Dataset** ("DARPA surveillance benchmark, ~29 hours outdoor video"): 25 videos → 25 events: People who stop and interact with the ground 21, People running 4.
+
+An additional embedded query panel in the main-site bundle (likely a fleet-scale showcase) lists: Ego Critical Violations (DMV) 140, Stopped/Disabled Vehicle Hazard 75, Object in Path 73, Lane Change Around Parked Vehicle 56, Adjacent Lane Change 35, Pedestrian Crosswalk Yield 33, Traffic Violation/Lane Departure 24, Erratic Maneuver 21, Vehicle Merge Into Ego Lane 21, Degraded Visibility 19, Rolling Stop at Stop Sign 10 — and a humanoid garment-manipulation panel: Grasp & pick up 90, Fold garment 78, Align & square 73, Insert/assemble 60, Lift & transfer 46, Reposition 45, Withdraw/reset 43, Release 36, Unfold & spread 33, Place & stack 27, Stabilize 13, Wipe/clean 7 (+ 3D trajectory & left/right gripper trajectory views).
+
+---
+
+## 4. Related public pages (sitemap)
+Products: /products/our-product, /products/dataset-curation, /products/vla-annotation, /products/find, /products/monitor, /products/curate, /products/our-sdks. Solutions: automotive, robotics, construction, aerial, maritime. Blog (evidence/benchmark posts): nomadic-vlm-robotic-action-classifier (2026-07-14), action-segmentation-benchmark (2026-07-08), excavator-motion-dataset (2026-07-03), natix-case-study, zendar-case-study, av-motion-eval, efficiently-curating-driving-video-datasets. App API base: `https://api-prod.nomadicml.com/api` (auth-gated; not probed beyond identification). Docs: `https://docs.nomadicml.com`.
+
+
+----- out/RESULTS.md -----
+# nomadic_mini — reproduction of NomadicML public examples
+
+Verbatim queries from nomadicai.com/examples, run on our own
+CC-licensed clips (data/SOURCES.txt) through the clean-room pipeline.
+
+## drive_city_34s.mp4
+
+### driving-violations — query: 'Find driving violations and cite their relevant DMV code.'
+
+> The video depicts a routine drive on a multi-lane highway under partly cloudy conditions. Traffic flow appears moderate and orderly. Throughout the recording, no clear instances of driving violations, such as illegal lane changes, unsafe speed (as speed limits are not visible), improper turns, or other reckless maneuvers, were observed by the ego vehicle or any other vehicles. Consequently, no driving violations requiring specific DMV codes were identified.
+
+- (no events detected)
+
+### lane-merges — query: 'Find lane merge instances.'
+
+> The video captures several instances of vehicles performing lane changes and merges on a multi-lane highway. Two specific events involve vehicles merging onto the highway from an on-ramp, interacting with the existing traffic flow.
+
+- [00:20–00:23] **Silver car merges onto highway** (Lane Change Detection, low, conf 0.95) — A silver car merges smoothly from an on-ramp onto the rightmost lane of the highway. The car maintains a safe distance and speed relative to the ego vehicle.
+- [00:25–00:29] **White SUV merges onto highway** (Lane Change Detection, low, conf 0.95) — A white SUV merges from an on-ramp onto the rightmost lane of the highway, following the silver car. The maneuver is executed without incident, integrating into traffic ahead of the ego vehicle.
+
+### roadside-hazard — query: 'Determine whether a stopped, disabled, or roadside vehicle creates a hazard for the ego vehicle — close enough to the travel lane to narrow the path, require a lane shift or move-over, or create a close-pass risk.'
+
+> The ego vehicle drives on a multi-lane highway with moderate traffic. A significant event occurs when the ego vehicle passes a large semi-truck stopped on the right shoulder, which is very close to the travel lane.
+
+- [00:30–00:33] **Roadside semi-truck close to travel lane** (Edge Case, medium, conf 0.95) — The ego vehicle passes a large white semi-truck (ECOSHIELD TRANSPORT) parked on the right shoulder. The truck is positioned very close to the travel lane, and orange cones are visible in front of it, indicating a potential work zone or disabled vehicle. This proximity creates a roadside hazard for the ego vehicle.
+
+## drive_highway_51s.mp4
+
+### driving-violations — query: 'Find driving violations and cite their relevant DMV code.'
+
+> The video shows the ego vehicle approaching and stopping at a red traffic light, waiting for it to turn green, and then proceeding. No driving violations were observed by the ego vehicle or other vehicles in the frame.
+
+- (no events detected)
+
+### lane-merges — query: 'Find lane merge instances.'
+
+> The video shows a dashboard view of a vehicle stopped in traffic at an intersection with multiple parallel lanes. No instances of lanes physically merging (e.g., two lanes becoming one or an on-ramp merging) are observed in the road geometry or by other vehicles.
+
+- (no events detected)
+
+### roadside-hazard — query: 'Determine whether a stopped, disabled, or roadside vehicle creates a hazard for the ego vehicle — close enough to the travel lane to narrow the path, require a lane shift or move-over, or create a close-pass risk.'
+
+> The ego vehicle is traveling in congested traffic when it encounters a disabled U-Haul truck with its ramp down, blocking the rightmost travel lane ahead. This obstruction significantly impacts traffic flow and creates a hazardous situation, though the ego vehicle itself is in an adjacent lane and merely stops as part of the overall traffic queue.
+
+- [00:07–00:50] **Disabled U-Haul truck obstructing right lane** (Edge Case, medium, conf 0.90) — A U-Haul truck, likely disabled or in the process of loading/unloading with its ramp down, is stopped in the rightmost travel lane. This creates a significant obstruction for vehicles in that lane, causing a traffic bottleneck. While the ego vehicle is in the adjacent lane and not directly forced to take evasive action, the blocked lane creates an indirect hazard by causing congestion and the potential for other vehicles to merge into the ego vehicle's path.
+
+## search: 'vehicle merging into ego lane'
+summary: 4 event(s) matched 'vehicle merging into ego lane'
+- sim 0.805 · vid-894822d079 · event 0 — A silver car merges smoothly from an on-ramp onto the rightmost lane of the highway. The car maintains a safe 
+- sim 0.800 · vid-894822d079 · event 1 — A white SUV merges from an on-ramp onto the rightmost lane of the highway, following the silver car. The maneu
+- sim 0.717 · vid-0cc817fbfa · event 0 — A U-Haul truck, likely disabled or in the process of loading/unloading with its ramp down, is stopped in the r
+
+## search: 'stop sign or traffic violation'
+summary: 4 event(s) matched 'stop sign or traffic violation'
+- sim 0.616 · vid-0cc817fbfa · event 0 — A U-Haul truck, likely disabled or in the process of loading/unloading with its ramp down, is stopped in the r
+- sim 0.592 · vid-894822d079 · event 0 — The ego vehicle passes a large white semi-truck (ECOSHIELD TRANSPORT) parked on the right shoulder. The truck 
+- sim 0.549 · vid-894822d079 · event 0 — A silver car merges smoothly from an on-ramp onto the rightmost lane of the highway. The car maintains a safe 
+
+## search: 'hazard requiring a lane shift'
+summary: 4 event(s) matched 'hazard requiring a lane shift'
+- sim 0.736 · vid-0cc817fbfa · event 0 — A U-Haul truck, likely disabled or in the process of loading/unloading with its ramp down, is stopped in the r
+- sim 0.724 · vid-894822d079 · event 0 — A silver car merges smoothly from an on-ramp onto the rightmost lane of the highway. The car maintains a safe 
+- sim 0.718 · vid-894822d079 · event 0 — The ego vehicle passes a large white semi-truck (ECOSHIELD TRANSPORT) parked on the right shoulder. The truck 
+
+
+===== ENGINE SOURCE (the actual implementation) =====
+
+----- nomadic_mini/nomadic_mini/events.py -----
+"""Event + analysis document models.
+
+Field names mirror NomadicML's schemas VERBATIM so outputs diff term-by-term
+against their production API. Two schemas coexist upstream:
+
+  SDK RapidReviewEvent (nomadicml 0.1.53, video.py — the customer contract):
+      t_start "MM:SS", t_end, category, label, severity, aiAnalysis,
+      confidence, approval, overlay
+  Docs/REST event (docs.nomadicml.com api-reference/analysis):
+      label, t_start, t_end, type, description, severity, confidence
+
+We mirror the SDK contract (what a customer's code actually touches) and keep
+`type`/`description` as computed aliases for the docs variant, so the parity
+harness can compare against either surface.
+"""
+
+from __future__ import annotations
+
+import re
+from typing import Literal
+
+from pydantic import BaseModel, Field, field_validator
+
+_MMSS = re.compile(r"^\d{1,3}:[0-5]\d$")
+
+# Verbatim agent categories from nomadicml SDK (video.py) — used as the
+# canonical `category` vocabulary so parity diffs are string-equal.
+CATEGORIES = [
+    "Lane Change Detection",
+    "Vehicle Turns",
+    "Relative Motion Analysis",
+    "Driving Violations",
+    "Edge Case",
+    "Other",
+]
+
+
+class MotionEvent(BaseModel):
+    label: str
+    t_start: str = Field(description="MM:SS")
+    t_end: str = Field(description="MM:SS")
+    category: str = Field(description="one of CATEGORIES (verbatim SDK vocabulary)")
+    severity: Literal["low", "medium", "high"]
+    aiAnalysis: str = Field(description="model reasoning / event description")
+    confidence: float = Field(ge=0.0, le=1.0)
+    approval: Literal["approved", "rejected", "pending", "invalid"] = "pending"
+    overlay: dict = Field(default_factory=dict)
+
+    @field_validator("t_start", "t_end")
+    @classmethod
+    def _mmss(cls, v: str) -> str:
+        if not _MMSS.match(v):
+            raise ValueError(f"timestamp must be MM:SS, got {v!r}")
+        return v
+
+    def t_start_seconds(self) -> float:
+        m, s = self.t_start.split(":")
+        return int(m) * 60 + int(s)
+
+    # ---- docs/REST-variant aliases (for parity vs the raw API) ----
+    @property
+    def type(self) -> str:
+        return self.category
+
+    @property
+    def description(self) -> str:
+        return self.aiAnalysis
+
+
+class AnalysisDocument(BaseModel):
+    """Mirrors GET /api/videos/{video_id}/analyses/{analysis_id}."""
+    video_id: str
+    analysis_id: str
+    analysis: str = Field(description="natural-language summary of the run")
+    metadata: dict = Field(default_factory=dict)
+    events: list[MotionEvent] = Field(default_factory=list)
+
+
+class SearchMatch(BaseModel):
+    video_id: str
+    analysis_id: str
+    event_index: int
+    similarity: float
+    reason: str
+
+
+class SearchResult(BaseModel):
+    """Mirrors the /api/search session result: {summary, thoughts, matches}."""
+    summary: str
+    thoughts: list[str] = Field(default_factory=list)
+    matches: list[SearchMatch] = Field(default_factory=list)
+
+
+def seconds_to_mmss(t: float) -> str:
+    t = max(0, int(round(t)))
+    return f"{t // 60:02d}:{t % 60:02d}"
+
+
+----- nomadic_mini/nomadic_mini/analyze.py -----
+"""Prompt-based video analysis — the VLM core.
+
+Mirrors NomadicML's `client.analyze(video_id, prompt=..., mode=Thinking|Fast)`:
+  - "thinking" mode -> gemini-2.5-pro (native video input, slower, more accurate)
+  - "fast" mode     -> gemini-2.5-flash
+  - fallback        -> Anthropic Claude over sampled frames (no native video input)
+
+Output is coerced into the verbatim NomadicML event schema (events.py).
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+import time
+import uuid
+from pathlib import Path
+
+from .events import AnalysisDocument, MotionEvent
+from .frames import extract_frames
+
+SYSTEM_PROMPT = """You are a driving-video analyst for autonomous-vehicle data curation.
+Watch the video and detect discrete MOTION EVENTS relevant to the user's query:
+turns, lane changes, merges, hard brakes, near-misses, pedestrian/cyclist interactions,
+traffic-signal events, and anomalies (unusual or unsafe situations).
+
+Return ONLY a JSON object:
+{
+  "analysis": "<2-4 sentence overall summary>",
+  "events": [
+    {
+      "label": "<short human label, e.g. 'Left lane change'>",
+      "t_start": "MM:SS",
+      "t_end": "MM:SS",
+      "category": "<exactly one of: Lane Change Detection | Vehicle Turns | Relative Motion Analysis | Driving Violations | Edge Case | Other>",
+      "severity": "low" | "medium" | "high",
+      "aiAnalysis": "<1-3 sentences of reasoning: what happens, who is involved, why it matters>",
+      "confidence": <0.0-1.0>
+    }
+  ]
+}
+Timestamps must be within the video duration. Report only events you can actually see."""
+
+
+def _parse_json(text: str) -> dict:
+    m = re.search(r"\{.*\}", text, re.DOTALL)
+    if not m:
+        raise ValueError(f"no JSON object in model output: {text[:200]!r}")
+    return json.loads(m.group(0))
+
+
+def _to_document(raw: dict, video_id: str, backend: str, prompt: str) -> AnalysisDocument:
+    events = [MotionEvent(**e) for e in raw.get("events", [])]
+    return AnalysisDocument(
+        video_id=video_id,
+        analysis_id=f"mini-{uuid.uuid4().hex[:12]}",
+        analysis=raw.get("analysis", ""),
+        metadata={"backend": backend, "prompt": prompt},
+        events=sorted(events, key=lambda e: e.t_start_seconds()),
+    )
+
+
+def analyze_gemini(video_path: str | Path, prompt: str, mode: str = "thinking") -> AnalysisDocument:
+    from google import genai
+
+    from google.genai import types as gtypes
+
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    # Mirror NomadicML's thinking/fast split. gemini-2.5-pro is the natural
+    # "thinking" tier but is unavailable on free-tier keys (quota 0), so both
+    # modes run on flash: thinking = dynamic reasoning budget, fast = budget 0.
+    model = "gemini-2.5-flash"
+    config = gtypes.GenerateContentConfig(
+        thinking_config=gtypes.ThinkingConfig(
+            thinking_budget=-1 if mode == "thinking" else 0)
+    )
+
+    uploaded = client.files.upload(file=str(video_path))
+    while uploaded.state and uploaded.state.name == "PROCESSING":
+        time.sleep(2)
+        uploaded = client.files.get(name=uploaded.name)
+    if uploaded.state and uploaded.state.name == "FAILED":
+        raise RuntimeError(f"Gemini file processing failed for {video_path}")
+
+    res = client.models.generate_content(
+        model=model,
+        contents=[uploaded, f"{SYSTEM_PROMPT}\n\nUser query: {prompt}"],
+        config=config,
+    )
+    return _to_document(_parse_json(res.text), Path(video_path).stem,
+                        f"gemini/{model}/{mode}", prompt)
+
+
+def analyze_claude_frames(video_path: str | Path, prompt: str, fps: float = 0.5) -> AnalysisDocument:
+    import anthropic
+
+    frames = extract_frames(video_path, fps=fps, max_frames=20)
+    content: list[dict] = []
+    for fr in frames:
+        content.append({"type": "text", "text": f"[frame at {fr.t_seconds:.0f}s]"})
+        content.append({"type": "image", "source": {
+            "type": "base64", "media_type": "image/jpeg", "data": fr.jpeg_b64}})
+    content.append({"type": "text", "text": f"{SYSTEM_PROMPT}\n\nUser query: {prompt}"})
+
+    client = anthropic.Anthropic()
+    res = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=4000,
+        messages=[{"role": "user", "content": content}],
+    )
+    text = "".join(b.text for b in res.content if b.type == "text")
+    return _to_document(_parse_json(text), Path(video_path).stem, "anthropic/frames", prompt)
+
+
+def analyze(video_path: str | Path, prompt: str, mode: str = "thinking") -> AnalysisDocument:
+    """Backend-picking seam: Gemini native video first, Claude frames fallback."""
+    if os.environ.get("GEMINI_API_KEY"):
+        return analyze_gemini(video_path, prompt, mode)
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return analyze_claude_frames(video_path, prompt)
+    raise RuntimeError("no VLM backend: set GEMINI_API_KEY or ANTHROPIC_API_KEY")
+
+
+----- nomadic_mini/nomadic_mini/search.py -----
+"""Semantic search over detected events — the retrieval half of the pipeline.
+
+Two embedding backends behind one seam:
+- gemini_embed: real dense embeddings (needs GEMINI_API_KEY)
+- local_embed:  deterministic bag-of-words vectors, so unit tests run offline
+"""
+
+from __future__ import annotations
+
+import math
+import os
+import re
+from collections.abc import Callable, Sequence
+
+EmbedFn = Callable[[Sequence[str]], list[list[float]]]
+
+_TOKEN = re.compile(r"[a-z0-9]+")
+
+
+def local_embed(texts: Sequence[str]) -> list[list[float]]:
+    """Hashed bag-of-words embedding — offline, deterministic, test-grade only."""
+    dim = 512
+    out = []
+    for t in texts:
+        v = [0.0] * dim
+        for tok in _TOKEN.findall(t.lower()):
+            v[hash(tok) % dim] += 1.0
+        norm = math.sqrt(sum(x * x for x in v)) or 1.0
+        out.append([x / norm for x in v])
+    return out
+
+
+def gemini_embed(texts: Sequence[str]) -> list[list[float]]:
+    from google import genai
+
+    client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
+    res = client.models.embed_content(model="gemini-embedding-001", contents=list(texts))
+    return [e.values for e in res.embeddings]
+
+
+def _cosine(a: Sequence[float], b: Sequence[float]) -> float:
+    num = sum(x * y for x, y in zip(a, b))
+    da = math.sqrt(sum(x * x for x in a)) or 1.0
+    db = math.sqrt(sum(x * x for x in b)) or 1.0
+    return num / (da * db)
+
+
+class EventIndex:
+    """Index event descriptions; query in natural language, get ranked events back."""
+
+    def __init__(self, embed_fn: EmbedFn | None = None):
+        self.embed_fn = embed_fn or (
+            gemini_embed if os.environ.get("GEMINI_API_KEY") else local_embed
+        )
+        self._events: list[dict] = []
+        self._vecs: list[list[float]] = []
+
+    def add(self, events: Sequence[dict]) -> None:
+        if not events:
+            return
+        texts = [self._event_text(e) for e in events]
+        self._events.extend(events)
+        self._vecs.extend(self.embed_fn(texts))
+
+    def query(self, text: str, top_k: int = 5) -> list[tuple[float, dict]]:
+        if not self._events:
+            return []
+        qv = self.embed_fn([text])[0]
+        scored = sorted(
+            ((_cosine(qv, v), e) for v, e in zip(self._vecs, self._events)),
+            key=lambda p: -p[0],
+        )
+        return scored[:top_k]
+
+    @staticmethod
+    def _event_text(e: dict) -> str:
+        parts = [str(e.get(k, "")) for k in ("category", "label", "aiAnalysis", "type", "description")]
+        return " ".join(p for p in parts if p)
+
+
+----- nomadic_mini/nomadic_mini/frames.py -----
+"""Frame extraction via ffmpeg — the frames-as-images path for VLMs without native video input."""
+
+from __future__ import annotations
+
+import base64
+import subprocess
+import tempfile
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass
+class Frame:
+    t_seconds: float
+    jpeg_b64: str
+
+
+def video_duration(path: str | Path) -> float:
+    out = subprocess.run(
+        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+         "-of", "csv=p=0", str(path)],
+        capture_output=True, text=True, check=True,
+    )
+    return float(out.stdout.strip())
+
+
+def extract_frames(path: str | Path, fps: float = 1.0, max_frames: int = 60,
+                   height: int = 480) -> list[Frame]:
+    """Sample frames at `fps`, capped at `max_frames`, downscaled to `height`."""
+    duration = video_duration(path)
+    effective_fps = min(fps, max_frames / max(duration, 1e-6))
+    with tempfile.TemporaryDirectory() as td:
+        subprocess.run(
+            ["ffmpeg", "-v", "error", "-i", str(path),
+             "-vf", f"fps={effective_fps},scale=-2:{height}",
+             "-frames:v", str(max_frames), "-q:v", "4",
+             f"{td}/f_%05d.jpg"],
+            check=True,
+        )
+        frames = []
+        for i, f in enumerate(sorted(Path(td).glob("f_*.jpg"))):
+            frames.append(Frame(
+                t_seconds=round(i / effective_fps, 2),
+                jpeg_b64=base64.b64encode(f.read_bytes()).decode(),
+            ))
+    return frames
+
+
+----- nomadic_mini/nomadic_mini/client.py -----
+"""Two clients, one method vocabulary.
+
+MiniClient      — our local clean-room pipeline, exposing the same verbs a
+                  NomadicML customer uses: upload() -> analyze() -> search().
+NomadicLive     — a thin REST client for the REAL production API
+                  (api-prod.nomadicml.com), built from the documented surface,
+                  used by the parity harness. Requires NOMADICML_API_KEY.
+
+Endpoint paths and headers are verbatim from nomadicml 0.1.53 source and
+docs.nomadicml.com (see ../COMPARISON.md for the full term-by-term map).
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import time
+import uuid
+from pathlib import Path
+
+import httpx
+
+from .analyze import analyze as _vlm_analyze
+from .events import AnalysisDocument, SearchMatch, SearchResult
+from .search import EventIndex
+
+
+class MiniClient:
+    """Local reconstruction: same customer-facing verbs, our own engine."""
+
+    def __init__(self):
+        self._videos: dict[str, Path] = {}
+        self._analyses: dict[str, AnalysisDocument] = {}
+        self._index = EventIndex()
+
+    def upload(self, path: str | Path) -> str:
+        video_id = f"vid-{uuid.uuid4().hex[:10]}"
+        self._videos[video_id] = Path(path)
+        return video_id
+
+    def analyze(self, video_id: str, prompt: str, mode: str = "thinking") -> AnalysisDocument:
+        doc = _vlm_analyze(self._videos[video_id], prompt, mode=mode)
+        doc = doc.model_copy(update={"video_id": video_id})
+        self._analyses[doc.analysis_id] = doc
+        self._index.add([
+            {**e.model_dump(), "video_id": video_id,
+             "analysis_id": doc.analysis_id, "event_index": i}
+            for i, e in enumerate(doc.events)
+        ])
+        return doc
+
+    def get_analysis(self, analysis_id: str) -> AnalysisDocument:
+        return self._analyses[analysis_id]
+
+    def search(self, query: str, top_k: int = 5) -> SearchResult:
+        hits = self._index.query(query, top_k=top_k)
+        matches = [
+            SearchMatch(
+                video_id=e["video_id"], analysis_id=e["analysis_id"],
+                event_index=e["event_index"], similarity=round(score, 4),
+                reason=e.get("aiAnalysis", ""),
+            )
+            for score, e in hits
+        ]
+        return SearchResult(
+            summary=f"{len(matches)} event(s) matched {query!r}",
+            thoughts=[f"embedded query and ranked {len(self._index._events)} indexed events by cosine similarity"],
+            matches=matches,
+        )
+
+
+class NomadicLive:
+    """Minimal real-API client (documented surface only). Parity-harness use."""
+
+    BASE_URL = "https://api-prod.nomadicml.com"
+
+    def __init__(self, api_key: str | None = None, base_url: str | None = None):
+        self.api_key = api_key or os.environ.get("NOMADICML_API_KEY", "")
+        if not self.api_key:
+            raise RuntimeError("NOMADICML_API_KEY not set")
+        self.base_url = (base_url or self.BASE_URL).rstrip("/")
+        self._http = httpx.Client(
+            timeout=900,
+            headers={
+                # verbatim: nomadicml/client.py sends both header forms
+                "X-API-Key": self.api_key,
+                "Authorization": f"Bearer {self.api_key}",
+                "X-Client-Type": "SDK",
+            },
+        )
+
+    def verify_key(self) -> dict:
+        r = self._http.post(f"{self.base_url}/api/keys/verify")
+        r.raise_for_status()
+        return r.json()
+
+    def my_videos(self, scope: str | None = None) -> list[dict]:
+        params = {"firebase_collection_name": "videos",
+                  "folder_collection": "videoFolders"}
+        if scope:
+            params["scope"] = scope
+        r = self._http.get(f"{self.base_url}/api/my-videos", params=params)
+        r.raise_for_status()
+        return r.json().get("videos", [])
+
+    def upload(self, path: str | Path) -> str:
+        with open(path, "rb") as f:
+            r = self._http.post(
+                f"{self.base_url}/api/upload-video",
+                data={"source": "file"},
+                files={"file": (Path(path).name, f, "video/mp4")},
+            )
+        r.raise_for_status()
+        return r.json()["video_id"]
+
+    def wait_uploaded(self, video_id: str, timeout: float = 600) -> dict:
+        t0 = time.time()
+        while time.time() - t0 < timeout:
+            r = self._http.get(f"{self.base_url}/api/video/{video_id}/status")
+            r.raise_for_status()
+            status = r.json()
+            state = (status.get("visual_analysis", {}).get("status", {}) or {}).get("status")
+            if state == "UPLOADED":
+                return status
+            time.sleep(5)
+        raise TimeoutError(f"video {video_id} not UPLOADED after {timeout}s")
+
+    def analyze_start(self, video_id: str, prompt: str) -> dict:
+        r = self._http.post(
+            f"{self.base_url}/api/router/v2/query/start",
+            json={"query": prompt, "video_id": video_id},
+        )
+        r.raise_for_status()
+        return r.json()  # {stream_id, status, batch_id}
+
+    def analyze_events(self, stream_id: str, last_id: str = "") -> list[dict]:
+        """Read the SSE progress feed once (parity harness polls)."""
+        events = []
+        with self._http.stream(
+            "GET",
+            f"{self.base_url}/api/router/v2/query/events/{stream_id}",
+            params={"last_id": last_id} if last_id else None,
+        ) as r:
+            r.raise_for_status()
+            for line in r.iter_lines():
+                if line.startswith("data:"):
+                    try:
+                        events.append(json.loads(line[5:].strip()))
+                    except json.JSONDecodeError:
+                        pass
+                    if events and events[-1].get("event") in ("done", "error"):
+                        break
+        return events
+
+    def get_analysis(self, video_id: str, analysis_id: str) -> dict:
+        r = self._http.get(f"{self.base_url}/api/videos/{video_id}/analyses/{analysis_id}")
+        r.raise_for_status()
+        return r.json()  # {video_id, analysis_id, analysis, metadata, events[]}
+
+
+----- nomadic_mini/tests/test_parity_live.py -----
+"""Term-by-term parity vs the REAL NomadicML production API.
+
+Marked `live`: auto-run when NOMADICML_API_KEY is set, honest `skip` otherwise
+(never a fake pass). Run via `make parity`.
+
+This harness IS the JD's "agentic evaluation framework" bullet: it benchmarks
+our clean-room clone against their production surface, field by field.
+"""
+
+import os
+from pathlib import Path
+
+import pytest
+
+from nomadic_mini.client import MiniClient, NomadicLive
+
+DATA = Path(__file__).resolve().parents[2] / "data"
+CLIP = DATA / "drive_city_34s.mp4"
+QUERY = "Find driving violations and cite their relevant DMV code."  # verbatim public example
+
+pytestmark = pytest.mark.live
+
+needs_key = pytest.mark.skipif(
+    not os.environ.get("NOMADICML_API_KEY"),
+    reason="NOMADICML_API_KEY not set — sign up at app.nomadicml.com (Profile > API Key)",
+)
+
+# SDK RapidReviewEvent contract (nomadicml 0.1.53); confidence/overlay are optional upstream
+EVENT_CORE_FIELDS = {"label", "t_start", "t_end", "severity"}
+DOC_FIELDS = {"video_id", "analysis_id", "analysis", "events"}
+
+
+@pytest.fixture(scope="module")
+def live():
+    return NomadicLive()
+
+
+@needs_key
+def test_key_verifies(live):
+    info = live.verify_key()
+    assert info.get("valid") is True
+    assert "user_id" in info or "uid" in info
+
+
+@needs_key
+def test_full_parity_roundtrip(live, tmp_path):
+    # --- their side ---
+    # Free-trial keys can't upload (402 "Video upload is not available on the
+    # free trial", measured 2026-07-21). Fall back to any video already in the
+    # account (e.g. added via the app.nomadicml.com web UI); skip honestly if
+    # there is nothing to analyze.
+    import httpx as _httpx
+    try:
+        their_vid = live.upload(CLIP)
+        live.wait_uploaded(their_vid)
+    except _httpx.HTTPStatusError as err:
+        if err.response.status_code != 402:
+            raise
+        existing = live.my_videos()
+        if not existing:
+            pytest.skip(
+                "free-trial key: API upload paywalled (402) and account has no "
+                "videos — upload one clip via the app.nomadicml.com web UI "
+                "(or upgrade the plan), then re-run `make parity`")
+        their_vid = existing[0]["video_id"]
+    start = live.analyze_start(their_vid, QUERY)
+    assert "stream_id" in start
+    progress = live.analyze_events(start["stream_id"])
+    assert progress and progress[-1].get("event") in ("done", "error")
+    assert progress[-1].get("event") == "done", f"their analysis errored: {progress[-1]}"
+
+    analysis_id = (progress[-1].get("analysis_id")
+                   or progress[-1].get("data", {}).get("analysis_id"))
+    assert analysis_id, f"no analysis_id in terminal event: {progress[-1]}"
+    theirs = live.get_analysis(their_vid, analysis_id)
+
+    # --- our side, same clip, same verbatim query ---
+    mini = MiniClient()
+    ours = mini.analyze(mini.upload(CLIP), QUERY)
+
+    # --- term-by-term: document envelope ---
+    missing_doc = DOC_FIELDS - set(theirs.keys())
+    assert not missing_doc, f"their document lacks documented fields: {missing_doc}"
+    assert DOC_FIELDS <= set(ours.model_dump().keys())
+
+    # --- term-by-term: event fields ---
+    for ev in theirs.get("events", []):
+        assert EVENT_CORE_FIELDS <= set(ev.keys()), (
+            f"their event diverges from documented schema: {sorted(ev.keys())}")
+    for ev in ours.events:
+        assert EVENT_CORE_FIELDS <= set(ev.model_dump().keys())
+
+    # --- semantic overlap report (informative, printed not asserted) ---
+    print(f"\nTHEIRS: {len(theirs.get('events', []))} events; "
+          f"OURS: {len(ours.events)} events on {CLIP.name} for query {QUERY!r}")
+    for ev in theirs.get("events", []):
+        print(f"  their: [{ev.get('t_start')}–{ev.get('t_end')}] {ev.get('label')}")
+    for ev in ours.events:
+        print(f"  ours : [{ev.t_start}–{ev.t_end}] {ev.label}")
+
+
+----- Makefile -----
+.PHONY: check unit e2e parity webapp clean
+
+# Visual demo + lab copilot at http://127.0.0.1:8787 (needs ANTHROPIC_API_KEY for chat)
+webapp:
+	python3 webapp/server.py
+
+# Fast gate: schema contracts + unit tests (no network, no keys needed)
+check:
+	cd nomadic_mini && python3 -m pytest tests -m "not live and not vlm" -q
+
+# Full local pipeline on the bundled clips (needs GEMINI_API_KEY or ANTHROPIC_API_KEY)
+e2e:
+	cd nomadic_mini && python3 -m pytest tests -m vlm -q
+
+# Term-by-term parity vs the real NomadicML API (needs NOMADICML_API_KEY; skips honestly without)
+parity:
+	cd nomadic_mini && python3 -m pytest tests -m live -q
+
+clean:
+	find . -name __pycache__ -type d -exec rm -rf {} + 2>/dev/null; true

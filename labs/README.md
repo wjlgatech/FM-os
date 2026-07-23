@@ -5,4 +5,4 @@ test-gated, and built from public surfaces only.
 
 | Lab | What it proves | Gates |
 |---|---|---|
-| [`nomadicml/`](nomadicml/) | Clean-room, small-scale reverse-engineering of NomadicML's VLM video-analysis product (driving events → structured schema → semantic search), compared term-by-term against their production API. Interview proof-of-capability for a Member-of-Technical-Staff (ML) role. | `make check` (offline) · `make e2e` (real VLM) · `make parity` (live API) · `make webapp` (visual demo + lab copilot) |
+| [`nomadicml/`](nomadicml/) | Clean-room, small-scale reverse-engineering of NomadicML's VLM video-analysis product (driving events → structured schema → semantic search), compared term-by-term against their production API. Interview proof-of-capability for a Member-of-Technical-Staff (ML) role. **Live demo (password-gated):** https://nomadic-mini-demo.vercel.app | `make check` (offline) · `make e2e` (real VLM) · `make parity` (live API) · `make webapp` (visual demo + lab copilot) |
