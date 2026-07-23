@@ -21,7 +21,7 @@ from pathlib import Path
 import httpx
 
 from .analyze import analyze as _vlm_analyze
-from .events import AnalysisDocument, SearchMatch, SearchResult
+from .events import AnalysisDocument, SearchResult
 from .search import EventIndex
 
 
@@ -53,20 +53,9 @@ class MiniClient:
         return self._analyses[analysis_id]
 
     def search(self, query: str, top_k: int = 5) -> SearchResult:
-        hits = self._index.query(query, top_k=top_k)
-        matches = [
-            SearchMatch(
-                video_id=e["video_id"], analysis_id=e["analysis_id"],
-                event_index=e["event_index"], similarity=round(score, 4),
-                reason=e.get("aiAnalysis", ""),
-            )
-            for score, e in hits
-        ]
-        return SearchResult(
-            summary=f"{len(matches)} event(s) matched {query!r}",
-            thoughts=[f"embedded query and ranked {len(self._index._events)} indexed events by cosine similarity"],
-            matches=matches,
-        )
+        """Agentic search (P3): plan → retrieve → validate, with real thoughts[]."""
+        from .agentic_search import agentic_search
+        return agentic_search(self._index, query, top_k=top_k)
 
 
 class NomadicLive:
