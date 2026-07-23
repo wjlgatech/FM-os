@@ -68,16 +68,25 @@
   populated; ms-precision action segmentation is out of reach for pure-vision sampling.
 - **Full live parity still gated**: free trial blocks API upload; roundtrip comparison awaits a
   web-UI upload or plan upgrade.
-- **Search is cosine-only**: their production search shows agentic multi-step reasoning
-  (`thoughts[]` traces); ours fills that field with a one-liner.
+- ~~**Search is cosine-only**~~ → **RESOLVED (P3, 2026-07-23)**: `agentic_search.py` runs a real
+  plan → retrieve → validate loop emitting genuine `thoughts[]` + per-match reasons (LLM-backed,
+  offline-deterministic fallback). Live proof: query "stopped vehicle forcing a lane shift" → 4
+  planned sub-queries → 4 retrieved → 1 validated (the U-Haul), each with a reason.
 
-## Future plan
+## Future plan — status (2026-07-23)
 
-- **P0 (pre-interview)**: full live roundtrip on one clip (web-UI upload); read their two eval
-  blog posts; rehearse the 5-minute demo on the webapp.
-- **P1**: batch mode (`create-batch`/bulk-fetch mirror) on 20–50 BDD100K clips; temporal-IoU
-  eval of our events vs their approved events — the agentic-eval story made quantitative.
-- **P2**: curation loop demo — disagreements between our clone and their API become the mined
-  edge-case dataset; fine-tune a small open VLM (per FM-os `vlm-quickstart`) on it.
-- **P3**: agentic search — replace one-shot cosine with a plan→retrieve→validate loop that
-  emits real `thoughts[]`, closing the last schema-fidelity gap.
+- **P0 — blocked on a 5-min human step.** Full live roundtrip needs a clip uploaded via
+  app.nomadicml.com's web UI (API upload is 402-gated on the free trial; I can't log into the
+  account). Everything else is prepped: `make parity` auto-runs the roundtrip once one video
+  exists (falls back to `my_videos()`). *Unblock:* Paul uploads `data/drive_city_34s.mp4` in the
+  web UI, then `make parity`.
+- **P1 — partially blocked.** Buildable now: the batch-mirror harness (our clone over N clips) +
+  the temporal-IoU eval function (ready-on-arrival, unit-tested). Blocked: the comparison
+  *denominator* — "their approved events" needs their API to analyze the clips (upload paywalled),
+  and BDD100K needs a license/download. *Unblock:* paid NomadicML plan (or bulk web-UI upload) +
+  BDD100K access.
+- **P2 — blocked (depends on P1 + GPU).** The disagreement-miner (clone↔API mismatches → edge-case
+  set) can be scaffolded, but a real small-VLM fine-tune is GPU-hours, not a session task. Gated on
+  P1's disagreements existing first.
+- **P3 — ✅ DONE.** `agentic_search.py` + `tests/test_agentic_search.py` (4 tests); wired into
+  `MiniClient.search`. Mirrors their `{summary, thoughts, matches}` funnel with real reasoning.

@@ -4,13 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>nomadic_mini — reverse-engineering lab demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0e1116; --panel:#161b23; --panel2:#1d242f; --line:#2a3341;
-    --ink:#e8edf4; --dim:#9aa7b8; --accent:#5eb0ff; --accent2:#7ce3b1;
-    --warn:#ffd166; --bad:#ff7b72; --theirs:#c9a7ff;
-    --sev-low:#7ce3b1; --sev-medium:#ffd166; --sev-high:#ff7b72;
-    font-family:-apple-system,'Segoe UI',Inter,Roboto,sans-serif;
+    --bg:#faf9f5; --panel:#ffffff; --panel2:#f0eee6; --line:#e3e0d6;
+    --ink:#141413; --dim:#73716b; --accent:#d97757; --accent2:#788c5d;
+    --warn:#c98a3c; --bad:#bf4d3a; --theirs:#6a9bcc; --paper:#faf9f5;
+    --sev-low:#788c5d; --sev-medium:#c98a3c; --sev-high:#bf4d3a;
+    font-family:'Poppins',ui-sans-serif,-apple-system,'Segoe UI',Inter,Roboto,sans-serif;
   }
   *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink)}
   main{max-width:1060px;margin:0 auto;padding:28px 24px 120px;
@@ -27,7 +29,7 @@
   .node{background:var(--panel);border:1px solid var(--line);border-radius:10px;
         padding:9px 13px;font-size:12.5px;line-height:1.45;min-width:118px}
   .node small{display:block;color:var(--dim);font-size:11px}
-  .theirs .node{border-color:#4a3d6b} .theirs .node small{color:var(--theirs)}
+  .theirs .node{border-color:#cdd9e8} .theirs .node small{color:var(--theirs)}
   .arrow{color:var(--dim);padding:0 7px;font-size:15px}
   .parity-link{ text-align:center;color:var(--accent2);font-size:11.5px;margin:2px 0 2px 86px;
         border-left:1px dashed var(--accent2);padding:4px 0 4px 10px;width:fit-content}
@@ -57,8 +59,8 @@
   .card h3{margin:0 0 8px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
   .vs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
   .vs div{border-radius:8px;padding:8px 10px;font-size:11.5px;line-height:1.5}
-  .vs .docs{background:#20242c;border:1px solid var(--line)}
-  .vs .prod{background:#152430;border:1px solid #24455c}
+  .vs .docs{background:#f0eee6;border:1px solid var(--line)}
+  .vs .prod{background:#eaf1f7;border:1px solid #cfe0ee}
   .vs em{display:block;font-style:normal;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
   .ok{color:var(--accent2)} .warnc{color:var(--warn)} .badc{color:var(--bad)}
   ul.tight{margin:6px 0;padding-left:18px} ul.tight li{margin:5px 0;font-size:12.5px;line-height:1.5}
@@ -72,7 +74,7 @@
   #dock header b{font-size:14px} #dock header span{display:block;font-size:11.5px;color:var(--dim);margin-top:2px}
   #log{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
   .msg{border-radius:10px;padding:9px 12px;font-size:12.8px;line-height:1.55;white-space:pre-wrap;word-wrap:break-word}
-  .msg.user{background:#1f3350;align-self:flex-end;max-width:88%}
+  .msg.user{background:#f6e7e0;align-self:flex-end;max-width:88%}
   .msg.bot{background:var(--panel2);border:1px solid var(--line);max-width:94%}
   .sugg{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}
   .sugg button{background:var(--panel2);border:1px solid var(--line);color:var(--dim);
@@ -81,7 +83,7 @@
   #bar{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line)}
   #q{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;
         color:var(--ink);padding:10px 12px;font-size:13px;outline:none}
-  #send{background:var(--accent);border:0;border-radius:9px;color:#08121f;font-weight:700;
+  #send{background:var(--accent);border:0;border-radius:9px;color:var(--paper);font-weight:700;
         padding:0 16px;cursor:pointer;font-size:13px}
   @media (max-width:900px){ #dock{display:none} main{padding-right:24px} }
 </style>
@@ -134,16 +136,16 @@
       <li>No trained model — we orchestrate frontier VLMs; they trained Nomadic-VL-XLarge</li>
       <li>2 clips ≠ fleet scale (no batching, no 500-video cost model)</li>
       <li>No sensor fusion — overlay/GPS/joint-telemetry never populated</li>
-      <li>Search is one-shot cosine; their <code>thoughts[]</code> shows agentic multi-step reasoning</li>
+      <li>✅ <b>P3 shipped</b> — agentic search (plan→retrieve→validate) now emits real <code>thoughts[]</code> + per-match reasons</li>
     </ul></div>
   </div>
 
   <h2>5 · Future plan</h2>
   <div class="road">
-    <div class="card"><b>P0</b> · full live roundtrip on one clip (web-UI upload) + demo rehearsal</div>
-    <div class="card"><b>P1</b> · batch mirror on 20–50 BDD100K clips; temporal-IoU eval vs their approved events</div>
-    <div class="card"><b>P2</b> · curation loop: clone↔API disagreements become the mined edge-case set → fine-tune small VLM</div>
-    <div class="card"><b>P3</b> · agentic search with real <code>thoughts[]</code> traces</div>
+    <div class="card"><b>P0</b> · <span style="color:var(--warn)">blocked</span> — needs a clip uploaded via the NomadicML web UI (API upload 402-gated); <code>make parity</code> auto-runs after</div>
+    <div class="card"><b>P1</b> · <span style="color:var(--warn)">partial</span> — batch-mirror + temporal-IoU harness buildable; "their approved events" needs paid API + BDD100K license</div>
+    <div class="card"><b>P2</b> · <span style="color:var(--dim)">gated on P1</span> — disagreement-miner scaffolds; real small-VLM fine-tune is GPU-hours</div>
+    <div class="card" style="border-color:var(--accent2)"><b style="color:var(--accent2)">P3 ✅ done</b> · agentic search — plan→retrieve→validate with real <code>thoughts[]</code> (see <code>agentic_search.py</code>)</div>
   </div>
 </main>
 
@@ -160,7 +162,7 @@
 </aside>
 
 <script>
-const CATC = {"Lane Change Detection":"#5eb0ff","Vehicle Turns":"#c9a7ff","Relative Motion Analysis":"#7ce3b1","Driving Violations":"#ff7b72","Edge Case":"#ffd166","Other":"#9aa7b8"};
+const CATC = {"Lane Change Detection":"#6a9bcc","Vehicle Turns":"#9a7aa8","Relative Motion Analysis":"#788c5d","Driving Violations":"#d97757","Edge Case":"#c98a3c","Other":"#8a887f"};
 const SEV = {low:"var(--sev-low)",medium:"var(--sev-medium)",high:"var(--sev-high)"};
 const mmss = s => { const [m,x]=s.split(":").map(Number); return m*60+x; };
 
