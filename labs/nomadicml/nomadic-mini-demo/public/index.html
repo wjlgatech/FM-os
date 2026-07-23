@@ -108,6 +108,22 @@
         color:var(--ink);padding:11px 13px;font-size:14px;outline:none;margin-bottom:12px}
   #gate button{width:100%;background:var(--accent);border:0;border-radius:9px;color:var(--paper);
         font-weight:700;padding:11px;cursor:pointer;font-size:14px}
+  /* uploader */
+  .uploader{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:8px 0 4px}
+  .drop{border:1.5px dashed var(--line);border-radius:11px;padding:22px;text-align:center;transition:.15s;cursor:pointer}
+  .drop.hot{border-color:var(--accent);background:#fbf1ec}
+  .drop-in b{color:var(--ink)} .drop-in small{color:var(--dim)}
+  .link{background:none;border:0;color:var(--accent);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
+  .or{color:var(--dim);font-size:12px;text-align:center;margin:12px 0 6px}
+  .urlin{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--ink);
+        padding:10px 12px;font-size:13px;outline:none;margin-bottom:8px}
+  .go{background:var(--accent);border:0;border-radius:9px;color:var(--paper);font-weight:700;padding:10px 20px;
+        cursor:pointer;font-size:13.5px}
+  .go:disabled{opacity:.5;cursor:default}
+  .prog{height:8px;background:var(--panel2);border-radius:6px;overflow:hidden;margin:12px 0 6px}
+  .bar{height:100%;width:0;background:var(--accent);border-radius:6px;transition:width .3s ease}
+  .stagemsg{font-size:12px;color:var(--dim);min-height:16px}
+  .stagemsg.err{color:var(--bad)}
 </style>
 </head>
 <body>
@@ -128,6 +144,22 @@
     <div class="chip">upload roundtrip <b style="color:var(--warn)">402-gated · honest skip</b></div>
     <div class="chip">their examples recovered <b>20/20</b></div>
   </div>
+
+  <h2>▶ Analyze your own clip <span style="color:var(--dim);font-weight:400;font-size:13px">— live pipeline, real model</span></h2>
+  <div class="uploader">
+    <div id="drop" class="drop">
+      <input id="file" type="file" accept="video/*" hidden>
+      <div class="drop-in"><b>Drop a driving clip</b> or <button id="pick" class="link">choose a file</button><br>
+        <small>mp4/mov/webm · short & low-res works best (≈≤40s; longer may time out)</small></div>
+    </div>
+    <div class="or">or paste a direct video URL</div>
+    <input id="url" class="urlin" placeholder="https://…/clip.mp4" autocomplete="off">
+    <input id="prompt" class="urlin" placeholder="What to look for (optional) — e.g. Find lane merges and hazards">
+    <button id="analyze" class="go">Analyze</button>
+    <div id="uprog" class="prog" hidden><div id="ubar" class="bar"></div></div>
+    <div id="ustage" class="stagemsg"></div>
+  </div>
+  <div id="userclips"></div>
 
   <h2>1 · One pipeline, two implementations</h2>
   <div class="lane theirs">
@@ -324,7 +356,86 @@ document.getElementById("gatego").onclick = submitGate;
 document.getElementById("gatepw").addEventListener("keydown", e => { if(e.key==="Enter") submitGate(); });
 if(!sessionStorage.getItem("pw")) showGate();
 
+// render a user-analyzed clip (called from the upload module below)
+window.renderUserResult = function(doc, videoUrl, promptText){
+  const root = document.getElementById("userclips");
+  const box = document.createElement("div"); box.className="clip";
+  box.innerHTML = `<b style="font-size:13px">your clip → ${doc.events.length} event(s)</b>
+    <video src="${videoUrl}" controls preload="metadata"></video>
+    <div class="qh">query <code>${(promptText||"(default driving events)").replace(/</g,'&lt;')}</code></div>`;
+  const video = box.querySelector("video");
+  const tl = document.createElement("div"); tl.className="timeline"; box.appendChild(tl);
+  const evs = document.createElement("div"); evs.className="events"; box.appendChild(evs);
+  if(doc.analysis){ const a=document.createElement("div"); a.className="qh"; a.style.marginTop="10px";
+    a.textContent=doc.analysis; box.appendChild(a); }
+  if(!doc.events.length){ evs.innerHTML = `<div class="none">no events detected in this clip</div>`; }
+  video.addEventListener("loadedmetadata", () => {
+    for(const e of doc.events){ const m=document.createElement("div"); m.className="marker";
+      const a=mmss(e.t_start), b=Math.max(mmss(e.t_end),a+1);
+      m.style.left=(a/video.duration*100)+"%"; m.style.width=((b-a)/video.duration*100)+"%";
+      m.style.background=CATC[e.category]||"#8a887f"; m.title=`[${e.t_start}–${e.t_end}] ${e.label}`;
+      m.onclick=()=>{video.currentTime=a; video.play();}; tl.appendChild(m); }
+  });
+  for(const e of doc.events){ const el=document.createElement("div"); el.className="ev";
+    el.innerHTML=`<span class="t">${e.t_start}–${e.t_end}</span><b>${e.label}</b>
+      <span class="cat" style="color:${CATC[e.category]};border-color:${CATC[e.category]}55">${e.category}</span>
+      <span style="color:${SEV[e.severity]}">${e.severity}</span>
+      <span class="why">conf ${e.confidence.toFixed(2)} — ${e.aiAnalysis}</span>`;
+    el.onclick=()=>{video.currentTime=mmss(e.t_start); video.play();}; evs.appendChild(el); }
+  root.prepend(box); box.scrollIntoView({behavior:"smooth", block:"center"});
+};
+
 loadResults();
+</script>
+<script type="module">
+import { upload } from 'https://esm.sh/@vercel/blob@0.27.0/client';
+const $ = id => document.getElementById(id);
+const bar=$("ubar"), prog=$("uprog"), stage=$("ustage"), go=$("analyze"),
+      fileIn=$("file"), urlIn=$("url"), promptIn=$("prompt"), drop=$("drop");
+let picked=null;
+function setBar(p){ prog.hidden=false; bar.style.width=Math.max(2,Math.min(100,p))+"%"; }
+function msg(t,err){ stage.textContent=t; stage.className="stagemsg"+(err?" err":""); }
+$("pick").onclick=()=>fileIn.click();
+fileIn.onchange=()=>{ picked=fileIn.files[0]||null; if(picked){ msg("selected: "+picked.name); urlIn.value=""; } };
+["dragover","dragenter"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("hot");}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("hot");}));
+drop.addEventListener("drop",e=>{ picked=e.dataTransfer.files[0]||null; if(picked){ msg("selected: "+picked.name); urlIn.value=""; } });
+drop.addEventListener("click",e=>{ if(e.target.id!=="pick") fileIn.click(); });
+
+go.onclick=async()=>{
+  const pw=sessionStorage.getItem("pw");
+  if(!pw){ if(window.showGate) showGate(); return; }
+  const promptText=promptIn.value.trim();
+  go.disabled=true; setBar(2);
+  try{
+    let videoUrl=urlIn.value.trim();
+    if(picked){
+      msg("uploading your clip…");
+      const blob=await upload(picked.name, picked, {
+        access:"public", handleUploadUrl:"/api/blob-upload", clientPayload:pw,
+        onUploadProgress:p=>setBar(2+Math.round((p.percentage||0)*0.38)) });  // 2→40%
+      videoUrl=blob.url;
+    } else if(!videoUrl){ msg("choose a file or paste a video URL",1); go.disabled=false; return; }
+    setBar(42); msg("starting analysis…");
+    const res=await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({url:videoUrl, prompt:promptText, password:pw})});
+    const rd=res.body.getReader(), dec=new TextDecoder(); let buf="";
+    while(true){ const {done,value}=await rd.read(); if(done) break;
+      buf+=dec.decode(value,{stream:true});
+      for(const line of buf.split("\n\n").slice(0,-1).map(l=>l.trim())){
+        if(!line.startsWith("data:")) continue;
+        const j=JSON.parse(line.slice(5));
+        if(j.pct!=null) setBar(j.pct);
+        if(j.stage&&j.stage!=="done") msg(j.note||j.stage);
+        if(j.error){ msg(j.error,1); if(/unauthor/i.test(j.error)&&window.showGate){sessionStorage.removeItem("pw");showGate();} }
+        if(j.document){ setBar(100); msg(`done — ${j.document.events.length} event(s) detected`);
+          window.renderUserResult(j.document, videoUrl, promptText); }
+      }
+      buf=buf.slice(buf.lastIndexOf("\n\n")+2);
+    }
+  }catch(err){ msg((err&&err.message)||"upload/analyze failed",1); }
+  finally{ go.disabled=false; setTimeout(()=>{prog.hidden=true;bar.style.width="0";},1500); }
+};
 </script>
 </body>
 </html>

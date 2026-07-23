@@ -33,7 +33,8 @@
 | Search | `nomadic_mini/search.py` | `EventIndex`: embed event text (gemini-embedding-001 live / hashed BoW offline) → cosine → matches in their verbatim `{summary, thoughts, matches}` shape |
 | Clients | `nomadic_mini/client.py` | `MiniClient` (local, same customer verbs) and `NomadicLive` (real REST: verbatim endpoints, both auth headers, upload→402 fallback to `my_videos()`) |
 | Gates | `Makefile` | `check` (offline contracts) · `e2e` (real VLM) · `parity` (live API, honest skip) |
-| Webapp | `webapp/server.py` + `webapp/static/` | FastAPI: serves the visual demo, `/api/results` (real out/*.json), `/api/chat` (copilot: Anthropic SSE, system prompt assembled **live from these very files** so knowledge never drifts) |
+| Webapp (local) | `webapp/server.py` + `webapp/static/` | FastAPI: serves the visual demo, `/api/results` (real out/*.json), `/api/chat` (copilot: Anthropic SSE, system prompt assembled **live from these very files** so knowledge never drifts) |
+| Webapp (public deploy) | `nomadic-mini-demo/` | Vercel: static CDN + `api/chat.py` (copilot) + **`api/analyze.py`** (live pipeline: user clip → Gemini native video → events, SSE stage progress) + **`api/blob-upload.js`** (Vercel Blob client-upload handshake, so the browser uploads big clips direct to storage past the 4.5 MB function-body limit). Password-gated; **https://nomadic-mini-demo.vercel.app** |
 
 ## Key design decisions (and why)
 
