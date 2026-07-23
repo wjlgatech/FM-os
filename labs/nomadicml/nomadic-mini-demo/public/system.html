@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nomadic_mini — animated system design</title>
+<style>
+  :root{
+    --bg:#faf9f5; --panel:#fff; --panel2:#f0eee6; --line:#e3e0d6;
+    --ink:#141413; --dim:#73716b; --accent:#d97757; --blue:#6a9bcc; --green:#788c5d;
+    --paper:#faf9f5; --violet:#9a7aa8; --amber:#c98a3c;
+    font-family:'Poppins',ui-sans-serif,-apple-system,'Segoe UI',Inter,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink)}
+  .wrap{max-width:1080px;margin:0 auto;padding:30px 24px 80px}
+  h1{font-size:25px;margin:0 0 2px} .sub{color:var(--dim);font-size:14px;margin-bottom:6px}
+  .caption{color:var(--dim);font-size:12.5px;margin:2px 0 22px}
+  .caption b{color:var(--accent)}
+  .lane-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:20px 0 8px;display:flex;align-items:center;gap:8px}
+  .lane-label .dot{width:8px;height:8px;border-radius:50%}
+  /* flow row */
+  .flow{position:relative;display:flex;align-items:stretch;gap:0;flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}
+  .node{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;
+        padding:12px 14px;min-width:150px;flex:1;opacity:0;transform:translateY(10px);
+        animation:rise .6s ease forwards}
+  .node h3{margin:0 0 4px;font-size:13px} .node small{color:var(--dim);font-size:11px;line-height:1.4;display:block}
+  .node .tag{position:absolute;top:-9px;left:12px;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;
+        background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:1px 7px;color:var(--dim)}
+  .arrow{align-self:center;flex:0 0 44px;height:3px;position:relative;margin:0 -1px;border-radius:2px;
+        background:linear-gradient(90deg,var(--line) 0 100%);overflow:visible}
+  .arrow::after{content:"";position:absolute;right:-2px;top:-3px;border-left:7px solid var(--line);
+        border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
+  /* traveling packet along each lane */
+  .track{position:absolute;left:0;right:0;top:50%;height:0;pointer-events:none}
+  .packet{position:absolute;top:-5px;width:10px;height:10px;border-radius:50%;
+        box-shadow:0 0 10px 2px currentColor;opacity:.9;animation:travel 4.6s linear infinite}
+  @keyframes travel{0%{left:2%}92%,100%{left:98%}}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{opacity:.4;transform:scaleX(.98)}50%{opacity:1;transform:scaleX(1)}}
+  @keyframes flow{to{background-position:120px 0}}
+  .theirs .node{border-color:#d9cfe4}
+  .ours .node{border-color:#e0d7cf}
+  .model{border-width:1.5px}
+  .theirs .model{border-color:var(--violet)} .ours .model{border-color:var(--accent)}
+  /* the parity seam between the two lanes */
+  .seam{margin:14px 0;text-align:center}
+  .seam .bar{height:3px;border-radius:2px;margin:0 auto 6px;max-width:640px;
+        background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:pulse 2.4s ease-in-out infinite}
+  .seam small{font-size:12px;color:var(--accent);font-weight:600}
+  /* live loop */
+  .live{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .live h2{margin:0 0 4px;font-size:15px;color:var(--accent)}
+  .live .steps{display:flex;gap:0;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .step{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-size:11.5px;
+        opacity:0;transform:translateY(8px);animation:rise .5s ease forwards}
+  .step b{display:block;font-size:12px}
+  .step small{color:var(--dim)}
+  .barfill{height:7px;background:var(--panel2);border-radius:5px;overflow:hidden;margin-top:14px;max-width:520px}
+  .barfill i{display:block;height:100%;width:0;background:var(--accent);border-radius:5px;animation:fill 4.6s ease-in-out infinite}
+  @keyframes fill{0%{width:0}15%{width:40%}35%{width:60%}70%{width:88%}90%,100%{width:100%}}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:24px;font-size:11.5px;color:var(--dim)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .foot{margin-top:26px;font-size:12px;color:var(--dim)}
+  .foot code{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+  a{color:var(--accent)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>nomadic_mini — system design</h1>
+  <div class="sub">Clean-room reconstruction of NomadicML's video-understanding pipeline, at small scale</div>
+  <div class="caption">One pipeline shape, two implementations, held equal by a <b>term-by-term parity harness</b>. Data flows left → right; the seam is where our clone is checked against production.</div>
+
+  <div class="lane-label"><span class="dot" style="background:var(--violet)"></span>Theirs — production (api-prod.nomadicml.com)</div>
+  <div class="flow theirs">
+    <div class="track"><span class="packet" style="color:var(--violet);animation-delay:.2s"></span></div>
+    <div class="node" style="animation-delay:.05s"><span class="tag">ingest</span><h3>Upload</h3><small>POST /api/upload-video · cloud imports (S3/GCS/HF)</small></div>
+    <div class="arrow"></div>
+    <div class="node model" style="animation-delay:.15s"><span class="tag">perceive</span><h3>Nomadic-VL-XLarge</h3><small>in-house VLM + OCR + segmentation, GPU endpoints</small></div>
+    <div class="arrow"></div>
+    <div class="node" style="animation-delay:.25s"><span class="tag">structure</span><h3>Events</h3><small>label · t_start/t_end · category · severity · aiAnalysis</small></div>
+    <div class="arrow"></div>
+    <div class="node" style="animation-delay:.35s"><span class="tag">retrieve</span><h3>Search</h3><small>summary · thoughts[] · matches[] (agentic)</small></div>
+  </div>
+
+  <div class="seam">
+    <div class="bar"></div>
+    <small>⇅ term-by-term parity — same verbs, same field names, diffed by tests (make parity)</small>
+  </div>
+
+  <div class="lane-label"><span class="dot" style="background:var(--accent)"></span>Ours — clone (nomadic_mini)</div>
+  <div class="flow ours">
+    <div class="track"><span class="packet" style="color:var(--accent);animation-delay:1.2s"></span></div>
+    <div class="node" style="animation-delay:.45s"><span class="tag">ingest</span><h3>Upload</h3><small>MiniClient / NomadicLive · Blob client-upload (web)</small></div>
+    <div class="arrow"></div>
+    <div class="node model" style="animation-delay:.55s"><span class="tag">perceive</span><h3>Gemini 2.5 (native video)</h3><small>backend seam · thinking / fast · Claude-frames fallback</small></div>
+    <div class="arrow"></div>
+    <div class="node" style="animation-delay:.65s"><span class="tag">structure</span><h3>Events</h3><small>same 9 fields, pydantic-enforced (MM:SS, severity, 0–1)</small></div>
+    <div class="arrow"></div>
+    <div class="node" style="animation-delay:.75s"><span class="tag">retrieve</span><h3>Agentic search</h3><small>plan → retrieve → validate · real thoughts[]</small></div>
+  </div>
+
+  <div class="live">
+    <h2>Live loop — "analyze your own clip"</h2>
+    <div class="sub" style="margin:0">Interactive path on the deployed demo — real backend, real model, honest progress.</div>
+    <div class="steps">
+      <div class="step" style="animation-delay:.9s"><b>Browser</b><small>drop file / paste URL</small></div>
+      <div class="arrow" style="flex-basis:30px"></div>
+      <div class="step" style="animation-delay:1.0s"><b>Vercel Blob</b><small>client-upload direct<br>(past 4.5 MB fn limit)</small></div>
+      <div class="arrow" style="flex-basis:30px"></div>
+      <div class="step" style="animation-delay:1.1s"><b>/api/analyze</b><small>Gemini native video<br>SSE stage progress</small></div>
+      <div class="arrow" style="flex-basis:30px"></div>
+      <div class="step" style="animation-delay:1.2s"><b>Results</b><small>events on a timeline<br>+ copilot knows them</small></div>
+    </div>
+    <div class="barfill"><i></i></div>
+    <small style="color:var(--dim);font-size:11px">↑ progress bar animates the real SSE stages: download → upload → process → generate → parse → done</small>
+  </div>
+
+  <div class="legend">
+    <span><i style="background:var(--violet)"></i>production (theirs)</span>
+    <span><i style="background:var(--accent)"></i>clone (ours)</span>
+    <span><i style="background:var(--blue)"></i>lane-change events</span>
+    <span><i style="background:var(--green)"></i>relative-motion</span>
+    <span><i style="background:var(--amber)"></i>edge cases</span>
+  </div>
+
+  <div class="foot">
+    Gates: <code>make check</code> (16 offline schema/search tests) · <code>make e2e</code> (real VLM) ·
+    <code>make parity</code> (live vs api-prod). Recon from the published SDK + docs <code>llms.txt</code>;
+    live findings measured against production. &nbsp;·&nbsp; <a href="/">← back to the demo</a>
+  </div>
+</div>
+</body>
+</html>
