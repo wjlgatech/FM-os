@@ -9,14 +9,31 @@ a static front end on the CDN plus a Python serverless function that calls Claud
 
 ```
 public/           # static, served from / by the CDN
-  index.html      # the demo page (+ password overlay)
+  index.html      # the demo page (password overlay · copilot · "Analyze your own clip" panel)
   results.json    # real analysis results (built from ../out/*.json)
   data/*.mp4      # the two driving clips (gitignored; build.sh copies from ../data)
 api/
-  chat.py         # REAL backend — @vercel/python serverless fn; streams Claude over SSE
+  chat.py         # REAL backend — @vercel/python; streams Claude (copilot) over SSE
+  analyze.py      # REAL pipeline — @vercel/python; user clip → Gemini native video → events,
+                  #   streaming SSE stage progress (download→upload→process→generate→parse→done)
+  blob-upload.js  # @vercel/node — Vercel Blob client-upload handshake (password-gated), so the
+                  #   browser uploads big clips DIRECT to Blob (bypasses the 4.5 MB function limit)
   _knowledge.txt  # build-time bundle of every lab doc + engine source (the copilot's grounding)
-vercel.json       # explicit builds (python fn + static) so Vercel doesn't force a single ASGI app
+package.json      # @vercel/blob (for the Node handshake fn)
+vercel.json       # explicit polyglot builds (2× python + node + static); analyze maxDuration 60
 ```
+
+## Live "Analyze your own clip"
+
+Drop a video (or paste a direct URL) → 1-click **Analyze** → **real progress bar** (upload % is
+genuine, from Blob client-upload; then live SSE analysis stages) → events rendered on a clickable
+timeline, same schema as the bundled results. Gemini native video (no ffmpeg needed in the
+runtime); fast mode to fit the ~60 s function budget — **best for short, low-res clips; longer ones
+may time out** (surfaced honestly, never a fake result). Gated by `APP_PASSWORD`; spends Gemini
+quota per run.
+
+Env vars (Vercel Production): `ANTHROPIC_API_KEY` · `GEMINI_API_KEY` · `APP_PASSWORD` ·
+`BLOB_READ_WRITE_TOKEN` (injected by the connected Blob store `nomadic-demo-uploads`).
 
 ## Security model (honest scope)
 
