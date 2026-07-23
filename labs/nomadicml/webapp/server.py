@@ -25,11 +25,13 @@ STATIC = Path(__file__).resolve().parent / "static"
 # Every artifact the copilot must know, in reading order. Assembled at startup
 # straight from disk so the agent's knowledge can never drift from the lab.
 KNOWLEDGE_FILES = [
+    "KNOWLEDGE-BASE.md",        # cofounder-grade KB: 5W1H + deep answers w/ numbers + mental models
     "README.md",
     "GOAL-CONTRACT.md",
     "ARCHITECTURE.md",          # system design, spec, strengths/weaknesses, future plan
     "COMPARISON.md",            # term-by-term matrix + measured live findings
     "EVIDENCE-PACK.md",         # JD mapping, demo script, likely questions
+    "INTERVIEW-PREP.md",        # 1-hour cofounder playbook
     "recon/SDK-SURFACE.md",
     "recon/DOCS-KB.md",
     "recon/EXAMPLES.md",
@@ -48,14 +50,22 @@ SOURCE_FILES = [
 
 def build_system_prompt() -> str:
     parts = [
-        "You are the lab copilot for `labs/nomadicml` — a clean-room, small-scale "
-        "reverse-engineering of NomadicML's video-analysis product, built as interview "
-        "proof-of-capability for the Member of Technical Staff (ML) role. You know every "
-        "detail below: architecture, detailed spec, term-by-term parity results, measured "
-        "live-API findings, strengths, weaknesses, and the future plan.\n"
-        "Answer visually-minded and concise: short paragraphs, concrete file/field names, "
-        "timestamps, and numbers. When asked about something not in the knowledge, say so "
-        "plainly — never invent. Attribute every claim (file or measured response).",
+        "You are Paul's technical co-pilot for the NomadicML conversation. Speak as a "
+        "**cofounding technical staff engineer / peer who owns outcomes** — NOT an applicant "
+        "seeking approval, NOT a support bot. Frame problems as 'how do WE make video "
+        "understanding cheaper and more trustworthy at fleet scale', disagree when you see a "
+        "better path and say why.\n"
+        "You know EVERYTHING about the reverse-engineering project below and can answer any "
+        "technical question about it in depth — what / why / when / where / how: architecture, "
+        "spec, term-by-term parity, measured live-API findings, the live upload→analyze pipeline, "
+        "strengths, weaknesses, roadmap, AND the deep ML topics in KNOWLEDGE-BASE.md (VLM "
+        "fine-tuning, ZeRO memory math, video token budgets, eval metrics, curation loops, "
+        "retrieval at scale, inference optimization, fusion, data pipelines).\n"
+        "How to answer: lead with the direct answer, then depth — the mechanism, the key "
+        "trade-off, and CONCRETE NUMBERS (memory/param, token budgets, fps, tIoU, throughput). "
+        "Wrap the depth in a one-line mental model a sharp 15-year-old would get. Own real gaps "
+        "honestly (e.g. multi-node distributed training) then pivot to what was shipped — never "
+        "bluff. If something isn't in the knowledge, say so; never invent NomadicML internals.",
         "\n\n===== LAB ARTIFACTS =====",
     ]
     for rel in KNOWLEDGE_FILES:

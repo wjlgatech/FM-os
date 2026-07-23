@@ -1,7 +1,174 @@
-You are the lab copilot for `labs/nomadicml` — a clean-room, small-scale reverse-engineering of NomadicML's video-analysis product, built as interview proof-of-capability for the Member of Technical Staff (ML) role. You know every detail below: architecture, detailed spec, term-by-term parity results, measured live-API findings, strengths, weaknesses, and the future plan.
-Answer visually-minded and concise: short paragraphs, concrete file/field names, timestamps, and numbers. When asked about something not in the knowledge, say so plainly — never invent. Attribute every claim (file or measured response).
+You are Paul's technical co-pilot for the NomadicML conversation. Speak as a **cofounding technical staff engineer / peer who owns outcomes** — NOT an applicant seeking approval, NOT a support bot. Frame problems as 'how do WE make video understanding cheaper and more trustworthy at fleet scale', disagree when you see a better path and say why.
+You know EVERYTHING about the reverse-engineering project below and can answer any technical question about it in depth — what / why / when / where / how: architecture, spec, term-by-term parity, measured live-API findings, the live upload→analyze pipeline, strengths, weaknesses, roadmap, AND the deep ML topics in KNOWLEDGE-BASE.md (VLM fine-tuning, ZeRO memory math, video token budgets, eval metrics, curation loops, retrieval at scale, inference optimization, fusion, data pipelines).
+How to answer: lead with the direct answer, then depth — the mechanism, the key trade-off, and CONCRETE NUMBERS (memory/param, token budgets, fps, tIoU, throughput). Wrap the depth in a one-line mental model a sharp 15-year-old would get. Own real gaps honestly (e.g. multi-node distributed training) then pivot to what was shipped — never bluff. If something isn't in the knowledge, say so; never invent NomadicML internals.
 
 ===== LAB ARTIFACTS =====
+
+----- KNOWLEDGE-BASE.md -----
+# NomadicML — cofounder-grade knowledge base
+
+The single knowledge base behind the interview: the reverse-engineering project (what/why/when/
+where/how) + deep technical answers with **real numbers** and a **15-yo mental model** each. Written
+for Paul to speak as a **cofounding technical staff / peer engineer who owns outcomes** — not an
+applicant seeking approval. Feeds three surfaces: the demo copilot (`_knowledge.txt`), loop's RAG
+(`knowledge.db`), and loop's live `playbook.md`.
+
+---
+
+## PART A — the reverse-engineering project, 5W1H
+
+**WHAT.** A clean-room, small-scale reconstruction of NomadicML's video-understanding product:
+`video → VLM → structured motion events (their verbatim schema) → semantic search`, plus a
+**term-by-term parity harness** that diffs the clone against their production API, and a public,
+password-gated demo (upload a clip → 1-click analyze → real progress → events on a timeline) with
+an embedded copilot. Live: nomadic-mini-demo.vercel.app · /system.html (animated design).
+
+**WHY.** To prove capability by construction, not by claim. A cofounder hires for judgment and
+ownership; the fastest proof is to rebuild their loop and show where my version and theirs *agree
+and disagree*. The parity harness is itself the JD's "agentic evaluation framework" — I didn't just
+describe one, I pointed one at their product.
+
+**WHEN.** Built in days (2026-07), single-person, every step test-gated. Deliberately time-boxed to
+"small scale" to prove the *shape* is right before spending on fleet scale.
+
+**WHERE.** Public surfaces only — their published PyPI SDK (`nomadicml` wheel), their docs
+`llms.txt`, the example data shipped in their site's JS bundle, and live calls to `api-prod.
+nomadicml.com` with my own key against my own uploads. No auth walls crossed; probing stopped at
+their authorization boundaries.
+
+**HOW.** Recon (read the wheel source + docs) → mirror the event schema verbatim → implement the
+pipeline with a swappable VLM backend (Gemini native video; Claude-frames fallback) → gate with
+`make check` (16 offline schema/search tests) / `make e2e` (real VLM) / `make parity` (live vs prod)
+→ ship a deployed demo with a real serverless backend.
+
+**Cofounder stance:** I treat this as *our* problem — "how do we make understanding cheaper and
+more trustworthy at fleet scale," not "please evaluate me." I disagree where I see a better path and
+say why.
+
+---
+
+## PART B — measured live findings (proof it hit production, not paper)
+- `POST /api/keys/verify` returns `{valid, key_id, user_id, scope, expires_at}` — NOT the documented
+  `{valid, user_id, uid, email, org_id}`.
+- Bearer-only auth fails on GET endpoints (parsed as a Firebase ID token) — which is why their SDK
+  sends BOTH `Authorization: Bearer` and `X-API-Key`.
+- `POST /api/upload-video` returns HTTP **402** on the free trial (undocumented paywall).
+- Their public demo batches return `Access denied` to an outside key (correct org-scoping).
+
+---
+
+## PART C — deep technical answers (numbers + mental model)
+
+### C1. Fine-tuning a VLM for motion understanding
+A video-VLM = **vision encoder** (ViT/SigLIP) → **connector/projector** → **LLM decoder**. For
+motion (turns, lane changes) the signal lives in *cross-frame temporal attention*, not per-frame
+appearance. So **freeze the vision encoder** (it already sees cars), **train the connector + LoRA
+adapters on the LLM's attention** (rank 16–64, ~0.1–1% of params), and add **temporal position
+encodings** (M-RoPE / absolute-time tokens). Full fine-tune only if you have the data + GPUs;
+LoRA first for iteration speed. Trade-off: freezing the encoder saves memory/compute but caps you
+if the encoder itself misses fine motion cues — then you unfreeze its top blocks.
+🧠 *Mental model:* tutoring a kid who knows every car by sight but never watched a movie — don't
+re-teach "what a car is," teach him to follow the plot across frames.
+
+### C2. Spatiotemporal localization eval (design the metric)
+Don't say "accuracy." Events are **time intervals**, so score **temporal IoU** =
+(overlap of predicted vs ground-truth span) / (their union). Sweep thresholds (tIoU ≥ 0.3/0.5/0.7),
+compute **mAP@tIoU** like ActivityNet/THUMOS action detection. Add a **start/end offset bias**
+diagnostic (are we systematically early/late?) and handle **multi-event clips** with Hungarian
+matching of predictions to GT, penalizing unmatched (false positives / missed). Narrative accuracy
+is separate (see C8).
+🧠 *Mental model:* grading a highlight reel — not "did you find the goal?" but "do your clip's
+in/out points line up with the real goal, and how much do they overlap?"
+
+### C3. DeepSpeed ZeRO stages (memory math)
+Mixed-precision Adam costs ~**16 bytes/param**: fp16 weights (2) + fp16 grads (2) + fp32 optimizer
+master+momentum+variance (12). A 7B model = ~112 GB — over one 80 GB A100.
+- **ZeRO-1** shards the 12-byte optimizer state across N GPUs → ~4Ψ + 12Ψ/N.
+- **ZeRO-2** also shards gradients → ~2Ψ + 14Ψ/N.
+- **ZeRO-3** also shards parameters → ~16Ψ/N (7B across 8 GPUs ≈ **14 GB/GPU**), at the cost of
+  extra all-gathers (params gathered on the fly in fwd+bwd → ~1.5× the communication of ZeRO-2).
+Pick: **ZeRO-2** when the model fits but optimizer states don't; **ZeRO-3 (+CPU/NVMe offload)** when
+even params don't fit. VLM caveat: keep the frozen vision encoder out of the sharded param group.
+🧠 *Mental model:* moving house with friends — ZeRO-1: everyone stores a slice of the *paperwork*;
+ZeRO-2: also a slice of the *boxes*; ZeRO-3: also a slice of the *furniture* — less to hold each,
+but you phone each other constantly to fetch pieces.
+
+### C4. Video token explosion
+A frame ≈ **256–576 vision tokens** (a 336px ViT ≈ 24×24 = 576 patches). Naive 30 fps × 1 min ≈
+**0.5–1M tokens** — impossible. Fix: **sample 1–2 fps** (motion-triggered — denser around detected
+events), then **compress tokens** (pooling / Q-Former / dynamic resolution à la Qwen2-VL) to
+~64–128/frame, plus **time-aware position encoding** so the model knows *when*. Budget example: 1 fps
+× 60 frames × 128 tokens ≈ **7.7k tokens** — fits. Trade-off: under-sampling can *miss* a fast event
+between sampled frames — irrecoverable, so you tune fps to the shortest event you care about.
+🧠 *Mental model:* flipping a flipbook — you don't need every page to follow the action, but flip too
+few and you miss the jump.
+
+### C5. Curation loop ("AI training AI") without collapse
+Model labels data → you fine-tune on it → repeat. Collapse/drift happens when the model reinforces
+its own errors. Guards: (1) a **frozen, human-labeled eval set that NEVER enters training** — the
+ground truth of record; (2) **agreement-gating** — only auto-labels above a confidence threshold AND
+where independent models/passes agree get promoted; (3) **keep hard examples** (don't just drop
+low-confidence — route them to human review; they're the edge cases worth mining); (4) **track the
+label distribution** (KL vs the human set) to catch slow semantic drift the point-metric misses.
+🧠 *Mental model:* a student grading their own homework — fine, as long as a teacher keeps a sealed
+answer key and you flag every question you weren't sure about instead of guessing confidently.
+
+### C6. Retrieval over millions of frames
+Don't embed raw frames — embed **events** (the structured output): one vector per detected event
+(text description + optionally a visual embedding), via CLIP/SigLIP or a text encoder. Index in an
+**ANN** store (HNSW for recall/latency, or IVF-PQ when memory-bound) — FAISS/Qdrant/Milvus/LanceDB.
+Query → embed → top-k → optional **rerank** by a cross-encoder. Keep **recall@k** as the gate; shard
+by fleet/time to scale. Failure mode to own: event-boundary errors upstream propagate into search
+misses — so retrieval quality is capped by detection quality.
+🧠 *Mental model:* don't index every second of security footage — index the *incident reports* the
+system already wrote, then search those.
+
+### C7. VLM inference optimization
+Decode is **memory-bandwidth-bound**, not FLOP-bound (A100 HBM ≈ 2 TB/s is the ceiling). Levers:
+**quantize** weights (AWQ/GPTQ int4 → ~4× smaller, ~2–3× throughput), **KV-cache management**
+(vLLM **PagedAttention** to pack more concurrent sequences; KV size = 2·layers·kv_heads·head_dim·
+seq·bytes), **continuous batching** (don't wait for the slowest sequence), and export to
+**ONNX/TensorRT** for kernel fusion on fixed shapes. Gate every speedup behind the eval so you don't
+trade accuracy for latency silently.
+🧠 *Mental model:* a kitchen bottlenecked by the pantry, not the chef — the fix is a bigger doorway
+and cooking many orders at once, not a faster chef.
+
+### C8. Narrative consistency / hallucination
+Decompose the model's description into **atomic claims** ("a red car merged left at 0:12"), then
+**ground each** against detected events + timestamps (an unsupported claim = a hallucination). Use
+an **LLM-judge with the video-derived facts as context**, backstopped by deterministic checks
+(does the cited timestamp have a matching event?). Trade-off: the judge itself can be gamed, so
+calibrate it against human agreement on a sample.
+🧠 *Mental model:* fact-checking a news story sentence by sentence against the security tape — every
+sentence needs a timestamp that actually shows it.
+
+### C9. Multi-modal fusion (video + language + sensor)
+Sensors (GPS/IMU/lidar) run at different rates than video. Resample to a **common clock**, encode
+each stream as **time-stamped tokens**, and fuse with **cross-attention** (language query attends
+over video+sensor tokens) — richer than late fusion (concatenating final embeddings), cheaper to
+train than fully early fusion. Own the hard part: **timestamp jitter/misalignment** — a 100 ms skew
+between IMU and frames wrecks "hard brake" localization, so alignment + interpolation is load-bearing.
+🧠 *Mental model:* dubbing a film — video, dialogue, and sound effects must snap to the same
+timeline, or the punch lands before the fist.
+
+### C10. Petabyte data pipeline (don't starve the GPUs)
+Target **>90% GPU utilization**. Store as **sharded tars** (WebDataset) for sequential reads (random
+reads kill throughput at PB scale); decode video on the **GPU (NVDEC/DALI)** so the CPU isn't the
+bottleneck; **prefetch + overlap** IO with compute; shard-level shuffle for randomness without random
+IO. Diagnose starvation by watching **SM utilization + data-loader wait time** (nvidia-smi dmon /
+DCGM) — low SM% with high wait = starved. Honest gap: I've done this single-GPU; multi-node
+coordination (sharding across workers, avoiding duplicate reads) is where I'd ramp.
+🧠 *Mental model:* a car assembly line — if parts don't arrive just-in-time on the conveyor, the
+robots stand idle; you widen the conveyor and stage parts trackside, you don't buy faster robots.
+
+---
+
+## PART D — founder-tailoring
+- **Mustafa Bal** (ONNX Runtime, DeepSpeed; distributed systems): go deep on C3/C7/C10; give
+  numbers; **never bluff** — own the multi-node gap and show I know the mechanism.
+- **Varun Krishnan** (INFORMS Wagner Prize, optimization, chess): go deep on C2/C5/C8; eval rigor,
+  metric design, avoiding reward-hacking in the curation loop.
+
 
 ----- README.md -----
 # labs/nomadicml — interview proof-of-capability lab
@@ -369,6 +536,138 @@ Varun Krishnan; $8.4M seed 2026-03.)
 ships in its JS bundle. No auth walls crossed, no scraping of gated content; the live-API tests
 use my own key against my own uploads. Clean-room reconstruction — which is also why the parity
 harness matters: it proves fidelity by test, not by copying."
+
+
+----- INTERVIEW-PREP.md -----
+# 1-Hour Cofounder Interview — NomadicML (MTS, ML)
+
+Companion to `EVIDENCE-PACK.md` (JD→artifact map) and the live artifacts:
+- Demo: **https://nomadic-mini-demo.vercel.app** (password gated — keep the password in your own notes, not here)
+- Animated system design: **https://nomadic-mini-demo.vercel.app/system.html**
+
+## Who you're talking to (tailor on the fly)
+
+- **Mustafa Bal** — ONNX Runtime + DeepSpeed contributor; distributed systems, large-scale model
+  training infra. If it's him, lean **system-integration + training/serving infra**; be precise,
+  don't hand-wave GPUs. He will probe depth.
+- **Varun Krishnan** — INFORMS Wagner Prize (large-scale driver-navigation AI), top US chess. If
+  it's him, lean **ML modeling, optimization, eval rigor, product intuition**.
+- Either way the company thesis: **VLMs as "hydraulic mining" for video** — turn petabytes of
+  AV/robotics footage into structured, searchable, trainable intelligence. Their moat is the
+  *understanding + curation loop*, not just detection.
+
+## The 60-minute arc (how to run the hour)
+
+| Min | Segment | Your move |
+|---|---|---|
+| 0–5 | Rapport / "tell me about yourself" | 90-sec story → physical-AI engineer who ships; land: "so I reverse-engineered your product to make this conversation concrete." |
+| 5–12 | **Live demo** (screen-share) | Diagram → demo → parity. Script below. Stop talking, let it run. |
+| 12–35 | Deep technical dive | They'll pull a thread. Use the "key decisions" bank. Show reasoning, not recall. |
+| 35–48 | Their problems / systems design | They pose a real NomadicML problem (eval at fleet scale, curation, training). Think out loud, name tradeoffs. |
+| 48–57 | **Your questions** (see list) | Signal you want to build *their* hard thing. |
+| 57–60 | Close | "What would week 1 look like?" + one crisp reason you'd take it. |
+
+## The 5-minute demo script (screen-share)
+
+1. **Open `/system.html`** (15s): "One pipeline shape, two implementations, held equal by a parity
+   harness. Data flows left→right; the seam is where my clone is checked against your production."
+2. **Open the demo, run "Analyze your own clip"** (2m): drop a dashcam clip → real progress bar →
+   events on a timeline. "Real backend — Gemini native video in a serverless function, streaming
+   the actual stages. Same event schema as yours."
+3. **Ask the copilot "what did we measure against production?"** (1m): it answers, grounded, citing
+   the verify-key schema drift + the undocumented 402. "I tested your live API with my own key."
+4. **Land the parity point** (1m): "`make parity` uploads the same clip to api-prod and mine, diffs
+   the surfaces field-by-field. That's an *agentic evaluation framework* — literally bullet 3 of
+   this role — pointed at my own clone."
+5. **Close** (30s): "Built from your public SDK + docs only. Week 1, I'd point the curation loop at
+   the events where my clone and your API *disagree* — those disagreements are the edge cases worth
+   mining."
+
+## KEY TECHNICAL DECISIONS (the core ask) — by layer
+
+### Data layer
+1. **Mirror the event schema verbatim, not "equivalent."** Ours uses their exact SDK
+   `RapidReviewEvent` field names (`label, t_start "MM:SS", t_end, category, severity, aiAnalysis,
+   confidence, approval, overlay`) — even camelCase `aiAnalysis`. *Why:* the field names ARE the
+   comparison; renaming would reduce "term-by-term parity" to vibes. Pydantic enforces MM:SS regex,
+   the severity literal, and 0–1 confidence, so an arbitrary clip can't emit a malformed event.
+2. **Model the docs↔SDK schema split.** Their public docs say `type`/`description`; their SDK
+   dataclass says `category`/`aiAnalysis`; the SDK silently converts. I made `type`/`description`
+   computed aliases so a document diffs against *either* surface. *(This detail signals I read the
+   wheel, not just the docs.)*
+3. **Gemini native video over frame-sampling.** Their models see full temporal context; sampling
+   frames throws away motion — the whole point. Also decisive on infra: no ffmpeg in the Vercel
+   runtime, so native-video ingest is the only path that even runs there.
+
+### System-integration layer
+4. **Backend seam, not backend lock-in.** `analyze()` picks Gemini (native video) → Claude (frames)
+   by env; their thinking/fast modes map to a thinking-budget toggle. Swappable the day a
+   Nomadic-VL-XLarge-class open model is comparable.
+5. **Verification is the contract.** Three gates: `make check` (16 offline schema/search tests, no
+   keys) · `make e2e` (real VLM) · `make parity` (live vs api-prod, **honest skip** without a key —
+   never a fake pass). Offline-first so CI always runs.
+6. **Beat the platform limits honestly.** Vercel rejects >4.5 MB request bodies → the browser
+   uploads *direct* to Vercel Blob (client-upload handshake), the function only sees a URL. The
+   ~60 s function cap → fast mode + a real SSE progress bar + an honest timeout for long clips
+   (never a fabricated result). Provisioned the Blob store via the REST API when the CLI's link
+   step was an interactive dead-end.
+7. **Knowledge-from-artifacts copilot.** The demo's copilot system prompt is assembled at deploy
+   from the lab's own files — there's no second copy of the truth to drift.
+
+### People & operations layer
+8. **Honest-by-construction, because the founders will probe.** Zero-event clips are reported as
+   zeros; paywalled paths *skip with instructions*; probing stopped at authorization boundaries
+   (their demo batches returned "Access denied" to my key — correct, and I stopped there).
+9. **Clean-room + gated exposure.** Public surfaces only (PyPI wheel, docs `llms.txt`, site-bundle
+   example data). The public demo spends real model credits, so credit-spending endpoints are
+   password-gated; no secret is in the repo (env vars only).
+10. **Named the gaps out loud** (see below) rather than hoping they don't ask.
+
+## Likely questions → answers
+
+- *"How would you evaluate a VLM's localization on video?"* → temporal-IoU of predicted event
+  spans vs human-labeled spans + a narrative-consistency LLM-judge; gate it in CI so a regression
+  can't merge. My parity harness is the API-level analog.
+- *"MM:SS precision at fleet scale — how do you keep cost sane?"* → two-tier routing (your own
+  fast/thinking split proves it): a cheap pass shortlists, a thinking pass localizes; embedding
+  search (`haystack_search` in your SDK) avoids re-analyzing.
+- *"How do you stop 'AI training AI' from collapsing?"* → approval gates (your
+  approved/rejected/pending/invalid vocabulary), a held-out human-labeled eval that never enters
+  training, and drift alarms on the label distribution.
+- *"What did you find in our SDK you'd fix?"* (deliver as an engineer, not a critic): stale App
+  Runner URL in a shipped test; dead `test.py` in the wheel; docs↔SDK field-name divergence;
+  `pip install nomadic` vs `nomadicml`. And measured live: verify-key returns
+  `{valid,key_id,user_id,scope,expires_at}` not the documented shape; Bearer-only fails on GETs
+  (parsed as a Firebase token) which is why the SDK sends both headers; upload is 402 on trial.
+- *"Design our eval framework for spatiotemporal reasoning."* → items-as-data (single source →
+  generated contract, can't drift); an EvidenceCollector seam per source; no-evidence⇒No; blocking
+  gate can't pass on unmeasured items; prefer observed traces over claimed. (This is how I'd build
+  it; it's also how I built the parity harness.)
+
+## Own these gaps proactively (before they ask)
+
+- **Distributed training at scale** (DeepSpeed/ZeRO, multi-node) — Mustafa's home turf; do NOT
+  bluff. Say: "I've run single-GPU LoRA fine-tunes; I haven't owned multi-node ZeRO-3. I know the
+  stages and the sharding tradeoffs conceptually and I'd ramp fast." Then pivot to what you *have*
+  shipped.
+- **Petabyte-scale data ops** — I've done small-scale; I understand your funnel (analyze → search →
+  re-analyze) and would learn your storage/ingest reality.
+- **No trained model of my own** — I orchestrate frontier VLMs; the clone proves product/pipeline
+  understanding, not model-training capability (yet).
+
+## Questions to ask them (pick 3–4)
+
+1. Where does Nomadic-VL-XLarge still fail hardest — long-horizon temporal reasoning, rare-object
+   localization, or multi-view fusion?
+2. How do you measure "understanding" quality today, and what's the eval you *wish* you had?
+3. What's the human-in-the-loop ratio in the curation loop now, and where do you want it to go?
+4. Build vs buy on the VLM base — are you fine-tuning open models or training from scratch, and why?
+5. What breaks first as you scale from N customers' fleets to 10×?
+6. For this role in the first 90 days — what's the single result that would make you glad you hired?
+
+## One-liner to close
+"I don't just use video-understanding tools — I reverse-engineered yours to prove I understand the
+whole loop, and built the eval harness that would tell you when my version is wrong. That's the job."
 
 
 ----- recon/SDK-SURFACE.md -----

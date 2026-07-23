@@ -44,7 +44,7 @@ class handler(BaseHTTPRequestHandler):
             client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
             resp = client.messages.create(
                 model=MODEL,
-                max_tokens=1500,
+                max_tokens=3000,  # deep technical answers (numbers + mental model) need room
                 system=[{"type": "text", "text": KNOWLEDGE,
                          "cache_control": {"type": "ephemeral"}}],
                 messages=messages,
