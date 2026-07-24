@@ -314,7 +314,9 @@ async function loadInterview(){
       tl.appendChild(m);
     }
   }
-  const final = data.stages[data.stages.length-1];
+  // event cards come from the HEADLINE run's validated stage (first judge-validated row),
+  // not whatever ablation happens to be listed last
+  const final = data.stages.find(s => /judge-validated/i.test(s.title)) || data.stages[data.stages.length-1];
   if (final){
     const chip = /judge|validat/i.test(final.title) ? "validated" : "candidate";
     const evs = document.createElement("div"); evs.className="events"; box.appendChild(evs);
