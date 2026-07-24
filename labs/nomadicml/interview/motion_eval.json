@@ -1,0 +1,123 @@
+{
+  "threshold": 0.18,
+  "rows": [
+    {
+      "window": "48-52",
+      "kind": "positive",
+      "gt_direction": "right",
+      "label": "right lane change",
+      "lateral_motion": true,
+      "net_shift_frac": -0.2651,
+      "direction": "right",
+      "reason": "|net shift| 0.265 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "74-81",
+      "kind": "positive",
+      "gt_direction": "left",
+      "label": "left lane change",
+      "lateral_motion": false,
+      "net_shift_frac": 0.0214,
+      "direction": "none",
+      "reason": "|net shift| 0.021 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "84-91",
+      "kind": "positive",
+      "gt_direction": "right",
+      "label": "double right lane change",
+      "lateral_motion": true,
+      "net_shift_frac": -0.2156,
+      "direction": "right",
+      "reason": "|net shift| 0.216 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "95-101",
+      "kind": "positive",
+      "gt_direction": "left",
+      "label": "double left lane change",
+      "lateral_motion": true,
+      "net_shift_frac": 0.1901,
+      "direction": "left",
+      "reason": "|net shift| 0.190 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "5-12",
+      "kind": "negative",
+      "gt_direction": "none",
+      "label": "no lane change",
+      "lateral_motion": false,
+      "net_shift_frac": -0.0859,
+      "direction": "none",
+      "reason": "|net shift| 0.086 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "14-21",
+      "kind": "negative",
+      "gt_direction": "none",
+      "label": "no lane change",
+      "lateral_motion": false,
+      "net_shift_frac": 0.0781,
+      "direction": "none",
+      "reason": "|net shift| 0.078 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "25-32",
+      "kind": "negative",
+      "gt_direction": "none",
+      "label": "no lane change",
+      "lateral_motion": false,
+      "net_shift_frac": 0.0422,
+      "direction": "none",
+      "reason": "|net shift| 0.042 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "33-40",
+      "kind": "negative",
+      "gt_direction": "none",
+      "label": "no lane change",
+      "lateral_motion": false,
+      "net_shift_frac": -0.0203,
+      "direction": "none",
+      "reason": "|net shift| 0.020 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "56-63",
+      "kind": "negative",
+      "gt_direction": "none",
+      "label": "no lane change",
+      "lateral_motion": false,
+      "net_shift_frac": 0.1464,
+      "direction": "none",
+      "reason": "|net shift| 0.146 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "64-71",
+      "kind": "negative",
+      "gt_direction": "none",
+      "label": "no lane change",
+      "lateral_motion": false,
+      "net_shift_frac": 0.1,
+      "direction": "none",
+      "reason": "|net shift| 0.100 of frame width vs threshold 0.18"
+    },
+    {
+      "window": "110-117",
+      "kind": "negative",
+      "gt_direction": "none",
+      "label": "no lane change",
+      "lateral_motion": false,
+      "net_shift_frac": 0.075,
+      "direction": "none",
+      "reason": "|net shift| 0.075 of frame width vs threshold 0.18"
+    }
+  ],
+  "summary": {
+    "recall": "3/4",
+    "false_positives": "0/7",
+    "direction_correct": "3/3",
+    "pos_min_abs": 0.0214,
+    "neg_max_abs": 0.1464,
+    "verdict": "HIGH-PRECISION CONFIRMER \u2014 confirms/directions only, never veto"
+  }
+}

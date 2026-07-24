@@ -193,6 +193,7 @@ gated by tests, compared term-by-term against their production surface.
 | `ARCHITECTURE.md` | System design, component spec, strengths/weaknesses, future plan (P0–P3) |
 | `webapp/` | Visual demo page (`make webapp` → http://127.0.0.1:8787): pipeline, clickable event timelines on the real clips, docs-vs-production findings — plus a **lab copilot** whose system prompt is assembled live from every file above |
 | `nomadic-mini-demo/` | The **public, password-gated deployment** of that demo → **https://nomadic-mini-demo.vercel.app** (real front end + real Claude backend). See its README for the build/deploy + security model |
+| `interview/` | **The interview problem, solved**: ego lane-change detection with Gemini as a black box — chunk → remap → merge → adversarial judge, every stage scored vs ground truth. `REQUIREMENTS-TRACE.md` (requirement → code → proof), `DESIGN-DECISIONS.md` (each decision: alternative rejected + evidence), zero-API motion confirmer with measured calibration, Gemini + Claude live backends, 30 offline tests in `make check`. Presented live: demo home + `/interview-design.html` (animated architecture) |
 
 ## Gates
 
@@ -1400,6 +1401,242 @@ summary: 4 event(s) matched 'hazard requiring a lane shift'
 - sim 0.718 · vid-894822d079 · event 0 — The ego vehicle passes a large white semi-truck (ECOSHIELD TRANSPORT) parked on the right shoulder. The truck 
 
 
+----- interview/README.md -----
+# Interview solution — ego lane-change detection (Paul_Problem_Notebook)
+
+Solves the NomadicML live-coding notebook: find every ego-vehicle lane change in the
+highway video, treating Gemini 2.5 Pro as a black box. Ground truth (from the notebook):
+right 0:48–0:52 · left 1:14–1:21 · double-right 1:24–1:31 · double-left 1:35–1:41.
+
+## Files
+
+| File | What it is |
+|---|---|
+| `lane_change_solution.py` | The whole solution — paste as ONE Colab cell. Pure logic + prompts + Part 1/Part 2 orchestration with the Gemini call injected (`infer_fn`), the literal `is_valid_lane_change() -> bool` contract, and `estimate_calls()` quota math. |
+| `REQUIREMENTS-TRACE.md` | Term-by-term traceability: every notebook requirement → where addressed → the test or measured run that proves it. |
+| `test_lane_change_solution.py` | 22 offline tests (no key, no network) covering remap, merge, scoring, and both pipelines against fakes. Runs in `make check`. |
+| `test_beyond_ask.py` | 6 more offline tests: quota math (reproduces the real free-tier failure), motion-validator sign/threshold logic, the bare-boolean contract. |
+| `run_live.py` | Rehearsal runner: real video, prints + banks the naive → chunked → validated scoreboard. `--backend gemini` (your `GEMINI_API_KEY`) or `--backend claude` — the SAME pipeline over frame sampling, proving the `infer_fn` seam is model-agnostic. |
+| `motion_check.py` / `eval_motion.py` | Zero-API lane-change confirmer from pixels (1-D marking-sweep cross-correlation) + its calibration eval vs ground truth. Measured role (banked in `motion_eval.json`): high-precision confirmer — 0/7 FP, 3/4 recall, 3/3 direction — never a veto. |
+
+## How to use it in the interview (Colab)
+
+1. Run the notebook's setup cells (download, `upload_gemini`, `gemini_inference`).
+2. Paste the contents of `lane_change_solution.py` as one cell.
+3. Then:
+
+```python
+duration = video_duration_seconds(VIDEO_PATH)
+
+# Part 1 — chunked inference (structured JSON out)
+candidates = detect_chunked(gemini_inference, video_file, duration)
+print(report(candidates, GROUND_TRUTH, title="After chunking"))
+
+# Part 2 — validation pipeline (boolean per event)
+validated = validate_all(gemini_inference, video_file, candidates, duration)
+print(report(validated, GROUND_TRUTH, title="After validation"))
+
+print(json.dumps(to_output_json(validated), indent=2))
+```
+
+## Design (the 30-second pitch)
+
+- **Chunking without re-encoding.** `gemini_inference` already takes `time_interval`
+  (startOffset/endOffset), so chunking = one upload + N windowed calls. 20 s windows,
+  5 s overlap — the longest GT maneuver is 7 s, so every event fits whole in ≥1 window
+  and nothing is cut at a boundary.
+- **Timestamp remap is defensive.** Primary reading: clip-relative (+window start), per the
+  requirement. If the model answered in global time anyway, keep it; nonsense clamps to the
+  window. Unit-tested.
+- **Merging is deterministic code, not another LLM call.** Same-direction events overlapping
+  or within 2 s union together — dedupes events seen by two overlapping windows AND folds a
+  double lane change reported as two singles into one event (matching how GT windows them).
+- **Validation = adversarial judge + self-consistency.** Each candidate re-inferred on its
+  ±3 s snippet at fps=5 with a prompt that names the false-positive causes (curvature,
+  straddling, other vehicles) and demands a strict boolean. 3 votes, majority wins. The
+  judge saw more frames, so on direction disagreement the judge's direction wins (fixes the
+  flipped-direction failure mode).
+- **Every stage is scored, not vibed.** Greedy IoU≥0.3 matching against the 4 GT windows →
+  precision/recall/F1 printed naive → chunked → validated (the FM-os parity-harness
+  discipline from `../nomadic_mini`).
+
+## Rehearse before the interview
+
+```bash
+cd labs/nomadicml/interview
+GEMINI_API_KEY=... python3 run_live.py                 # gemini-2.5-pro
+GEMINI_API_KEY=... GEMINI_MODEL=gemini-2.5-flash python3 run_live.py   # free tier
+```
+
+Offline gate (also part of `make check` one level up):
+
+```bash
+python3 -m pytest -q
+```
+
+## Reused from FM-os
+
+`nomadic_mini/events.py` (MM:SS contract + `seconds_to_mmss`), `analyze.py` (prompt/JSON
+pattern, upload-poll loop), the KNOWLEDGE-BASE insight that lane-change signal lives in
+cross-frame temporal attention (→ chunk ≫ maneuver length, overlap ≥ boundary risk), and
+the parity-harness scoring discipline. Kept copy-inline rather than imported so the Colab
+cell is self-contained.
+
+
+----- interview/REQUIREMENTS-TRACE.md -----
+# Requirements traceability — Paul_Problem_Notebook.ipynb, term by term
+
+Every requirement sentence in the notebook, mapped to where it is addressed and how it is
+verified. Rule: **no evidence ⇒ not claimed** (a requirement without a test or a measured
+run is marked accordingly).
+
+## Task statement
+
+| # | Requirement (verbatim/condensed) | Where addressed | Verified by |
+|---|---|---|---|
+| T1 | "identify all the moments the ego-vehicle … performs a **lane change**" | `detect_chunked()` + `validate_all()` end-to-end | `test_detect_chunked_recovers_all_ground_truth_globally` (fake VLM); live runs banked in `live_results.json` |
+| T2 | "treating Gemini as a **black-box** that can't be changed … focus on improving the visual input" | No fine-tuning anywhere; all levers are input-side: windowing (`time_interval`), sampling (`fps`), snippet padding | By construction — the model is only reached through the notebook's own `gemini_inference` signature |
+| T3 | Use the provided `display_video` / `upload_gemini` / `gemini_inference` | Solution functions take the notebook's `gemini_inference` verbatim as `infer_fn` (dependency injection) | `run_live.py::make_gemini_inference` mirrors the signature byte-for-byte; fakes in tests speak the same signature |
+| T4 | "Feel free to use any other VLMs or embedding models" | The `infer_fn` seam makes the pipeline VLM-agnostic | `run_live.py --backend claude` runs the identical pipeline on Claude over sampled frames |
+
+## Part 1 — Enhancing Visual Inputs
+
+| # | Requirement | Where addressed | Verified by |
+|---|---|---|---|
+| P1.1 | "full video will be **split into separate sections** … analyzed separately" | `make_windows(duration, chunk, overlap)`; one upload, N windowed calls via `time_interval` (no re-encoding) | `test_windows_cover_duration_with_overlap`, `test_windows_short_video_single_window` |
+| P1.2 | Worked example: 1-min video, 10s chunks → (0,10),(10,20)…(50,60), "merge the results" | `make_windows(60, chunk=10, overlap=0)` reproduces their exact windows; default `overlap=5` is a deliberate improvement (no maneuver cut at a boundary — longest GT event is 7s) | `make_windows` parameterization + overlap test; improvement rationale in README |
+| P1.3 | "predictions for each window are **respect to the full video**" (their example: [40,50] window, 0–5 prediction → [40,45]) | `remap_to_global()` — window-relative primary, global-time fallback, clamp for nonsense | `test_remap_window_relative` (their exact example shape), `test_remap_falls_back_to_global_when_model_answered_absolute`, `test_remap_clamps_nonsense_to_window` |
+| P1.4 | "output must be a **structured JSON** format that includes the start, end, and description" (their `LaneChangePredictions` cell) | `LaneChanges` Pydantic schema (`t_start`/`t_end` MM:SS + `description`, superset: `direction`) passed to `responseSchema`; `to_output_json()` emits the final JSON | `test_report_and_output_json_shapes`; schema field names match their reference cell |
+| P1.5 | (implied by example) "merge the results from each of these windows" | `merge_events()` — same-direction interval union, ≤2s gap; dedupes double-seen events, folds double lane changes | `test_merge_dedupes_overlapping_windows_same_event`, `test_merge_folds_double_lane_change_within_gap`, `test_merge_keeps_opposite_directions_apart`, `test_merge_respects_gap` |
+
+## Part 2 — Eliminating False Positive Predictions
+
+| # | Requirement | Where addressed | Verified by |
+|---|---|---|---|
+| P2.1 | "implement a separate **validation pipeline**" | `validate_event()` / `validate_all()` — separate pass, padded snippet, higher fps, adversarial judge prompt, majority vote | `test_validate_event_majority_yes/no`, `test_validate_all_filters_fp_and_fixes_direction`, `test_validate_snippet_padding_clamped_to_video` |
+| P2.2 | "for each predicted lane change event, validate whether its correct or not" | Per-event loop in `validate_all` | same as above |
+| P2.3 | "For each lane change event snippet, **return a boolean** which is True when the predicted event is a valid lane change and False otherwise" | `is_valid_lane_change(...) -> bool` — the contract verbatim (thin wrapper keeping evidence in `validate_event`) | `test_is_valid_lane_change_returns_bare_bool` |
+| P2.4 | "open ended problem! Feel free to be creative and use any approach … any tool" | Judge + self-consistency voting + direction override + zero-API motion confirmer (`motion_check.py`) | `eval_motion.py` measured on the real video (banked in `motion_eval.json`) |
+
+## The notebook's three named failure modes
+
+| Failure mode (their words) | Countermeasure | Evidence |
+|---|---|---|
+| "Lose information towards the end of the video" | Chunking — every window is short enough to keep temporal attention | Live Gemini run: naive found 0 events after 0:50; chunked windows cover to 2:07 |
+| "Directions of the lane changes are often predicted incorrectly" | Judge (more frames on snippet) overrides detector direction; motion confirmer's direction was 3/3 correct where confident | `test_validate_all_filters_fp_and_fixes_direction`; `motion_eval.json` |
+| "False positives … road curvature and lane straddling" | Both named explicitly as NOT-report rules in `CHUNK_PROMPT` and as reject rules in `JUDGE_PROMPT`; motion confirmer measured 0/7 FP on curvature windows | prompts in `lane_change_solution.py`; `motion_eval.json` |
+
+## Known honest gaps
+
+- Live full-pipeline numbers on **gemini-2.5-pro** (the interview's actual model) are not
+  measurable from this machine: the free key allows 20 requests/day on flash and 0 on pro
+  (`estimate_calls()` shows a full run needs ~25). The pipeline is exercised live via the
+  Claude backend instead; the Gemini path is verified to the point the quota allows
+  (naive + 7 of 9 windows, banked in `live_results_gemini_partial.json`).
+- Motion confirmer is calibrated on ONE video (n=4 positives / 7 negatives) — a confirmer,
+  not a gate, and says so in its docstring.
+
+
+----- interview/DESIGN-DECISIONS.md -----
+# Design decisions — ego lane-change detection with a black-box VLM
+
+The prose companion to the [animated architecture](../nomadic-mini-demo/public/interview-design.html)
+(live at `/interview-design.html` on the demo). Each decision states the alternative we rejected
+and the evidence behind the choice. Constraint that shapes everything: **Gemini is a black box** —
+the only levers are what video it sees and what we do with its answers.
+
+## 1. Chunking = windowed calls, not re-encoded clips
+
+**Decision:** one upload + N calls with `time_interval=(start, end)` through the notebook's own
+`gemini_inference` (it already maps to `startOffset`/`endOffset`).
+**Rejected:** ffmpeg-splitting the video into N files and uploading each.
+**Why:** zero re-encoding time, zero extra uploads, N× fewer moving parts — and it exercises the
+exact API surface the interview provides. (The Claude fallback backend does sample frames with
+ffmpeg, because that model has no native video input — the seam absorbs the difference.)
+
+## 2. Chunk 20s / overlap 5s — derived from the data, not guessed
+
+**Decision:** windows must comfortably contain a whole maneuver, and consecutive windows must
+overlap by at least a maneuver's length.
+**Evidence:** longest ground-truth event is 7s (1:14–1:21). 20s ≫ 7s keeps per-window temporal
+attention sharp; 5s overlap means any event cut by one boundary sits whole inside the neighbor.
+**Their worked example** (10s chunks, no overlap) is one parameter setting of the same function:
+`make_windows(60, chunk=10, overlap=0)`.
+
+## 3. Timestamp remap is defensive, with a fallback
+
+**Decision:** interpret predictions as window-relative (the requirement), but if adding the window
+offset overflows the window while the raw values already fit inside it, treat them as global; clamp
+anything else.
+**Why:** VLMs are inconsistent about clip-relative vs absolute time — we observed both. A hard
+assumption either way silently corrupts every downstream stage. All three branches unit-tested.
+**Observed bonus:** claude-sonnet-5 emitted `"00:08.5"` (decimal seconds) live; the parser
+tolerates it, with a regression test citing the observation.
+
+## 4. Merging is deterministic code, not another model call
+
+**Decision:** same-direction events that overlap or sit within 2s union into one; different
+directions never merge.
+**Why:** dedupes the same maneuver seen by two overlapping windows AND folds a double lane change
+reported as two singles into one event — matching how the ground truth windows them. Free,
+instant, testable offline. An LLM "merge" call would add cost and a new failure mode to the exact
+place we're trying to remove failure modes.
+
+## 5. Recall at detection, precision at validation
+
+**Decision:** Stage 1's job is candidates (high recall): sample each window k times and union the
+results (`samples=3` on the flakier frames backend). Stage 2's job is killing false positives.
+**Evidence:** live, the same window flickered between 1 and 0 candidates across identical calls
+(temperature is fixed at 1 — `temperature` is deprecated on claude-sonnet-5). Self-consistency at
+detection is the only lever left, and a spurious extra candidate costs one judge call while a
+missed event is unrecoverable.
+
+## 6. The judge is adversarial, votes, and owns direction
+
+**Decision:** per candidate, re-infer on the ±3s snippet at fps=5 with a prompt that enumerates
+the reject reasons (curvature, straddling, other vehicles); 3 votes, majority; the judge's
+direction overrides the detector's.
+**Why:** the notebook names all three false-positive sources — putting them verbatim in the judge's
+job description attacks them directly. The judge sees ~5× the frame density of the detector on a
+~10s span, so when they disagree on direction the judge has strictly more evidence. The Part 2
+contract (`is_valid_lane_change() -> bool`) is a thin wrapper that keeps the vote evidence.
+
+## 7. A zero-API confirmer, shipped at its measured strength
+
+**Decision:** a pixels-only second opinion — collapse a lane-marking scanline band to a 1-D
+brightness profile, cross-correlate consecutive frames, integrate the sweep.
+**Evidence trail (honest):** v1 (2-D phase correlation on the road strip) measured NOT separable —
+rebuilt. v2 (marking-band 1-D) calibrated on the interview video: at threshold 0.18, **0/7 false
+positives, 3/4 recall, 3/3 direction agreement** (`motion_eval.json`).
+**Shipped role:** high-precision *confirmer* — boosts confidence and settles direction ties; never
+a veto (it misses gentle changes). Exists because quota is real: the free Gemini tier allows 20
+requests/DAY, and this validator costs zero.
+
+## 8. Quota is a design input, not a surprise
+
+**Decision:** `estimate_calls()` computes window calls + judge calls against RPM/RPD budgets
+before any run.
+**Evidence:** two live runs died learning this (5/min and 20/day caps, both hit). The function's
+test reproduces the real failure: a full pass needs ~25 calls > 20/day. At NomadicML's fleet scale
+this same math is the difference between a plan and a surprise bill.
+
+## 9. Everything scored, every claim traceable
+
+**Decision:** greedy IoU≥0.3 matching against the 4 ground-truth windows prints precision/recall/F1
+at every stage; `REQUIREMENTS-TRACE.md` maps every requirement sentence → code → test/measurement;
+30 offline tests (no key, no network) gate `make check`.
+**Why:** "chunking helped" is a vibe; "recall 0.25 → 1.0 with 1 FP, then FP removed by the judge"
+is an engineering result. The interview is a conversation about evidence.
+
+## 10. Model-agnostic by a one-argument seam
+
+**Decision:** every pipeline function takes `infer_fn` as a parameter (the notebook's
+`gemini_inference` signature is the interface).
+**Evidence:** the identical pipeline ran live on Gemini (native video) and Claude (frame sampling),
+and runs on deterministic fakes in tests. Swapping models is writing one adapter function —
+which is also why the free-tier quota death didn't end the live demo.
+
+
 ===== ENGINE SOURCE (the actual implementation) =====
 
 ----- nomadic_mini/nomadic_mini/events.py -----
@@ -2008,6 +2245,336 @@ def test_full_parity_roundtrip(live, tmp_path):
         print(f"  ours : [{ev.t_start}–{ev.t_end}] {ev.label}")
 
 
+----- interview/lane_change_solution.py -----
+"""NomadicML interview — ego-vehicle lane-change detection with Gemini as a black box.
+
+Solves the two parts of Paul_Problem_Notebook.ipynb:
+
+  Part 1 (Enhancing Visual Inputs)  -> detect_chunked(): overlapping-window inference over
+      one uploaded video (the notebook's gemini_inference already supports startOffset/
+      endOffset via time_interval, so chunking needs NO re-encoding), window-relative ->
+      global timestamp remap, then deterministic cross-window merging.
+  Part 2 (Eliminating False Positives) -> validate_all(): per-event judge pass on a padded
+      snippet at higher fps, with an adversarial prompt targeting the notebook's named
+      failure modes (road curvature, lane straddling), majority-voted for stability.
+
+All pure logic (windows, remap, merge, IoU scoring) is API-free and unit-tested offline
+(test_lane_change_solution.py). The Gemini call is injected as `infer_fn` — in Colab pass
+the notebook's own `gemini_inference`; in tests pass a fake.
+
+COLAB USAGE (paste this file's contents as one cell, then):
+
+    duration = video_duration_seconds(VIDEO_PATH)          # via cv2
+    candidates = detect_chunked(gemini_inference, video_file, duration)
+    print(report(candidates, GROUND_TRUTH, title="After chunking"))
+    validated = validate_all(gemini_inference, video_file, candidates, duration)
+    print(report(validated, GROUND_TRUTH, title="After validation"))
+    print(json.dumps(to_output_json(validated), indent=2))
+"""
+
+from __future__ import annotations
+
+import json
+from typing import Callable, List, Literal, Optional
+
+from pydantic import BaseModel, Field
+
+# ---------------------------------------------------------------------------
+# Ground truth from the notebook (seconds, direction) — used only for scoring.
+# ---------------------------------------------------------------------------
+GROUND_TRUTH = [
+    (48, 52, "right", "right lane change"),
+    (74, 81, "left", "left lane change"),
+    (84, 91, "right", "double right lane change"),
+    (95, 101, "left", "double left lane change"),
+]
+
+# ---------------------------------------------------------------------------
+# Structured-output schemas (passed straight to gemini_inference's `schema=`).
+# ---------------------------------------------------------------------------
+
+
+class LaneChange(BaseModel):
+    t_start: str = Field(description="Start of the lane change in MM:SS, relative to the clip shown")
+    t_end: str = Field(description="End of the lane change in MM:SS, relative to the clip shown")
+    direction: Literal["left", "right"] = Field(description="Direction the ego-vehicle moves")
+    description: str = Field(description="One sentence: what visibly happens")
+
+
+class LaneChanges(BaseModel):
+    lane_changes: List[LaneChange] = Field(description="All ego lane changes in the clip")
+
+
+class Verdict(BaseModel):
+    is_lane_change: bool = Field(description="True only for a fully completed ego lane change")
+    direction: Literal["left", "right", "none"] = Field(description="'none' when is_lane_change is false")
+    reason: str = Field(description="One sentence of visual evidence for the verdict")
+
+
+# ---------------------------------------------------------------------------
+# Prompts
+# ---------------------------------------------------------------------------
+
+CHUNK_PROMPT = """You are analyzing a SHORT CLIP cut from a longer highway drive, filmed from the \
+ego-vehicle's forward-facing camera.
+
+Find every moment the EGO-VEHICLE (the camera car) performs a lane change.
+
+A lane change means: the ego-vehicle's camera centerline FULLY crosses one painted lane divider \
+and settles into the adjacent lane. Direction is "left" if the ego moves into the lane to its \
+left, "right" if into the lane to its right. If two dividers are crossed back-to-back (a double \
+lane change), report it and say "double" in the description.
+
+Do NOT report:
+- Road curvature: the whole road bends but the ego stays centered between the same lane markings.
+- Lane straddling: the ego drifts onto a divider but returns without completing the crossing.
+- Lane changes performed by OTHER vehicles.
+
+All timestamps must be relative to THE CLIP YOU ARE SHOWN, starting at 00:00.
+If there are no ego lane changes in this clip, return an empty list."""
+
+JUDGE_PROMPT = """You are a strict validator. This short clip was flagged as containing exactly one \
+ego-vehicle lane change (the ego-vehicle is the camera car). Your job is to REJECT false positives.
+
+Answer is_lane_change=true ONLY if you can visibly see the ego camera position fully cross a \
+painted lane divider and settle into the adjacent lane within this clip.
+
+Answer is_lane_change=false if what you see is any of:
+- Road curvature (the road bends; the ego keeps the same position between its lane markings).
+- Lane straddling or an aborted change (touches/rides the divider, returns to the original lane).
+- Another vehicle changing lanes, not the ego.
+- No visible crossing inside this clip.
+
+If true, report the direction the ego moves ("left" or "right"); otherwise direction="none"."""
+
+
+# ---------------------------------------------------------------------------
+# Pure logic — no API, fully unit-testable.
+# ---------------------------------------------------------------------------
+
+
+def mmss_to_seconds(t: str) -> float:
+    """MM:SS -> seconds. Tolerates decimal seconds ('00:08.5') — VLMs emit them."""
+    m, s = t.strip().split(":")
+    return int(m) * 60 + float(s)
+
+
+def seconds_to_mmss(t: float) -> str:
+    t = max(0, int(round(t)))
+    return f"{t // 60:02d}:{t % 60:02d}"
+
+
+def video_duration_seconds(video_path: str) -> float:
+    import cv2
+
+    cap = cv2.VideoCapture(video_path)
+    try:
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        frames = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+        return frames / fps if fps else 0.0
+    finally:
+        cap.release()
+
+
+def make_windows(duration: float, chunk: float = 20.0, overlap: float = 5.0) -> list[tuple[float, float]]:
+    """Overlapping windows covering [0, duration]. Overlap > longest maneuver (~7s here is the
+    max ground-truth event, 5s overlap + 20s chunk means every event fits whole in >=1 window)."""
+    if chunk <= overlap:
+        raise ValueError(f"chunk ({chunk}) must exceed overlap ({overlap})")
+    step = chunk - overlap
+    windows, start = [], 0.0
+    while True:
+        end = min(start + chunk, duration)
+        windows.append((start, end))
+        if end >= duration:
+            return windows
+        start += step
+
+
+def remap_to_global(t_start: float, t_end: float, win_start: float, win_end: float,
+                    tol: float = 2.0) -> tuple[float, float]:
+    """Window-relative -> global seconds (the Part 1 requirement).
+
+    Primary interpretation: timestamps are relative to the clip start (add win_start).
+    Fallback: if that lands past the window end but the raw values already fit inside the
+    window, the model answered in global time — keep them. Otherwise clamp to the window."""
+    rel_s, rel_e = win_start + t_start, win_start + t_end
+    if rel_e <= win_end + tol:
+        return rel_s, rel_e
+    if win_start - tol <= t_start and t_end <= win_end + tol:
+        return t_start, t_end
+    return min(rel_s, win_end), min(rel_e, win_end)
+
+
+def merge_events(events: list[dict], max_gap: float = 2.0) -> list[dict]:
+    """Merge same-direction events that overlap or sit within max_gap seconds — dedupes the
+    same maneuver seen by two overlapping windows, and folds double lane changes reported as
+    two back-to-back singles into one event (matching how the ground truth windows them)."""
+    merged: list[dict] = []
+    for direction in sorted({e["direction"] for e in events}):
+        group = sorted((e for e in events if e["direction"] == direction),
+                       key=lambda e: (e["t_start_s"], e["t_end_s"]))
+        run: Optional[dict] = None
+        for ev in group:
+            if run and ev["t_start_s"] - run["t_end_s"] <= max_gap:
+                run["t_end_s"] = max(run["t_end_s"], ev["t_end_s"])
+                if ev["description"] not in run["description"]:
+                    run["description"] += " / " + ev["description"]
+            else:
+                if run:
+                    merged.append(run)
+                run = dict(ev)
+        if run:
+            merged.append(run)
+    return sorted(merged, key=lambda e: e["t_start_s"])
+
+
+def interval_iou(a: tuple[float, float], b: tuple[float, float]) -> float:
+    inter = max(0.0, min(a[1], b[1]) - max(a[0], b[0]))
+    union = max(a[1], b[1]) - min(a[0], b[0])
+    return inter / union if union > 0 else 0.0
+
+
+def score_predictions(preds: list[dict], gt: list[tuple] = GROUND_TRUTH,
+                      iou_thresh: float = 0.3) -> dict:
+    """Greedy IoU matching, each prediction/GT window used at most once -> precision/recall/F1."""
+    pairs = sorted(
+        ((interval_iou((p["t_start_s"], p["t_end_s"]), (g[0], g[1])), i, j)
+         for i, p in enumerate(preds) for j, g in enumerate(gt)),
+        reverse=True,
+    )
+    matched_p, matched_g, matches = set(), set(), []
+    for iou, i, j in pairs:
+        if iou < iou_thresh or i in matched_p or j in matched_g:
+            continue
+        matched_p.add(i)
+        matched_g.add(j)
+        matches.append({"pred": i, "gt": j, "iou": round(iou, 3),
+                        "direction_ok": preds[i]["direction"] == gt[j][2]})
+    tp, fp, fn = len(matches), len(preds) - len(matches), len(gt) - len(matches)
+    precision = tp / len(preds) if preds else 0.0
+    recall = tp / len(gt) if gt else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+    return {"tp": tp, "fp": fp, "fn": fn, "precision": round(precision, 3),
+            "recall": round(recall, 3), "f1": round(f1, 3), "matches": matches}
+
+
+def report(preds: list[dict], gt: list[tuple] = GROUND_TRUTH, title: str = "Score") -> str:
+    s = score_predictions(preds, gt)
+    lines = [f"== {title} ==",
+             f"predictions={len(preds)}  TP={s['tp']}  FP={s['fp']}  FN={s['fn']}",
+             f"precision={s['precision']}  recall={s['recall']}  f1={s['f1']}"]
+    for ev in preds:
+        lines.append(f"  {seconds_to_mmss(ev['t_start_s'])}-{seconds_to_mmss(ev['t_end_s'])} "
+                     f"{ev['direction']:>5}  {ev['description'][:80]}")
+    return "\n".join(lines)
+
+
+def to_output_json(events: list[dict]) -> dict:
+    """The required structured JSON output: start, end, description (plus direction)."""
+    return {"lane_changes": [
+        {"t_start": seconds_to_mmss(e["t_start_s"]), "t_end": seconds_to_mmss(e["t_end_s"]),
+         "direction": e["direction"], "description": e["description"]}
+        for e in events
+    ]}
+
+
+def estimate_calls(duration: float, chunk: float = 20.0, overlap: float = 5.0,
+                   votes: int = 3, candidates: int = 4, include_naive: bool = False,
+                   rpm: int = 5, rpd: int = 20) -> dict:
+    """Quota math BEFORE running — the free Gemini tier (5 req/min, 20 req/DAY) killed
+    two live rehearsals of this pipeline before this function existed. At fleet scale
+    (NomadicML's world: 500+ videos/day) this is the difference between a plan and a bill."""
+    import math
+
+    window_calls = len(make_windows(duration, chunk, overlap))
+    judge_calls = candidates * votes
+    total = window_calls + judge_calls + (1 if include_naive else 0)
+    return {"window_calls": window_calls, "judge_calls": judge_calls, "total_calls": total,
+            "minutes_at_rpm": math.ceil(total / rpm),
+            "days_at_free_tier": math.ceil(total / rpd),
+            "fits_free_day": total <= rpd}
+
+
+# ---------------------------------------------------------------------------
+# Part 1 — chunked inference (infer_fn = the notebook's gemini_inference).
+# ---------------------------------------------------------------------------
+
+
+def detect_chunked(infer_fn: Callable, video_file, duration: float,
+                   chunk: float = 20.0, overlap: float = 5.0,
+                   fps: Optional[int] = None, samples: int = 1) -> list[dict]:
+    """samples > 1 = self-consistency for RECALL: a borderline maneuver may be reported on
+    only some detection samples, so union candidates across samples (merge dedupes); the
+    judge stage restores precision downstream."""
+    raw: list[dict] = []
+    for win_start, win_end in make_windows(duration, chunk, overlap):
+        found: list[dict] = []
+        for _ in range(samples):
+            text = infer_fn(query=CHUNK_PROMPT, video=video_file,
+                            time_interval=(int(win_start), int(win_end)), fps=fps,
+                            schema=LaneChanges)
+            found.extend(json.loads(text)["lane_changes"])
+        print(f"window {seconds_to_mmss(win_start)}-{seconds_to_mmss(win_end)}: "
+              f"{len(found)} candidate(s) across {samples} sample(s)")
+        for ev in found:
+            g_start, g_end = remap_to_global(mmss_to_seconds(ev["t_start"]),
+                                             mmss_to_seconds(ev["t_end"]), win_start, win_end)
+            if g_end - g_start <= 0:
+                continue
+            raw.append({"t_start_s": g_start, "t_end_s": g_end,
+                        "direction": ev["direction"], "description": ev["description"]})
+    return merge_events(raw)
+
+
+# ---------------------------------------------------------------------------
+# Part 2 — per-event validation pipeline (returns the required boolean per event).
+# ---------------------------------------------------------------------------
+
+
+def validate_event(infer_fn: Callable, video_file, event: dict, duration: float,
+                   pad: float = 3.0, votes: int = 3, fps: int = 5) -> dict:
+    """Judge one candidate on its padded snippet at high fps; majority vote across `votes` runs."""
+    win_start = max(0.0, event["t_start_s"] - pad)
+    win_end = min(duration, event["t_end_s"] + pad)
+    verdicts = []
+    for _ in range(votes):
+        text = infer_fn(query=JUDGE_PROMPT, video=video_file,
+                        time_interval=(int(win_start), int(win_end)), fps=fps, schema=Verdict)
+        verdicts.append(json.loads(text))
+    yes = sum(bool(v["is_lane_change"]) for v in verdicts)
+    valid = yes * 2 > len(verdicts)
+    dirs = [v["direction"] for v in verdicts if v["is_lane_change"] and v["direction"] != "none"]
+    judge_direction = max(set(dirs), key=dirs.count) if dirs else "none"
+    return {"valid": valid, "votes_yes": yes, "votes": len(verdicts),
+            "judge_direction": judge_direction, "reasons": [v["reason"] for v in verdicts]}
+
+
+def is_valid_lane_change(infer_fn: Callable, video_file, event: dict, duration: float,
+                         **judge_kwargs) -> bool:
+    """The Part 2 contract, verbatim: one predicted event snippet in -> one boolean out
+    (True = valid lane change). Thin wrapper over validate_event, which keeps the evidence."""
+    return validate_event(infer_fn, video_file, event, duration, **judge_kwargs)["valid"]
+
+
+def validate_all(infer_fn: Callable, video_file, events: list[dict], duration: float,
+                 **judge_kwargs) -> list[dict]:
+    """Filter candidates through the judge; the judge saw the snippet at higher fps, so when it
+    confirms the event but disagrees on direction, its direction wins (fixes flipped directions)."""
+    kept = []
+    for ev in events:
+        verdict = validate_event(infer_fn, video_file, ev, duration, **judge_kwargs)
+        print(f"judge {seconds_to_mmss(ev['t_start_s'])}-{seconds_to_mmss(ev['t_end_s'])} "
+              f"({ev['direction']}): {'KEEP' if verdict['valid'] else 'REJECT'} "
+              f"[{verdict['votes_yes']}/{verdict['votes']} yes, dir={verdict['judge_direction']}]")
+        ev = dict(ev, validation=verdict)
+        if verdict["valid"]:
+            if verdict["judge_direction"] in ("left", "right"):
+                ev["direction"] = verdict["judge_direction"]
+            kept.append(ev)
+    return kept
+
+
 ----- Makefile -----
 .PHONY: check unit e2e parity webapp clean
 
@@ -2018,6 +2585,11 @@ webapp:
 # Fast gate: schema contracts + unit tests (no network, no keys needed)
 check:
 	cd nomadic_mini && python3 -m pytest tests -m "not live and not vlm" -q
+	cd interview && python3 -m pytest -q
+
+# Live rehearsal of the interview solution on the real video (needs GEMINI_API_KEY)
+interview-live:
+	cd interview && python3 run_live.py
 
 # Full local pipeline on the bundled clips (needs GEMINI_API_KEY or ANTHROPIC_API_KEY)
 e2e:

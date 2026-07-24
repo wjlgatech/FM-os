@@ -20,6 +20,7 @@ gated by tests, compared term-by-term against their production surface.
 | `ARCHITECTURE.md` | System design, component spec, strengths/weaknesses, future plan (P0–P3) |
 | `webapp/` | Visual demo page (`make webapp` → http://127.0.0.1:8787): pipeline, clickable event timelines on the real clips, docs-vs-production findings — plus a **lab copilot** whose system prompt is assembled live from every file above |
 | `nomadic-mini-demo/` | The **public, password-gated deployment** of that demo → **https://nomadic-mini-demo.vercel.app** (real front end + real Claude backend). See its README for the build/deploy + security model |
+| `interview/` | **The interview problem, solved**: ego lane-change detection with Gemini as a black box — chunk → remap → merge → adversarial judge, every stage scored vs ground truth. `REQUIREMENTS-TRACE.md` (requirement → code → proof), `DESIGN-DECISIONS.md` (each decision: alternative rejected + evidence), zero-API motion confirmer with measured calibration, Gemini + Claude live backends, 30 offline tests in `make check`. Presented live: demo home + `/interview-design.html` (animated architecture) |
 
 ## Gates
 

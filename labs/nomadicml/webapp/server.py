@@ -36,6 +36,9 @@ KNOWLEDGE_FILES = [
     "recon/DOCS-KB.md",
     "recon/EXAMPLES.md",
     "out/RESULTS.md",
+    "interview/README.md",      # the lane-change interview solution: chunk -> merge -> judge
+    "interview/REQUIREMENTS-TRACE.md",  # term-by-term requirement -> code -> proof
+    "interview/DESIGN-DECISIONS.md",    # each decision: alternative rejected + evidence
 ]
 SOURCE_FILES = [
     "nomadic_mini/nomadic_mini/events.py",
@@ -44,6 +47,7 @@ SOURCE_FILES = [
     "nomadic_mini/nomadic_mini/frames.py",
     "nomadic_mini/nomadic_mini/client.py",
     "nomadic_mini/tests/test_parity_live.py",
+    "interview/lane_change_solution.py",
     "Makefile",
 ]
 

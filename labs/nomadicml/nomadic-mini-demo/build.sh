@@ -24,6 +24,34 @@ PY
 mkdir -p public/data && cp ../data/*.mp4 public/data/
 echo "copied $(ls public/data/*.mp4 | wc -l | tr -d ' ') clips"
 
+# 3) interview lane-change results — merge every banked live run (Gemini partial + Claude full)
+python3 - <<'PY'
+import json
+from pathlib import Path
+
+RUNS = [  # (file, note shown next to the model name)
+    ("../interview/live_results_gemini_partial.json", "partial: free tier is 20 req/day"),
+    ("../interview/live_results.json", "full run, frames backend"),
+]
+stages, models, meta = [], [], {}
+for path, note in RUNS:
+    f = Path(path)
+    if not f.exists():
+        continue
+    d = json.loads(f.read_text())
+    models.append(f"{d['model']} ({note})")
+    meta.setdefault("duration_s", d["duration_s"])
+    meta.setdefault("ground_truth", d["ground_truth"])
+    for s in d["stages"]:
+        stages.append({**s, "title": f"{d['model']} · {s['title']}"})
+if stages:
+    out = {"model": "  +  ".join(models), **meta, "stages": stages}
+    Path("public/interview.json").write_text(json.dumps(out, indent=2))
+    print(f"built interview.json ({len(models)} run(s), {len(stages)} stages)")
+else:
+    print("no banked interview runs yet — interview section will show 'pending'")
+PY
+
 echo
 echo "Deploy:   vercel deploy --prod --yes"
 echo "Env vars (set once, Production):  ANTHROPIC_API_KEY  ·  APP_PASSWORD"

@@ -1,0 +1,65 @@
+{
+  "model": "gemini-2.5-flash",
+  "duration_s": 127.476009,
+  "ground_truth": [
+    {
+      "t_start": "00:48",
+      "t_end": "00:52",
+      "direction": "right",
+      "label": "right lane change"
+    },
+    {
+      "t_start": "01:14",
+      "t_end": "01:21",
+      "direction": "left",
+      "label": "left lane change"
+    },
+    {
+      "t_start": "01:24",
+      "t_end": "01:31",
+      "direction": "right",
+      "label": "double right lane change"
+    },
+    {
+      "t_start": "01:35",
+      "t_end": "01:41",
+      "direction": "left",
+      "label": "double left lane change"
+    }
+  ],
+  "stages": [
+    {
+      "title": "Stage 0: naive whole-video",
+      "score": {
+        "tp": 1,
+        "fp": 1,
+        "fn": 3,
+        "precision": 0.5,
+        "recall": 0.25,
+        "f1": 0.333,
+        "matches": [
+          {
+            "pred": 1,
+            "gt": 0,
+            "iou": 0.4,
+            "direction_ok": false
+          }
+        ]
+      },
+      "events": [
+        {
+          "t_start": "00:10",
+          "t_end": "00:13",
+          "direction": "right",
+          "description": "The ego vehicle changes lanes to the right, moving from the second lane to the third lane."
+        },
+        {
+          "t_start": "00:47",
+          "t_end": "00:50",
+          "direction": "left",
+          "description": "The ego vehicle changes lanes to the left, moving from the third lane to the second lane."
+        }
+      ]
+    }
+  ]
+}

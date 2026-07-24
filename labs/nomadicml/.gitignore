@@ -1,5 +1,8 @@
 # Reproducible clips (see data/SOURCES.txt for Pexels IDs — one curl to re-fetch)
 data/*.mp4
+# Interview video (87MB, re-downloaded by interview/run_live.py) + run logs
+interview/video.mp4
+interview/live_run*.log
 # Python / pytest cruft
 __pycache__/
 *.pyc
