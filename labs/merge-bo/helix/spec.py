@@ -97,14 +97,21 @@ _CONSTRAINT_NOUNS = ("cost", "toxicity", "synthesis", "size", "weight", "off-tar
 _BUDGET_WORDS = ("week", "total", "overall", "batch", "cycle", "day", "month")
 
 
+# Direction of an OBJECTIVE is set only by true directional verbs — NOT by constraint
+# words like "under"/"below" (those belong to a constraint clause, e.g. "keep cost under
+# 0.7", and must never flip a nearby objective). "optimize X" defaults to maximize.
+_OBJ_MAX = ("maximize", "maximise", "increase", "improve", "boost", "higher", "optimize", "optimise")
+_OBJ_MIN = ("minimize", "minimise", "reduce", "lower", "decrease", "smaller")
+
+
 def _nearest_direction(text: str, idx: int) -> str:
-    """Direction from whichever max/min verb sits CLOSEST to the objective noun."""
-    best_word, best_dist, best_dir = None, 10**9, "max"
-    for word, direction in [(w, "max") for w in _MAX_WORDS] + [(w, "min") for w in _MIN_WORDS]:
-        for m in re.finditer(re.escape(word), text):
+    """Direction from whichever objective-direction verb sits CLOSEST to the noun (default max)."""
+    best_dist, best_dir = 10**9, "max"
+    for word, direction in [(w, "max") for w in _OBJ_MAX] + [(w, "min") for w in _OBJ_MIN]:
+        for m in re.finditer(r"\b" + re.escape(word), text):
             dist = abs(m.start() - idx)
             if dist < best_dist and dist < 40:
-                best_dist, best_dir, best_word = dist, direction, word
+                best_dist, best_dir = dist, direction
     return best_dir
 
 
@@ -119,9 +126,10 @@ def _threshold_after(text: str, noun: str) -> Optional[float]:
     m = re.search(r"(under|below|less than|<=?|max(?:imum)?|at most)\s*([0-9]+(?:\.[0-9]+)?)", tail)
     if not m:
         return None
-    # reject if a budget word sits right after the number (e.g. "6 a week")
-    after = tail[m.end(): m.end() + 12]
-    if any(b in after for b in _BUDGET_WORDS):
+    # Reject only if a budget word is bound to THIS number (e.g. "6 a week") — anchored to
+    # the number's immediate suffix, not a loose scan (so "0.7, 4 a week" keeps the 0.7).
+    after = tail[m.end():]
+    if re.match(r"\s*(?:a|per|/)?\s*(?:" + "|".join(_BUDGET_WORDS) + r")\b", after):
         return None
     return float(m.group(2))
 
