@@ -61,6 +61,8 @@ class Verdict(BaseModel):
     is_lane_change: bool = Field(description="True only for a fully completed ego lane change")
     direction: Literal["left", "right", "none"] = Field(description="'none' when is_lane_change is false")
     reason: str = Field(description="One sentence of visual evidence for the verdict")
+    t_start: Optional[str] = Field(default=None, description="Refined start of the crossing, MM:SS")
+    t_end: Optional[str] = Field(default=None, description="Refined end of the crossing, MM:SS")
 
 
 # ---------------------------------------------------------------------------
@@ -73,9 +75,13 @@ ego-vehicle's forward-facing camera.
 Find every moment the EGO-VEHICLE (the camera car) performs a lane change.
 
 A lane change means: the ego-vehicle's camera centerline FULLY crosses one painted lane divider \
-and settles into the adjacent lane. Direction is "left" if the ego moves into the lane to its \
-left, "right" if into the lane to its right. If two dividers are crossed back-to-back (a double \
-lane change), report it and say "double" in the description.
+and settles into the adjacent lane. Judge by the PAINTED LANE MARKINGS relative to the camera \
+(markings sweep LEFT across the view => ego moved RIGHT, and vice versa) — not by other vehicles, \
+whose own maneuvers create ambiguous relative motion. Direction is "left" if the ego moves into \
+the lane to its left, "right" if into the lane to its right. Include GRADUAL or gentle lane \
+changes — a slow drift that ends settled in the adjacent lane counts. If two dividers are crossed \
+back-to-back (a double lane change), report it as ONE event spanning both crossings. Report the \
+full span: from the moment the ego starts moving toward the divider until it is settled.
 
 Do NOT report:
 - Road curvature: the whole road bends but the ego stays centered between the same lane markings.
@@ -86,18 +92,26 @@ All timestamps must be relative to THE CLIP YOU ARE SHOWN, starting at 00:00.
 If there are no ego lane changes in this clip, return an empty list."""
 
 JUDGE_PROMPT = """You are a strict validator. This short clip was flagged as containing exactly one \
-ego-vehicle lane change (the ego-vehicle is the camera car). Your job is to REJECT false positives.
+ego-vehicle lane change (the ego-vehicle is the camera car). Your job is to REJECT false positives \
+AND to time the real ones precisely.
 
-Answer is_lane_change=true ONLY if you can visibly see the ego camera position fully cross a \
-painted lane divider and settle into the adjacent lane within this clip.
+Decide ONLY by watching the PAINTED LANE MARKINGS relative to the camera — they are the sole \
+reliable ego-motion cue. Ignore what other vehicles do; a car ahead drifting sideways while the \
+markings stay put is THEIR maneuver, not the ego's, and relative motion between the ego and a \
+lead vehicle is ambiguous unless you anchor on the markings.
 
-Answer is_lane_change=false if what you see is any of:
-- Road curvature (the road bends; the ego keeps the same position between its lane markings).
-- Lane straddling or an aborted change (touches/rides the divider, returns to the original lane).
-- Another vehicle changing lanes, not the ego.
-- No visible crossing inside this clip.
+Answer is_lane_change=true ONLY if the markings sweep sideways across the camera view and the \
+ego settles between a NEW pair of markings (markings sweep LEFT => ego moved RIGHT, and vice \
+versa). If MORE THAN ONE ego lane change is visible, judge ONLY the one nearest the MIDDLE of \
+the clip — ignore maneuvers at the clip's edges (they belong to neighboring candidates). Then \
+report direction, and refined t_start/t_end (MM:SS) for that one maneuver: from the moment the \
+ego starts moving toward the divider to the moment it is settled in the new lane.
 
-If true, report the direction the ego moves ("left" or "right"); otherwise direction="none"."""
+Answer is_lane_change=false (direction="none") for:
+- Road curvature: the whole road bends but the ego stays between the SAME pair of markings.
+- Lane straddling / aborted change: rides the divider, returns to the original lane.
+- Another vehicle changing lanes while the markings under the ego stay put.
+- No visible marking-crossing inside this clip."""
 
 
 # ---------------------------------------------------------------------------
@@ -279,27 +293,59 @@ def detect_chunked(infer_fn: Callable, video_file, duration: float,
     return merge_events(raw)
 
 
+def to_feature_vector(ev: dict) -> dict:
+    """Flatten a validated candidate into the cross-modal feature vector a LEARNED combiner
+    would consume (classical ML over engineered features — the scaling path beyond the
+    hand-tuned thresholds). Training labels come from other datasets (BDD100K, comma2k19)
+    or pseudo-labels distilled from the expensive pipeline; this function is the schema."""
+    v, m = ev.get("validation", {}), ev.get("motion", {})
+    span = m.get("span") or (ev["t_start_s"], ev["t_end_s"])
+    dur = max(ev["t_end_s"] - ev["t_start_s"], 1e-6)
+    inter = max(0.0, min(ev["t_end_s"], span[1]) - max(ev["t_start_s"], span[0]))
+    return {
+        "duration_s": round(dur, 2),
+        "judge_yes_frac": (v.get("votes_yes", 0) / v["votes"]) if v.get("votes") else 0.0,
+        "judge_dir_agrees_detector": v.get("judge_direction") == ev.get("direction"),
+        "sweep_frac_abs": abs(m.get("net_shift_frac", 0.0)),
+        "sweep_dir_agrees_judge": m.get("direction") == v.get("judge_direction"),
+        "sweep_span_iou": inter / max(span[1] - span[0] + dur - inter, 1e-6),
+        "refined_offset_s": abs(v["refined"][0] - ev["t_start_s"]) if v.get("refined") else 0.0,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Part 2 — per-event validation pipeline (returns the required boolean per event).
 # ---------------------------------------------------------------------------
 
 
 def validate_event(infer_fn: Callable, video_file, event: dict, duration: float,
-                   pad: float = 3.0, votes: int = 3, fps: int = 5) -> dict:
-    """Judge one candidate on its padded snippet at high fps; majority vote across `votes` runs."""
+                   pad: float = 5.0, votes: int = 3, fps: int = 5) -> dict:
+    """Judge one candidate on its padded snippet at high fps; majority vote across `votes` runs.
+    Confirming verdicts may carry refined t_start/t_end (detectors time onsets ~2-4s early) —
+    remapped defensively (models answer in clip-relative OR global time) and returned."""
     win_start = max(0.0, event["t_start_s"] - pad)
     win_end = min(duration, event["t_end_s"] + pad)
-    verdicts = []
+    verdicts, refined = [], None
     for _ in range(votes):
         text = infer_fn(query=JUDGE_PROMPT, video=video_file,
                         time_interval=(int(win_start), int(win_end)), fps=fps, schema=Verdict)
-        verdicts.append(json.loads(text))
+        v = json.loads(text)
+        verdicts.append(v)
+        if refined is None and v.get("is_lane_change") and v.get("t_start") and v.get("t_end"):
+            try:
+                r_s, r_e = remap_to_global(mmss_to_seconds(v["t_start"]),
+                                           mmss_to_seconds(v["t_end"]), win_start, win_end)
+                if r_e > r_s:
+                    refined = (r_s, r_e)
+            except (ValueError, KeyError):
+                pass
     yes = sum(bool(v["is_lane_change"]) for v in verdicts)
     valid = yes * 2 > len(verdicts)
     dirs = [v["direction"] for v in verdicts if v["is_lane_change"] and v["direction"] != "none"]
     judge_direction = max(set(dirs), key=dirs.count) if dirs else "none"
     return {"valid": valid, "votes_yes": yes, "votes": len(verdicts),
-            "judge_direction": judge_direction, "reasons": [v["reason"] for v in verdicts]}
+            "judge_direction": judge_direction, "refined": refined,
+            "reasons": [v["reason"] for v in verdicts]}
 
 
 def is_valid_lane_change(infer_fn: Callable, video_file, event: dict, duration: float,
@@ -310,18 +356,60 @@ def is_valid_lane_change(infer_fn: Callable, video_file, event: dict, duration: 
 
 
 def validate_all(infer_fn: Callable, video_file, events: list[dict], duration: float,
+                 video_path: Optional[str] = None, motion_fn: Optional[Callable] = None,
                  **judge_kwargs) -> list[dict]:
-    """Filter candidates through the judge; the judge saw the snippet at higher fps, so when it
-    confirms the event but disagrees on direction, its direction wins (fixes flipped directions)."""
+    """Filter candidates through the judge, arbitrated by pixel evidence.
+
+    Ego-vs-other motion is ambiguous to a VLM (a lead car drifting sideways looks like an ego
+    lane change and vice versa — observed live on gemini-2.5-pro). The marking-sweep motion
+    check (motion_check.py) is immune to that ambiguity, and measured 0 false positives and
+    3/3 direction accuracy at its threshold. So per candidate:
+      - judge KEEP            -> keep; boundaries <- judge's refined interval when present;
+                                 direction <- motion direction if it fired, else judge's.
+      - judge REJECT + motion -> RESCUE (judge false-negatives happen exactly on the ambiguous
+                                 cases); direction <- motion's.
+      - judge REJECT, no motion -> drop.
+    Pass video_path (local file) to enable motion arbitration; motion_fn injectable for tests."""
+    if motion_fn is None and video_path is not None:
+        from motion_check import candidate_motion
+
+        def motion_fn(ev):
+            return candidate_motion(video_path, ev["t_start_s"], ev["t_end_s"])
     kept = []
     for ev in events:
         verdict = validate_event(infer_fn, video_file, ev, duration, **judge_kwargs)
+        motion = motion_fn(ev) if motion_fn else {"lateral_motion": False, "direction": "none"}
+        valid = verdict["valid"] or motion["lateral_motion"]
+        rescued = motion["lateral_motion"] and not verdict["valid"]
         print(f"judge {seconds_to_mmss(ev['t_start_s'])}-{seconds_to_mmss(ev['t_end_s'])} "
-              f"({ev['direction']}): {'KEEP' if verdict['valid'] else 'REJECT'} "
-              f"[{verdict['votes_yes']}/{verdict['votes']} yes, dir={verdict['judge_direction']}]")
-        ev = dict(ev, validation=verdict)
-        if verdict["valid"]:
-            if verdict["judge_direction"] in ("left", "right"):
-                ev["direction"] = verdict["judge_direction"]
-            kept.append(ev)
+              f"({ev['direction']}): {'KEEP' if valid else 'REJECT'}"
+              f"{' (motion-rescued)' if rescued else ''} "
+              f"[{verdict['votes_yes']}/{verdict['votes']} yes, judge dir={verdict['judge_direction']}, "
+              f"motion={motion['direction']}]")
+        ev = dict(ev, validation=verdict, motion=motion)
+        if not valid:
+            continue
+        # a sweep may belong to a NEIGHBORING event caught by the padded window — it only
+        # speaks for THIS candidate if its span substantially overlaps the candidate
+        sp = motion.get("span")
+        anchored = False
+        if sp:
+            inter = max(0.0, min(sp[1], ev["t_end_s"]) - max(sp[0], ev["t_start_s"]))
+            shorter = max(min(sp[1] - sp[0], ev["t_end_s"] - ev["t_start_s"]), 1e-6)
+            anchored = inter >= 0.5 * shorter
+        # direction: anchored pixel evidence outranks the judge
+        if motion.get("direction_confident") and anchored and motion["direction"] in ("left", "right"):
+            ev["direction"] = motion["direction"]
+        elif verdict["judge_direction"] in ("left", "right"):
+            ev["direction"] = verdict["judge_direction"]
+        # bounds: whichever source timed the crossing physics best — the anchored sweep span
+        # when it agrees on direction (VLMs time onsets early, measured at detect AND refine),
+        # else the judge's refined interval, else the rescue sweep
+        if anchored and motion.get("direction_confident") and ev["direction"] == motion["direction"]:
+            ev["t_start_s"], ev["t_end_s"] = sp
+        elif verdict["valid"] and verdict.get("refined"):
+            ev["t_start_s"], ev["t_end_s"] = verdict["refined"]
+        elif rescued and sp and anchored:
+            ev["t_start_s"], ev["t_end_s"] = sp
+        kept.append(ev)
     return kept

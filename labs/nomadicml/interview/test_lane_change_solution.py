@@ -231,6 +231,63 @@ def test_validate_all_filters_fp_and_fixes_direction():
     assert kept[0]["validation"]["valid"]
 
 
+def test_validate_event_returns_refined_bounds():
+    """A confirming judge's refined interval is remapped (clip-relative here) and surfaced."""
+    def judge(query, video=None, enable_thinking=True, time_interval=None, fps=None, schema=None):
+        return json.dumps({"is_lane_change": True, "direction": "right", "reason": "ok",
+                           "t_start": "00:05", "t_end": "00:09"})
+
+    v = validate_event(judge, None, _ev(48, 52, "right"), duration=127, pad=5.0, votes=1)
+    assert v["refined"] == (48, 52)  # snippet starts at 43; 43+5..43+9 -> 48..52
+
+
+def test_validate_all_motion_rescues_judge_false_negative():
+    """The live gemini-2.5-pro failure: judge attributes the ego's motion to the lead car and
+    rejects a REAL lane change; the marking-sweep motion check rescues it with direction."""
+    judge = make_fake_judge([(False, "none"), (False, "none"), (False, "none")])
+    motion = lambda ev: {"lateral_motion": True, "direction_confident": True,
+                         "direction": "right", "net_shift_frac": -0.27, "span": (48.0, 53.1)}
+    kept = validate_all(judge, None, [_ev(46, 50, "left", "real, judge blind, timed early")],
+                        duration=127, motion_fn=motion, votes=3)
+    assert len(kept) == 1
+    assert kept[0]["direction"] == "right"          # motion's direction outranks detector's
+    assert kept[0]["motion"]["lateral_motion"]
+    assert (kept[0]["t_start_s"], kept[0]["t_end_s"]) == (48.0, 53.1)  # sweep span = bounds
+
+
+def test_validate_all_motion_direction_outranks_judge():
+    judge = make_fake_judge([(True, "left"), (True, "left"), (True, "left")])
+    motion = lambda ev: {"lateral_motion": False, "direction_confident": True,
+                         "direction": "right", "net_shift_frac": -0.2, "span": (48.0, 52.0)}
+    kept = validate_all(judge, None, [_ev(48, 52, "left")], duration=127,
+                        motion_fn=motion, votes=3)
+    assert kept[0]["direction"] == "right"  # direction-grade sweep overrides even a 3/3 judge
+
+
+def test_validate_all_refined_bounds_replace_detector_bounds():
+    def judge(query, video=None, enable_thinking=True, time_interval=None, fps=None, schema=None):
+        # snippet for candidate 82-84 with pad 5 -> (77, 89); true crossing 84-91 clamps to 89
+        return json.dumps({"is_lane_change": True, "direction": "right", "reason": "ok",
+                           "t_start": "01:24", "t_end": "01:31"})  # global-time answer
+
+    kept = validate_all(judge, None, [_ev(82, 84, "right")], duration=127, votes=1)
+    s, e = kept[0]["t_start_s"], kept[0]["t_end_s"]
+    assert s == 84 and e >= 89  # global fallback in remap keeps the true onset
+
+
+def test_validate_all_unanchored_sweep_cannot_speak_for_neighbor():
+    """Run-4 failure: a candidate's padded window reaches a NEIGHBORING stronger event; the
+    sweep (and its direction) belong to that neighbor and must not override this candidate."""
+    judge = make_fake_judge([(True, "left"), (True, "left"), (True, "left")])
+    # sweep span 86.5-94.4 barely overlaps candidate 95-101 -> unanchored
+    motion = lambda ev: {"lateral_motion": False, "direction_confident": True,
+                         "direction": "right", "net_shift_frac": -0.36, "span": (86.5, 94.4)}
+    kept = validate_all(judge, None, [_ev(95, 101, "left")], duration=127,
+                        motion_fn=motion, votes=3)
+    assert kept[0]["direction"] == "left"                       # judge's call stands
+    assert (kept[0]["t_start_s"], kept[0]["t_end_s"]) == (95, 101)  # neighbor's span rejected
+
+
 def test_validate_snippet_padding_clamped_to_video():
     seen = []
 

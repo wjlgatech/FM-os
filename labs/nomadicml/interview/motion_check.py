@@ -124,3 +124,148 @@ def is_lane_change_motion(video_path: str | Path, t_start: float, t_end: float,
     t0, t1 = max(0.0, t_start - pad), t_end + pad
     profile = horizontal_shift_profile(video_path, t0, t1, fps=fps)
     return motion_evidence(profile, frame_width(video_path), threshold)
+
+
+def strongest_sweep(shifts: np.ndarray, times: list[float], width: int,
+                    max_span_s: float = 8.0) -> dict:
+    """The maximal |sum| of per-step shifts over any contiguous run of duration <= max_span_s,
+    both signs considered. Immune to opposite-sweep cancellation (a window straddling a right
+    then a left lane change nets to ~0 but contains two strong runs). Pure — testable.
+
+    Returns {frac, t0, t1, direction} for the strongest run ('none' if no steps)."""
+    n = len(shifts)
+    if n == 0 or len(times) != n:
+        return {"frac": 0.0, "t0": 0.0, "t1": 0.0, "direction": "none"}
+    best = {"frac": 0.0, "t0": times[0], "t1": times[0], "direction": "none"}
+    cum = np.concatenate([[0.0], np.cumsum(shifts)])
+    for i in range(n):
+        for j in range(i, n):
+            if times[j] - times[i] > max_span_s:
+                break
+            s = (cum[j + 1] - cum[i]) / width
+            if abs(s) > abs(best["frac"]):
+                best = {"frac": round(float(s), 4), "t0": times[i], "t1": times[j],
+                        "direction": "right" if s < 0 else "left"}
+    return best
+
+
+def sweep_in_window(video_path: str | Path, t_start: float, t_end: float,
+                    fps: float = 8.0, max_span_s: float = 8.0) -> dict:
+    """Strongest bounded sweep inside [t_start, t_end] of the video (no model, no network)."""
+    cap = cv2.VideoCapture(str(video_path))
+    try:
+        native = cap.get(cv2.CAP_PROP_FPS) or 30.0
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)) or 1
+        step = max(1, round(native / fps))
+        f0, f1 = int(t_start * native), int(t_end * native)
+        cap.set(cv2.CAP_PROP_POS_FRAMES, f0)
+        prev, times, shifts = None, [], []
+        for f in range(f0, f1 + 1):
+            ok, frame = cap.read()
+            if not ok:
+                break
+            if (f - f0) % step:
+                continue
+            prof = _band_profile(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+            if prev is not None:
+                shift, conf = pattern_shift(prev, prof)
+                shifts.append(shift if conf >= 0.55 and abs(shift) <= 50 else 0)
+                times.append(f / native)
+            prev = prof
+        return strongest_sweep(np.asarray(shifts), times, width, max_span_s)
+    finally:
+        cap.release()
+
+
+# ---------------------------------------------------------------------------
+# Recall-first candidate NOMINATION — scan the whole video once, propose windows.
+# Detection funnel: nominate low-threshold (recall) -> judge + calibrated motion
+# arbitration downstream (precision). A missed candidate is unrecoverable; a
+# spurious one costs one judge call.
+# ---------------------------------------------------------------------------
+
+NOMINATE_THRESHOLD = 0.10  # deliberately below NET_SHIFT_THRESHOLD: recall-first
+
+# Rescue bar for judge-overrides, calibrated at judge-scale (±5s) windows via
+# strongest_sweep: true sweeps measured 0.236-0.362, worst negative 0.218.
+RESCUE_THRESHOLD = 0.25
+
+
+def candidate_motion(video_path: str | Path, t_start: float, t_end: float,
+                     pad: float = 5.0) -> dict:
+    """Sweep evidence for one candidate, on the judge's padded window (detectors time onsets
+    early, so the sweep often lies outside tight candidate bounds). Returns the validate_all
+    arbitration dict: rescue-grade (>= RESCUE_THRESHOLD), direction-grade (>= NET_SHIFT
+    threshold), plus the sweep's own time span (better bounds than the candidate's)."""
+    sw = sweep_in_window(video_path, max(0.0, t_start - pad), t_end + pad)
+    frac = abs(sw["frac"])
+    return {"lateral_motion": frac >= RESCUE_THRESHOLD,
+            "direction_confident": frac >= NET_SHIFT_THRESHOLD,
+            "direction": sw["direction"] if frac >= NET_SHIFT_THRESHOLD else "none",
+            "net_shift_frac": sw["frac"], "span": (sw["t0"], sw["t1"])}
+
+
+def whole_video_shift_series(video_path: str | Path, fps: float = 8.0
+                             ) -> tuple[list[float], np.ndarray, int]:
+    """One decode pass -> (sample times, cumulative shift at each sample, frame width)."""
+    cap = cv2.VideoCapture(str(video_path))
+    try:
+        native = cap.get(cv2.CAP_PROP_FPS) or 30.0
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)) or 1
+        step = max(1, round(native / fps))
+        prev, times, shifts = None, [], []
+        f = 0
+        while True:
+            ok, frame = cap.read()
+            if not ok:
+                break
+            if f % step == 0:
+                prof = _band_profile(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+                if prev is not None:
+                    shift, conf = pattern_shift(prev, prof)
+                    shifts.append(shift if conf >= 0.55 and abs(shift) <= 50 else 0)
+                    times.append(f / native)
+                prev = prof
+            f += 1
+        return times, np.cumsum(shifts) if shifts else np.array([]), width
+    finally:
+        cap.release()
+
+
+def nominate_from_series(times: list[float], cum: np.ndarray, width: int,
+                         win: float = 8.0, stride: float = 2.0,
+                         threshold: float = NOMINATE_THRESHOLD) -> list[dict]:
+    """Slide a window over the cumulative-shift series; nominate spans whose net sweep
+    exceeds threshold*width; merge overlapping same-sign nominations. Pure — testable."""
+    if len(times) < 2:
+        return []
+    noms = []
+    t, t_max = times[0], times[-1]
+    idx = np.asarray(times)
+    while t < t_max:
+        t1 = min(t + win, t_max)
+        i, j = int(np.searchsorted(idx, t)), min(int(np.searchsorted(idx, t1)), len(cum) - 1)
+        net = (float(cum[j]) - float(cum[i])) / width
+        if abs(net) >= threshold:
+            noms.append({"t_start_s": round(t, 1), "t_end_s": round(t1, 1),
+                         "direction": "right" if net < 0 else "left",
+                         "description": f"motion-nominated (net sweep {net:+.3f} of width)"})
+        if t1 >= t_max:
+            break
+        t += stride
+    # merge overlapping same-direction nominations into single candidates
+    merged: list[dict] = []
+    for n in noms:
+        if merged and merged[-1]["direction"] == n["direction"] \
+                and n["t_start_s"] <= merged[-1]["t_end_s"]:
+            merged[-1]["t_end_s"] = n["t_end_s"]
+        else:
+            merged.append(dict(n))
+    return merged
+
+
+def nominate_candidates(video_path: str | Path, win: float = 8.0, stride: float = 2.0,
+                        threshold: float = NOMINATE_THRESHOLD) -> list[dict]:
+    """Whole video in -> motion-nominated candidate events out. Zero model calls."""
+    times, cum, width = whole_video_shift_series(video_path)
+    return nominate_from_series(times, cum, width, win, stride, threshold)

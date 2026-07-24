@@ -29,9 +29,11 @@ python3 - <<'PY'
 import json
 from pathlib import Path
 
-RUNS = [  # (file, note shown next to the model name)
-    ("../interview/live_results_gemini_partial.json", "partial: free tier is 20 req/day"),
-    ("../interview/live_results.json", "full run, frames backend"),
+RUNS = [  # (file, note shown next to the model name) — headline first
+    ("../interview/live_results_pro_final.json", "composed pipeline: VLM windows + motion nomination + judge + sweep arbitration"),
+    ("../interview/live_results_gemini3flash.json", "ablation: newer flash tier, same pipeline"),
+    ("../interview/live_results_gemini_partial.json", "baseline: naive whole-video (flash free tier, partial by 20 req/day quota)"),
+    ("../interview/live_results_claude_frames.json", "ablation: sparse 2fps stills instead of native video"),
 ]
 stages, models, meta = [], [], {}
 for path, note in RUNS:

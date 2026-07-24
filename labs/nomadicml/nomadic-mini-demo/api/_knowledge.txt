@@ -161,6 +161,66 @@ coordination (sharding across workers, avoiding duplicate reads) is where I'd ra
 🧠 *Mental model:* a car assembly line — if parts don't arrive just-in-time on the conveyor, the
 robots stand idle; you widen the conveyor and stage parts trackside, you don't buy faster robots.
 
+### C11. VLM + other data sources, from first principles (the witness and the instruments)
+🧠 *Mental model:* **a courtroom.** The VLM is the eyewitness — tells a rich story about WHAT
+happened, but eyewitnesses genuinely confuse who moved (measured live: gemini-2.5-pro watched a
+real ego lane change and swore "the SUV ahead changed lanes; we went straight"). The other data
+sources are instruments — the radar gun, the GPS tracker, the lab: dumb, narrow, incorruptible.
+No verdict rests on either alone; **the clock on the wall is what binds testimony to evidence.**
+
+The three technical moves that fall out of this:
+1. **Video time is the join key.** NomadicML's own product works this way: every event carries an
+   `overlay` dict of frame-synced signals (`frame_gps_lat/lon`, `unix_timestamp` — SDK
+   `video.py:568-629`), `geovisualizer` projects events to a map purely via that join, and
+   `fuse_multiview_results` matches events across cameras by `source_uri_matching`. Nothing is
+   fused in embedding space at inference — it's a timestamp JOIN, like a spreadsheet where every
+   sensor writes its own column and the VLM writes the "what happened" column.
+2. **Instruments arbitrate the witness where their physics is unambiguous.** Pick auxiliary
+   features for an *invariance the model lacks*: painted lane markings only sweep across the
+   camera when the EGO moves — a lead car's maneuver can't fake it. Our interview pipeline wires
+   this as: judge verdict + marking-sweep evidence → confirm / rescue / direction-override, each
+   threshold calibrated on ground truth, never vibes. (Their `analyze` exposes
+   `use_enhanced_motion_analysis` — the production sibling of exactly this.)
+3. **Funnel: recall-first proposals, precision-later verification, boundaries refined last.**
+   Cheap scans (pixel sweep, 3s for the whole clip, zero model calls) + windowed VLM calls
+   propose; an adversarial judge verifies; refined timestamps come from whichever source times
+   the physics best. Disagreement between witness and instrument isn't noise — it's the most
+   predictive feature there is (it's where the false positives live).
+Scaling path: freeze the per-candidate cross-modal features (`to_feature_vector()` in the
+interview solution) and learn the combiner on labels from public sets (BDD100K, comma2k19) or
+pseudo-labels distilled from the expensive pipeline — the same curation flywheel NomadicML sells.
+Where CAN/IMU exists, lateral-acceleration S-curves are the strongest instrument of all, and the
+VLM's job shrinks to description and context.
+
+**Survival evidence (30-year survival-test, researched 2026-07-23)** — every piece of this design
+is a survivor pattern, quotable in interview:
+- *Weight voices by their error track record* — recursive Bayesian filtering (Kalman 1960 → UKF
+  1997 → invariant EKF 2018), still "the de facto standard of nonlinear filtering" in robotics
+  (Hartley et al., Contact-Aided Invariant EKF); openpilot's `locationd` IS a Kalman filter.
+- *Decorrelated experts outvote one genius* — bagging/AdaBoost/stacking (1992–2001, Gödel Prize
+  2003): a second opinion is worth its error-DEcorrelation, which is why pixel physics (or CAN)
+  next to a VLM is worth so much — they can't lie the same way.
+- *Propose-then-verify, recall then precision* — Viola-Jones cascade (2001, Longuet-Higgins Prize)
+  → Faster R-CNN RPN (2015) → BSN/BMN temporal proposals (2018) → retrieve-then-rerank RAG and
+  speculative decoding today. Our nominate→judge funnel is this shape.
+- *Timestamp as the universal join key* — ROS `ApproximateTimeSynchronizer` shipping since ~2009
+  and still the standard in ROS 2 Jazzy; every AV dataset (nuScenes, Waymo OD) is built on
+  timestamp-aligned late fusion. NomadicML's `overlay` dict is the same move.
+- *Deterministic supervisor gates the learned policy* — `commaai/openpilot`
+  `selfdrive/controls/lib/desire_helper.py` (verified at HEAD): CAN blinker XOR + `v_ego ≥ 20mph`
+  arm; `steeringPressed` torque + `not blindspot_detected` execute; the MODEL's
+  `lane_change_prob < 0.02` declares completion; `LANE_CHANGE_TIME_MAX = 10s` aborts. Dumb
+  signals hold the keys, the smart model holds the wheel, a timer holds the kill switch.
+- *Hindsight is a sensor (teacher-student flywheel)* — Waymo offboard 3D auto-labeling
+  (CVPR 2021), Tesla fleet auto-labeling; pseudo-label students beat models trained on 3–10×
+  the human labels (Caine et al.). This is NomadicML's business, stated as a survivor pattern.
+- *VLM timestamp imprecision is documented, and the fixes are the survivors above* — VTG-LLM
+  (timestamp tokens interleaved with frames), TRACE / TimeExpert ICCV 2025 (propose-verify with
+  evidence units). We measured the same 2–4s early bias live and fixed it the same two ways.
+- *Anti-portfolio (elegance ≠ survival):* capsule networks died in scaling; DPM+HOG's features
+  died but its two-stage SHAPE survived; precomputed-optical-flow two-stream nets were absorbed
+  end-to-end. The pattern that survives is decorrelated-error corroboration, not cleverness.
+
 ---
 
 ## PART D — founder-tailoring
@@ -1408,6 +1468,15 @@ Solves the NomadicML live-coding notebook: find every ego-vehicle lane change in
 highway video, treating Gemini 2.5 Pro as a black box. Ground truth (from the notebook):
 right 0:48–0:52 · left 1:14–1:21 · double-right 1:24–1:31 · double-left 1:35–1:41.
 
+**Measured on gemini-2.5-pro native video: naive F1 0.0 → composed pipeline F1 0.571
+(P 0.667 / R 0.5, stable across 2 runs). Same pipeline on gemini-3-flash-preview:
+recall 1.0 / F1 0.615 — all 4 events found, the recall-leaning operating point.** Full trajectory + residuals:
+`REQUIREMENTS-TRACE.md`; each design decision + evidence: `DESIGN-DECISIONS.md`.
+The load-bearing discoveries, all measured live: Gemini reports GLOBAL timestamps under
+startOffset/endOffset; VLMs time maneuver onsets 2–4s early; pro attributes the ego's own
+lane change to the lead vehicle (ego-vs-other ambiguity) — countered by a pixel-level
+lane-marking sweep that nominates (recall), rescues, arbitrates direction, and times bounds.
+
 ## Files
 
 | File | What it is |
@@ -1526,15 +1595,36 @@ run is marked accordingly).
 | "Directions of the lane changes are often predicted incorrectly" | Judge (more frames on snippet) overrides detector direction; motion confirmer's direction was 3/3 correct where confident | `test_validate_all_filters_fp_and_fixes_direction`; `motion_eval.json` |
 | "False positives … road curvature and lane straddling" | Both named explicitly as NOT-report rules in `CHUNK_PROMPT` and as reject rules in `JUDGE_PROMPT`; motion confirmer measured 0/7 FP on curvature windows | prompts in `lane_change_solution.py`; `motion_eval.json` |
 
+## Measured results (gemini-2.5-pro native video, the interview's model, via the notebook key)
+
+Scored vs the 4 ground-truth windows, greedy IoU ≥ 0.3 — the full honest trajectory:
+
+| Configuration | P | R | F1 |
+|---|---|---|---|
+| naive whole-video | 0.0 | 0.0 | 0.0 (1 hallucinated event) |
+| + chunking alone | 0.167 | 0.25 | 0.20 (finds regions, times them 2–4s early, flips directions) |
+| + marking-anchored judge + motion arbitration | 0.333 | 0.25 | 0.29 |
+| + motion nomination + sweep-owned bounds (final) | **0.667** | **0.5** | **0.571** (stable across 2 runs) |
+| same final pipeline on gemini-3-flash-preview | 0.444 | **1.0** | **0.615** (all 4 events found) |
+
+Two operating points on one funnel: pro is precision-leaning, the newer flash recall-leaning.
+For a curation workflow (surface candidates for human review) recall 1.0 at P 0.444 is usually
+the better trade — a human dismisses a false positive in seconds; a missed event is gone.
+
+Residuals, mechanistically named: the gentle 1:14–1:21 change produces no reliable vision signal
+(pixel sweep 0.02, VLM misses it — the CAN/IMU-fusion argument); the 1:35–1:41 double flickers on
+judge sampling variance (`temperature` is deprecated on the models tested, fixed at 1).
+
 ## Known honest gaps
 
-- Live full-pipeline numbers on **gemini-2.5-pro** (the interview's actual model) are not
-  measurable from this machine: the free key allows 20 requests/day on flash and 0 on pro
-  (`estimate_calls()` shows a full run needs ~25). The pipeline is exercised live via the
-  Claude backend instead; the Gemini path is verified to the point the quota allows
-  (naive + 7 of 9 windows, banked in `live_results_gemini_partial.json`).
-- Motion confirmer is calibrated on ONE video (n=4 positives / 7 negatives) — a confirmer,
-  not a gate, and says so in its docstring.
+- All thresholds (0.10 / 0.18 / 0.25) are calibrated on ONE video (4 positives, 7 negatives);
+  the generalization path is the learned combiner over `to_feature_vector()` trained on external
+  labels (BDD100K, comma2k19) or distilled pseudo-labels.
+- Judge variance at fixed temperature 1 makes single-event verdicts flicker across runs; votes=3
+  helps but does not eliminate it.
+- Free-key facts (why substitute-modality ablations exist): 20 requests/day on flash, 0 pro quota;
+  the Claude frames ablation measured ~0 detection recall at 2fps stills with the judge correctly
+  rejecting 2/2 straddle FPs — native video input is load-bearing for temporal maneuvers.
 
 
 ----- interview/DESIGN-DECISIONS.md -----
@@ -1570,6 +1660,10 @@ offset overflows the window while the raw values already fit inside it, treat th
 anything else.
 **Why:** VLMs are inconsistent about clip-relative vs absolute time — we observed both. A hard
 assumption either way silently corrupts every downstream stage. All three branches unit-tested.
+**Measured live (gemini-2.5-pro):** under `startOffset/endOffset` the model reports **GLOBAL**
+timestamps (probed directly: clip (45,55) described with "00:46…00:54"), despite the prompt asking
+for clip-relative — the global fallback is what kept the run correct. A single-interpretation
+remap would have silently shifted every event by its window offset.
 **Observed bonus:** claude-sonnet-5 emitted `"00:08.5"` (decimal seconds) live; the parser
 tolerates it, with a regression test citing the observation.
 
@@ -1591,26 +1685,34 @@ results (`samples=3` on the flakier frames backend). Stage 2's job is killing fa
 detection is the only lever left, and a spurious extra candidate costs one judge call while a
 missed event is unrecoverable.
 
-## 6. The judge is adversarial, votes, and owns direction
+## 6. The judge is marking-anchored, votes, and refines boundaries
 
-**Decision:** per candidate, re-infer on the ±3s snippet at fps=5 with a prompt that enumerates
-the reject reasons (curvature, straddling, other vehicles); 3 votes, majority; the judge's
-direction overrides the detector's.
-**Why:** the notebook names all three false-positive sources — putting them verbatim in the judge's
-job description attacks them directly. The judge sees ~5× the frame density of the detector on a
-~10s span, so when they disagree on direction the judge has strictly more evidence. The Part 2
-contract (`is_valid_lane_change() -> bool`) is a thin wrapper that keeps the vote evidence.
+**Decision:** per candidate, re-infer on the ±5s snippet at fps=5 with a prompt that (a) forces the
+decision onto the PAINTED LANE MARKINGS ("markings sweep left ⇒ ego moved right"), explicitly
+disqualifying other-vehicle motion as evidence, (b) enumerates the reject reasons (curvature,
+straddling, other vehicles), and (c) returns a refined t_start/t_end; 3 votes, majority.
+**Why marking-anchoring (measured live):** gemini-2.5-pro rejected a REAL lane change (0:48–0:52)
+claiming "the white SUV ahead changed lanes; the ego continued straight" — it attributed the ego's
+motion to the lead vehicle. Ego-vs-other relative motion is genuinely ambiguous unless anchored on
+the markings, which move only when the ego moves.
+**Why boundary refinement (measured live):** the detector times onsets 2–4s early (e.g. 1:22–1:24
+for the true 1:24–1:31), which scores IoU=0 against ground truth despite being a real detection.
+The judge sees the padded snippet at 5× frame density — it's the right place to fix timing.
 
-## 7. A zero-API confirmer, shipped at its measured strength
+## 7. Pixel evidence arbitrates the VLM — rescue and direction
 
 **Decision:** a pixels-only second opinion — collapse a lane-marking scanline band to a 1-D
-brightness profile, cross-correlate consecutive frames, integrate the sweep.
+brightness profile, cross-correlate consecutive frames, integrate the sweep. Wired into
+validation as an arbiter: judge-KEEP takes motion's direction when it fires; judge-REJECT with
+strong motion evidence is RESCUED (kept, motion's direction).
 **Evidence trail (honest):** v1 (2-D phase correlation on the road strip) measured NOT separable —
 rebuilt. v2 (marking-band 1-D) calibrated on the interview video: at threshold 0.18, **0/7 false
-positives, 3/4 recall, 3/3 direction agreement** (`motion_eval.json`).
-**Shipped role:** high-precision *confirmer* — boosts confidence and settles direction ties; never
-a veto (it misses gentle changes). Exists because quota is real: the free Gemini tier allows 20
-requests/DAY, and this validator costs zero.
+positives, 3/4 recall, 3/3 direction agreement** (`motion_eval.json`). The rescue rule exists
+because the judge's live false-negative (0:48–0:52, §6) is exactly the ambiguity class the motion
+check is immune to — and at its threshold it has measured zero false positives, so a rescue
+cannot inject curvature FPs on this calibration set.
+**Also why it exists at all:** quota is real — the free Gemini tier allows 20 requests/DAY, and
+this validator costs zero.
 
 ## 8. Quota is a design input, not a surprise
 
@@ -1628,7 +1730,36 @@ at every stage; `REQUIREMENTS-TRACE.md` maps every requirement sentence → code
 **Why:** "chunking helped" is a vibe; "recall 0.25 → 1.0 with 1 FP, then FP removed by the judge"
 is an engineering result. The interview is a conversation about evidence.
 
-## 10. Model-agnostic by a one-argument seam
+## 10. Recall-first funnel: pixels nominate, models judge
+
+**Decision:** detection = union of VLM window candidates AND motion-scan nominations
+(`nominate_candidates`: one 3-second decode pass, threshold deliberately LOW at 0.10). Precision
+is restored downstream by the judge + calibrated sweep arbitration (rescue at 0.25, measured
+0-FP on calibration windows).
+**Why:** a candidate missed at Stage 1 is unrecoverable; a spurious one costs one judge call.
+Measured standalone: the scan alone hits 3 of 4 ground-truth regions (including both doubles)
+with zero model calls — including regions the VLM detector missed outright. Loose nomination
+bounds don't matter because the judge refines boundaries and the sweep's own span times the
+crossing (it recovered 48.0–53.1 for the true 48–52 event).
+
+## 11. This is feature engineering — and the combiner's scaling path is learned
+
+**Decision:** treat the VLM and the pixels as feature extractors over candidate windows, and the
+validation logic as a combiner. Today the combiner is hand-tuned rules over calibrated thresholds
+(0.10 nominate / 0.18 direction / 0.25 rescue); `to_feature_vector()` freezes the schema a
+LEARNED combiner would consume: sweep magnitude/span/agreement, judge vote fraction,
+detector-judge direction agreement, refinement offset.
+**Why the pixel feature earns its place:** it was chosen for an *invariance* — the marking sweep
+cannot confuse ego motion with a lead vehicle's maneuver, which is precisely the VLM's measured
+failure mode. Classic feature engineering: encode the domain knowledge the model lacks.
+**Scaling path (other data):** labels from public sets (BDD100K lane annotations, comma2k19 CAN,
+NGSIM/highD trajectories) or pseudo-labels distilled from the expensive pro pipeline over
+unlabeled fleet video — the same curation flywheel NomadicML productizes. Where CAN/IMU exists,
+lateral-acceleration S-curves become the strongest feature of all and the VLM's job shrinks to
+description. AutoML/tsfresh over the shift series or a small temporal CNN on the profile
+sequence are the hands-free variants.
+
+## 12. Model-agnostic by a one-argument seam
 
 **Decision:** every pipeline function takes `infer_fn` as a parameter (the notebook's
 `gemini_inference` signature is the interface).
@@ -2309,6 +2440,8 @@ class Verdict(BaseModel):
     is_lane_change: bool = Field(description="True only for a fully completed ego lane change")
     direction: Literal["left", "right", "none"] = Field(description="'none' when is_lane_change is false")
     reason: str = Field(description="One sentence of visual evidence for the verdict")
+    t_start: Optional[str] = Field(default=None, description="Refined start of the crossing, MM:SS")
+    t_end: Optional[str] = Field(default=None, description="Refined end of the crossing, MM:SS")
 
 
 # ---------------------------------------------------------------------------
@@ -2321,9 +2454,13 @@ ego-vehicle's forward-facing camera.
 Find every moment the EGO-VEHICLE (the camera car) performs a lane change.
 
 A lane change means: the ego-vehicle's camera centerline FULLY crosses one painted lane divider \
-and settles into the adjacent lane. Direction is "left" if the ego moves into the lane to its \
-left, "right" if into the lane to its right. If two dividers are crossed back-to-back (a double \
-lane change), report it and say "double" in the description.
+and settles into the adjacent lane. Judge by the PAINTED LANE MARKINGS relative to the camera \
+(markings sweep LEFT across the view => ego moved RIGHT, and vice versa) — not by other vehicles, \
+whose own maneuvers create ambiguous relative motion. Direction is "left" if the ego moves into \
+the lane to its left, "right" if into the lane to its right. Include GRADUAL or gentle lane \
+changes — a slow drift that ends settled in the adjacent lane counts. If two dividers are crossed \
+back-to-back (a double lane change), report it as ONE event spanning both crossings. Report the \
+full span: from the moment the ego starts moving toward the divider until it is settled.
 
 Do NOT report:
 - Road curvature: the whole road bends but the ego stays centered between the same lane markings.
@@ -2334,18 +2471,26 @@ All timestamps must be relative to THE CLIP YOU ARE SHOWN, starting at 00:00.
 If there are no ego lane changes in this clip, return an empty list."""
 
 JUDGE_PROMPT = """You are a strict validator. This short clip was flagged as containing exactly one \
-ego-vehicle lane change (the ego-vehicle is the camera car). Your job is to REJECT false positives.
+ego-vehicle lane change (the ego-vehicle is the camera car). Your job is to REJECT false positives \
+AND to time the real ones precisely.
 
-Answer is_lane_change=true ONLY if you can visibly see the ego camera position fully cross a \
-painted lane divider and settle into the adjacent lane within this clip.
+Decide ONLY by watching the PAINTED LANE MARKINGS relative to the camera — they are the sole \
+reliable ego-motion cue. Ignore what other vehicles do; a car ahead drifting sideways while the \
+markings stay put is THEIR maneuver, not the ego's, and relative motion between the ego and a \
+lead vehicle is ambiguous unless you anchor on the markings.
 
-Answer is_lane_change=false if what you see is any of:
-- Road curvature (the road bends; the ego keeps the same position between its lane markings).
-- Lane straddling or an aborted change (touches/rides the divider, returns to the original lane).
-- Another vehicle changing lanes, not the ego.
-- No visible crossing inside this clip.
+Answer is_lane_change=true ONLY if the markings sweep sideways across the camera view and the \
+ego settles between a NEW pair of markings (markings sweep LEFT => ego moved RIGHT, and vice \
+versa). If MORE THAN ONE ego lane change is visible, judge ONLY the one nearest the MIDDLE of \
+the clip — ignore maneuvers at the clip's edges (they belong to neighboring candidates). Then \
+report direction, and refined t_start/t_end (MM:SS) for that one maneuver: from the moment the \
+ego starts moving toward the divider to the moment it is settled in the new lane.
 
-If true, report the direction the ego moves ("left" or "right"); otherwise direction="none"."""
+Answer is_lane_change=false (direction="none") for:
+- Road curvature: the whole road bends but the ego stays between the SAME pair of markings.
+- Lane straddling / aborted change: rides the divider, returns to the original lane.
+- Another vehicle changing lanes while the markings under the ego stay put.
+- No visible marking-crossing inside this clip."""
 
 
 # ---------------------------------------------------------------------------
@@ -2527,27 +2672,59 @@ def detect_chunked(infer_fn: Callable, video_file, duration: float,
     return merge_events(raw)
 
 
+def to_feature_vector(ev: dict) -> dict:
+    """Flatten a validated candidate into the cross-modal feature vector a LEARNED combiner
+    would consume (classical ML over engineered features — the scaling path beyond the
+    hand-tuned thresholds). Training labels come from other datasets (BDD100K, comma2k19)
+    or pseudo-labels distilled from the expensive pipeline; this function is the schema."""
+    v, m = ev.get("validation", {}), ev.get("motion", {})
+    span = m.get("span") or (ev["t_start_s"], ev["t_end_s"])
+    dur = max(ev["t_end_s"] - ev["t_start_s"], 1e-6)
+    inter = max(0.0, min(ev["t_end_s"], span[1]) - max(ev["t_start_s"], span[0]))
+    return {
+        "duration_s": round(dur, 2),
+        "judge_yes_frac": (v.get("votes_yes", 0) / v["votes"]) if v.get("votes") else 0.0,
+        "judge_dir_agrees_detector": v.get("judge_direction") == ev.get("direction"),
+        "sweep_frac_abs": abs(m.get("net_shift_frac", 0.0)),
+        "sweep_dir_agrees_judge": m.get("direction") == v.get("judge_direction"),
+        "sweep_span_iou": inter / max(span[1] - span[0] + dur - inter, 1e-6),
+        "refined_offset_s": abs(v["refined"][0] - ev["t_start_s"]) if v.get("refined") else 0.0,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Part 2 — per-event validation pipeline (returns the required boolean per event).
 # ---------------------------------------------------------------------------
 
 
 def validate_event(infer_fn: Callable, video_file, event: dict, duration: float,
-                   pad: float = 3.0, votes: int = 3, fps: int = 5) -> dict:
-    """Judge one candidate on its padded snippet at high fps; majority vote across `votes` runs."""
+                   pad: float = 5.0, votes: int = 3, fps: int = 5) -> dict:
+    """Judge one candidate on its padded snippet at high fps; majority vote across `votes` runs.
+    Confirming verdicts may carry refined t_start/t_end (detectors time onsets ~2-4s early) —
+    remapped defensively (models answer in clip-relative OR global time) and returned."""
     win_start = max(0.0, event["t_start_s"] - pad)
     win_end = min(duration, event["t_end_s"] + pad)
-    verdicts = []
+    verdicts, refined = [], None
     for _ in range(votes):
         text = infer_fn(query=JUDGE_PROMPT, video=video_file,
                         time_interval=(int(win_start), int(win_end)), fps=fps, schema=Verdict)
-        verdicts.append(json.loads(text))
+        v = json.loads(text)
+        verdicts.append(v)
+        if refined is None and v.get("is_lane_change") and v.get("t_start") and v.get("t_end"):
+            try:
+                r_s, r_e = remap_to_global(mmss_to_seconds(v["t_start"]),
+                                           mmss_to_seconds(v["t_end"]), win_start, win_end)
+                if r_e > r_s:
+                    refined = (r_s, r_e)
+            except (ValueError, KeyError):
+                pass
     yes = sum(bool(v["is_lane_change"]) for v in verdicts)
     valid = yes * 2 > len(verdicts)
     dirs = [v["direction"] for v in verdicts if v["is_lane_change"] and v["direction"] != "none"]
     judge_direction = max(set(dirs), key=dirs.count) if dirs else "none"
     return {"valid": valid, "votes_yes": yes, "votes": len(verdicts),
-            "judge_direction": judge_direction, "reasons": [v["reason"] for v in verdicts]}
+            "judge_direction": judge_direction, "refined": refined,
+            "reasons": [v["reason"] for v in verdicts]}
 
 
 def is_valid_lane_change(infer_fn: Callable, video_file, event: dict, duration: float,
@@ -2558,20 +2735,62 @@ def is_valid_lane_change(infer_fn: Callable, video_file, event: dict, duration: 
 
 
 def validate_all(infer_fn: Callable, video_file, events: list[dict], duration: float,
+                 video_path: Optional[str] = None, motion_fn: Optional[Callable] = None,
                  **judge_kwargs) -> list[dict]:
-    """Filter candidates through the judge; the judge saw the snippet at higher fps, so when it
-    confirms the event but disagrees on direction, its direction wins (fixes flipped directions)."""
+    """Filter candidates through the judge, arbitrated by pixel evidence.
+
+    Ego-vs-other motion is ambiguous to a VLM (a lead car drifting sideways looks like an ego
+    lane change and vice versa — observed live on gemini-2.5-pro). The marking-sweep motion
+    check (motion_check.py) is immune to that ambiguity, and measured 0 false positives and
+    3/3 direction accuracy at its threshold. So per candidate:
+      - judge KEEP            -> keep; boundaries <- judge's refined interval when present;
+                                 direction <- motion direction if it fired, else judge's.
+      - judge REJECT + motion -> RESCUE (judge false-negatives happen exactly on the ambiguous
+                                 cases); direction <- motion's.
+      - judge REJECT, no motion -> drop.
+    Pass video_path (local file) to enable motion arbitration; motion_fn injectable for tests."""
+    if motion_fn is None and video_path is not None:
+        from motion_check import candidate_motion
+
+        def motion_fn(ev):
+            return candidate_motion(video_path, ev["t_start_s"], ev["t_end_s"])
     kept = []
     for ev in events:
         verdict = validate_event(infer_fn, video_file, ev, duration, **judge_kwargs)
+        motion = motion_fn(ev) if motion_fn else {"lateral_motion": False, "direction": "none"}
+        valid = verdict["valid"] or motion["lateral_motion"]
+        rescued = motion["lateral_motion"] and not verdict["valid"]
         print(f"judge {seconds_to_mmss(ev['t_start_s'])}-{seconds_to_mmss(ev['t_end_s'])} "
-              f"({ev['direction']}): {'KEEP' if verdict['valid'] else 'REJECT'} "
-              f"[{verdict['votes_yes']}/{verdict['votes']} yes, dir={verdict['judge_direction']}]")
-        ev = dict(ev, validation=verdict)
-        if verdict["valid"]:
-            if verdict["judge_direction"] in ("left", "right"):
-                ev["direction"] = verdict["judge_direction"]
-            kept.append(ev)
+              f"({ev['direction']}): {'KEEP' if valid else 'REJECT'}"
+              f"{' (motion-rescued)' if rescued else ''} "
+              f"[{verdict['votes_yes']}/{verdict['votes']} yes, judge dir={verdict['judge_direction']}, "
+              f"motion={motion['direction']}]")
+        ev = dict(ev, validation=verdict, motion=motion)
+        if not valid:
+            continue
+        # a sweep may belong to a NEIGHBORING event caught by the padded window — it only
+        # speaks for THIS candidate if its span substantially overlaps the candidate
+        sp = motion.get("span")
+        anchored = False
+        if sp:
+            inter = max(0.0, min(sp[1], ev["t_end_s"]) - max(sp[0], ev["t_start_s"]))
+            shorter = max(min(sp[1] - sp[0], ev["t_end_s"] - ev["t_start_s"]), 1e-6)
+            anchored = inter >= 0.5 * shorter
+        # direction: anchored pixel evidence outranks the judge
+        if motion.get("direction_confident") and anchored and motion["direction"] in ("left", "right"):
+            ev["direction"] = motion["direction"]
+        elif verdict["judge_direction"] in ("left", "right"):
+            ev["direction"] = verdict["judge_direction"]
+        # bounds: whichever source timed the crossing physics best — the anchored sweep span
+        # when it agrees on direction (VLMs time onsets early, measured at detect AND refine),
+        # else the judge's refined interval, else the rescue sweep
+        if anchored and motion.get("direction_confident") and ev["direction"] == motion["direction"]:
+            ev["t_start_s"], ev["t_end_s"] = sp
+        elif verdict["valid"] and verdict.get("refined"):
+            ev["t_start_s"], ev["t_end_s"] = verdict["refined"]
+        elif rescued and sp and anchored:
+            ev["t_start_s"], ev["t_end_s"] = sp
+        kept.append(ev)
     return kept
 
 
