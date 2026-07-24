@@ -7,6 +7,11 @@ webapp:
 # Fast gate: schema contracts + unit tests (no network, no keys needed)
 check:
 	cd nomadic_mini && python3 -m pytest tests -m "not live and not vlm" -q
+	cd interview && python3 -m pytest -q
+
+# Live rehearsal of the interview solution on the real video (needs GEMINI_API_KEY)
+interview-live:
+	cd interview && python3 run_live.py
 
 # Full local pipeline on the bundled clips (needs GEMINI_API_KEY or ANTHROPIC_API_KEY)
 e2e:

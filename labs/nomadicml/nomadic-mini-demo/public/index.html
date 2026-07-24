@@ -161,6 +161,10 @@
   </div>
   <div id="userclips"></div>
 
+  <h2>▶ Interview task — find every ego lane change <span style="color:var(--dim);font-weight:400;font-size:13px">— chunk → merge → judge, scored vs ground truth · <a href="/interview-design.html" style="color:var(--accent)">▶ animated architecture</a></span></h2>
+  <div class="sub">The NomadicML notebook problem, solved live: overlapping 20s windows through Gemini (one upload, windowed <code>startOffset/endOffset</code> calls), window-relative→global remap, deterministic merge, then an adversarial judge per candidate. Every stage scored against the 4 labeled lane changes — <span style="color:var(--accent2)">green = ground truth</span>, <span style="color:var(--theirs)">blue = left</span>, <span style="color:var(--accent)">orange = right</span>.</div>
+  <div id="interview"></div>
+
   <h2>1 · One pipeline, two implementations</h2>
   <div class="lane theirs">
     <div class="tag">Theirs</div>
@@ -214,6 +218,7 @@
   <header><b>Lab copilot</b><span>knows the whole lab: architecture · spec · parity findings · gaps · roadmap</span></header>
   <div id="log"><div class="msg bot">Ask me anything about this reverse-engineering lab — how the schema mirroring works, what we measured against api-prod, why the U-Haul event matters, or what P1 looks like.</div></div>
   <div class="sugg">
+    <button>How does the lane-change interview pipeline work?</button>
     <button>How does the event schema mirror theirs?</button>
     <button>What did we find that contradicts their docs?</button>
     <button>What are the weaknesses of this clone?</button>
@@ -269,6 +274,63 @@ async function loadResults(){
     root.appendChild(box);
   }
 }
+
+/* interview lane-change results — rendered from /interview.json (banked by interview/run_live.py) */
+const INTERVIEW_VIDEO = "https://storage.googleapis.com/videolm-bc319.firebasestorage.app/videos/b16cef459d954371a92e4c4bb1cc9071.mp4";
+async function loadInterview(){
+  const root = document.getElementById("interview");
+  let data;
+  try{
+    const r = await fetch("/interview.json"); if(!r.ok) throw 0;
+    data = await r.json();
+  }catch(e){
+    root.innerHTML = `<div class="none">live run pending — results land here on the next build/deploy</div>`;
+    return;
+  }
+  const DIRC = {left:"var(--theirs)", right:"var(--accent)"};
+  const dur = data.duration_s;
+  const box = document.createElement("div"); box.className="clip";
+  box.innerHTML = `<b style="font-size:13px">interview video · ${Math.round(dur)}s highway drive · model <code>${data.model}</code></b>
+    <video src="${INTERVIEW_VIDEO}" controls preload="metadata"></video>`;
+  const video = box.querySelector("video");
+  const rows = [
+    {title:"ground truth", events:data.ground_truth, gt:true},
+    ...data.stages.map(s => ({title:s.title, events:s.events, score:s.score})),
+  ];
+  for (const row of rows){
+    const label = document.createElement("div"); label.className="qh";
+    label.innerHTML = row.score
+      ? `<code>${row.title}</code> — ${row.events.length} event(s) · precision <b>${row.score.precision}</b> · recall <b>${row.score.recall}</b> · F1 <b>${row.score.f1}</b> <span style="color:var(--dim)">(TP ${row.score.tp} · FP ${row.score.fp} · FN ${row.score.fn})</span>`
+      : `<code>${row.title}</code> — the 4 labeled lane changes`;
+    box.appendChild(label);
+    const tl = document.createElement("div"); tl.className="timeline"; box.appendChild(tl);
+    for (const e of row.events){
+      const m = document.createElement("div"); m.className="marker";
+      const a = mmss(e.t_start), b = Math.max(mmss(e.t_end), a+1);
+      m.style.left = (a/dur*100)+"%"; m.style.width = ((b-a)/dur*100)+"%";
+      m.style.background = row.gt ? "var(--accent2)" : (DIRC[e.direction]||"#8a887f");
+      m.title = `[${e.t_start}–${e.t_end}] ${e.direction||""} ${e.description||e.label||""}`;
+      m.onclick = () => { video.currentTime = a; video.play(); };
+      tl.appendChild(m);
+    }
+  }
+  const final = data.stages[data.stages.length-1];
+  if (final){
+    const chip = /judge|validat/i.test(final.title) ? "validated" : "candidate";
+    const evs = document.createElement("div"); evs.className="events"; box.appendChild(evs);
+    if (!final.events.length) evs.innerHTML = `<div class="none">no events survived validation</div>`;
+    for (const e of final.events){
+      const el = document.createElement("div"); el.className="ev";
+      el.innerHTML = `<span class="t">${e.t_start}–${e.t_end}</span><b>${e.direction} lane change</b>
+        <span class="cat" style="color:${DIRC[e.direction]};border-color:currentColor">${chip}</span>
+        <span class="why">${e.description}</span>`;
+      el.onclick = () => { video.currentTime = mmss(e.t_start); video.play(); };
+      evs.appendChild(el);
+    }
+  }
+  root.appendChild(box);
+}
+loadInterview();
 
 const FINDINGS = [
  {t:"verify-key schema drift", docs:"returns {valid, user_id, uid, email, org_id}",
