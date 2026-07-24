@@ -1,0 +1,84 @@
+{
+  "model": "claude-sonnet-5/frames",
+  "duration_s": 127.43666666666667,
+  "ground_truth": [
+    {
+      "t_start": "00:48",
+      "t_end": "00:52",
+      "direction": "right",
+      "label": "right lane change"
+    },
+    {
+      "t_start": "01:14",
+      "t_end": "01:21",
+      "direction": "left",
+      "label": "left lane change"
+    },
+    {
+      "t_start": "01:24",
+      "t_end": "01:31",
+      "direction": "right",
+      "label": "double right lane change"
+    },
+    {
+      "t_start": "01:35",
+      "t_end": "01:41",
+      "direction": "left",
+      "label": "double left lane change"
+    }
+  ],
+  "stages": [
+    {
+      "title": "Stage 0: naive whole-video",
+      "score": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "matches": []
+      },
+      "events": []
+    },
+    {
+      "title": "Stage 1: chunked + merged",
+      "score": {
+        "tp": 0,
+        "fp": 2,
+        "fn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "matches": []
+      },
+      "events": [
+        {
+          "t_start": "00:20",
+          "t_end": "00:22",
+          "direction": "right",
+          "description": "The ego vehicle drifts rightward, crossing the dashed lane divider and settling into the adjacent right lane as the road curves."
+        },
+        {
+          "t_start": "01:38",
+          "t_end": "01:38",
+          "direction": "left",
+          "description": "The ego-vehicle drifts left, the double yellow center-divider line appears at the bottom-left of frame and the vehicle settles into the leftmost lane, keeping that yellow line as the new left boundary for the remainder of the clip."
+        }
+      ]
+    },
+    {
+      "title": "Stage 2: judge-validated",
+      "score": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "matches": []
+      },
+      "events": []
+    }
+  ]
+}

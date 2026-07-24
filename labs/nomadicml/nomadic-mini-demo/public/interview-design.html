@@ -144,7 +144,7 @@
 
   <div class="scene">
     <h2>2 · Part 2 — adversarial judge per candidate (+ a zero-API confirmer)</h2>
-    <div class="why">Each candidate is re-inferred on its <b>±3s snippet at fps=5</b> with a prompt whose job is to REJECT: curvature, straddling, other cars' lane changes. <b>3 votes, majority wins</b>; the judge saw more frames, so its direction overrides the detector's. In parallel, a <b>pixel-only confirmer</b> (lane-marking sweep via 1-D cross-correlation, zero model calls) boosts confidence and breaks direction ties — measured 0/7 false positives, direction 3/3, so it confirms but never vetoes.</div>
+    <div class="why">Each candidate is re-inferred on its <b>±5s snippet at fps=5</b> with a marking-anchored judge (decide by the painted lane markings, never by other vehicles — measured live: pro attributed the ego's own lane change to the SUV ahead) that votes 3× and returns <b>refined boundaries</b>. In parallel, the <b>pixel sweep</b> (lane-marking 1-D cross-correlation, zero model calls) arbitrates: it <b>nominates</b> candidates the VLM missed (threshold 0.10, recall-first), <b>rescues</b> judge false-negatives (≥0.25, measured 0-FP at calibration), owns <b>direction</b> where confident (≥0.18, 3/3 correct), and its span <b>times the crossing</b> better than the VLM (which runs 2–4s early) — but only when anchored to this candidate, so a neighboring event can't speak for it.</div>
     <div class="evrow">
       <div class="evlabel">candidate 00:48–00:52 right<small>real lane change</small></div>
       <div class="votes">
@@ -164,10 +164,12 @@
       </div>
     </div>
     <div class="scorebars">
-      <div class="sb"><span>Stage 0 · naive</span><div class="rail"><i style="--w:25%;background:var(--bad);animation-delay:.3s"></i></div><span class="val">recall .25</span></div>
-      <div class="sb"><span>Stage 1 · chunked+merged</span><div class="rail"><i style="--w:75%;background:var(--amber);animation-delay:.8s"></i></div><span class="val">candidates ↑</span></div>
-      <div class="sb"><span>Stage 2 · judge-validated</span><div class="rail"><i style="--w:92%;background:var(--green);animation-delay:1.3s"></i></div><span class="val">precision ↑</span></div>
+      <div class="sb"><span>naive whole-video (pro)</span><div class="rail"><i style="--w:3%;background:var(--bad);animation-delay:.3s"></i></div><span class="val">F1 0.0</span></div>
+      <div class="sb"><span>+ chunking alone</span><div class="rail"><i style="--w:20%;background:var(--bad);animation-delay:.7s"></i></div><span class="val">F1 0.20</span></div>
+      <div class="sb"><span>+ judge + motion arbitration</span><div class="rail"><i style="--w:29%;background:var(--amber);animation-delay:1.1s"></i></div><span class="val">F1 0.29</span></div>
+      <div class="sb"><span>+ nomination + sweep bounds</span><div class="rail"><i style="--w:57%;background:var(--green);animation-delay:1.5s"></i></div><span class="val">F1 0.57 · P 0.67 · R 0.5</span></div>
     </div>
+    <div class="why" style="margin-top:10px">Residuals, named: the gentle 1:14 change is invisible to every vision signal we have (the CAN/IMU fusion argument), and the adjacent opposite-direction doubles flicker on judge variance (temperature is fixed at 1). Measured trajectory, not vibes — every bar is a banked live run.</div>
   </div>
 
   <div class="scene">

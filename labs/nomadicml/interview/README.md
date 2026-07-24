@@ -4,6 +4,15 @@ Solves the NomadicML live-coding notebook: find every ego-vehicle lane change in
 highway video, treating Gemini 2.5 Pro as a black box. Ground truth (from the notebook):
 right 0:48–0:52 · left 1:14–1:21 · double-right 1:24–1:31 · double-left 1:35–1:41.
 
+**Measured on gemini-2.5-pro native video: naive F1 0.0 → composed pipeline F1 0.571
+(P 0.667 / R 0.5, stable across 2 runs). Same pipeline on gemini-3-flash-preview:
+recall 1.0 / F1 0.615 — all 4 events found, the recall-leaning operating point.** Full trajectory + residuals:
+`REQUIREMENTS-TRACE.md`; each design decision + evidence: `DESIGN-DECISIONS.md`.
+The load-bearing discoveries, all measured live: Gemini reports GLOBAL timestamps under
+startOffset/endOffset; VLMs time maneuver onsets 2–4s early; pro attributes the ego's own
+lane change to the lead vehicle (ego-vs-other ambiguity) — countered by a pixel-level
+lane-marking sweep that nominates (recall), rescues, arbitrates direction, and times bounds.
+
 ## Files
 
 | File | What it is |

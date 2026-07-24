@@ -154,6 +154,66 @@ coordination (sharding across workers, avoiding duplicate reads) is where I'd ra
 🧠 *Mental model:* a car assembly line — if parts don't arrive just-in-time on the conveyor, the
 robots stand idle; you widen the conveyor and stage parts trackside, you don't buy faster robots.
 
+### C11. VLM + other data sources, from first principles (the witness and the instruments)
+🧠 *Mental model:* **a courtroom.** The VLM is the eyewitness — tells a rich story about WHAT
+happened, but eyewitnesses genuinely confuse who moved (measured live: gemini-2.5-pro watched a
+real ego lane change and swore "the SUV ahead changed lanes; we went straight"). The other data
+sources are instruments — the radar gun, the GPS tracker, the lab: dumb, narrow, incorruptible.
+No verdict rests on either alone; **the clock on the wall is what binds testimony to evidence.**
+
+The three technical moves that fall out of this:
+1. **Video time is the join key.** NomadicML's own product works this way: every event carries an
+   `overlay` dict of frame-synced signals (`frame_gps_lat/lon`, `unix_timestamp` — SDK
+   `video.py:568-629`), `geovisualizer` projects events to a map purely via that join, and
+   `fuse_multiview_results` matches events across cameras by `source_uri_matching`. Nothing is
+   fused in embedding space at inference — it's a timestamp JOIN, like a spreadsheet where every
+   sensor writes its own column and the VLM writes the "what happened" column.
+2. **Instruments arbitrate the witness where their physics is unambiguous.** Pick auxiliary
+   features for an *invariance the model lacks*: painted lane markings only sweep across the
+   camera when the EGO moves — a lead car's maneuver can't fake it. Our interview pipeline wires
+   this as: judge verdict + marking-sweep evidence → confirm / rescue / direction-override, each
+   threshold calibrated on ground truth, never vibes. (Their `analyze` exposes
+   `use_enhanced_motion_analysis` — the production sibling of exactly this.)
+3. **Funnel: recall-first proposals, precision-later verification, boundaries refined last.**
+   Cheap scans (pixel sweep, 3s for the whole clip, zero model calls) + windowed VLM calls
+   propose; an adversarial judge verifies; refined timestamps come from whichever source times
+   the physics best. Disagreement between witness and instrument isn't noise — it's the most
+   predictive feature there is (it's where the false positives live).
+Scaling path: freeze the per-candidate cross-modal features (`to_feature_vector()` in the
+interview solution) and learn the combiner on labels from public sets (BDD100K, comma2k19) or
+pseudo-labels distilled from the expensive pipeline — the same curation flywheel NomadicML sells.
+Where CAN/IMU exists, lateral-acceleration S-curves are the strongest instrument of all, and the
+VLM's job shrinks to description and context.
+
+**Survival evidence (30-year survival-test, researched 2026-07-23)** — every piece of this design
+is a survivor pattern, quotable in interview:
+- *Weight voices by their error track record* — recursive Bayesian filtering (Kalman 1960 → UKF
+  1997 → invariant EKF 2018), still "the de facto standard of nonlinear filtering" in robotics
+  (Hartley et al., Contact-Aided Invariant EKF); openpilot's `locationd` IS a Kalman filter.
+- *Decorrelated experts outvote one genius* — bagging/AdaBoost/stacking (1992–2001, Gödel Prize
+  2003): a second opinion is worth its error-DEcorrelation, which is why pixel physics (or CAN)
+  next to a VLM is worth so much — they can't lie the same way.
+- *Propose-then-verify, recall then precision* — Viola-Jones cascade (2001, Longuet-Higgins Prize)
+  → Faster R-CNN RPN (2015) → BSN/BMN temporal proposals (2018) → retrieve-then-rerank RAG and
+  speculative decoding today. Our nominate→judge funnel is this shape.
+- *Timestamp as the universal join key* — ROS `ApproximateTimeSynchronizer` shipping since ~2009
+  and still the standard in ROS 2 Jazzy; every AV dataset (nuScenes, Waymo OD) is built on
+  timestamp-aligned late fusion. NomadicML's `overlay` dict is the same move.
+- *Deterministic supervisor gates the learned policy* — `commaai/openpilot`
+  `selfdrive/controls/lib/desire_helper.py` (verified at HEAD): CAN blinker XOR + `v_ego ≥ 20mph`
+  arm; `steeringPressed` torque + `not blindspot_detected` execute; the MODEL's
+  `lane_change_prob < 0.02` declares completion; `LANE_CHANGE_TIME_MAX = 10s` aborts. Dumb
+  signals hold the keys, the smart model holds the wheel, a timer holds the kill switch.
+- *Hindsight is a sensor (teacher-student flywheel)* — Waymo offboard 3D auto-labeling
+  (CVPR 2021), Tesla fleet auto-labeling; pseudo-label students beat models trained on 3–10×
+  the human labels (Caine et al.). This is NomadicML's business, stated as a survivor pattern.
+- *VLM timestamp imprecision is documented, and the fixes are the survivors above* — VTG-LLM
+  (timestamp tokens interleaved with frames), TRACE / TimeExpert ICCV 2025 (propose-verify with
+  evidence units). We measured the same 2–4s early bias live and fixed it the same two ways.
+- *Anti-portfolio (elegance ≠ survival):* capsule networks died in scaling; DPM+HOG's features
+  died but its two-stage SHAPE survived; precomputed-optical-flow two-stream nets were absorbed
+  end-to-end. The pattern that survives is decorrelated-error corroboration, not cleverness.
+
 ---
 
 ## PART D — founder-tailoring

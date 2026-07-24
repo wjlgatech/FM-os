@@ -196,7 +196,11 @@ def main():
     ap.add_argument("--skip-naive", action="store_true", help="skip the whole-video baseline call")
     ap.add_argument("--backend", choices=["gemini", "claude"], default="gemini",
                     help="claude = same pipeline over frame sampling (no Gemini quota needed)")
+    ap.add_argument("--out", default=None, help="bank results to this JSON instead of live_results.json")
     args = ap.parse_args()
+    if args.out:
+        global RESULTS_JSON
+        RESULTS_JSON = Path(args.out)
 
     video_path = download_video()
 
@@ -248,11 +252,21 @@ def main():
     candidates = detect_chunked(infer_fn, video_file, duration,
                                 chunk=args.chunk, overlap=args.overlap,
                                 fps=2 if args.backend == "claude" else None,
-                                samples=3 if args.backend == "claude" else 1)
-    print("\n" + report(candidates, GROUND_TRUTH, title="Stage 1: chunked + merged"))
-    bank("Stage 1: chunked + merged", candidates)
+                                samples=3 if args.backend == "claude" else 2)
+    # recall-first union: pixel-level motion scan nominates candidates the VLM missed
+    # (zero model calls); judge + boundary refinement restore precision downstream
+    from motion_check import nominate_candidates
 
-    validated = validate_all(infer_fn, video_file, candidates, duration, votes=args.votes)
+    from lane_change_solution import merge_events
+    noms = nominate_candidates(str(video_path))
+    print(f"motion scan nominated {len(noms)} candidate(s)")
+    candidates = merge_events(candidates + noms)
+    print("\n" + report(candidates, GROUND_TRUTH, title="Stage 1: VLM windows + motion scan"))
+    bank("Stage 1: VLM windows + motion scan", candidates)
+
+    validated = validate_all(infer_fn, video_file, candidates, duration,
+                             video_path=str(video_path), votes=args.votes)
+    validated = merge_events(validated)  # refined boundaries can make same-direction keeps overlap
     print("\n" + report(validated, GROUND_TRUTH, title="Stage 2: judge-validated"))
     bank("Stage 2: judge-validated", validated)
 

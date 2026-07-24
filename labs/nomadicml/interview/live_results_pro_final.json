@@ -1,0 +1,146 @@
+{
+  "model": "gemini-2.5-pro",
+  "duration_s": 127.43666666666667,
+  "ground_truth": [
+    {
+      "t_start": "00:48",
+      "t_end": "00:52",
+      "direction": "right",
+      "label": "right lane change"
+    },
+    {
+      "t_start": "01:14",
+      "t_end": "01:21",
+      "direction": "left",
+      "label": "left lane change"
+    },
+    {
+      "t_start": "01:24",
+      "t_end": "01:31",
+      "direction": "right",
+      "label": "double right lane change"
+    },
+    {
+      "t_start": "01:35",
+      "t_end": "01:41",
+      "direction": "left",
+      "label": "double left lane change"
+    }
+  ],
+  "stages": [
+    {
+      "title": "Stage 1: VLM windows + motion scan",
+      "score": {
+        "tp": 2,
+        "fp": 5,
+        "fn": 2,
+        "precision": 0.286,
+        "recall": 0.5,
+        "f1": 0.364,
+        "matches": [
+          {
+            "pred": 5,
+            "gt": 3,
+            "iou": 0.594,
+            "direction_ok": true
+          },
+          {
+            "pred": 4,
+            "gt": 2,
+            "iou": 0.414,
+            "direction_ok": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "t_start": "00:00",
+          "t_end": "00:08",
+          "direction": "left",
+          "description": "motion-nominated (net sweep +0.140 of width) / The ego vehicle moves from the right lane to the left lane on a two-lane highway during sunset. / The ego-vehicle moves from the right lane to the left lane to overtake a silver van."
+        },
+        {
+          "t_start": "00:24",
+          "t_end": "00:34",
+          "direction": "left",
+          "description": "motion-nominated (net sweep +0.102 of width) / The ego-vehicle moves into the left lane to pass a slower white pickup truck. / The ego vehicle moves into the left lane to overtake a white pickup truck."
+        },
+        {
+          "t_start": "00:32",
+          "t_end": "00:56",
+          "direction": "right",
+          "description": "motion-nominated (net sweep -0.108 of width)"
+        },
+        {
+          "t_start": "00:50",
+          "t_end": "01:05",
+          "direction": "left",
+          "description": "The ego-vehicle moves one lane to the left to pass a slower-moving white SUV. / The ego vehicle changes into the adjacent left lane, which is clear of other traffic. / The ego vehicle drifts left from the second lane into the leftmost lane on the highway. / The ego-vehicle moves one lane to the left on a multi-lane highway. / motion-nominated (net sweep +0.111 of width)"
+        },
+        {
+          "t_start": "01:22",
+          "t_end": "01:39",
+          "direction": "right",
+          "description": "motion-nominated (net sweep -0.141 of width) / The ego-vehicle performs a double lane change to the right across two lanes. / The ego-vehicle moves into the lane to its right on a multi-lane highway at sunset."
+        },
+        {
+          "t_start": "01:34",
+          "t_end": "01:44",
+          "direction": "left",
+          "description": "The ego-vehicle moves into the left lane to pass slower vehicles ahead. / motion-nominated (net sweep +0.162 of width)"
+        },
+        {
+          "t_start": "02:00",
+          "t_end": "02:07",
+          "direction": "right",
+          "description": "motion-nominated (net sweep -0.117 of width)"
+        }
+      ]
+    },
+    {
+      "title": "Stage 2: judge-validated",
+      "score": {
+        "tp": 2,
+        "fp": 1,
+        "fn": 2,
+        "precision": 0.667,
+        "recall": 0.5,
+        "f1": 0.571,
+        "matches": [
+          {
+            "pred": 1,
+            "gt": 0,
+            "iou": 0.541,
+            "direction_ok": true
+          },
+          {
+            "pred": 2,
+            "gt": 2,
+            "iou": 0.429,
+            "direction_ok": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "t_start": "00:22",
+          "t_end": "00:29",
+          "direction": "right",
+          "description": "motion-nominated (net sweep +0.102 of width) / The ego-vehicle moves into the left lane to pass a slower white pickup truck. / The ego vehicle moves into the left lane to overtake a white pickup truck."
+        },
+        {
+          "t_start": "00:48",
+          "t_end": "00:55",
+          "direction": "right",
+          "description": "The ego-vehicle moves one lane to the left to pass a slower-moving white SUV. / The ego vehicle changes into the adjacent left lane, which is clear of other traffic. / The ego vehicle drifts left from the second lane into the leftmost lane on the highway. / The ego-vehicle moves one lane to the left on a multi-lane highway. / motion-nominated (net sweep +0.111 of width) / motion-nominated (net sweep -0.108 of width)"
+        },
+        {
+          "t_start": "01:27",
+          "t_end": "01:34",
+          "direction": "right",
+          "description": "motion-nominated (net sweep -0.141 of width) / The ego-vehicle performs a double lane change to the right across two lanes. / The ego-vehicle moves into the lane to its right on a multi-lane highway at sunset."
+        }
+      ]
+    }
+  ]
+}

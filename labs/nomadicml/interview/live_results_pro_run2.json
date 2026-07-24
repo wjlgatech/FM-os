@@ -1,0 +1,178 @@
+{
+  "model": "gemini-2.5-pro",
+  "duration_s": 127.43666666666667,
+  "ground_truth": [
+    {
+      "t_start": "00:48",
+      "t_end": "00:52",
+      "direction": "right",
+      "label": "right lane change"
+    },
+    {
+      "t_start": "01:14",
+      "t_end": "01:21",
+      "direction": "left",
+      "label": "left lane change"
+    },
+    {
+      "t_start": "01:24",
+      "t_end": "01:31",
+      "direction": "right",
+      "label": "double right lane change"
+    },
+    {
+      "t_start": "01:35",
+      "t_end": "01:41",
+      "direction": "left",
+      "label": "double left lane change"
+    }
+  ],
+  "stages": [
+    {
+      "title": "Stage 0: naive whole-video",
+      "score": {
+        "tp": 0,
+        "fp": 2,
+        "fn": 4,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "matches": []
+      },
+      "events": [
+        {
+          "t_start": "00:00",
+          "t_end": "00:03",
+          "direction": "left",
+          "description": "The ego vehicle changes lanes to the left to move out from behind a silver van."
+        },
+        {
+          "t_start": "01:20",
+          "t_end": "01:24",
+          "direction": "left",
+          "description": "The ego vehicle changes to the leftmost lane to pass a white SUV."
+        }
+      ]
+    },
+    {
+      "title": "Stage 1: chunked + merged",
+      "score": {
+        "tp": 1,
+        "fp": 9,
+        "fn": 3,
+        "precision": 0.1,
+        "recall": 0.25,
+        "f1": 0.143,
+        "matches": [
+          {
+            "pred": 8,
+            "gt": 3,
+            "iou": 0.5,
+            "direction_ok": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "t_start": "00:00",
+          "t_end": "00:05",
+          "direction": "left",
+          "description": "The ego-vehicle moves from the rightmost lane to the lane on its left, passing a silver van. / The ego vehicle changes from the right lane to the left lane on a multi-lane highway."
+        },
+        {
+          "t_start": "00:23",
+          "t_end": "00:30",
+          "direction": "right",
+          "description": "The ego-vehicle moves from the left lane into the right lane behind a white pickup truck. / The ego vehicle moves from the left lane to the right lane, and a white pickup truck then overtakes it on the left."
+        },
+        {
+          "t_start": "00:30",
+          "t_end": "00:32",
+          "direction": "left",
+          "description": "The ego-vehicle moves one lane to the left to get out from behind a white pickup truck."
+        },
+        {
+          "t_start": "00:35",
+          "t_end": "00:38",
+          "direction": "left",
+          "description": "The ego-vehicle moves from the right lane into the middle lane to pass a slower truck. / The ego-vehicle moves another lane to the left to pass a dark pickup truck."
+        },
+        {
+          "t_start": "00:45",
+          "t_end": "00:48",
+          "direction": "left",
+          "description": "The ego-vehicle moves from the middle lane into the left lane."
+        },
+        {
+          "t_start": "00:54",
+          "t_end": "00:58",
+          "direction": "left",
+          "description": "The ego-vehicle moves left from the rightmost lane into the middle lane. / The ego vehicle changes into the adjacent left lane, following a white SUV."
+        },
+        {
+          "t_start": "01:02",
+          "t_end": "01:08",
+          "direction": "left",
+          "description": "The ego-vehicle makes a lane change to the left, following a black SUV."
+        },
+        {
+          "t_start": "01:30",
+          "t_end": "01:39",
+          "direction": "right",
+          "description": "The ego-vehicle changes lanes to the right on a multi-lane highway. / The ego vehicle makes a gradual lane change to the right into the adjacent lane. / The ego-vehicle changes from the left lane to the middle lane on a multi-lane highway."
+        },
+        {
+          "t_start": "01:37",
+          "t_end": "01:43",
+          "direction": "left",
+          "description": "The ego vehicle moves from the second lane from the left into the far left lane."
+        },
+        {
+          "t_start": "01:48",
+          "t_end": "01:56",
+          "direction": "left",
+          "description": "The ego vehicle drifts from the middle lane into the left lane behind another vehicle."
+        }
+      ]
+    },
+    {
+      "title": "Stage 2: judge-validated",
+      "score": {
+        "tp": 1,
+        "fp": 2,
+        "fn": 3,
+        "precision": 0.333,
+        "recall": 0.25,
+        "f1": 0.286,
+        "matches": [
+          {
+            "pred": 2,
+            "gt": 3,
+            "iou": 0.625,
+            "direction_ok": true
+          }
+        ]
+      },
+      "events": [
+        {
+          "t_start": "00:25",
+          "t_end": "00:31",
+          "direction": "right",
+          "description": "The ego-vehicle moves from the left lane into the right lane behind a white pickup truck. / The ego vehicle moves from the left lane to the right lane, and a white pickup truck then overtakes it on the left."
+        },
+        {
+          "t_start": "01:32",
+          "t_end": "01:36",
+          "direction": "right",
+          "description": "The ego-vehicle changes lanes to the right on a multi-lane highway. / The ego vehicle makes a gradual lane change to the right into the adjacent lane. / The ego-vehicle changes from the left lane to the middle lane on a multi-lane highway."
+        },
+        {
+          "t_start": "01:33",
+          "t_end": "01:40",
+          "direction": "left",
+          "description": "The ego vehicle moves from the second lane from the left into the far left lane."
+        }
+      ]
+    }
+  ]
+}

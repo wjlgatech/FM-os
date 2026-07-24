@@ -62,6 +62,50 @@ def test_motion_evidence_thresholds_and_directions():
     assert not empty["lateral_motion"]
 
 
+# ---------------------------------------------------------------- motion nomination (pure)
+
+def test_nominate_from_series_finds_sweep_and_direction():
+    from motion_check import nominate_from_series
+    width = 1000
+    times = [t * 0.5 for t in range(0, 60)]      # 30s at 2 samples/s
+    cum = np.zeros(60)
+    cum[20:30] = np.linspace(0, -150, 10)         # markings sweep left 10..15s -> ego RIGHT
+    cum[30:] = -150
+    noms = nominate_from_series(times, cum, width, win=8.0, stride=2.0, threshold=0.10)
+    assert len(noms) == 1
+    n = noms[0]
+    assert n["direction"] == "right"
+    assert n["t_start_s"] <= 10 and n["t_end_s"] >= 14
+
+
+def test_nominate_from_series_quiet_series_yields_nothing():
+    from motion_check import nominate_from_series
+    times = [t * 0.5 for t in range(0, 60)]
+    assert nominate_from_series(times, np.full(60, 3.0), 1000) == []
+
+
+# ---------------------------------------------------------------- feature vector schema
+
+def test_to_feature_vector_flattens_cross_modal_evidence():
+    from lane_change_solution import to_feature_vector
+    ev = {"t_start_s": 48.0, "t_end_s": 52.0, "direction": "right",
+          "validation": {"votes_yes": 2, "votes": 3, "judge_direction": "right",
+                         "refined": (48.5, 52.5)},
+          "motion": {"net_shift_frac": -0.27, "direction": "right", "span": (48.0, 53.0)}}
+    f = to_feature_vector(ev)
+    assert f["judge_yes_frac"] == pytest.approx(2 / 3)
+    assert f["judge_dir_agrees_detector"] and f["sweep_dir_agrees_judge"]
+    assert f["sweep_frac_abs"] == 0.27
+    assert 0.5 < f["sweep_span_iou"] <= 1.0
+    assert f["refined_offset_s"] == 0.5
+
+
+def test_to_feature_vector_tolerates_unvalidated_candidate():
+    from lane_change_solution import to_feature_vector
+    f = to_feature_vector({"t_start_s": 10, "t_end_s": 14, "direction": "left"})
+    assert f["judge_yes_frac"] == 0.0 and f["sweep_frac_abs"] == 0.0
+
+
 # ---------------------------------------------------------------- Part 2 literal boolean
 
 def test_is_valid_lane_change_returns_bare_bool():

@@ -40,12 +40,33 @@ run is marked accordingly).
 | "Directions of the lane changes are often predicted incorrectly" | Judge (more frames on snippet) overrides detector direction; motion confirmer's direction was 3/3 correct where confident | `test_validate_all_filters_fp_and_fixes_direction`; `motion_eval.json` |
 | "False positives … road curvature and lane straddling" | Both named explicitly as NOT-report rules in `CHUNK_PROMPT` and as reject rules in `JUDGE_PROMPT`; motion confirmer measured 0/7 FP on curvature windows | prompts in `lane_change_solution.py`; `motion_eval.json` |
 
+## Measured results (gemini-2.5-pro native video, the interview's model, via the notebook key)
+
+Scored vs the 4 ground-truth windows, greedy IoU ≥ 0.3 — the full honest trajectory:
+
+| Configuration | P | R | F1 |
+|---|---|---|---|
+| naive whole-video | 0.0 | 0.0 | 0.0 (1 hallucinated event) |
+| + chunking alone | 0.167 | 0.25 | 0.20 (finds regions, times them 2–4s early, flips directions) |
+| + marking-anchored judge + motion arbitration | 0.333 | 0.25 | 0.29 |
+| + motion nomination + sweep-owned bounds (final) | **0.667** | **0.5** | **0.571** (stable across 2 runs) |
+| same final pipeline on gemini-3-flash-preview | 0.444 | **1.0** | **0.615** (all 4 events found) |
+
+Two operating points on one funnel: pro is precision-leaning, the newer flash recall-leaning.
+For a curation workflow (surface candidates for human review) recall 1.0 at P 0.444 is usually
+the better trade — a human dismisses a false positive in seconds; a missed event is gone.
+
+Residuals, mechanistically named: the gentle 1:14–1:21 change produces no reliable vision signal
+(pixel sweep 0.02, VLM misses it — the CAN/IMU-fusion argument); the 1:35–1:41 double flickers on
+judge sampling variance (`temperature` is deprecated on the models tested, fixed at 1).
+
 ## Known honest gaps
 
-- Live full-pipeline numbers on **gemini-2.5-pro** (the interview's actual model) are not
-  measurable from this machine: the free key allows 20 requests/day on flash and 0 on pro
-  (`estimate_calls()` shows a full run needs ~25). The pipeline is exercised live via the
-  Claude backend instead; the Gemini path is verified to the point the quota allows
-  (naive + 7 of 9 windows, banked in `live_results_gemini_partial.json`).
-- Motion confirmer is calibrated on ONE video (n=4 positives / 7 negatives) — a confirmer,
-  not a gate, and says so in its docstring.
+- All thresholds (0.10 / 0.18 / 0.25) are calibrated on ONE video (4 positives, 7 negatives);
+  the generalization path is the learned combiner over `to_feature_vector()` trained on external
+  labels (BDD100K, comma2k19) or distilled pseudo-labels.
+- Judge variance at fixed temperature 1 makes single-event verdicts flicker across runs; votes=3
+  helps but does not eliminate it.
+- Free-key facts (why substitute-modality ablations exist): 20 requests/day on flash, 0 pro quota;
+  the Claude frames ablation measured ~0 detection recall at 2fps stills with the judge correctly
+  rejecting 2/2 straddle FPs — native video input is load-bearing for temporal maneuvers.
