@@ -42,6 +42,12 @@
   tags: [research]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop
+- name: bayesopt-loop
+  kind: skill
+  path: skills/bayesopt-loop
+  tags: [bayesopt, research]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop
 - name: continual-rl-eval
   kind: skill
   path: skills/continual-rl-eval

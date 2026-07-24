@@ -1,0 +1,11 @@
+{
+  "name": "helix-dbtl",
+  "version": "0.1.0",
+  "description": "Helix — a Design·Build·Test·Learn copilot. Stand up a closed-loop Bayesian-optimization backbone for wet-lab campaigns: compile a plain-language brief into a typed spec, propose the next experiments with uncertainty and a rationale, ingest assay results, and see experiments saved vs. random. Bundles a skill, a workflow, a hook, and an MCP server.",
+  "author": {
+    "name": "wjlgatech",
+    "url": "https://github.com/wjlgatech/FM-os"
+  },
+  "keywords": ["bayesian-optimization", "active-learning", "dbtl", "closed-loop", "molecular-design", "botorch", "mcp"],
+  "license": "CC0-1.0"
+}

@@ -44,3 +44,7 @@
   type: newsletter
   url: https://www.deeplearning.ai/the-batch
   focus: "Weekly AI news/insights from Andrew Ng's team; useful for tracking labs and the talent market."
+- name: "Merge Labs Careers"
+  type: company
+  url: https://jobs.ashbyhq.com/Merge%20Labs
+  focus: "Frontier BCI lab (bio × AI); hiring ML scientists for Bayesian optimization, RL, and closed-loop molecular/neuro engineering. See the FM-os Merge dossier."

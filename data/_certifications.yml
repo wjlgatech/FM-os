@@ -8,6 +8,14 @@ agentic-eval:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval
   tier: certified
+bayesopt-loop:
+  gaps: []
+  kind: skill
+  on_mission: true
+  score: 98
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop
+  tier: certified
 continual-rl-eval:
   gaps: []
   kind: skill

@@ -1,0 +1,16 @@
+{
+  "description": "Helix DBTL hooks. The PostToolUse hook fires after a file write; if an assay-results CSV lands in a watched campaign inbox, it auto-ingests the readouts, refits the surrogate, and prints the refreshed status — so the loop advances the moment the wet lab reports back, with no manual step.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/on_new_results.py\""
+          }
+        ]
+      }
+    ]
+  }
+}

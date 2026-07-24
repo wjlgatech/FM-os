@@ -214,3 +214,52 @@
   url: https://voxel51.com/get-started
   topic: video
   blurb: "Free tutorials on curating, visualizing, and debugging image/video/3D datasets and model outputs — directly relevant to AD/robotics data ops."
+
+# ── Bayesian Optimization, GPs & ML-for-Molecules (Merge Labs track, 2026-07-23) ──
+- title: "Bayesian Optimization (the book)"
+  instructor: "Roman Garnett"
+  org: "Washington University in St. Louis"
+  year: 2023
+  free: true
+  url: https://bayesoptbook.com/
+  topic: bayesopt
+  blurb: "The most complete modern treatment of BO theory and practice — full PDF free online."
+- title: "Gaussian Process Summer School (GPSS)"
+  org: "University of Sheffield (community)"
+  free: true
+  url: https://gpss.cc/
+  topic: bayesopt
+  blurb: "Annual lectures plus notebooks on GPs, deep GPs, and Bayesian optimization; slides and videos archived per year."
+- title: "Gaussian Processes for Machine Learning (GPML)"
+  instructor: "Rasmussen & Williams"
+  org: "MIT Press"
+  year: 2006
+  free: true
+  url: http://gaussianprocess.org/gpml/
+  topic: bayesopt
+  blurb: "The definitive GP textbook (regression, classification, covariance functions, model selection) — free full PDF."
+- title: "BoTorch Tutorials + Ax Docs"
+  org: "Meta"
+  free: true
+  url: https://botorch.org/docs/tutorials/
+  topic: bayesopt
+  blurb: "Runnable walkthroughs of qEI/qNEI/qEHVI/qNEHVI, constrained and multi-objective BO — closest to the day-to-day toolkit for this role."
+- title: "Probabilistic Machine Learning (Books 1 & 2)"
+  instructor: "Kevin Murphy"
+  org: "Google"
+  free: true
+  url: https://probml.github.io/pml-book/
+  topic: probabilistic
+  blurb: "Free draft PDFs plus Colab notebooks — strong coverage of probabilistic modeling, GPs, and uncertainty quantification."
+- title: "DeepChem Tutorials"
+  org: "DeepChem"
+  free: true
+  url: https://deepchem.io/tutorials/
+  topic: molecular
+  blurb: "Hands-on notebooks for ML on molecules — featurization, property prediction, and generative design."
+- title: "Neuromatch Academy — Computational Neuroscience"
+  org: "Neuromatch"
+  free: true
+  url: https://compneuro.neuromatch.io/
+  topic: neuroscience
+  blurb: "Free, hands-on computational-neuroscience curriculum (modeling, dynamics, decoding) — the on-ramp to the neuroscience nice-to-have."

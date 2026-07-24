@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+helix/campaigns/*.json
+helix/campaigns/*.inbox.csv

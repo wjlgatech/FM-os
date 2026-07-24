@@ -608,3 +608,207 @@
   url: https://arxiv.org/abs/2509.06733
   topic: rl
   blurb: "How RL post-training underpins long-horizon research agents: reward design, tool-use credit assignment, and training infrastructure."
+
+# ── Bayesian Optimization & Gaussian Processes (Merge Labs track, 2026-07-23) ──
+- title: "A Tutorial on Bayesian Optimization"
+  authors: "Peter Frazier"
+  org: "Cornell"
+  year: 2018
+  venue: "arXiv:1807.02811"
+  url: https://arxiv.org/abs/1807.02811
+  topic: bayesopt
+  blurb: "The single best self-contained intro — GP regression plus EI, entropy search, and knowledge gradient. Read this first."
+- title: "Efficient Global Optimization of Expensive Black-Box Functions (EGO)"
+  authors: "Jones, Schonlau & Welch"
+  org: "—"
+  year: 1998
+  venue: "J. Global Optimization 13:455"
+  url: https://doi.org/10.1023/A:1008306431147
+  topic: bayesopt
+  blurb: "The paper that launched surrogate-based BO: a Kriging/GP surrogate plus Expected Improvement to optimize costly black boxes."
+- title: "Practical Bayesian Optimization of Machine Learning Algorithms"
+  authors: "Snoek, Larochelle & Adams"
+  org: "Toronto / Harvard"
+  year: 2012
+  venue: "NeurIPS · arXiv:1206.2944"
+  url: https://arxiv.org/abs/1206.2944
+  topic: bayesopt
+  blurb: "The modern reboot of BO for ML (the 'Spearmint' paper): GP priors, integrated acquisition, and cost-aware EI."
+- title: "Taking the Human Out of the Loop: A Review of Bayesian Optimization"
+  authors: "Shahriari, Swersky, Wang, Adams & de Freitas"
+  org: "multi-institution"
+  year: 2016
+  venue: "Proc. IEEE 104(1)"
+  url: https://doi.org/10.1109/JPROC.2015.2494218
+  topic: bayesopt
+  blurb: "The canonical survey tying together surrogates, acquisition functions, and applications of BO."
+- title: "Gaussian Process Optimization in the Bandit Setting (GP-UCB)"
+  authors: "Srinivas, Krause, Kakade & Seeger"
+  org: "Caltech / ETH"
+  year: 2010
+  venue: "ICML · arXiv:0912.3995"
+  url: https://arxiv.org/abs/0912.3995
+  topic: bayesopt
+  blurb: "Introduces GP-UCB with the first sublinear cumulative-regret bounds — the theoretical backbone of exploration in BO."
+- title: "Max-value Entropy Search for Efficient Bayesian Optimization (MES)"
+  authors: "Wang & Jegelka"
+  org: "MIT"
+  year: 2017
+  venue: "ICML · arXiv:1703.01968"
+  url: https://arxiv.org/abs/1703.01968
+  topic: bayesopt
+  blurb: "A cheaper, more robust information-theoretic acquisition that targets info about the optimal value rather than the arg-max."
+- title: "BoTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization"
+  authors: "Balandat, Karrer, Jiang, Daulton, Letham, Wilson & Bakshy"
+  org: "Meta"
+  year: 2020
+  venue: "NeurIPS · arXiv:1910.06403"
+  url: https://arxiv.org/abs/1910.06403
+  topic: bayesopt
+  blurb: "The reference open-source BO library — Monte-Carlo acquisition (qEI/qNEI) with autodiff and sample-average approximation."
+- title: "Constrained Bayesian Optimization with Noisy Experiments (qNEI)"
+  authors: "Letham, Karrer, Ottoni & Bakshy"
+  org: "Meta"
+  year: 2019
+  venue: "Bayesian Analysis 14(2) · arXiv:1706.07094"
+  url: https://arxiv.org/abs/1706.07094
+  topic: bayesopt
+  blurb: "Noisy, constrained expected improvement via quasi-Monte-Carlo integration — the basis of Meta's Ax and directly on-point for noisy DBTL assays."
+- title: "Differentiable Expected Hypervolume Improvement for Multi-Objective BO (qEHVI)"
+  authors: "Daulton, Balandat & Bakshy"
+  org: "Meta"
+  year: 2020
+  venue: "NeurIPS · arXiv:2006.05078"
+  url: https://arxiv.org/abs/2006.05078
+  topic: bayesopt
+  blurb: "Exact-gradient, parallelizable hypervolume-improvement acquisition — state of the art for multi-objective BO."
+- title: "Parallel BO of Multiple Noisy Objectives with EHVI (qNEHVI)"
+  authors: "Daulton, Balandat & Bakshy"
+  org: "Meta"
+  year: 2021
+  venue: "NeurIPS · arXiv:2105.08195"
+  url: https://arxiv.org/abs/2105.08195
+  topic: bayesopt
+  blurb: "Extends qEHVI to noisy observations with polynomial batch scaling — the current default for noisy multi-objective DBTL problems."
+- title: "Scalable Global Optimization via Local Bayesian Optimization (TuRBO)"
+  authors: "Eriksson, Pearce, Gardner, Turner & Poloczek"
+  org: "Uber AI"
+  year: 2019
+  venue: "NeurIPS · arXiv:1910.01739"
+  url: https://arxiv.org/abs/1910.01739
+  topic: bayesopt
+  blurb: "Trust-region local GPs with bandit sample allocation — the workhorse for high-dimensional, high-budget BO."
+- title: "High-Dimensional BO with Sparse Axis-Aligned Subspaces (SAASBO)"
+  authors: "Eriksson & Jankowiak"
+  org: "Meta"
+  year: 2021
+  venue: "UAI · arXiv:2103.00349"
+  url: https://arxiv.org/abs/2103.00349
+  topic: bayesopt
+  blurb: "Strong sparsity priors plus HMC to find the few relevant dimensions — excellent in the low-data, high-dim regime typical of experiments."
+
+# ── Active Learning & Uncertainty ────────────────────────────────────────────
+- title: "Active Learning Literature Survey"
+  authors: "Burr Settles"
+  org: "UW–Madison"
+  year: 2009
+  venue: "CS Tech Report 1648"
+  url: https://minds.wisconsin.edu/handle/1793/60660
+  topic: active-learning
+  blurb: "The canonical survey of query strategies — uncertainty sampling, query-by-committee, expected error reduction."
+- title: "Bayesian Active Learning for Classification and Preference Learning (BALD)"
+  authors: "Houlsby, Huszár, Ghahramani & Lengyel"
+  org: "Cambridge"
+  year: 2011
+  venue: "arXiv:1112.5745"
+  url: https://arxiv.org/abs/1112.5745
+  topic: active-learning
+  blurb: "Introduces BALD (maximize mutual information / model disagreement) — foundational for modern deep and Bayesian active learning."
+- title: "A Tutorial on Thompson Sampling"
+  authors: "Russo, Van Roy, Kazerouni, Osband & Wen"
+  org: "Stanford / DeepMind"
+  year: 2018
+  venue: "FnT ML 11(1) · arXiv:1707.02038"
+  url: https://arxiv.org/abs/1707.02038
+  topic: active-learning
+  blurb: "The definitive reference for posterior-sampling exploration, widely used as a scalable BO acquisition strategy."
+
+# ── Gaussian Processes & Representation ──────────────────────────────────────
+- title: "Deep Kernel Learning"
+  authors: "Wilson, Hu, Salakhutdinov & Xing"
+  org: "CMU"
+  year: 2016
+  venue: "AISTATS · arXiv:1511.02222"
+  url: https://arxiv.org/abs/1511.02222
+  topic: representation
+  blurb: "Combines neural-net feature learning with GP kernels — representation learning that preserves calibrated GP uncertainty."
+- title: "Predictive Entropy Search for Efficient Global Optimization (PES)"
+  authors: "Hernández-Lobato, Hoffman & Ghahramani"
+  org: "Cambridge / Harvard"
+  year: 2014
+  venue: "NeurIPS · arXiv:1406.2541"
+  url: https://arxiv.org/abs/1406.2541
+  topic: uncertainty
+  blurb: "Information-theoretic acquisition that picks points maximizing information gain about the location of the optimum."
+
+# ── ML for Molecules & Self-Driving Labs ─────────────────────────────────────
+- title: "Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules"
+  authors: "Gómez-Bombarelli et al."
+  org: "Harvard / Toronto"
+  year: 2018
+  venue: "ACS Central Science · arXiv:1610.02415"
+  url: https://arxiv.org/abs/1610.02415
+  topic: molecular
+  blurb: "The chemical VAE: a continuous latent space of molecules enabling gradient-based and Bayesian optimization of properties."
+- title: "GAUCHE: A Library for Gaussian Processes in Chemistry"
+  authors: "Griffiths et al."
+  org: "multi-institution"
+  year: 2023
+  venue: "NeurIPS · arXiv:2212.04450"
+  url: https://arxiv.org/abs/2212.04450
+  topic: molecular
+  blurb: "GPs and BO over molecular graphs, strings, fingerprints, reactions, and proteins — interfaces directly with GPyTorch/BoTorch."
+- title: "Olympus: A Benchmarking Framework for Noisy Optimization and Experiment Planning"
+  authors: "Häse, Aldeghi & Aspuru-Guzik"
+  org: "Toronto"
+  year: 2021
+  venue: "Mach. Learn.: Sci. Technol. 2(3) · arXiv:2010.04153"
+  url: https://arxiv.org/abs/2010.04153
+  topic: molecular
+  blurb: "Realistic noisy experiment-planning benchmarks for autonomous / self-driving labs — a proving ground for closed-loop optimizers."
+- title: "Machine-Learning-Guided Directed Evolution for Protein Engineering"
+  authors: "Yang, Wu & Arnold"
+  org: "Caltech"
+  year: 2019
+  venue: "Nature Methods 16:687 · arXiv:1811.10775"
+  url: https://arxiv.org/abs/1811.10775
+  topic: molecular
+  blurb: "The reference framework for ML-in-the-loop directed evolution — sequence–function models guiding the DBTL loop for proteins."
+
+# ── State-Space Models (neuroscience-adjacent) ───────────────────────────────
+- title: "Efficiently Modeling Long Sequences with Structured State Spaces (S4)"
+  authors: "Gu, Goel & Ré"
+  org: "Stanford"
+  year: 2022
+  venue: "ICLR · arXiv:2111.00396"
+  url: https://arxiv.org/abs/2111.00396
+  topic: ssm
+  blurb: "A structured SSM parameterization that handles 10k+ step dependencies efficiently — relevant to neural time-series."
+- title: "Mamba: Linear-Time Sequence Modeling with Selective State Spaces"
+  authors: "Gu & Dao"
+  org: "CMU / Princeton"
+  year: 2023
+  venue: "arXiv:2312.00752"
+  url: https://arxiv.org/abs/2312.00752
+  topic: ssm
+  blurb: "Selective (input-dependent) SSM matching Transformer quality with linear-time scaling — the modern state-space model to know."
+
+# ── Neuroscience / BCI (Merge Labs mission) ──────────────────────────────────
+- title: "Inferring Single-Trial Neural Population Dynamics Using Sequential Auto-Encoders (LFADS)"
+  authors: "Pandarinath et al."
+  org: "Stanford / Emory"
+  year: 2018
+  venue: "Nature Methods 15:805 · arXiv:1608.06315"
+  url: https://arxiv.org/abs/1608.06315
+  topic: neuroscience
+  blurb: "Latent dynamical-systems models of neural population activity — foundational for decoding brain signals and a bridge from state-space models to neuroscience."

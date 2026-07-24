@@ -70,3 +70,41 @@
   url: https://www.coreweave.com
   github: https://github.com/coreweave
   focus: "GPU cloud with a managed RL-as-a-service offering (serverless infra, frameworks, APIs) for post-training agentic models."
+
+# ── Bio × AI / closed-loop science labs (Merge Labs track, added 2026-07-23) ──
+- name: Merge Labs
+  category: bio-ai
+  url: https://merge.io
+  focus: "Frontier BCI lab bridging biological and artificial intelligence; building a closed-loop DBTL optimization backbone for molecular + neuroengineering discovery (the hiring target)."
+- name: Meta — Adaptive Experimentation (BoTorch / Ax)
+  category: bio-ai
+  url: https://botorch.org
+  github: https://github.com/meta-pytorch/botorch
+  focus: "Builds and maintains the core PyTorch Bayesian-optimization + adaptive-experimentation stack this role uses."
+- name: Matter Lab (Aspuru-Guzik)
+  category: bio-ai
+  url: https://www.matter.toronto.edu
+  github: https://github.com/aspuru-guzik-group
+  focus: "Self-driving laboratories — robotics + ML + BO for autonomous molecular and materials discovery (SELFIES, Olympus, Atlas)."
+- name: Acceleration Consortium
+  category: bio-ai
+  url: https://acceleration.utoronto.ca
+  focus: "Global consortium standardizing self-driving labs and materials-acceleration platforms for closed-loop discovery."
+- name: Coley Research Group (MIT)
+  category: bio-ai
+  url: https://coley.mit.edu
+  github: https://github.com/coleygroup
+  focus: "ML for synthesis planning, molecular design, and autonomous experimentation / DBTL workflows."
+- name: Recursion
+  category: bio-ai
+  url: https://www.recursion.com
+  focus: "Industrial-scale closed-loop drug discovery combining automated wet-lab data generation with ML."
+- name: Isomorphic Labs
+  category: bio-ai
+  url: https://www.isomorphiclabs.com
+  focus: "Alphabet/DeepMind spinout applying AI (AlphaFold lineage) to drug design."
+- name: NVIDIA BioNeMo
+  category: bio-ai
+  url: https://www.nvidia.com/en-us/clara/bionemo/
+  github: https://github.com/NVIDIA/bionemo-framework
+  focus: "Foundation-model platform plus generative models (MolMIM) for molecular and protein design at scale."

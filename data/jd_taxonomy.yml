@@ -111,5 +111,62 @@
   label: "Publishing research (NeurIPS / CVPR)"
   keywords: [publish, research, neurips, cvpr, iclr, publication]
   repo_categories: []
-  topics: [vlm, video, multimodal, slm, rl, posttraining, pretraining, scaling]
+  topics: [vlm, video, multimodal, slm, rl, posttraining, pretraining, scaling, bayesopt, active-learning]
+  kind: knowledge
+
+# ── Bayesian optimization / closed-loop experimental design (Merge Labs, bio-ML) ──
+- id: bayesian_optimization
+  label: "Bayesian optimization & Gaussian-process surrogates"
+  keywords: ["bayesian optimization", "bayesian optimisation", botorch, "gaussian process", "acquisition function", "acquisition-strategy", "acquisition strategy", "surrogate model", "expected improvement", ax platform]
+  repo_categories: [bayesopt]
+  topics: [bayesopt]
+  skill_tag: bayesopt
+
+- id: active_learning_closed_loop
+  label: "Active learning & closed-loop optimization (DBTL cycles)"
+  keywords: ["active learning", "active-learning", "closed-loop", "closed loop", "design-build-test-learn", "design–build–test–learn", dbtl, "self-driving lab", "experimental design", "iterative design", "sequential design"]
+  repo_categories: [bayesopt, bio-ml]
+  topics: [active-learning, bayesopt]
+  skill_tag: bayesopt
+
+- id: uncertainty_quantification
+  label: "Probabilistic modeling & uncertainty quantification"
+  keywords: ["uncertainty quantification", "uncertainty-quantification", "probabilistic modeling", "probabilistic modelling", "probabilistic programming", pyro, numpyro, calibration, "bayesian deep learning", "predictive uncertainty"]
+  repo_categories: [probabilistic, bayesopt]
+  topics: [uncertainty, bayesopt]
+  skill_tag: bayesopt
+
+- id: representation_learning
+  label: "Representation learning (molecular / sequence embeddings)"
+  keywords: ["representation learning", "representation-learning", "molecular representation", "learned representation", "latent space", "encode domain", "featuriz", fingerprint]
+  repo_categories: [bio-ml, probabilistic]
+  topics: [representation, molecular]
+  kind: knowledge
+
+- id: molecular_bio_ml
+  label: "ML for molecular / biomolecular design & discovery"
+  keywords: [molecular, molecule, biomolecular, "molecule discovery", "drug discovery", protein, chemistry, cheminformatics, "library design", ligand, therapeutic, "wet-lab", "wet lab"]
+  repo_categories: [bio-ml]
+  topics: [molecular]
+  skill_tag: bayesopt
+
+- id: multi_objective_constrained
+  label: "Multi-objective & constrained optimization"
+  keywords: ["multi-objective", "multi objective", "multiobjective", "constrained optimization", "constrained optimisation", pareto, "trade-off", "hypervolume", "constraint"]
+  repo_categories: [bayesopt]
+  topics: [bayesopt]
+  skill_tag: bayesopt
+
+- id: neuroscience_bci
+  label: "Neuroscience / brain-computer interfaces"
+  keywords: [neuroscience, "brain-computer", "brain computer", bci, "neural decoding", neural, neuroengineering, "non-invasive imaging", electrophysiology]
+  repo_categories: [neuro]
+  topics: [neuroscience]
+  kind: knowledge
+
+- id: state_space_models
+  label: "State-space / sequence models (Mamba / S4)"
+  keywords: ["state-space", "state space", mamba, "s4 ", ssm, "structured state", "selective state"]
+  repo_categories: [bayesopt, frameworks]
+  topics: [ssm]
   kind: knowledge

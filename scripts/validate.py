@@ -18,6 +18,7 @@ REQUIRED = {
     "papers": ["title", "url", "topic"],
     "jobs": ["name", "url", "type"],
     "labs": ["name", "url", "category"],
+    "people": ["name", "url", "category"],
     "models": ["name", "url", "params", "license"],
     "registry": ["name", "kind"],
 }

@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Helix — DBTL Copilot</title>
+<style>
+:root{--ivory:#faf9f5;--card:#ffffff;--ink:#141413;--border:#e3e0d6;--muted:#6b6a63;--orange:#d97757;--blue:#6a9bcc}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:Poppins,system-ui,-apple-system,sans-serif;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding:40px 24px 64px}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--orange)}
+h1{font-size:30px;margin:0;font-weight:650}
+.sub{color:var(--muted);margin:4px 0 28px;font-size:15px}
+.hero{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+.stat .n{font-size:34px;font-weight:700;color:var(--orange);line-height:1}
+.stat .l{color:var(--muted);font-size:13px;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+.panel h2{font-size:15px;margin:0 0 4px;font-weight:600}
+.panel p{color:var(--muted);font-size:12.5px;margin:0 0 12px}
+.legend{font-size:12px;color:var(--muted);margin-top:8px}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin:0 4px 0 12px;vertical-align:middle}
+.exp{border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.eid{font-weight:600;font-size:13px}
+.epred{font-size:13px;margin:2px 0}
+.pm{color:var(--muted)}
+.erat{color:var(--muted);font-size:12px}
+.full{grid-column:1/-1}
+.foot{color:var(--muted);font-size:12px;margin-top:24px;border-top:1px solid var(--border);padding-top:14px}
+code{background:#f0eee6;padding:1px 5px;border-radius:4px;font-size:12px}
+</style></head><body><div class="wrap">
+<div class="brand"><span class="dot"></span><h1>Helix</h1></div>
+<div class="sub">The Design·Build·Test·Learn copilot — a closed-loop optimization backbone for wet-lab campaigns. <b>Every number below is computed live from a real run.</b></div>
+
+<div class="hero">
+  <div class="stat"><div class="n">108</div><div class="l">experiments saved to hit target vs. random search (median over 8 campaigns)</div></div>
+  <div class="stat"><div class="n">+79%</div><div class="l">better best-candidate at equal budget (0.521 vs 0.290 random)</div></div>
+  <div class="stat"><div class="n">7</div><div class="l">Pareto-optimal designs found · hypervolume 0.201</div></div>
+</div>
+
+<div class="grid">
+  <div class="panel"><h2>Best-so-far — closed loop vs. random</h2>
+    <p>Bayesian optimization reaches a better optimum in fewer experiments.</p>
+    <svg viewBox="0 0 520 240" width="100%" style="max-width:520px"><line x1="38" y1="202" x2="482" y2="202" stroke="#e3e0d6"/><line x1="38" y1="38" x2="38" y2="202" stroke="#e3e0d6"/><polyline fill="none" stroke="#d97757" stroke-width="2.5" points="38.0,173.8 87.3,151.0 136.7,145.4 186.0,129.9 235.3,99.2 284.7,66.6 334.0,47.9 383.3,47.9 432.7,38.0 482.0,38.0"/><circle cx="482.0" cy="38.0" r="3.5" fill="#d97757"/><polyline fill="none" stroke="#6b6a63" stroke-width="2.5" points="38.0,202.0 87.3,192.2 136.7,186.6 186.0,163.6 235.3,163.3 284.7,147.4 334.0,147.4 383.3,128.0 432.7,126.4 482.0,126.0"/><circle cx="482.0" cy="126.0" r="3.5" fill="#6b6a63"/><text x="38" y="232" font-size="11" fill="#6b6a63">experiments →</text><text x="8" y="30" font-size="11" fill="#6b6a63">best objective</text></svg>
+    <div class="legend"><span class="sw" style="background:#d97757"></span>Helix (GP + Expected Improvement)<span class="sw" style="background:#6b6a63"></span>random search</div>
+  </div>
+  <div class="panel"><h2>Multi-objective Pareto front</h2>
+    <p>Potency vs. selectivity — the copilot maps the trade-off, not one winner.</p>
+    <svg viewBox="0 0 520 240" width="100%" style="max-width:520px"><line x1="38" y1="202" x2="482" y2="202" stroke="#e3e0d6"/><line x1="38" y1="38" x2="38" y2="202" stroke="#e3e0d6"/><circle cx="237.7" cy="156.4" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="184.8" cy="112.7" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="87.6" cy="159.5" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="166.7" cy="38.0" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="235.0" cy="183.9" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="123.6" cy="153.9" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="38.0" cy="185.7" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="177.2" cy="158.0" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="169.1" cy="134.9" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="141.1" cy="167.6" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="146.3" cy="182.8" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="311.1" cy="174.7" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="280.5" cy="202.0" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="196.9" cy="168.9" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="146.8" cy="168.4" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="167.5" cy="152.1" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="409.8" cy="151.9" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="307.9" cy="131.8" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="169.9" cy="181.9" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="218.0" cy="107.9" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="482.0" cy="164.3" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="265.4" cy="128.4" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="174.5" cy="138.0" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="116.7" cy="154.2" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="214.6" cy="73.2" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="205.6" cy="149.5" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="113.6" cy="158.4" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="228.9" cy="151.0" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="250.5" cy="96.5" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="157.6" cy="115.5" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="158.1" cy="148.1" r="3" fill="#6a9bcc" opacity="0.5"/><circle cx="195.6" cy="178.2" r="3" fill="#6a9bcc" opacity="0.5"/><polyline fill="none" stroke="#d97757" stroke-width="2.5" points="166.7,38.0 214.6,73.2 250.5,96.5 265.4,128.4 307.9,131.8 409.8,151.9 482.0,164.3"/><circle cx="166.7" cy="38.0" r="4.5" fill="#d97757"/><circle cx="214.6" cy="73.2" r="4.5" fill="#d97757"/><circle cx="250.5" cy="96.5" r="4.5" fill="#d97757"/><circle cx="265.4" cy="128.4" r="4.5" fill="#d97757"/><circle cx="307.9" cy="131.8" r="4.5" fill="#d97757"/><circle cx="409.8" cy="151.9" r="4.5" fill="#d97757"/><circle cx="482.0" cy="164.3" r="4.5" fill="#d97757"/><text x="38" y="232" font-size="11" fill="#6b6a63">potency →</text><text x="8" y="30" font-size="11" fill="#6b6a63">selectivity</text></svg>
+    <div class="legend"><span class="sw" style="background:#d97757"></span>Pareto front<span class="sw" style="background:#6a9bcc"></span>tested candidates</div>
+  </div>
+  <div class="panel full"><h2>Next batch to run this cycle</h2>
+    <p>Each proposal carries its predicted value, an uncertainty band, and a plain-language rationale — the loop explores where the model is unsure.</p>
+    <div class="exp"><div class="eid">candidate #258</div><div class="epred">predicted potency <b>0.044</b> <span class="pm">± 0.076</span></div><div class="erat">highest expected improvement: predicted potency ≈ 0.044 ± 0.076 (model confident)</div></div><div class="exp"><div class="eid">candidate #7</div><div class="epred">predicted potency <b>0.044</b> <span class="pm">± 0.075</span></div><div class="erat">strong expected improvement: predicted potency ≈ 0.044 ± 0.075 (model confident)</div></div><div class="exp"><div class="eid">candidate #136</div><div class="epred">predicted potency <b>0.042</b> <span class="pm">± 0.076</span></div><div class="erat">strong expected improvement: predicted potency ≈ 0.042 ± 0.076 (model confident)</div></div>
+  </div>
+</div>
+
+<div class="foot">Helix runs on the <code>merge-bo</code> engine (GP surrogate · EI/UCB/constrained-EI/EHVI · BoTorch adapter). Shipped as a Claude Code plugin — skill <code>dbtl-copilot</code>, command <code>/dbtl-cycle</code>, an auto-ingest hook, and an MCP server (<code>define_campaign · propose_experiments · ingest_results · campaign_status</code>). Regenerate: <code>python -m helix.build_dashboard</code>.</div>
+</div></body></html>
