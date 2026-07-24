@@ -19,6 +19,17 @@ def test_brief_compiles_objectives_constraints_budget():
     assert s.validate() == []
 
 
+def test_optimize_phrasing_and_constraint_before_budget():
+    # "optimize <property>" => maximize (not flipped to min by a later 'under'), and a
+    # constraint threshold is captured even when a budget number follows it in the sentence.
+    s = compile_spec("optimize a peptide for binding affinity, keep cost under 0.7, "
+                     "4 a week, 24 total", title="p")
+    names = {o.name: o.direction for o in s.objectives}
+    assert names.get("affinity") == "max"
+    assert any(c.name == "cost" and c.threshold == 0.7 for c in s.constraints)
+    assert s.batch_size == 4 and s.total_budget == 24
+
+
 def test_brief_records_open_questions_not_guesses():
     s = compile_spec("I want to reduce toxicity somehow.", title="p2")
     # a constraint noun without a threshold becomes an open question, never a fabricated number
