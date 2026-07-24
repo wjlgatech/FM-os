@@ -100,6 +100,10 @@ sections:
       - { key: distributed, title: "Distributed Training & Orchestration" }
       - { key: dataset,     title: "AV / Robotics / Video Datasets" }
       - { key: research,    title: "Autonomous Research Agents (AI Scientists)" }
+      - { key: bayesopt,    title: "Bayesian Optimization & Active Learning" }
+      - { key: probabilistic, title: "Probabilistic Programming & Uncertainty" }
+      - { key: bio-ml,      title: "ML for Molecules & Bio Design" }
+      - { key: neuro,       title: "Neuroscience & Brain-Computer Interfaces" }
   - id: courses
     icon: "🎓"
     title: "Courses"
@@ -116,6 +120,10 @@ sections:
       - { key: multimodal,   title: "Multi-modal Machine Learning" }
       - { key: vlm,          title: "Vision-Language Models" }
       - { key: video,        title: "Video & Data Ops" }
+      - { key: bayesopt,     title: "Bayesian Optimization & Gaussian Processes" }
+      - { key: probabilistic, title: "Probabilistic & Bayesian ML" }
+      - { key: molecular,    title: "ML for Molecules & Science" }
+      - { key: neuroscience, title: "Neuroscience & Brain-Computer Interfaces" }
   - id: papers
     icon: "📄"
     title: "Papers"
@@ -136,6 +144,13 @@ sections:
       - { key: retrieval,    title: "Retrieval & Embeddings" }
       - { key: eval,         title: "Multi-modal Evaluation" }
       - { key: research,     title: "Autonomous Research & AI Scientists" }
+      - { key: bayesopt,     title: "Bayesian Optimization & Active Learning" }
+      - { key: active-learning, title: "Bayesian Optimization & Active Learning" }
+      - { key: uncertainty,  title: "Probabilistic Modeling & Uncertainty" }
+      - { key: representation, title: "Representation Learning" }
+      - { key: molecular,    title: "ML for Molecular & Bio Design" }
+      - { key: neuroscience, title: "Neuroscience & Brain-Computer Interfaces" }
+      - { key: ssm,          title: "State-Space & Sequence Models" }
   - id: labs--platforms
     icon: "🏛️"
     title: "Labs & Platforms"
@@ -148,6 +163,17 @@ sections:
       - { key: infra,             title: "Compute & Infra" }
       - { key: data-platform,     title: "Data & Lakehouse" }
       - { key: open-research,     title: "Open Research" }
+      - { key: bio-ai,            title: "Bio × AI / Closed-Loop Science Labs" }
+  - id: people--researchers
+    icon: "🧑‍🔬"
+    title: "People to Follow"
+    source: people
+    key: category
+    groups:
+      - { key: bayesopt,   title: "Bayesian Optimization & Gaussian Processes" }
+      - { key: molecular,  title: "ML for Molecules & Self-Driving Labs" }
+      - { key: probabilistic, title: "Probabilistic ML & Uncertainty" }
+      - { key: ssm,        title: "State-Space Models & Neuro-adjacent" }
   - id: jobs--careers
     icon: "💼"
     title: "Jobs & Careers"

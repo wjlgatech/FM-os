@@ -1,0 +1,91 @@
+# People to follow — researchers whose work defines these fields.
+# category: bayesopt | molecular | probabilistic | ssm
+# Added 2026-07-23 to equip the Merge Labs "ML Scientist — Bayesian Optimization" track.
+
+# ── Bayesian optimization & Gaussian processes ───────────────────────────────
+- name: Peter Frazier
+  category: bayesopt
+  url: https://people.orie.cornell.edu/pfrazier/
+  affiliation: "Cornell ORIE · Uber"
+  focus: "Author of the standard BO tutorial and the knowledge-gradient acquisition; industrial BO at scale."
+- name: Roman Garnett
+  category: bayesopt
+  url: https://www.cse.wustl.edu/~garnett/
+  affiliation: "Washington University in St. Louis"
+  focus: "Author of the definitive open textbook *Bayesian Optimization* (bayesoptbook.com)."
+- name: Max Balandat
+  category: bayesopt
+  url: https://research.facebook.com/people/balandat-max/
+  affiliation: "Meta — Adaptive Experimentation"
+  focus: "Co-creator of BoTorch; Monte-Carlo acquisition (qEI) and multi-objective qEHVI/qNEHVI."
+- name: Eytan Bakshy
+  category: bayesopt
+  url: https://eytan.github.io/
+  affiliation: "Meta — Adaptive Experimentation lead"
+  focus: "Drives BoTorch/Ax; noisy, constrained, multi-objective BO in production."
+- name: David Eriksson
+  category: bayesopt
+  url: https://research.facebook.com/people/eriksson-david/
+  affiliation: "Meta — Adaptive Experimentation"
+  focus: "TuRBO and SAASBO — the go-to methods for high-dimensional Bayesian optimization."
+- name: Samuel Daulton
+  category: bayesopt
+  url: https://sdaulton.github.io/
+  affiliation: "Meta · University of Oxford"
+  focus: "Lead author of qEHVI and qNEHVI — state-of-the-art multi-objective BO for noisy DBTL problems."
+
+# ── ML for molecules & self-driving labs ─────────────────────────────────────
+- name: Alán Aspuru-Guzik
+  category: molecular
+  url: https://www.matter.toronto.edu/
+  affiliation: "University of Toronto · Acceleration Consortium"
+  focus: "Leading figure in self-driving laboratories and closed-loop molecular discovery (SELFIES, Olympus, Atlas)."
+- name: Connor Coley
+  category: molecular
+  url: https://coley.mit.edu/
+  affiliation: "MIT (ChemE + EECS)"
+  focus: "Autonomous discovery, ML for synthesis planning, and DBTL molecular-design workflows."
+- name: José Miguel Hernández-Lobato
+  category: molecular
+  url: https://jmhl.org/
+  affiliation: "University of Cambridge"
+  focus: "Predictive Entropy Search, molecular VAEs, and Bayesian deep learning for molecule design."
+- name: Frances Arnold
+  category: molecular
+  url: https://fhalab.caltech.edu/
+  affiliation: "Caltech (Nobel Laureate, 2018)"
+  focus: "Directed evolution and ML-guided protein engineering — the DBTL-for-proteins vision."
+- name: Kevin K. Yang
+  category: molecular
+  url: https://yangkky.github.io/
+  affiliation: "Microsoft Research New England"
+  focus: "ML-guided directed evolution and protein representation learning."
+- name: David Duvenaud
+  category: molecular
+  url: https://www.cs.toronto.edu/~duvenaud/
+  affiliation: "University of Toronto"
+  focus: "Neural ODEs, differentiable molecular fingerprints, and the chemical VAE."
+
+# ── Probabilistic ML & uncertainty ───────────────────────────────────────────
+- name: Jasper Snoek
+  category: probabilistic
+  url: https://research.google/people/105484/
+  affiliation: "Google DeepMind"
+  focus: "'Practical Bayesian Optimization' (Spearmint); uncertainty quantification and calibration in deep learning."
+- name: Andrew Gordon Wilson
+  category: probabilistic
+  url: https://cims.nyu.edu/~andrewgw/
+  affiliation: "New York University"
+  focus: "Deep kernel learning and scalable Gaussian processes (GPyTorch) — representation learning that keeps GP uncertainty."
+
+# ── State-space models & neuro-adjacent ──────────────────────────────────────
+- name: Albert Gu
+  category: ssm
+  url: https://goombalab.github.io/
+  affiliation: "Carnegie Mellon University"
+  focus: "S4 and Mamba — structured/selective state-space models for long-sequence and time-series data."
+- name: Cheng Soon Ong
+  category: ssm
+  url: https://www.ong-home.my/
+  affiliation: "CSIRO's Data61 · Australian National University"
+  focus: "Co-author of *Mathematics for Machine Learning*; probabilistic modeling foundations."

@@ -550,3 +550,175 @@
   category: eval
   slm: false
   blurb: "Open eval code for MORPHEUS, a persistent enterprise simulation for CONTINUAL RL: no episode resets, structured non-stationarity (failure-injection + config shifts), composite verifier reward."
+
+# ── Bayesian Optimization & Active Learning (Merge Labs track, added 2026-07-23) ──
+- name: BoTorch
+  repo: meta-pytorch/botorch
+  url: https://github.com/meta-pytorch/botorch
+  category: bayesopt
+  slm: false
+  blurb: "The reference PyTorch-native Bayesian-optimization library — Monte-Carlo acquisition (qEI/qNEI), multi-objective (qEHVI/qNEHVI), constrained + batch/async BO; the exact stack the Merge JD names."
+- name: Ax (Adaptive Experimentation)
+  repo: facebook/Ax
+  url: https://github.com/facebook/Ax
+  category: bayesopt
+  slm: false
+  blurb: "High-level adaptive-experimentation platform over BoTorch — orchestrates sequential DBTL campaigns with a service API, multi-objective goals, and constraints."
+- name: GPyTorch
+  repo: cornellius-gp/gpytorch
+  url: https://github.com/cornellius-gp/gpytorch
+  category: bayesopt
+  slm: false
+  blurb: "Scalable Gaussian-process inference in PyTorch — the surrogate engine under BoTorch; core to probabilistic modeling and UQ over sparse, noisy experimental data."
+- name: Trieste
+  repo: secondmind-labs/trieste
+  url: https://github.com/secondmind-labs/trieste
+  category: bayesopt
+  slm: false
+  blurb: "Production-oriented BO toolbox (TensorFlow) with batch, multi-objective, and active-learning loops — a clean reference for closed-loop design patterns."
+- name: scikit-optimize
+  repo: scikit-optimize/scikit-optimize
+  url: https://github.com/scikit-optimize/scikit-optimize
+  category: bayesopt
+  slm: false
+  blurb: "Lightweight sequential model-based optimization with a scipy-style API — the classic BO baseline (now archived/read-only, cite as legacy)."
+- name: HEBO
+  repo: huawei-noah/HEBO
+  url: https://github.com/huawei-noah/HEBO
+  category: bayesopt
+  slm: false
+  blurb: "Heteroscedastic, robust BO that won the NeurIPS 2020 black-box optimization challenge — strong on noisy real-world objectives (bundles MCBO, NAP)."
+- name: Optuna
+  repo: optuna/optuna
+  url: https://github.com/optuna/optuna
+  category: bayesopt
+  slm: false
+  blurb: "The most-adopted define-by-run black-box optimizer with pruning and dashboards — a strong engineering reference and baseline."
+
+# ── Probabilistic Programming & Uncertainty ──────────────────────────────────
+- name: Pyro
+  repo: pyro-ppl/pyro
+  url: https://github.com/pyro-ppl/pyro
+  category: probabilistic
+  slm: false
+  blurb: "Deep probabilistic programming on PyTorch (SVI, MCMC) — the JD's named tool for probabilistic modeling and uncertainty quantification."
+- name: NumPyro
+  repo: pyro-ppl/numpyro
+  url: https://github.com/pyro-ppl/numpyro
+  category: probabilistic
+  slm: false
+  blurb: "JAX-backed Pyro — fast NUTS/HMC and SVI for Bayesian models on GPU/TPU when sampling speed matters."
+- name: Laplace
+  repo: aleximmer/Laplace
+  url: https://github.com/aleximmer/Laplace
+  category: probabilistic
+  slm: false
+  blurb: "Post-hoc Laplace approximations for neural nets — cheap Bayesian uncertainty over deep representation-learning models."
+- name: Uncertainty Toolbox
+  repo: uncertainty-toolbox/uncertainty-toolbox
+  url: https://github.com/uncertainty-toolbox/uncertainty-toolbox
+  category: probabilistic
+  slm: false
+  blurb: "Metrics, calibration, and visualization for predictive uncertainty — validates that a surrogate's error bars are trustworthy."
+
+# ── ML for Molecules & Bio Design ────────────────────────────────────────────
+- name: GAUCHE
+  repo: leojklarner/gauche
+  url: https://github.com/leojklarner/gauche
+  category: bio-ml
+  slm: false
+  blurb: "A Gaussian-process library for chemistry (30+ molecule/reaction/protein kernels) that plugs into GPyTorch/BoTorch — the most on-point repo for BO over molecules."
+- name: RDKit
+  repo: rdkit/rdkit
+  url: https://github.com/rdkit/rdkit
+  category: bio-ml
+  slm: false
+  blurb: "The standard cheminformatics toolkit (descriptors, fingerprints, conformers) — the featurization layer for any molecular surrogate."
+- name: REINVENT 4
+  repo: MolecularAI/REINVENT4
+  url: https://github.com/MolecularAI/REINVENT4
+  category: bio-ml
+  slm: false
+  blurb: "RL-based de novo molecular design (scaffold hopping, R-group, linker) — the canonical 'RL frameworks guiding molecular engineering' reference from AstraZeneca."
+- name: Chemprop
+  repo: chemprop/chemprop
+  url: https://github.com/chemprop/chemprop
+  category: bio-ml
+  slm: false
+  blurb: "Message-passing neural networks for molecular property prediction — a leading learned surrogate for objective functions in a DBTL loop."
+- name: DeepChem
+  repo: deepchem/deepchem
+  url: https://github.com/deepchem/deepchem
+  category: bio-ml
+  slm: false
+  blurb: "Batteries-included deep learning for drug discovery, materials, and quantum chemistry — featurizers, models, and dataset splitters."
+- name: Therapeutics Data Commons (PyTDC)
+  repo: mims-harvard/TDC
+  url: https://github.com/mims-harvard/TDC
+  category: bio-ml
+  slm: false
+  blurb: "Curated therapeutic ML datasets and benchmarks with a Python API — ready-made sparse/noisy bio tasks for prototyping active-learning loops."
+- name: SELFIES
+  repo: aspuru-guzik-group/selfies
+  url: https://github.com/aspuru-guzik-group/selfies
+  category: bio-ml
+  slm: false
+  blurb: "A 100%-robust molecular string representation — enables valid generative and latent-space optimization of molecules."
+- name: Olympus
+  repo: aspuru-guzik-group/olympus
+  url: https://github.com/aspuru-guzik-group/olympus
+  category: bio-ml
+  slm: false
+  blurb: "Benchmark surfaces and planners for experiment planning / self-driving labs — simulate a closed loop without wet-lab cost."
+- name: Atlas
+  repo: aspuru-guzik-group/atlas
+  url: https://github.com/aspuru-guzik-group/atlas
+  category: bio-ml
+  slm: false
+  blurb: "A 'brain for self-driving labs' — BO over categorical/discrete/mixed spaces with multi-objective and constraints; tightly matched to the JD."
+- name: ESM (EvolutionaryScale)
+  repo: evolutionaryscale/esm
+  url: https://github.com/evolutionaryscale/esm
+  category: bio-ml
+  slm: false
+  blurb: "The current ESM3/ESMC generative protein language models — sequence representation learning for protein design campaigns."
+- name: BioNeMo Framework
+  repo: NVIDIA/bionemo-framework
+  url: https://github.com/NVIDIA/bionemo-framework
+  category: bio-ml
+  slm: false
+  blurb: "NVIDIA's scalable framework for biomolecular foundation models (MolMIM latent generative model, ESM-2) — property-guided molecule optimization at scale."
+
+# ── State-Space & Sequence Models (neuroscience-adjacent nice-to-have) ────────
+- name: Mamba
+  repo: state-spaces/mamba
+  url: https://github.com/state-spaces/mamba
+  category: bayesopt
+  slm: true
+  blurb: "Selective state-space architecture (Mamba/Mamba-2) — linear-time long-sequence modeling; the JD's state-space nice-to-have, relevant to neural time-series."
+- name: S4 (Structured State Spaces)
+  repo: state-spaces/s4
+  url: https://github.com/state-spaces/s4
+  category: bayesopt
+  slm: true
+  blurb: "The foundational structured state-space sequence models (S4/HiPPO/DSS) — efficient modeling of 10k+ step dependencies in signals."
+
+# ── Neuroscience & Brain-Computer Interfaces (Merge Labs mission, 2026-07-23) ──
+- name: MNE-Python
+  repo: mne-tools/mne-python
+  url: https://github.com/mne-tools/mne-python
+  category: neuro
+  slm: false
+  blurb: "The standard toolkit for analyzing human neurophysiology data (MEG, EEG, iEEG) — the data layer for non-invasive brain-signal modeling."
+- name: Braindecode
+  repo: braindecode/braindecode
+  url: https://github.com/braindecode/braindecode
+  category: neuro
+  slm: false
+  blurb: "Deep learning for EEG/neural-signal decoding on PyTorch — models, datasets, and training loops for brain-computer-interface decoding."
+- name: Neural Latents Benchmark (nlb_tools)
+  repo: neurallatents/nlb_tools
+  url: https://github.com/neurallatents/nlb_tools
+  category: neuro
+  slm: false
+  blurb: "Tools for the Neural Latents Benchmark — evaluating latent-variable models of neural population dynamics; the eval harness for neural representation learning."

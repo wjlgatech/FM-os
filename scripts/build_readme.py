@@ -52,7 +52,14 @@ def fmt_lab(e: dict) -> str:
     return f"- **[{esc(e['name'])}]({e['url']})** — {esc(e.get('focus',''))}{gh}"
 
 
-FMT = {"repos": fmt_repo, "courses": fmt_course, "papers": fmt_paper, "jobs": fmt_job, "labs": fmt_lab}
+def fmt_person(e: dict) -> str:
+    """One researcher → a Markdown bullet with affiliation + why they matter."""
+    aff = f" — _{esc(e['affiliation'])}_" if e.get("affiliation") else ""
+    return f"- **[{esc(e['name'])}]({e['url']})**{aff} — {esc(e.get('focus',''))}"
+
+
+FMT = {"repos": fmt_repo, "courses": fmt_course, "papers": fmt_paper,
+       "jobs": fmt_job, "labs": fmt_lab, "people": fmt_person}
 
 
 def render_section(sec: dict, entries: list) -> str:
@@ -289,7 +296,7 @@ def build() -> str:
     """Assemble the full README from data/*.yml. Sections are emitted in order."""
     meta = load("meta")
     data = {"repos": repos_with_stars()}
-    data.update({name: load(name) for name in ("courses", "papers", "jobs", "labs")})
+    data.update({name: load(name) for name in ("courses", "papers", "jobs", "labs", "people")})
     models, registry = load("models"), load("registry")
     certs = load("_certifications") if (DATA / "_certifications.yml").exists() else {}
     owner, repo = meta["repo_owner"], meta["repo_name"]

@@ -52,12 +52,13 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `11`
-- [🧰 Open-Source Repos](#open-source-repos) `89`
-- [🎓 Courses](#courses) `26`
-- [📄 Papers](#papers) `73`
-- [🏛️ Labs & Platforms](#labs--platforms) `14`
-- [💼 Jobs & Careers](#jobs--careers) `11`
+- [🏅 FM-os Certified](#fm-os-certified) `12`
+- [🧰 Open-Source Repos](#open-source-repos) `116`
+- [🎓 Courses](#courses) `33`
+- [📄 Papers](#papers) `97`
+- [🏛️ Labs & Platforms](#labs--platforms) `22`
+- [🧑‍🔬 People to Follow](#people--researchers) `16`
+- [💼 Jobs & Careers](#jobs--careers) `12`
 - [🗺️ Learning Roadmap](#learning-roadmap)
 - [🤝 Contribute](#contribute)
 
@@ -93,6 +94,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 | Tool | Kind | Score | Status |
 |---|---|--:|:--|
+| [bayesopt-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop) | skill | 98/100 | ✅ certified |
 | [continual-rl-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval) | skill | 98/100 | ✅ certified |
 | [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
 | [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
@@ -257,6 +259,49 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
+### Bayesian Optimization & Active Learning
+- **[BoTorch](https://github.com/meta-pytorch/botorch)** — The reference PyTorch-native Bayesian-optimization library — Monte-Carlo acquisition (qEI/qNEI), multi-objective (qEHVI/qNEHVI), constrained + batch/async BO; the exact stack the Merge JD names.
+- **[Ax (Adaptive Experimentation)](https://github.com/facebook/Ax)** — High-level adaptive-experimentation platform over BoTorch — orchestrates sequential DBTL campaigns with a service API, multi-objective goals, and constraints.
+- **[GPyTorch](https://github.com/cornellius-gp/gpytorch)** — Scalable Gaussian-process inference in PyTorch — the surrogate engine under BoTorch; core to probabilistic modeling and UQ over sparse, noisy experimental data.
+- **[Trieste](https://github.com/secondmind-labs/trieste)** — Production-oriented BO toolbox (TensorFlow) with batch, multi-objective, and active-learning loops — a clean reference for closed-loop design patterns.
+- **[scikit-optimize](https://github.com/scikit-optimize/scikit-optimize)** — Lightweight sequential model-based optimization with a scipy-style API — the classic BO baseline (now archived/read-only, cite as legacy).
+- **[HEBO](https://github.com/huawei-noah/HEBO)** — Heteroscedastic, robust BO that won the NeurIPS 2020 black-box optimization challenge — strong on noisy real-world objectives (bundles MCBO, NAP).
+- **[Optuna](https://github.com/optuna/optuna)** — The most-adopted define-by-run black-box optimizer with pruning and dashboards — a strong engineering reference and baseline.
+- **[Mamba](https://github.com/state-spaces/mamba)** 🤏 — Selective state-space architecture (Mamba/Mamba-2) — linear-time long-sequence modeling; the JD's state-space nice-to-have, relevant to neural time-series.
+- **[S4 (Structured State Spaces)](https://github.com/state-spaces/s4)** 🤏 — The foundational structured state-space sequence models (S4/HiPPO/DSS) — efficient modeling of 10k+ step dependencies in signals.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Probabilistic Programming & Uncertainty
+- **[Pyro](https://github.com/pyro-ppl/pyro)** — Deep probabilistic programming on PyTorch (SVI, MCMC) — the JD's named tool for probabilistic modeling and uncertainty quantification.
+- **[NumPyro](https://github.com/pyro-ppl/numpyro)** — JAX-backed Pyro — fast NUTS/HMC and SVI for Bayesian models on GPU/TPU when sampling speed matters.
+- **[Laplace](https://github.com/aleximmer/Laplace)** — Post-hoc Laplace approximations for neural nets — cheap Bayesian uncertainty over deep representation-learning models.
+- **[Uncertainty Toolbox](https://github.com/uncertainty-toolbox/uncertainty-toolbox)** — Metrics, calibration, and visualization for predictive uncertainty — validates that a surrogate's error bars are trustworthy.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### ML for Molecules & Bio Design
+- **[GAUCHE](https://github.com/leojklarner/gauche)** — A Gaussian-process library for chemistry (30+ molecule/reaction/protein kernels) that plugs into GPyTorch/BoTorch — the most on-point repo for BO over molecules.
+- **[RDKit](https://github.com/rdkit/rdkit)** — The standard cheminformatics toolkit (descriptors, fingerprints, conformers) — the featurization layer for any molecular surrogate.
+- **[REINVENT 4](https://github.com/MolecularAI/REINVENT4)** — RL-based de novo molecular design (scaffold hopping, R-group, linker) — the canonical 'RL frameworks guiding molecular engineering' reference from AstraZeneca.
+- **[Chemprop](https://github.com/chemprop/chemprop)** — Message-passing neural networks for molecular property prediction — a leading learned surrogate for objective functions in a DBTL loop.
+- **[DeepChem](https://github.com/deepchem/deepchem)** — Batteries-included deep learning for drug discovery, materials, and quantum chemistry — featurizers, models, and dataset splitters.
+- **[Therapeutics Data Commons (PyTDC)](https://github.com/mims-harvard/TDC)** — Curated therapeutic ML datasets and benchmarks with a Python API — ready-made sparse/noisy bio tasks for prototyping active-learning loops.
+- **[SELFIES](https://github.com/aspuru-guzik-group/selfies)** — A 100%-robust molecular string representation — enables valid generative and latent-space optimization of molecules.
+- **[Olympus](https://github.com/aspuru-guzik-group/olympus)** — Benchmark surfaces and planners for experiment planning / self-driving labs — simulate a closed loop without wet-lab cost.
+- **[Atlas](https://github.com/aspuru-guzik-group/atlas)** — A 'brain for self-driving labs' — BO over categorical/discrete/mixed spaces with multi-objective and constraints; tightly matched to the JD.
+- **[ESM (EvolutionaryScale)](https://github.com/evolutionaryscale/esm)** — The current ESM3/ESMC generative protein language models — sequence representation learning for protein design campaigns.
+- **[BioNeMo Framework](https://github.com/NVIDIA/bionemo-framework)** — NVIDIA's scalable framework for biomolecular foundation models (MolMIM latent generative model, ESM-2) — property-guided molecule optimization at scale.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Neuroscience & Brain-Computer Interfaces
+- **[MNE-Python](https://github.com/mne-tools/mne-python)** — The standard toolkit for analyzing human neurophysiology data (MEG, EEG, iEEG) — the data layer for non-invasive brain-signal modeling.
+- **[Braindecode](https://github.com/braindecode/braindecode)** — Deep learning for EEG/neural-signal decoding on PyTorch — models, datasets, and training loops for brain-computer-interface decoding.
+- **[Neural Latents Benchmark (nlb_tools)](https://github.com/neurallatents/nlb_tools)** — Tools for the Neural Latents Benchmark — evaluating latent-variable models of neural population dynamics; the eval harness for neural representation learning.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
 ---
 
 <h2 id="courses">🎓 Courses</h2>
@@ -324,6 +369,29 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 ### Video & Data Ops
 - **[Getting Started with FiftyOne (Visual AI)](https://voxel51.com/get-started)** — Voxel51 · Voxel51 (2025) · _free_ — Free tutorials on curating, visualizing, and debugging image/video/3D datasets and model outputs — directly relevant to AD/robotics data ops.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Bayesian Optimization & Gaussian Processes
+- **[Bayesian Optimization (the book)](https://bayesoptbook.com/)** — Washington University in St. Louis · Roman Garnett (2023) · _free_ — The most complete modern treatment of BO theory and practice — full PDF free online.
+- **[Gaussian Process Summer School (GPSS)](https://gpss.cc/)** — University of Sheffield (community) · _free_ — Annual lectures plus notebooks on GPs, deep GPs, and Bayesian optimization; slides and videos archived per year.
+- **[Gaussian Processes for Machine Learning (GPML)](http://gaussianprocess.org/gpml/)** — MIT Press · Rasmussen & Williams (2006) · _free_ — The definitive GP textbook (regression, classification, covariance functions, model selection) — free full PDF.
+- **[BoTorch Tutorials + Ax Docs](https://botorch.org/docs/tutorials/)** — Meta · _free_ — Runnable walkthroughs of qEI/qNEI/qEHVI/qNEHVI, constrained and multi-objective BO — closest to the day-to-day toolkit for this role.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Probabilistic & Bayesian ML
+- **[Probabilistic Machine Learning (Books 1 & 2)](https://probml.github.io/pml-book/)** — Google · Kevin Murphy · _free_ — Free draft PDFs plus Colab notebooks — strong coverage of probabilistic modeling, GPs, and uncertainty quantification.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### ML for Molecules & Science
+- **[DeepChem Tutorials](https://deepchem.io/tutorials/)** — DeepChem · _free_ — Hands-on notebooks for ML on molecules — featurization, property prediction, and generative design.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Neuroscience & Brain-Computer Interfaces
+- **[Neuromatch Academy — Computational Neuroscience](https://compneuro.neuromatch.io/)** — Neuromatch · _free_ — Free, hands-on computational-neuroscience curriculum (modeling, dynamics, decoding) — the on-ramp to the neuroscience nice-to-have.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -456,6 +524,54 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
+### Bayesian Optimization & Active Learning
+- **[A Tutorial on Bayesian Optimization](https://arxiv.org/abs/1807.02811)** (Peter Frazier, Cornell, 2018) · arXiv:1807.02811 — The single best self-contained intro — GP regression plus EI, entropy search, and knowledge gradient. Read this first.
+- **[Efficient Global Optimization of Expensive Black-Box Functions (EGO)](https://doi.org/10.1023/A:1008306431147)** (Jones, Schonlau & Welch, —, 1998) · J. Global Optimization 13:455 — The paper that launched surrogate-based BO: a Kriging/GP surrogate plus Expected Improvement to optimize costly black boxes.
+- **[Practical Bayesian Optimization of Machine Learning Algorithms](https://arxiv.org/abs/1206.2944)** (Snoek, Larochelle & Adams, Toronto / Harvard, 2012) · NeurIPS · arXiv:1206.2944 — The modern reboot of BO for ML (the 'Spearmint' paper): GP priors, integrated acquisition, and cost-aware EI.
+- **[Taking the Human Out of the Loop: A Review of Bayesian Optimization](https://doi.org/10.1109/JPROC.2015.2494218)** (Shahriari, Swersky, Wang, Adams & de Freitas, multi-institution, 2016) · Proc. IEEE 104(1) — The canonical survey tying together surrogates, acquisition functions, and applications of BO.
+- **[Gaussian Process Optimization in the Bandit Setting (GP-UCB)](https://arxiv.org/abs/0912.3995)** (Srinivas, Krause, Kakade & Seeger, Caltech / ETH, 2010) · ICML · arXiv:0912.3995 — Introduces GP-UCB with the first sublinear cumulative-regret bounds — the theoretical backbone of exploration in BO.
+- **[Max-value Entropy Search for Efficient Bayesian Optimization (MES)](https://arxiv.org/abs/1703.01968)** (Wang & Jegelka, MIT, 2017) · ICML · arXiv:1703.01968 — A cheaper, more robust information-theoretic acquisition that targets info about the optimal value rather than the arg-max.
+- **[BoTorch: A Framework for Efficient Monte-Carlo Bayesian Optimization](https://arxiv.org/abs/1910.06403)** (Balandat, Karrer, Jiang, Daulton, Letham, Wilson & Bakshy, Meta, 2020) · NeurIPS · arXiv:1910.06403 — The reference open-source BO library — Monte-Carlo acquisition (qEI/qNEI) with autodiff and sample-average approximation.
+- **[Constrained Bayesian Optimization with Noisy Experiments (qNEI)](https://arxiv.org/abs/1706.07094)** (Letham, Karrer, Ottoni & Bakshy, Meta, 2019) · Bayesian Analysis 14(2) · arXiv:1706.07094 — Noisy, constrained expected improvement via quasi-Monte-Carlo integration — the basis of Meta's Ax and directly on-point for noisy DBTL assays.
+- **[Differentiable Expected Hypervolume Improvement for Multi-Objective BO (qEHVI)](https://arxiv.org/abs/2006.05078)** (Daulton, Balandat & Bakshy, Meta, 2020) · NeurIPS · arXiv:2006.05078 — Exact-gradient, parallelizable hypervolume-improvement acquisition — state of the art for multi-objective BO.
+- **[Parallel BO of Multiple Noisy Objectives with EHVI (qNEHVI)](https://arxiv.org/abs/2105.08195)** (Daulton, Balandat & Bakshy, Meta, 2021) · NeurIPS · arXiv:2105.08195 — Extends qEHVI to noisy observations with polynomial batch scaling — the current default for noisy multi-objective DBTL problems.
+- **[Scalable Global Optimization via Local Bayesian Optimization (TuRBO)](https://arxiv.org/abs/1910.01739)** (Eriksson, Pearce, Gardner, Turner & Poloczek, Uber AI, 2019) · NeurIPS · arXiv:1910.01739 — Trust-region local GPs with bandit sample allocation — the workhorse for high-dimensional, high-budget BO.
+- **[High-Dimensional BO with Sparse Axis-Aligned Subspaces (SAASBO)](https://arxiv.org/abs/2103.00349)** (Eriksson & Jankowiak, Meta, 2021) · UAI · arXiv:2103.00349 — Strong sparsity priors plus HMC to find the few relevant dimensions — excellent in the low-data, high-dim regime typical of experiments.
+- **[Active Learning Literature Survey](https://minds.wisconsin.edu/handle/1793/60660)** (Burr Settles, UW–Madison, 2009) · CS Tech Report 1648 — The canonical survey of query strategies — uncertainty sampling, query-by-committee, expected error reduction.
+- **[Bayesian Active Learning for Classification and Preference Learning (BALD)](https://arxiv.org/abs/1112.5745)** (Houlsby, Huszár, Ghahramani & Lengyel, Cambridge, 2011) · arXiv:1112.5745 — Introduces BALD (maximize mutual information / model disagreement) — foundational for modern deep and Bayesian active learning.
+- **[A Tutorial on Thompson Sampling](https://arxiv.org/abs/1707.02038)** (Russo, Van Roy, Kazerouni, Osband & Wen, Stanford / DeepMind, 2018) · FnT ML 11(1) · arXiv:1707.02038 — The definitive reference for posterior-sampling exploration, widely used as a scalable BO acquisition strategy.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Probabilistic Modeling & Uncertainty
+- **[Predictive Entropy Search for Efficient Global Optimization (PES)](https://arxiv.org/abs/1406.2541)** (Hernández-Lobato, Hoffman & Ghahramani, Cambridge / Harvard, 2014) · NeurIPS · arXiv:1406.2541 — Information-theoretic acquisition that picks points maximizing information gain about the location of the optimum.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Representation Learning
+- **[Deep Kernel Learning](https://arxiv.org/abs/1511.02222)** (Wilson, Hu, Salakhutdinov & Xing, CMU, 2016) · AISTATS · arXiv:1511.02222 — Combines neural-net feature learning with GP kernels — representation learning that preserves calibrated GP uncertainty.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### ML for Molecular & Bio Design
+- **[Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules](https://arxiv.org/abs/1610.02415)** (Gómez-Bombarelli et al., Harvard / Toronto, 2018) · ACS Central Science · arXiv:1610.02415 — The chemical VAE: a continuous latent space of molecules enabling gradient-based and Bayesian optimization of properties.
+- **[GAUCHE: A Library for Gaussian Processes in Chemistry](https://arxiv.org/abs/2212.04450)** (Griffiths et al., multi-institution, 2023) · NeurIPS · arXiv:2212.04450 — GPs and BO over molecular graphs, strings, fingerprints, reactions, and proteins — interfaces directly with GPyTorch/BoTorch.
+- **[Olympus: A Benchmarking Framework for Noisy Optimization and Experiment Planning](https://arxiv.org/abs/2010.04153)** (Häse, Aldeghi & Aspuru-Guzik, Toronto, 2021) · Mach. Learn.: Sci. Technol. 2(3) · arXiv:2010.04153 — Realistic noisy experiment-planning benchmarks for autonomous / self-driving labs — a proving ground for closed-loop optimizers.
+- **[Machine-Learning-Guided Directed Evolution for Protein Engineering](https://arxiv.org/abs/1811.10775)** (Yang, Wu & Arnold, Caltech, 2019) · Nature Methods 16:687 · arXiv:1811.10775 — The reference framework for ML-in-the-loop directed evolution — sequence–function models guiding the DBTL loop for proteins.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Neuroscience & Brain-Computer Interfaces
+- **[Inferring Single-Trial Neural Population Dynamics Using Sequential Auto-Encoders (LFADS)](https://arxiv.org/abs/1608.06315)** (Pandarinath et al., Stanford / Emory, 2018) · Nature Methods 15:805 · arXiv:1608.06315 — Latent dynamical-systems models of neural population activity — foundational for decoding brain signals and a bridge from state-space models to neuroscience.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### State-Space & Sequence Models
+- **[Efficiently Modeling Long Sequences with Structured State Spaces (S4)](https://arxiv.org/abs/2111.00396)** (Gu, Goel & Ré, Stanford, 2022) · ICLR · arXiv:2111.00396 — A structured SSM parameterization that handles 10k+ step dependencies efficiently — relevant to neural time-series.
+- **[Mamba: Linear-Time Sequence Modeling with Selective State Spaces](https://arxiv.org/abs/2312.00752)** (Gu & Dao, CMU / Princeton, 2023) · arXiv:2312.00752 — Selective (input-dependent) SSM matching Transformer quality with linear-time scaling — the modern state-space model to know.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
 ---
 
 <h2 id="labs--platforms">🏛️ Labs & Platforms</h2>
@@ -498,6 +614,54 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
+### Bio × AI / Closed-Loop Science Labs
+- **[Merge Labs](https://merge.io)** — Frontier BCI lab bridging biological and artificial intelligence; building a closed-loop DBTL optimization backbone for molecular + neuroengineering discovery (the hiring target).
+- **[Meta — Adaptive Experimentation (BoTorch / Ax)](https://botorch.org)** — Builds and maintains the core PyTorch Bayesian-optimization + adaptive-experimentation stack this role uses. · [github](https://github.com/meta-pytorch/botorch)
+- **[Matter Lab (Aspuru-Guzik)](https://www.matter.toronto.edu)** — Self-driving laboratories — robotics + ML + BO for autonomous molecular and materials discovery (SELFIES, Olympus, Atlas). · [github](https://github.com/aspuru-guzik-group)
+- **[Acceleration Consortium](https://acceleration.utoronto.ca)** — Global consortium standardizing self-driving labs and materials-acceleration platforms for closed-loop discovery.
+- **[Coley Research Group (MIT)](https://coley.mit.edu)** — ML for synthesis planning, molecular design, and autonomous experimentation / DBTL workflows. · [github](https://github.com/coleygroup)
+- **[Recursion](https://www.recursion.com)** — Industrial-scale closed-loop drug discovery combining automated wet-lab data generation with ML.
+- **[Isomorphic Labs](https://www.isomorphiclabs.com)** — Alphabet/DeepMind spinout applying AI (AlphaFold lineage) to drug design.
+- **[NVIDIA BioNeMo](https://www.nvidia.com/en-us/clara/bionemo/)** — Foundation-model platform plus generative models (MolMIM) for molecular and protein design at scale. · [github](https://github.com/NVIDIA/bionemo-framework)
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+---
+
+<h2 id="people--researchers">🧑‍🔬 People to Follow</h2>
+
+### Bayesian Optimization & Gaussian Processes
+- **[Peter Frazier](https://people.orie.cornell.edu/pfrazier/)** — _Cornell ORIE · Uber_ — Author of the standard BO tutorial and the knowledge-gradient acquisition; industrial BO at scale.
+- **[Roman Garnett](https://www.cse.wustl.edu/~garnett/)** — _Washington University in St. Louis_ — Author of the definitive open textbook *Bayesian Optimization* (bayesoptbook.com).
+- **[Max Balandat](https://research.facebook.com/people/balandat-max/)** — _Meta — Adaptive Experimentation_ — Co-creator of BoTorch; Monte-Carlo acquisition (qEI) and multi-objective qEHVI/qNEHVI.
+- **[Eytan Bakshy](https://eytan.github.io/)** — _Meta — Adaptive Experimentation lead_ — Drives BoTorch/Ax; noisy, constrained, multi-objective BO in production.
+- **[David Eriksson](https://research.facebook.com/people/eriksson-david/)** — _Meta — Adaptive Experimentation_ — TuRBO and SAASBO — the go-to methods for high-dimensional Bayesian optimization.
+- **[Samuel Daulton](https://sdaulton.github.io/)** — _Meta · University of Oxford_ — Lead author of qEHVI and qNEHVI — state-of-the-art multi-objective BO for noisy DBTL problems.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### ML for Molecules & Self-Driving Labs
+- **[Alán Aspuru-Guzik](https://www.matter.toronto.edu/)** — _University of Toronto · Acceleration Consortium_ — Leading figure in self-driving laboratories and closed-loop molecular discovery (SELFIES, Olympus, Atlas).
+- **[Connor Coley](https://coley.mit.edu/)** — _MIT (ChemE + EECS)_ — Autonomous discovery, ML for synthesis planning, and DBTL molecular-design workflows.
+- **[José Miguel Hernández-Lobato](https://jmhl.org/)** — _University of Cambridge_ — Predictive Entropy Search, molecular VAEs, and Bayesian deep learning for molecule design.
+- **[Frances Arnold](https://fhalab.caltech.edu/)** — _Caltech (Nobel Laureate, 2018)_ — Directed evolution and ML-guided protein engineering — the DBTL-for-proteins vision.
+- **[Kevin K. Yang](https://yangkky.github.io/)** — _Microsoft Research New England_ — ML-guided directed evolution and protein representation learning.
+- **[David Duvenaud](https://www.cs.toronto.edu/~duvenaud/)** — _University of Toronto_ — Neural ODEs, differentiable molecular fingerprints, and the chemical VAE.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Probabilistic ML & Uncertainty
+- **[Jasper Snoek](https://research.google/people/105484/)** — _Google DeepMind_ — 'Practical Bayesian Optimization' (Spearmint); uncertainty quantification and calibration in deep learning.
+- **[Andrew Gordon Wilson](https://cims.nyu.edu/~andrewgw/)** — _New York University_ — Deep kernel learning and scalable Gaussian processes (GPyTorch) — representation learning that keeps GP uncertainty.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### State-Space Models & Neuro-adjacent
+- **[Albert Gu](https://goombalab.github.io/)** — _Carnegie Mellon University_ — S4 and Mamba — structured/selective state-space models for long-sequence and time-series data.
+- **[Cheng Soon Ong](https://www.ong-home.my/)** — _CSIRO's Data61 · Australian National University_ — Co-author of *Mathematics for Machine Learning*; probabilistic modeling foundations.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
 ---
 
 <h2 id="jobs--careers">💼 Jobs & Careers</h2>
@@ -509,6 +673,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Mistral AI Careers](https://mistral.ai/careers/)** — European frontier lab; open-weight model pretraining, fine-tuning, and inference roles.
 - **[Hugging Face Careers](https://apply.workable.com/huggingface/)** — Open-source ML platform; ML research/engineering on training, datasets, and model deployment.
 - **[DeepSeek Talent](https://talent.deepseek.com)** — AGI-focused lab; pretraining, RL-for-reasoning, and infrastructure roles (official talent portal).
+- **[Merge Labs Careers](https://jobs.ashbyhq.com/Merge%20Labs)** — Frontier BCI lab (bio × AI); hiring ML scientists for Bayesian optimization, RL, and closed-loop molecular/neuro engineering. See the FM-os Merge dossier.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
