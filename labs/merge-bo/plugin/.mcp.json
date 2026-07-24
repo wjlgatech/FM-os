@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "helix": {
+      "command": "python3",
+      "args": ["-m", "helix.mcp_server"],
+      "cwd": "${CLAUDE_PLUGIN_ROOT}/..",
+      "description": "Helix closed-loop optimizer — define_campaign, propose_experiments, ingest_results, campaign_status."
+    }
+  }
+}
