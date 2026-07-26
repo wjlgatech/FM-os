@@ -51,3 +51,25 @@ def test_unmeasured_mode_cannot_pass_the_gate():
     assert results["temporal_cross_chunk"]["score"] is None  # excluded, not zeroed
     ok, reasons = gate(results, SPEC)
     assert not ok and any("NOT MEASURED" in r for r in reasons)
+
+
+def test_stimuli_exist_and_are_deterministic():
+    import stimuli
+
+    probe_ids = {p["id"] for m in SPEC["failure_modes"] for p in m["probes"]}
+    assert probe_ids == set(stimuli.GENERATORS)  # every probe ships its stimulus
+    assert stimuli.manifest() == stimuli.manifest()  # pixel-identical re-runs
+
+
+def test_word_boundary_matching_no_substring_accidents():
+    probe = {"expect": ["no|never"], "match": "contains"}
+    assert score_probe("The snowboarder is on the slope", probe) == 0.0  # 'no' ⊄ 'snowboarder'
+    assert score_probe("No, the person never falls.", probe) == 1.0
+
+
+def test_real_adapter_returns_none_without_key(monkeypatch):
+    import vlm_adapter
+
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    model = vlm_adapter.RealVLM()
+    assert model({"id": "floor_color", "question": "?"}) is None  # not measured, never fake

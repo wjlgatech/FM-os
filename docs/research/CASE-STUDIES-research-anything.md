@@ -21,7 +21,7 @@ sections are still TODO); the tooling below closes exactly that gap.
 
 | Tool | What it gives each paper | Proof |
 |---|---|---|
-| [`skills/vlm-failure-probe`](../../skills/vlm-failure-probe/) | VSS §IV–XI: the failure taxonomy **as data** (`probe_spec.yml`, one probe per observed failure in the paper), a runner that scores any pipeline exposed as `answer(probe)`, and a blocking gate that cannot pass on unmeasured modes. The benchmark becomes a CI regression gate, and Table/Results sections can be generated from the spec. | `python reference/probe_runner.py` — the paper's failures are all caught (baseline fails 5/5 modes), a grounded model passes |
+| [`skills/vlm-failure-probe`](../../skills/vlm-failure-probe/) | VSS §IV–XI: the failure taxonomy **as data** (`probe_spec.yml`, one probe per observed failure in the paper), deterministic synthetic stimuli for every probe (`stimuli.py` — the paper's own methodology, as code), a runner that scores any pipeline exposed as `answer(probe)`, and a blocking gate that cannot pass on unmeasured modes. The benchmark becomes a CI regression gate, and the Results section generates from a run: `run_real.py` emits `out/RESULTS.md` + a paste-ready `out/vss_results_table.tex`. | **Measured live 2026-07-25:** baseline VSS fails 5/5 modes; `claude-sonnet-5` passes 5/5 at 1.00 over the same probes (raw answers in `reference/out/RESULTS.md`) |
 | [`skills/syndata-bare`](../../skills/syndata-bare/) | syndata §III–IV: BARE-VLM as a **closed loop with twin gates** — alignment floor (mock-CLIP, swap in real CLIP) catches base-model hallucination; diversity floor (pairwise Jaccard) catches instruct-model mode collapse. The paper's central thesis becomes a falsifiable assertion: BARE must beat both single-stage baselines at equal budget and seed. | `python reference/bare_loop.py` — base fails alignment (0.88), instruct fails diversity (0.00), BARE passes both at 100% yield |
 | [`skills/research-loop`](../../skills/research-loop/) (existing) | Both papers' experiment sections: pre-registered thresholds, ≥3 seeds with variance, ablations, adversarial critique, repro command — the write-up gate for every TODO results section. | rubric enforced by the skill itself |
 | [`skills/agentic-eval`](../../skills/agentic-eval/) (existing) | VSS §X: wiring standard video benchmarks (Video-MME, MMBench-Video) alongside the custom probes, LLM-as-judge for narrative consistency, per-axis CI gates. | see skill |
@@ -55,6 +55,18 @@ These are the claims a reviewer will attack first; each maps to a concrete next 
   probe across the dataset.
 - **BARE-VLM refinement can homogenize** (the paper acknowledges this) — the diversity floor in
   `syndata-bare` is the guard; report diversity *after* refinement, not just before.
+- **Graders fail before models do** (lesson from the live run): the first live pass scored
+  claude-sonnet-5 at 0.58 on multi-part prompts — but the raw answers showed every sub-question
+  answered; the misses were stimulus/matcher artifacts (a drawn vest read as a "yellow shirt",
+  a 2D court read as ping-pong). Expectations must grade the failure mode's *intent*
+  (compound-prompt completeness), not incidental scene naming. Always read raw answers before
+  reporting a failure — the paper's fuzzy-matching metrics need the same audit.
+
+**Headline live result (2026-07-25):** on the exact probes VSS fails 5/5, a frontier VLM
+(claude-sonnet-5, 6 frames per stimulus) passes 5/5 at 1.00 — evidence that the paper's failure
+modes are *architectural* (chunking, late fusion, retrieval) rather than intrinsic to current
+VLMs, which strengthens its core argument. `reference/out/vss_results_table.tex` is paste-ready
+for the empty Results section.
 
 ## Provenance
 

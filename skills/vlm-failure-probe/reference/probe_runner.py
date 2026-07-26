@@ -31,18 +31,30 @@ def _norm(text: str) -> str:
     return re.sub(r"[^a-z0-9 ]", " ", text.lower())
 
 
+def _find(ans: str, aliases: str) -> int:
+    """Position of the first whole-word match of any `|`-separated alias, else -1.
+    Word boundaries keep 'no' from matching inside 'snow' — real-model answers
+    are free text, so substring matching would grade on accidents."""
+    best = -1
+    for alias in aliases.split("|"):
+        m = re.search(r"\b" + re.escape(_norm(alias).strip()) + r"\b", ans)
+        if m and (best == -1 or m.start() < best):
+            best = m.start()
+    return best
+
+
 # ── matchers: probe score in [0, 1] ──────────────────────────────────────────
 def score_probe(answer: str, probe: dict) -> float:
     ans = _norm(answer)
-    expect = [_norm(e) for e in probe["expect"]]
+    expect = probe["expect"]
     kind = probe["match"]
     if kind == "contains":
-        return 1.0 if all(e in ans for e in expect) else 0.0
+        return 1.0 if all(_find(ans, e) >= 0 for e in expect) else 0.0
     if kind == "order":  # every item present AND in the stated order
-        pos = [ans.find(e) for e in expect]
+        pos = [_find(ans, e) for e in expect]
         return 1.0 if all(p >= 0 for p in pos) and pos == sorted(pos) else 0.0
     if kind == "all_parts":  # graded: fraction of sub-answers present
-        return sum(1.0 for e in expect if e in ans) / len(expect)
+        return sum(1.0 for e in expect if _find(ans, e) >= 0) / len(expect)
     raise ValueError(f"unknown matcher: {kind}")
 
 
@@ -124,7 +136,7 @@ class PatchedVSS:
             "There is one person present. The person is wearing a yellow vest."
         ),
         "describe_and_closer": (
-            "Two players exchange shots in a rally; the player in white is closer to the camera."
+            "Two players exchange shots in a tennis rally; the player in white is closer to the camera."
         ),
         "forklift_fork_direction": "The forklift's fork is moving up.",
         "end_of_video": "At the very end, the truck leaves the loading dock.",

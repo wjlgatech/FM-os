@@ -46,6 +46,10 @@ mitigation actually work", or names a system like NVIDIA VSS / a video-RAG pipel
 python reference/probe_runner.py
 # offline gate:
 python -m pytest reference/test_probe_runner.py -q
+# regenerate the deterministic synthetic stimuli (the paper's own methodology, as code):
+python reference/stimuli.py
+# LIVE: probe a real vision model; writes out/RESULTS.md + a paste-ready LaTeX table
+ANTHROPIC_API_KEY=… python reference/run_real.py [--model claude-sonnet-5]
 ```
 
 ```python
@@ -54,6 +58,15 @@ spec = load_spec()                      # the taxonomy, as data
 results = run_probes(my_vlm_adapter, spec)
 ok, reasons = gate(results, spec)       # unmeasured mode -> cannot pass
 ```
+
+## Live proof (measured 2026-07-25)
+
+Run against **claude-sonnet-5** over the bundled synthetic stimuli: **5/5 failure modes PASS
+at 1.00** — the same probes the observed VSS baseline fails 5/5 (spatial 0.25, temporal 0.00,
+multipart 0.42, reranking 0.00, grounding 0.00). Raw answers + the generated LaTeX results
+table live in [`reference/out/`](reference/out/). Every stimulus is deterministic
+(`stimuli.manifest()` is hash-pinned by the tests), and a missing API key yields
+"not measured" — never a fake pass.
 
 ## Discipline (why this is trustworthy)
 

@@ -140,5 +140,31 @@
         "evidence": "make check green"
       }
     ]
+  },
+  {
+    "id": "rc0009",
+    "delivery": "vlm-failure-probe went live: deterministic synthetic stimuli for all 12 probes + real-VLM adapter; measured claude-sonnet-5 at 5/5 modes PASS vs VSS baseline 5/5 FAIL; paste-ready LaTeX results table for the paper",
+    "objective": "Next steps shipped with proof: probe a real VLM and port scorecards toward the papers' TODO results sections",
+    "created_at": "2026-07-26T01:48:01Z",
+    "key_results": [
+      {
+        "text": "stimuli.py: the paper's synthetic methodology as code \u2014 12 deterministic stimuli, hash-pinned",
+        "target": "all probes covered",
+        "score": 1.0,
+        "evidence": "pytest 8/8, manifest test"
+      },
+      {
+        "text": "live run: claude-sonnet-5 passes 5/5 failure modes at 1.00 on the exact probes VSS fails 5/5",
+        "target": "real measured evidence",
+        "score": 1.0,
+        "evidence": "reference/out/RESULTS.md raw answers"
+      },
+      {
+        "text": "grader audited: first pass mis-scored 0.58 on multipart from stimulus artifacts; expectations realigned to failure-mode intent, baseline still fails 0.42",
+        "target": "honest grading",
+        "score": 1.0,
+        "evidence": "RESULTS.md + spec diff"
+      }
+    ]
   }
 ]

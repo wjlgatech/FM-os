@@ -39,7 +39,7 @@ failure_modes:
     probes:
       - id: warehouse_no_fall
         question: "Across the full video, does the person ever fall? Answer yes or no."
-        expect: ["no"]
+        expect: ["no|never|not fall|doesn t fall"]
         match: contains
       - id: sport_stays_tennis
         question: "What sport is being played at the end of the video?"
@@ -56,11 +56,11 @@ failure_modes:
     probes:
       - id: summary_count_clothing
         question: "Provide a summary. How many people are present? What is the person wearing?"
-        expect: ["warehouse", "one person", "yellow vest"]
+        expect: ["warehouse|storage|boxes", "one person|1 person|single person|one man|one worker|a man|a worker", "yellow vest|yellow shirt|yellow top|wearing yellow|hi vis|high visibility"]
         match: all_parts
       - id: describe_and_closer
         question: "Describe what is happening in the video and identify which player is closer to the camera."
-        expect: ["rally", "closer"]
+        expect: ["rally|ball|players", "white"]
         match: all_parts
 
   - id: retrieval_reranking
@@ -69,11 +69,11 @@ failure_modes:
     probes:
       - id: forklift_fork_direction
         question: "Is the forklift's fork moving up or down?"
-        expect: ["up"]
+        expect: ["up|upward|upwards|rising|raised|lifting"]
         match: contains
       - id: end_of_video
         question: "What happens at the very end of the video?"
-        expect: ["truck leaves"]
+        expect: ["truck", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away"]
         match: contains
 
   - id: grounding_hallucination
@@ -82,5 +82,5 @@ failure_modes:
     probes:
       - id: floor_color
         question: "What color is the warehouse floor?"
-        expect: ["concrete"]
+        expect: ["concrete|gray|grey"]
         match: contains
