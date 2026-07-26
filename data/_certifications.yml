@@ -70,6 +70,14 @@ slm-quickstart:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart
   tier: certified
+syndata-bare:
+  gaps: []
+  kind: skill
+  on_mission: true
+  score: 98
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare
+  tier: certified
 vector-rag:
   gaps:
   - correctness (55)
@@ -78,6 +86,14 @@ vector-rag:
   score: 94
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag
+  tier: certified
+vlm-failure-probe:
+  gaps: []
+  kind: skill
+  on_mission: true
+  score: 98
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe
   tier: certified
 vlm-quickstart:
   gaps:

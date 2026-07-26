@@ -52,10 +52,10 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `12`
+- [🏅 FM-os Certified](#fm-os-certified) `14`
 - [🧰 Open-Source Repos](#open-source-repos) `116`
 - [🎓 Courses](#courses) `33`
-- [📄 Papers](#papers) `97`
+- [📄 Papers](#papers) `98`
 - [🏛️ Labs & Platforms](#labs--platforms) `22`
 - [🧑‍🔬 People to Follow](#people--researchers) `16`
 - [💼 Jobs & Careers](#jobs--careers) `12`
@@ -96,6 +96,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 |---|---|--:|:--|
 | [bayesopt-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop) | skill | 98/100 | ✅ certified |
 | [continual-rl-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval) | skill | 98/100 | ✅ certified |
+| [vlm-failure-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe) | skill | 98/100 | ✅ certified |
+| [syndata-bare](https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare) | skill | 98/100 | ✅ certified |
 | [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
 | [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
 | [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
@@ -474,6 +476,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[Qwen2-VL: Perception of the World at Any Resolution](https://arxiv.org/abs/2409.12191)** (Wang et al. (Qwen Team), Alibaba, 2024) · arXiv:2409.12191 — Adds naive dynamic resolution and multimodal RoPE (M-RoPE) to handle arbitrary image sizes and video under one paradigm across 2B/8B/72B.
 - **[Qwen2.5-VL Technical Report](https://arxiv.org/abs/2502.13923)** (Qwen Team, Alibaba, 2025) · arXiv:2502.13923 — Absolute-time encoding for hour-long video, strong bbox/point grounding and document parsing — a strong fine-tuning base for driving/robotics.
 - **[InternVL: Scaling up Vision Foundation Models and Aligning for Generic Visual-Linguistic Tasks](https://arxiv.org/abs/2312.14238)** (Chen et al., Shanghai AI Lab / OpenGVLab, 2023) · CVPR 2024 · arXiv:2312.14238 — Scales the vision encoder to 6B params and progressively aligns it to an LLM, reaching SOTA across 32 image/video perception and retrieval benchmarks.
+- **[BARE: Leveraging Base Language Models for Few-Shot Synthetic Data Generation](https://arxiv.org/abs/2502.01697)** (Zhu, Asawa, Davis, Chen, Hanin, Stoica, Gonzalez, Zaharia, UC Berkeley / Stanford / Princeton, 2025) · arXiv:2502.01697 — Base models for diversity, instruction-tuned models for correctness — the two-stage recipe the syndata case study adapts to vision-language data; operationalized in skills/syndata-bare.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

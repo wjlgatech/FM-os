@@ -1,0 +1,86 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# probe_spec.yml — a VLM failure taxonomy AS DATA (single source of truth).
+# Seeded from "Failure Benchmarking of NVIDIA's VSS Tool" (Shah, Hosseini,
+# Shahab — Accenture Center for Advanced AI): every probe below is one of the
+# paper's observed failure examples, made machine-checkable.
+# scripts read this; the prose never drifts from what is actually gated.
+# ─────────────────────────────────────────────────────────────────────────────
+version: "0.1"
+
+# Discipline (FM-os Certified / BRACE): no evidence ⇒ No. A mode with no model
+# answers is "not measured" — excluded from the score and the gate CANNOT pass.
+require_measured: true
+
+failure_modes:
+  - id: spatial_directional
+    what: "Where things are: left/right, top/bottom order, fine visual detail."
+    threshold: 0.75
+    probes:
+      - id: squares_race
+        question: "Four colored squares race toward a finish line. Which colored square crosses it first?"
+        expect: ["red"]
+        match: contains
+      - id: squares_stack
+        question: "The four squares are stacked vertically. List their colors from top to bottom."
+        expect: ["yellow", "green", "blue", "red"]
+        match: order
+      - id: snowboarders_left
+        question: "Two snowboarders are visible. Which one is on the left — the orange jacket or the blue jacket?"
+        expect: ["orange"]
+        match: contains
+      - id: circled_letter
+        question: "The word TECHNOLOGY is written and one letter is circled. Which letter is circled?"
+        expect: ["h"]
+        match: contains
+
+  - id: temporal_cross_chunk
+    what: "Consistency across chunks: no fabricated transitions or attribute drift."
+    threshold: 0.75
+    probes:
+      - id: warehouse_no_fall
+        question: "Across the full video, does the person ever fall? Answer yes or no."
+        expect: ["no|never|not fall|doesn t fall"]
+        match: contains
+      - id: sport_stays_tennis
+        question: "What sport is being played at the end of the video?"
+        expect: ["tennis"]
+        match: contains
+      - id: shirt_stays_white
+        question: "What color shirt does the person wear throughout the video?"
+        expect: ["white"]
+        match: contains
+
+  - id: prompt_multipart
+    what: "Compound prompts: every sub-question answered, not just the last line."
+    threshold: 0.75
+    probes:
+      - id: summary_count_clothing
+        question: "Provide a summary. How many people are present? What is the person wearing?"
+        expect: ["warehouse|storage|boxes", "one person|1 person|single person|one man|one worker|a man|a worker", "yellow vest|yellow shirt|yellow top|wearing yellow|hi vis|high visibility"]
+        match: all_parts
+      - id: describe_and_closer
+        question: "Describe what is happening in the video and identify which player is closer to the camera."
+        expect: ["rally|ball|players", "white"]
+        match: all_parts
+
+  - id: retrieval_reranking
+    what: "The retrieved chunk actually answers the query (no keyword-overlap drift)."
+    threshold: 0.5
+    probes:
+      - id: forklift_fork_direction
+        question: "Is the forklift's fork moving up or down?"
+        expect: ["up|upward|upwards|rising|raised|lifting"]
+        match: contains
+      - id: end_of_video
+        question: "What happens at the very end of the video?"
+        expect: ["truck", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away"]
+        match: contains
+
+  - id: grounding_hallucination
+    what: "Answers grounded in pixels: no invented objects or attributes."
+    threshold: 0.75
+    probes:
+      - id: floor_color
+        question: "What color is the warehouse floor?"
+        expect: ["concrete|gray|grey"]
+        match: contains

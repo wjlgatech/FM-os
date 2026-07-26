@@ -60,6 +60,18 @@
   tags: [hub, router]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os
+- name: vlm-failure-probe
+  kind: skill
+  path: skills/vlm-failure-probe
+  tags: [vlm, eval, benchmark]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe
+- name: syndata-bare
+  kind: skill
+  path: skills/syndata-bare
+  tags: [vlm, data, eval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare
 - name: fm-os-sync
   kind: workflow
   path: scripts
