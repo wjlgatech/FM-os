@@ -166,5 +166,37 @@
         "evidence": "RESULTS.md + spec diff"
       }
     ]
+  },
+  {
+    "id": "rc0010",
+    "delivery": "OpenAI Personal AGI (Post-Training) JD: honest jdfit 100/100 over 8 capabilities \u2014 +4 taxonomy caps, product-rl-loop skill (cert 98: DPO + reward-hack gate + ship/rollback), personalization-loop skill (cert 91: four gates incl. memory-pays-rent + bit-exact isolation), JD dossier w/ rsi-os cross-links, tailored resume in Downloads (md + print HTML)",
+    "objective": "Deep-dive the OpenAI Personal AGI RE/RS JD, build knowledge+tooling to be fully functional for it, customize the resume",
+    "created_at": "2026-07-27T05:59:22Z",
+    "key_results": [
+      {
+        "text": "taxonomy honesty: false 100/4-caps exposed -> +4 capabilities -> 2 partial gaps -> closed -> honest 100/100 over 8",
+        "target": "jdfit",
+        "score": 1.0,
+        "evidence": "docs/jd-fit/openai-personal-agi.md"
+      },
+      {
+        "text": "product-rl-loop: raw biased signal reward-hacked (verbosity +1.9) and ROLLED BACK, bias-projected update SHIPS (win 0.95-1.0) across seeds",
+        "target": "cert 98, 5 tests",
+        "score": 1.0,
+        "evidence": "reference demo exit 0"
+      },
+      {
+        "text": "personalization-loop: lift +0.55, cold-start 0.00, leakage 0.0, wrong-memory -0.11",
+        "target": "cert 91, 6 tests",
+        "score": 1.0,
+        "evidence": "reference demo exit 0"
+      },
+      {
+        "text": "resume tailored to post-training/RL-x-product/evals angle, sourced only from real work",
+        "target": "Downloads .md + .html",
+        "score": 1.0,
+        "evidence": "files present"
+      }
+    ]
   }
 ]

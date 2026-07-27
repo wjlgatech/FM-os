@@ -72,6 +72,18 @@
   tags: [vlm, data, eval]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare
+- name: product-rl-loop
+  kind: skill
+  path: skills/product-rl-loop
+  tags: [rl, product-rl, eval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/product-rl-loop
+- name: personalization-loop
+  kind: skill
+  path: skills/personalization-loop
+  tags: [personalization, eval, retrieval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop
 - name: fm-os-sync
   kind: workflow
   path: scripts
