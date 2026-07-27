@@ -198,5 +198,31 @@
         "evidence": "files present"
       }
     ]
+  },
+  {
+    "id": "rc0011",
+    "delivery": "10X'd the 4-JD OpenAI Personal AGI analysis: graded the original 6.5/10 with verified errata (its 'zero RL/no papers/system-only personalization' claims were stale), machine-scored all 4 JDs via jdfit (North Stars 95, Proactivity 94, Model Experience 100, Post-Training 100), and rebuilt the 3 projects on existing certified assets with competitor-named PMF + honest kill criteria",
+    "objective": "Eval the Downloads JD-fit answer and 10X it",
+    "created_at": "2026-07-27T22:38:48Z",
+    "key_results": [
+      {
+        "text": "machine scores replace vibes: +3 taxonomy caps (tool-use/connectors, proactivity, model-behavior); 2 honest partials found that independently confirm the original's project directions",
+        "target": "jdfit x4 regenerable",
+        "score": 1.0,
+        "evidence": "docs/jd-fit/_openai-{north-stars,model-experience,proactivity}.jd.txt"
+      },
+      {
+        "text": "5 verified errata incl. product-rl-loop 98 + personalization-loop 91 + NeurIPS-under-review contradicting the original's Tier-1 gaps",
+        "target": "every claim has an artifact path",
+        "score": 1.0,
+        "evidence": "10X doc section 0"
+      },
+      {
+        "text": "projects rebuilt: timelines 8w->3-5w each (60% exists), competitors named (BFCL/tau-bench, Argilla/distilabel, Letta/Rewind), stars dropped as kill criteria",
+        "target": "quality > quantity",
+        "score": 1.0,
+        "evidence": "10X doc section 4"
+      }
+    ]
   }
 ]
