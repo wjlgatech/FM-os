@@ -224,5 +224,31 @@
         "evidence": "10X doc section 4"
       }
     ]
+  },
+  {
+    "id": "rc0012",
+    "delivery": "RewardForge M1 shipped: a REAL LoRA-DPO fine-tune (SmolLM2-135M, MPS) from eval-derived preference pairs (162 pairs labeled by FM-os's own certified gates, zero human labels) \u2014 held-out hallucination rate 0.398 -> 0.287, SHIP verdict; attempt 1 (lr 1e-4) honestly ROLLED BACK by the same gate after DPO policy collapse",
+    "objective": "Next step from the 10X roadmap: P1 RewardForge \u2014 close the one real technical gap (an at-scale post-training artifact)",
+    "created_at": "2026-07-27T23:24:31Z",
+    "key_results": [
+      {
+        "text": "pipeline: certified-gate labels -> provenance pairs -> from-scratch DPO (torch+peft, loss unit-tested vs hand computation) -> held-out ship/rollback gate",
+        "target": "labs/rewardforge, 8 offline tests",
+        "score": 1.0,
+        "evidence": "make check green"
+      },
+      {
+        "text": "real fine-tune SHIPPED: halluc 0.398->0.287 (gate floor 0.05 drop, achieved 0.111), no degeneration",
+        "target": "out/RESULTS.md with raw generations",
+        "score": 1.0,
+        "evidence": "run exit 0"
+      },
+      {
+        "text": "honest failure first: attempt 1 (lr 1e-4, 2 epochs) collapsed the policy (halluc 0.398->0.503, repetition loops) and the gate ROLLED IT BACK; leakage test caught a train/heldout word collision pre-run",
+        "target": "the gates work",
+        "score": 1.0,
+        "evidence": "run logs"
+      }
+    ]
   }
 ]
