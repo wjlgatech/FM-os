@@ -250,5 +250,31 @@
         "evidence": "run logs"
       }
     ]
+  },
+  {
+    "id": "rc0013",
+    "delivery": "Research-program infra shipped depth-first: mcp-arena repo live (M0, 7 self-tests, evidence-hallucinator fails by construction), P3 Proactive-Twin brief landed in super-u (its depth home \u2014 no new repo), and FM-os RESEARCH-PROGRAM.md fixes the one-mile-deep thesis + homes table with the repos-are-earned rule",
+    "objective": "Set up infra for each research project per playbook; advise homes for depth over width; FM-os links them as case studies",
+    "created_at": "2026-07-27T23:51:28Z",
+    "key_results": [
+      {
+        "text": "mcp-arena: the ONE justified new repo (benchmark = standalone schelling point) \u2014 12 tasks x 6 categories as data, golden=1.0 / hallucinator<0.5 gates",
+        "target": "github.com/wjlgatech/mcp-arena on main",
+        "score": 1.0,
+        "evidence": "make check 7/7"
+      },
+      {
+        "text": "P3 home = super-u (Digital Twin matured, 5th gate: interruption cost); brief on branch docs/proactive-twin-brief, pre-existing work untouched",
+        "target": "no self-fork",
+        "score": 1.0,
+        "evidence": "branch pushed"
+      },
+      {
+        "text": "depth rule codified: brief -> gated lab -> standalone repo only if standalone-ness is load-bearing for PMF",
+        "target": "RESEARCH-PROGRAM.md homes table",
+        "score": 1.0,
+        "evidence": "FM-os PR"
+      }
+    ]
   }
 ]

@@ -1,6 +1,11 @@
 # labs/ — applied proof-of-capability builds
 
-Hands-on labs that put the FM-os skills to work on a concrete target. Each is self-contained,
+Hands-on labs that put the FM-os skills to work on a concrete target.
+
+> These labs are probes of ONE research program — *eval gates as training-signal
+> factories* — with homes chosen for depth over width: see
+> [docs/research/RESEARCH-PROGRAM.md](../docs/research/RESEARCH-PROGRAM.md)
+> (P2 lives at [mcp-arena](https://github.com/wjlgatech/mcp-arena), P3 in super-u). Each is self-contained,
 test-gated, and built from public surfaces only.
 
 | Lab | What it proves | Gates |
