@@ -822,3 +822,13 @@
   url: https://arxiv.org/abs/2502.01697
   topic: vlm
   blurb: "Base models for diversity, instruction-tuned models for correctness — the two-stage recipe the syndata case study adapts to vision-language data; operationalized in skills/syndata-bare."
+
+# ── Personalization / memory (Personal AGI case study) ──────────────────────
+- title: "MemGPT: Towards LLMs as Operating Systems"
+  authors: "Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez"
+  org: "UC Berkeley"
+  year: 2023
+  venue: "arXiv:2310.08560"
+  url: https://arxiv.org/abs/2310.08560
+  topic: personalization
+  blurb: "Virtual context management — OS-style hierarchical memory for LLMs; the canonical per-user persistent-memory design behind personal models. Operationalized in skills/personalization-loop."

@@ -170,3 +170,37 @@
   repo_categories: [bayesopt, frameworks]
   topics: [ssm]
   kind: knowledge
+
+# ── OpenAI Personal AGI RE/RS JD (2026-07-27) — product-driven RL research ────
+- id: product_driven_research
+  label: "Product-driven research / deployment research"
+  keywords: ["product-driven", "real world deployment", "deployment to millions",
+             "research and product teams", "combining reinforcement learning and products",
+             "deploy to production users", "a/b test"]
+  repo_categories: [rl, eval]
+  topics: [posttraining, product]
+  skill_tag: product-rl
+
+- id: personalization_memory
+  label: "Personalization / memory (personal models)"
+  keywords: ["personal agi", personalization, personalize, "personal ai", "user memory",
+             "optimize their own models", "custom models", memory]
+  repo_categories: [retrieval, models]
+  topics: [personalization]
+  skill_tag: personalization
+
+- id: automated_research_agenda
+  label: "Owning a research agenda / automated AI research"
+  keywords: ["research agenda", "own and pursue", "novel and highly capable models",
+             "automated research", "ai scientist"]
+  repo_categories: [research]
+  topics: [research]
+  kind: knowledge
+
+- id: ml_codebase_engineering
+  label: "Large ML codebase engineering & debugging"
+  keywords: ["large ml codebase", "codebase to debug", "research stack",
+             "design, implement, test, and debug"]
+  repo_categories: [frameworks]
+  topics: [foundations, engineering]
+  kind: knowledge

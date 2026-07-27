@@ -52,6 +52,23 @@ fm-os-sync:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/scripts
   tier: certified
+personalization-loop:
+  gaps:
+  - relevance (54)
+  kind: skill
+  on_mission: true
+  score: 91
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop
+  tier: certified
+product-rl-loop:
+  gaps: []
+  kind: skill
+  on_mission: true
+  score: 98
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/product-rl-loop
+  tier: certified
 research-loop:
   gaps:
   - correctness (55)

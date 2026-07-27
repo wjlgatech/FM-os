@@ -1,0 +1,27 @@
+OpenAI — Research Engineer / Scientist, Personal AGI team (San Francisco, CA; hybrid 3 days/week)
+
+About The Team
+The Personal AGI team is responsible for training and improving pre-trained models to be deployed
+into ChatGPT, the API, and potential future products. The team partners closely with research and
+product teams across the company, and conducts research as a final step to prepare for real world
+deployment to millions of users, ensuring that our models are safe, efficient, and reliable.
+
+About The Role
+As a Research Engineer / Scientist, you will research and develop improvements to our models. Our
+team works in research areas combining reinforcement learning and products.
+We're looking for individuals with strong ML engineering skills and research experience, especially
+with novel and highly capable models. An ideal candidate is passionate about product-driven research.
+
+In This Role, You Will
+- Own and pursue a research agenda to improve model capability and performance.
+- Collaborate closely with the other research and product teams, allowing customers to optimize
+  their own models.
+- Build robust evaluations for tracking modeling improvements.
+- Design, implement, test, and debug code across our research stack.
+
+You Might Thrive In This Role If You
+- Have a deep understanding of machine learning and machine learning applications.
+- Have a working knowledge of relevant models, and building evaluations for model capability
+  improvement.
+- Are comfortable diving into a large ML codebase to debug.
+- Thrive in a dynamic and technically complex environment.

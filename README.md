@@ -52,10 +52,10 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `14`
+- [🏅 FM-os Certified](#fm-os-certified) `16`
 - [🧰 Open-Source Repos](#open-source-repos) `116`
 - [🎓 Courses](#courses) `33`
-- [📄 Papers](#papers) `98`
+- [📄 Papers](#papers) `99`
 - [🏛️ Labs & Platforms](#labs--platforms) `22`
 - [🧑‍🔬 People to Follow](#people--researchers) `16`
 - [💼 Jobs & Careers](#jobs--careers) `12`
@@ -98,6 +98,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [continual-rl-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval) | skill | 98/100 | ✅ certified |
 | [vlm-failure-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe) | skill | 98/100 | ✅ certified |
 | [syndata-bare](https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare) | skill | 98/100 | ✅ certified |
+| [product-rl-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/product-rl-loop) | skill | 98/100 | ✅ certified |
 | [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
 | [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
 | [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
@@ -105,6 +106,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [fm-os](https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os) | skill | 94/100 | ✅ certified |
 | [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 92/100 | ✅ certified |
 | [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |
+| [personalization-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop) | skill | 91/100 | ✅ certified |
 | [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 83/100 | ✅ certified |
 | eval-llm | skill | — | ⏳ submitted |
 | continual-learning-research | skill | — | ⏳ submitted |
@@ -572,6 +574,11 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 ### State-Space & Sequence Models
 - **[Efficiently Modeling Long Sequences with Structured State Spaces (S4)](https://arxiv.org/abs/2111.00396)** (Gu, Goel & Ré, Stanford, 2022) · ICLR · arXiv:2111.00396 — A structured SSM parameterization that handles 10k+ step dependencies efficiently — relevant to neural time-series.
 - **[Mamba: Linear-Time Sequence Modeling with Selective State Spaces](https://arxiv.org/abs/2312.00752)** (Gu & Dao, CMU / Princeton, 2023) · arXiv:2312.00752 — Selective (input-dependent) SSM matching Transformer quality with linear-time scaling — the modern state-space model to know.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### More
+- **[MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560)** (Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez, UC Berkeley, 2023) · arXiv:2310.08560 — Virtual context management — OS-style hierarchical memory for LLMs; the canonical per-user persistent-memory design behind personal models. Operationalized in skills/personalization-loop.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
