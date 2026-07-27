@@ -1,0 +1,20 @@
+OpenAI — Research Engineer / Research Scientist, Personal AGI — Proactivity (San Francisco, hybrid)
+
+About The Role
+As a Research Engineer / Scientist, you will research and develop improvements to our models'
+personalization and agentic capabilities. Our team works on reinforcement learning, dataset
+creation, evaluations, and other post-training methods. We partner closely with research and
+product teams across the company to realize the vision of a highly personalized, collaborative,
+and proactive assistant. An ideal candidate is passionate about product-driven research.
+
+In This Role, You Will
+- Own and pursue a research agenda to improve the proactivity and ability of our models to further user goals.
+- Build robust evaluations for tracking modeling improvements.
+- Design, implement, test, and debug code across our research stack.
+- Collaborate closely with the other research and product teams to influence the shape of technical solutions in the product.
+
+You Might Thrive In This Role If You
+- Have a deep understanding of machine learning and machine learning applications.
+- Have a working knowledge of LLM post-training and evaluation approaches.
+- Are passionate about, or have experience thinking about, personalization and enabling users to achieve their goals.
+- Are comfortable diving into a large ML codebase to debug.

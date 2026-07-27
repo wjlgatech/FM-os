@@ -204,3 +204,27 @@
   repo_categories: [frameworks]
   topics: [foundations, engineering]
   kind: knowledge
+
+# ── OpenAI Personal AGI sub-team JDs (North Stars / Proactivity / Model Experience) ──
+- id: tool_use_connectors
+  label: "Tool-use / connectors / instruction following (agent harness)"
+  keywords: [tool-use, "tool use", connectors, "instruction following", "feature discovery",
+             "harness improvements", mcp, "world interaction", "bringing agents"]
+  repo_categories: [agents, serving]
+  topics: [agents, tooluse]
+  skill_tag: agent-harness
+
+- id: proactivity
+  label: "Proactive assistant behavior (anticipate user goals)"
+  keywords: [proactivity, proactive, "further user goals", "anticipate", "collaborative assistant"]
+  repo_categories: [agents]
+  topics: [personalization, agents]
+  skill_tag: proactivity
+
+- id: model_behavior_judgment
+  label: "Model behavior judgment / human-AI interaction quality"
+  keywords: ["model behavior", "human-ai interaction", "human ai interaction", personality,
+             factuality, "qualitative problems", "training interventions", sycophancy]
+  repo_categories: [eval]
+  topics: [eval, posttraining]
+  kind: knowledge

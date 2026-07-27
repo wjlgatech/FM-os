@@ -1,0 +1,21 @@
+OpenAI — Research Engineer / Research Scientist, Personal AGI — Model Experience (San Francisco, hybrid)
+
+About The Role
+As a Research Engineer / Scientist, you will research and develop improvements to our models.
+Our team works in research areas combining reinforcement learning and products. We're looking
+for individuals with strong ML engineering skills and research experience, especially with novel
+and highly capable models. An ideal candidate is passionate about product-driven research and
+the quality of human-AI interaction.
+
+In This Role, You Will
+- Own and pursue a research agenda to improve model capability and performance.
+- Collaborate closely with the other research and product teams, allowing customers to optimize their own models.
+- Build robust evaluations for tracking modeling improvements.
+- Design, implement, test, and debug code across our research stack.
+
+You Might Thrive In This Role If You
+- Have a deep understanding of machine learning and machine learning applications.
+- Have good judgment about model behavior and can communicate this judgment effectively.
+- Enjoy taking ambitious, qualitative problems and turning them into concrete training interventions.
+- Have a working knowledge of relevant models, and building evaluations for model capability improvement.
+- Are comfortable diving into a large ML codebase to debug.
