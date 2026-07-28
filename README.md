@@ -52,8 +52,8 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `16`
-- [🧰 Open-Source Repos](#open-source-repos) `116`
+- [🏅 FM-os Certified](#fm-os-certified) `17`
+- [🧰 Open-Source Repos](#open-source-repos) `117`
 - [🎓 Courses](#courses) `33`
 - [📄 Papers](#papers) `99`
 - [🏛️ Labs & Platforms](#labs--platforms) `22`
@@ -99,6 +99,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [vlm-failure-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe) | skill | 98/100 | ✅ certified |
 | [syndata-bare](https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare) | skill | 98/100 | ✅ certified |
 | [product-rl-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/product-rl-loop) | skill | 98/100 | ✅ certified |
+| [tinker-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop) | skill | 98/100 | ✅ certified |
 | [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
 | [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
 | [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
@@ -178,6 +179,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[torchtune](https://github.com/meta-pytorch/torchtune)** 🤏 `★ 5,783` — PyTorch-native post-training recipes (SFT, distillation, DPO/PPO/GRPO, QAT) tuned for memory-limited hardware.
 - **[ms-swift](https://github.com/modelscope/ms-swift)** 🎬 — Unified SFT/DPO/GRPO toolkit covering 300+ multimodal models (Qwen-VL, InternVL, LLaVA), a fast path to fine-tune VLMs on custom data.
 - **[XTuner](https://github.com/InternLM/xtuner)** 🎬 — Memory-efficient LLM/VLM fine-tuning engine (LLaVA-style pipelines, large-MoE support) for constrained or very large setups.
+- **[Tinker Cookbook](https://github.com/thinking-machines-lab/tinker-cookbook)** 🤏 — Apache-2.0 post-training recipe library on the Tinker fine-tuning API — SFT, DPO, RLHF, and custom RL environments composed from four low-level training primitives over LoRA adapters.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

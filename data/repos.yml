@@ -722,3 +722,9 @@
   category: neuro
   slm: false
   blurb: "Tools for the Neural Latents Benchmark — evaluating latent-variable models of neural population dynamics; the eval harness for neural representation learning."
+- name: Tinker Cookbook
+  repo: thinking-machines-lab/tinker-cookbook
+  url: https://github.com/thinking-machines-lab/tinker-cookbook
+  category: finetuning
+  slm: true
+  blurb: "Apache-2.0 post-training recipe library on the Tinker fine-tuning API — SFT, DPO, RLHF, and custom RL environments composed from four low-level training primitives over LoRA adapters."
