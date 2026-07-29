@@ -95,6 +95,14 @@ syndata-bare:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare
   tier: certified
+tinker-loop:
+  gaps: []
+  kind: skill
+  on_mission: true
+  score: 98
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop
+  tier: certified
 vector-rag:
   gaps:
   - correctness (55)

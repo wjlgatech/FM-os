@@ -276,5 +276,49 @@
         "evidence": "FM-os PR"
       }
     ]
+  },
+  {
+    "id": "rc0014",
+    "delivery": "Thinking Machines Tinker DX campaign \u2014 first full run of the job-application flywheel playbook",
+    "objective": "Turn the Tinker DX application into compounding assets: honest jdfit, gap-closing certified skill, tailored resume, reusable playbook, outreach drafts",
+    "created_at": "2026-07-28T02:45:17Z",
+    "key_results": [
+      {
+        "text": "Honest jdfit for Tinker DX JD: taxonomy +4 DX caps, false-100 -> 82 -> earned 100/100 over 11 caps",
+        "target": "100/100 honest",
+        "score": 1.0,
+        "evidence": "docs/jd-fit/thinking-machines-tinker-dx.md"
+      },
+      {
+        "text": "tinker-loop skill: 4 Tinker primitives + LoRA in numpy, SFT+DPO recipes, 3 held-out gates, naive ROLLBACK / replay SHIP, 7/7 tests",
+        "target": "certified >=90",
+        "score": 1.0,
+        "evidence": "skills/tinker-loop (certified 98)"
+      },
+      {
+        "text": "Tailored resume md+html sourced only from real work",
+        "target": "files in ~/Downloads",
+        "score": 1.0,
+        "evidence": "~/Downloads/Paul Jialiang Wu \u2014 Resume \u2014 Thinking Machines Tinker DX.md"
+      },
+      {
+        "text": "Reusable job-application flywheel playbook w/ outcome-tracking discipline",
+        "target": "9 stages w/ gates",
+        "score": 1.0,
+        "evidence": "docs/PLAYBOOK-jobapp-flywheel.md"
+      },
+      {
+        "text": "Reverse-engineering ruling + 2 ranked projects w/ competitors + kill criteria + outreach drafts (never sent)",
+        "target": "dossier complete",
+        "score": 1.0,
+        "evidence": "docs/jd-fit/thinking-machines-tinker-dx-outreach.md"
+      },
+      {
+        "text": "Application submitted + outcome logged",
+        "target": "employer response recorded",
+        "score": 0.0,
+        "evidence": "pending human gate \u2014 Outcome log empty"
+      }
+    ]
   }
 ]

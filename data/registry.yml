@@ -84,6 +84,12 @@
   tags: [personalization, eval, retrieval]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop
+- name: tinker-loop
+  kind: skill
+  path: skills/tinker-loop
+  tags: [dx, cookbook, oss, posttrain-api, finetune, rl]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop
 - name: fm-os-sync
   kind: workflow
   path: scripts

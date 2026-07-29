@@ -1,0 +1,29 @@
+Research Engineer, Developer Experience, Tinker — Thinking Machines Lab (San Francisco, CA)
+
+About Thinking Machines Lab
+Thinking Machines Lab's mission is to empower humanity through advancing collaborative general intelligence. The team includes creators of ChatGPT, Character.ai, Mistral, PyTorch, and other prominent AI and open-source projects.
+
+About Tinker
+Tinker is a fine-tuning API enabling researchers and developers to customize open-weight models using their own data and algorithms, while Thinking Machines manages the distributed training infrastructure. The platform is expanding rapidly with new customers and use cases. Tinker exposes low-level training primitives (forward_backward, optim_step, sample, save_state) and uses LoRA for efficient post-training; the open-source Tinker Cookbook provides modern implementations of post-training methods (SFT, DPO, RLHF, RL environments, evals) on top of the API.
+
+Role
+This position bridges Tinker users with internal research and infrastructure teams. You will be happiest in a code editor or Jupyter notebook while also engaging with creative users to understand their needs.
+
+Responsibilities
+- Write, test, and maintain high-quality code examples, recipes, and documentation in the Tinker cookbook
+- Work directly with a variety of users to debug technical issues and optimize their fine-tuning pipelines
+- Partner with internal research and infrastructure teams to identify developer experience improvements
+- Build tools, integrations, and demos that reduce user friction
+- Share insights from the field through posts, guides, and talks
+- Help develop Tinker's roadmap and product strategy
+
+Qualifications
+- Experienced with fine-tuning large language models (LLMs) with supervised and reinforcement learning (SFT, RLHF, DPO, preference optimization, reward models, RL post-training)
+- Experienced with developing software libraries, especially open-source libraries
+- Thoughtful about developer ergonomics, API design, and onboarding
+- Passionate about open-source community engagement
+- Have written public or internal code examples, tutorials, or papers
+- Comfortable reasoning about model training and inference tradeoffs (throughput, latency, LoRA, distributed training, evaluation)
+
+Compensation
+$350,000 - $475,000 USD annually. Visa sponsorship available. San Francisco, CA.

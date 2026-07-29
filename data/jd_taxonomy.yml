@@ -205,6 +205,39 @@
   topics: [foundations, engineering]
   kind: knowledge
 
+# ── Thinking Machines Tinker DX JD (Research Engineer, Developer Experience) ──
+- id: dev_experience
+  label: "Developer experience / API ergonomics / onboarding"
+  keywords: ["developer experience", "developer ergonomics", ergonomics, onboarding,
+             "user friction", "reduce friction", "dx "]
+  repo_categories: [devtools, serving]
+  topics: [engineering, devex]
+  skill_tag: dx
+
+- id: technical_writing
+  label: "Code examples / tutorials / cookbook recipes (docs as product)"
+  keywords: [cookbook, tutorial, recipes, "code examples", "documentation", guides,
+             "jupyter notebook"]
+  repo_categories: [devtools, finetuning]
+  topics: [devex, courses]
+  skill_tag: cookbook
+
+- id: oss_library
+  label: "Open-source library development & community engagement"
+  keywords: ["open-source librar", "open source librar", "software librar",
+             "community engagement", "open-source community", "open source community"]
+  repo_categories: [frameworks, devtools]
+  topics: [engineering, oss]
+  skill_tag: oss
+
+- id: finetune_service_api
+  label: "Fine-tuning-service API primitives (training-client design)"
+  keywords: ["fine-tuning api", "fine tuning api", forward_backward, optim_step,
+             "training primitives", "managed training", tinker, "training client"]
+  repo_categories: [finetuning, rl]
+  topics: [posttraining, devex]
+  skill_tag: posttrain-api
+
 # ── OpenAI Personal AGI sub-team JDs (North Stars / Proactivity / Model Experience) ──
 - id: tool_use_connectors
   label: "Tool-use / connectors / instruction following (agent harness)"
