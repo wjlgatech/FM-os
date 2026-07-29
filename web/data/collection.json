@@ -320,5 +320,31 @@
         "evidence": "pending human gate \u2014 Outcome log empty"
       }
     ]
+  },
+  {
+    "id": "rc0015",
+    "delivery": "Resume trackability: every project linked + verified, rule codified in playbook, PDF regenerated",
+    "objective": "1) clickable links for all resume projects with trackability as a standing rule 2) PDF version",
+    "created_at": "2026-07-29T22:29:42Z",
+    "key_results": [
+      {
+        "text": "All projects/publications/profiles in resume linked; 12 URLs curl-verified (GitHub 200s); private super-u honestly left unlinked",
+        "target": "20 anchors, 0 broken",
+        "score": 1.0,
+        "evidence": "~/Downloads resume md/html/pdf"
+      },
+      {
+        "text": "Trackability gate added to playbook Stage 5 (verify-before-submit, no links to dead/private targets, in-design projects link to their public brief)",
+        "target": "rule on main",
+        "score": 1.0,
+        "evidence": "docs/PLAYBOOK-jobapp-flywheel.md"
+      },
+      {
+        "text": "PDF regenerated from fixed md->pandoc->html pipeline: 2 pages, 42 link annotations, merged-bullet defect fixed at source",
+        "target": "2-page clickable PDF",
+        "score": 1.0,
+        "evidence": "~/Downloads/...Tinker DX.pdf"
+      }
+    ]
   }
 ]

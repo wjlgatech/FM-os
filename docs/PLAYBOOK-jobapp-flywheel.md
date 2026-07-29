@@ -122,15 +122,25 @@ agent session; a full campaign is 1–3 days, not weeks.
 
 - **Goal:** the human-facing narrative, sourced **only from real, path-citable work** —
   the dossier is the campaign's index, not its marketing.
-- **Commands:** tailored resume as md + print-ready html in `~/Downloads`; dossier at
+- **Commands:** tailored resume as md + print-ready html in `~/Downloads` (PDF rendered
+  from the html via headless Chrome — links survive as clickable annotations); dossier at
   `docs/jd-fit/<slug>.md` containing: role one-liner, the generated scorecard (with the
   regenerate command), the honest-edges section, lab writeup, and interview prep — 5
   stories mapped to JD caps, interviewer profiles when known (the `labs/nomadicml`
   INTERVIEW-PREP pattern).
-- **Artifact:** resume pair + dossier.
+- **Artifact:** resume triple (md source of truth → html → PDF; html/PDF are *generated*,
+  regenerate with pandoc + Chrome rather than hand-editing) + dossier.
 - **Gate:** every resume claim resolves to a repo path or PR; the dossier's scorecard is
   machine-generated (regenerating it produces the same table); an "honest edges" section
   exists — a dossier with no admitted weakness is a red flag, not a strength.
+- **Gate — trackability (Tinker DX lesson, 2026-07-29):** every project, publication, and
+  profile named in the resume carries a **clickable link, and every link is verified to
+  resolve before submission** (`curl -sIL -o /dev/null -w '%{http_code}'` each URL —
+  GitHub 200s; DOI/LinkedIn bot-blocks like 403/999 are acceptable only for canonical
+  URLs). A private or dead target (e.g. a private repo returning 404) stays **unlinked**
+  — an honest plain mention beats a broken link. In-design projects link to the public
+  doc that defines them (dossier/brief), never to a repo that doesn't exist yet. The
+  reviewer must be able to click from any claim to its evidence.
 - **Time budget:** 2–3 h.
 
 ### Stage 6 — Articles / community
