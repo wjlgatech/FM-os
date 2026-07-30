@@ -21,6 +21,7 @@ REQUIRED = {
     "people": ["name", "url", "category"],
     "models": ["name", "url", "params", "license"],
     "registry": ["name", "kind"],
+    "readinglists": ["name", "url", "focus", "status"],
 }
 
 

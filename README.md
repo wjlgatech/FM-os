@@ -16,7 +16,7 @@ The most comprehensive, community-driven, **living** map of how modern language 
 
 🧬 **The flywheel, applied → [longevity-loop](https://github.com/wjlgatech/longevity-loop)**: an AI-native, build-in-public loop turning this SLM/FM-ops method into real aging-science results — code-only, verified, no wet lab.
 
-[Start Here](#start-here) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
+[Start Here](#start-here) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Reading Lists](#reading-lists) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
 
 <img src="site/infographics/flywheel.svg" alt="The FM-os compounding flywheel: curate → generate → gate → ship → signal, every turn adds a capability" width="760">
 
@@ -56,6 +56,7 @@ New to foundation-model ops? Read this in order:
 - [🧰 Open-Source Repos](#open-source-repos) `117`
 - [🎓 Courses](#courses) `33`
 - [📄 Papers](#papers) `99`
+- [📚 Reading Lists](#reading-lists) `2`
 - [🏛️ Labs & Platforms](#labs--platforms) `22`
 - [🧑‍🔬 People to Follow](#people--researchers) `16`
 - [💼 Jobs & Careers](#jobs--careers) `12`
@@ -581,6 +582,20 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 ### More
 - **[MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560)** (Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez, UC Berkeley, 2023) · arXiv:2310.08560 — Virtual context management — OS-style hierarchical memory for LLMs; the canonical per-user persistent-memory design behind personal models. Operationalized in skills/personalization-loop.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+---
+
+<h2 id="reading-lists">📚 Reading Lists</h2>
+
+### AI — Deep-Learning Canon → Physical AI → AGI/ASI
+- **[Frontier AI Reading List — deep-learning canon → Physical AI → AGI/ASI (2026-07-30)](https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/ai-reading-list-07-30-2026.md)** — 12 seminal works in Statement/Quote/Evidence/Actions/Patterns/1st-Principle format across two layers (compute & scaling canon; world models & VLA robotics); all 15 links verified, 2 fixed at intake; Layer 3 (AGI/ASI safety & alignment) pending.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Track Index & Contract
+- **[Reading-list track index — math · physics · CS · bio-biomed-biotech (planned)](https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/README.md)** — The track contract (trackable dated docs, every link verified, entries earn their place, honest gaps) and the roadmap for the math, physics, computer-science, and biology lists.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

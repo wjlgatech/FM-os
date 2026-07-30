@@ -378,5 +378,37 @@
         "evidence": "pdf page count"
       }
     ]
+  },
+  {
+    "id": "rc0017",
+    "delivery": "Community reading-list track: AI list intake (verified) + README integration via spec-as-data + math/physics/CS/bio scaffold",
+    "objective": "Save AI reading list as trackable doc ai-reading-list-07-30-2026.md, integrate into generated README, scaffold the multi-discipline track",
+    "created_at": "2026-07-30T15:13:16Z",
+    "key_results": [
+      {
+        "text": "Trackable doc saved with every link curl-verified: 15/15 resolve, 2 fixed at intake (dead ai.meta.com APTAMI -> OpenReview; RT-X mislink -> RT-2 page); secondary-source quotes labeled",
+        "target": "0 broken links",
+        "score": 1.0,
+        "evidence": "docs/reading-lists/ai-reading-list-07-30-2026.md"
+      },
+      {
+        "text": "README integration through the data pipeline, not hand-edit: data/readinglists.yml + validate schema + fmt_readinglist + meta.yml section/nav; make check green incl. drift gates",
+        "target": "generated section present",
+        "score": 1.0,
+        "evidence": "README.md#reading-lists"
+      },
+      {
+        "text": "Track scaffold with contract (dated docs, verified links, honest gaps) + 4 planned tracks (math/physics/CS/bio)",
+        "target": "index doc live",
+        "score": 1.0,
+        "evidence": "docs/reading-lists/README.md"
+      },
+      {
+        "text": "Full source content landed",
+        "target": "Layer 3 (AGI/ASI) + entry 12 completion",
+        "score": 0.0,
+        "evidence": "intake snapshot was truncated \u2014 marked honest-gap in doc, awaiting Paul's Layer 3 content"
+      }
+    ]
   }
 ]
