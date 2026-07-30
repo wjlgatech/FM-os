@@ -8,6 +8,12 @@
   status: live
   blurb: "12 seminal works in Statement/Quote/Evidence/Actions/Patterns/1st-Principle format across two layers (compute & scaling canon; world models & VLA robotics); all 15 links verified, 2 fixed at intake; Layer 3 (AGI/ASI safety & alignment) pending."
 
+- name: "AI for Math & Science — assisted and autonomous problem solving (2026-07-30)"
+  url: https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/ai-enabled-research-reading-list-07-30-2026.md
+  focus: ai-research
+  status: live
+  blurb: "AI-enabled research: theorem proving and math discovery case studies (AlphaEvolve, Nesterov convergence, Bruhat-interval hypercubes) in the Statement/Quote/Evidence/Actions/Patterns/1st-Principle format; Layer 1 landed, Layers 2-3 (autonomous science, benchmarks) pending."
+
 - name: "Reading-list track index — math · physics · CS · bio-biomed-biotech (planned)"
   url: https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/README.md
   focus: index

@@ -22,6 +22,7 @@ dated markdown doc in this directory, each integrated into the hub README via `d
 | Track | Status | Doc |
 |---|---|---|
 | **AI** (deep-learning canon → Physical AI → AGI/ASI) | 🟢 live (Layer 3 pending) | [ai-reading-list-07-30-2026.md](ai-reading-list-07-30-2026.md) |
+| **AI-enabled research** (AI × math & science problem solving) | 🟢 live (Layers 2–3 pending) | [ai-enabled-research-reading-list-07-30-2026.md](ai-enabled-research-reading-list-07-30-2026.md) |
 | **Math** | 📋 planned | — |
 | **Physics** | 📋 planned | — |
 | **Computer Science** | 📋 planned | — |

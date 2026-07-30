@@ -56,7 +56,7 @@ New to foundation-model ops? Read this in order:
 - [🧰 Open-Source Repos](#open-source-repos) `117`
 - [🎓 Courses](#courses) `33`
 - [📄 Papers](#papers) `99`
-- [📚 Reading Lists](#reading-lists) `2`
+- [📚 Reading Lists](#reading-lists) `3`
 - [🏛️ Labs & Platforms](#labs--platforms) `22`
 - [🧑‍🔬 People to Follow](#people--researchers) `16`
 - [💼 Jobs & Careers](#jobs--careers) `12`
@@ -591,6 +591,11 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 ### AI — Deep-Learning Canon → Physical AI → AGI/ASI
 - **[Frontier AI Reading List — deep-learning canon → Physical AI → AGI/ASI (2026-07-30)](https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/ai-reading-list-07-30-2026.md)** — 12 seminal works in Statement/Quote/Evidence/Actions/Patterns/1st-Principle format across two layers (compute & scaling canon; world models & VLA robotics); all 15 links verified, 2 fixed at intake; Layer 3 (AGI/ASI safety & alignment) pending.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### AI-Enabled Research — AI × Math & Science
+- **[AI for Math & Science — assisted and autonomous problem solving (2026-07-30)](https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/ai-enabled-research-reading-list-07-30-2026.md)** — AI-enabled research: theorem proving and math discovery case studies (AlphaEvolve, Nesterov convergence, Bruhat-interval hypercubes) in the Statement/Quote/Evidence/Actions/Patterns/1st-Principle format; Layer 1 landed, Layers 2-3 (autonomous science, benchmarks) pending.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

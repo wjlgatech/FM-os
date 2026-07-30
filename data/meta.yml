@@ -159,6 +159,7 @@ sections:
     key: focus
     groups:
       - { key: ai,      title: "AI — Deep-Learning Canon → Physical AI → AGI/ASI" }
+      - { key: ai-research, title: "AI-Enabled Research — AI × Math & Science" }
       - { key: math,    title: "Mathematics" }
       - { key: physics, title: "Physics" }
       - { key: cs,      title: "Computer Science" }
