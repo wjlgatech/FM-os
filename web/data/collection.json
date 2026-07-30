@@ -456,5 +456,31 @@
         "evidence": "final message"
       }
     ]
+  },
+  {
+    "id": "rc0020",
+    "delivery": "Thinking Machines application SUBMITTED (Research Engineer, Developer Experience, Tinker \u2014 Greenhouse 5202369008): resume rebuilt from captured text after Downloads wipe (md+html+pdf), every field machine-verified before submit (11 dropdowns, 19 text fields, resume chip, phone), confirmation URL in browser history at 10:46:27",
+    "objective": "Save the Tinker DX resume PDF back to Downloads; apply to the Thinking Machines role",
+    "created_at": "2026-07-30T15:48:21Z",
+    "key_results": [
+      {
+        "text": "resume trio restored to Downloads from in-session captured text after folder wipe, PDF regenerated from Paul's polished md",
+        "target": "3 files",
+        "score": 1.0,
+        "evidence": "Downloads listing"
+      },
+      {
+        "text": "application submitted with verify-gate discipline: gate blocked 3 premature submits (empty-menu Enter, hidden required field, stale validation) before the clean one",
+        "target": "/confirmation visited 2026-07-30 10:46:27",
+        "score": 1.0,
+        "evidence": "profile History db"
+      },
+      {
+        "text": "tooling lesson: headless browse daemon reset by Greenhouse bot-detection; browser-harness real-Chrome CDP with coordinate clicks succeeded",
+        "target": "banked",
+        "score": 1.0,
+        "evidence": "session log"
+      }
+    ]
   }
 ]
