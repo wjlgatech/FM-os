@@ -482,5 +482,43 @@
         "evidence": "session log"
       }
     ]
+  },
+  {
+    "id": "rc0021",
+    "delivery": "Happy College launch article drafted (auto-review 4.6/5) + shorts + article playbook codified; human gate pending",
+    "objective": "Viral article for the Happy College AI reading club: embodied learning x ADEPT x the AI learning stack; enrich playbook; eval+10X the request",
+    "created_at": "2026-07-30T16:05:58Z",
+    "key_results": [
+      {
+        "text": "Long-form draft: embodied-learning thesis (basketball/MMA/swim/violin/singing/climbing mapped to deliberate practice/red-teaming/curriculum/ZPD), ADEPT demo on attention, session loop, CTA to verified reading lists",
+        "target": "rubric >=4/5",
+        "score": 1.0,
+        "evidence": "docs/marketing/happy-college-article-07-30-2026.md (4.6/5)"
+      },
+      {
+        "text": "Fact-integrity: ADEPT re-attributed Azad/BetterExplained (curl 200) vs brief's 'Freman Nobel' error; no apocryphal quotes; private repos (super-u, dreammaketrue 404) named-not-linked; zero invented traction",
+        "target": "0 falsifiable claims",
+        "score": 1.0,
+        "evidence": "article provenance header"
+      },
+      {
+        "text": "Syndication shorts drafted-never-posted per canonical flow (portfolio first, LinkedIn+X prefilled)",
+        "target": "drafts behind human gate",
+        "score": 1.0,
+        "evidence": "docs/marketing/happy-college-shorts-07-30-2026.md"
+      },
+      {
+        "text": "Playbook enriched: 6 standing article rules added to GROWTH.md (fact-check-first, stealable-asset-first, link-only-what-resolves, CTA-on-owned-asset, human gate)",
+        "target": "rules on main",
+        "score": 1.0,
+        "evidence": "docs/GROWTH.md#article-playbook"
+      },
+      {
+        "text": "Published + measured",
+        "target": "portfolio publish, syndication, signup surface, engagement logged",
+        "score": 0.0,
+        "evidence": "human-gated: needs Paul's publish + a club signup page (the discovered conversion gap)"
+      }
+    ]
   }
 ]

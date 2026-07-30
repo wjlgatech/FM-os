@@ -54,3 +54,27 @@ Topics: see `data/meta.yml → topics` (kept in sync with the About section).
 - Repo slug lowercase; if dual-branding, an `awesome-slm` alias helps discovery.
 - Section named exactly `Contents`, ≤1 nesting level, entries `[Name](url) - Description.`
 - CC0 license (✅) + `contributing` file (✅). Wait 30 days before submitting upstream.
+
+## Article playbook — earned writing the Happy College draft (2026-07-30)
+
+Lessons from `docs/marketing/happy-college-article-07-30-2026.md` (the reading-club launch
+article), now standing rules for every FM-os article:
+
+1. **Fact-check every attribution BEFORE drafting.** The brief said "ADEPT by Richard Freman
+   (Nobel Physic Laurate)" — the verified truth is Kalid Azad (BetterExplained), *inspired by*
+   Feynman. A wrong Nobel attribution in a viral post is a community-note magnet; the fact-check
+   is the first rep, not a polish step. Same gate as resume trackability: curl the source.
+2. **No apocryphal quotes.** If the famous quote can't be sourced, paraphrase the idea and
+   attribute the *method*, not the sentence.
+3. **The shareable unit is a table or a one-liner, not a paragraph.** Design the stealable asset
+   first (here: the sports→ML mapping table + "your jump shot is your syllabus"), then write the
+   article around it.
+4. **Link only what resolves; name the rest.** Private repos (super-u, DreamMakeTrue) are named
+   as products, never linked — a 404 in a launch post burns trust at the exact moment you have
+   attention.
+5. **CTA must land on an owned, verified asset.** Here: the reading-list track. Gap discovered:
+   a club needs a signup surface before syndication — build the conversion page BEFORE the post
+   goes out, not after.
+6. **Route through the human gate.** Drafts live in `docs/marketing/` with a DRAFT banner;
+   long-form to the agentic portfolio first, then 1-click prefilled syndication (LinkedIn link
+   in first comment; X link as last post). Auto-review rubric ≥4/5 before the gate.
