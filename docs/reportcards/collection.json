@@ -410,5 +410,31 @@
         "evidence": "intake snapshot was truncated \u2014 marked honest-gap in doc, awaiting Paul's Layer 3 content"
       }
     ]
+  },
+  {
+    "id": "rc0018",
+    "delivery": "2nd reading list live: AI-enabled research (AI x Math & Science) \u2014 verified intake, README section grew a group",
+    "objective": "Save the ai-enabled-research list as a trackable doc, integrate into the generated README reading-list track",
+    "created_at": "2026-07-30T15:16:26Z",
+    "key_results": [
+      {
+        "text": "Trackable doc saved; sole external source (Quanta article) curl-verified 200; secondary-citation nature of all entries noted; primary-source links flagged as next revision",
+        "target": "doc live w/ provenance header",
+        "score": 1.0,
+        "evidence": "docs/reading-lists/ai-enabled-research-reading-list-07-30-2026.md"
+      },
+      {
+        "text": "Registered in spec-as-data: readinglists.yml entry + ai-research group; README regenerated; make check green",
+        "target": "drift gates green",
+        "score": 1.0,
+        "evidence": "README.md#reading-lists"
+      },
+      {
+        "text": "Full source content landed",
+        "target": "Layers 2-3 + entry 4 completion",
+        "score": 0.0,
+        "evidence": "intake snapshot truncated mid-entry-4 \u2014 honest gaps marked, awaiting Paul's remaining content"
+      }
+    ]
   }
 ]
