@@ -78,3 +78,9 @@ article), now standing rules for every FM-os article:
 6. **Route through the human gate.** Drafts live in `docs/marketing/` with a DRAFT banner;
    long-form to the agentic portfolio first, then 1-click prefilled syndication (LinkedIn link
    in first comment; X link as last post). Auto-review rubric ≥4/5 before the gate.
+7. **The 5-S reviewer gate (2026-07-30).** Before the human gate, every article is scored by an
+   independent reviewer (maker ≠ checker) against the 5-S rubric — Simple (15-yo story + mental
+   model) · Solid (survival-test research + verified academic citations) · Sharp (verbatim insider
+   quotes, patterns/anti-patterns, mechanism, 1st principle) · SMART (optional) · Surprise
+   (belly-laugh beat). All mandatory ≥4/5 or it doesn't ship. Canonical rubric:
+   agentic-portfolio `docs/ARTICLE_AUTHORING.md` § "The 5-S reviewer".

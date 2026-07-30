@@ -552,5 +552,31 @@
         "evidence": "prefilled composers delivered \u2014 Paul's 1-click gate"
       }
     ]
+  },
+  {
+    "id": "rc0023",
+    "delivery": "5-S article reviewer codified (canonical + cross-linked) and run honestly against the live Happy College article: v1.0 FAILS the new gate 3/4 mandatory dims",
+    "objective": "Modify the article playbook with Paul's 5-dim reviewer (Simple/Solid/Sharp/SMART/Surprise) and review the generated article against it",
+    "created_at": "2026-07-30T17:06:28Z",
+    "key_results": [
+      {
+        "text": "Rubric canonical in agentic-portfolio docs/ARTICLE_AUTHORING.md (PR #139 merged) w/ anti-patterns (citation decoration, quote-laundering); cross-linked as rule 7 in FM-os GROWTH.md",
+        "target": "both repos on main",
+        "score": 1.0,
+        "evidence": "agentic-portfolio#139 + docs/GROWTH.md"
+      },
+      {
+        "text": "Honest maker\u2260checker review of live v1.0: S1 5/5, S2 2/5 FAIL (no citations/References), S3 3/5 FAIL (zero insider quotes), S4 4/5, S5 2/5 FAIL (no belly-laugh) \u2014 verdict: would not ship under new bar",
+        "target": "scored table w/ evidence",
+        "score": 1.0,
+        "evidence": "docs/marketing/happy-college-review-5s.md"
+      },
+      {
+        "text": "v1.1 shipped passing all mandatory dims",
+        "target": "5-S >=4/5 all mandatory",
+        "score": 0.0,
+        "evidence": "revision plan drafted, awaiting Paul's gate (live-article republish)"
+      }
+    ]
   }
 ]
