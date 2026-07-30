@@ -1,6 +1,7 @@
 # Happy College: Learn Transformers the Way You Learned Your Jump Shot
 
-> **DRAFT — human gate pending.** Canonical home when published: the
+> **PUBLISHED 2026-07-30** — canonical: <https://agentic-portfolio-lovat.vercel.app/articles/happy-college.html> (live-verified 200; cover unfurl asset 200).
+> Original plan: the
 > [agentic portfolio](https://agentic-portfolio-lovat.vercel.app) (long-form first), then 1-click
 > syndication to LinkedIn + X with backlinks. Shorts: [happy-college-shorts-07-30-2026.md](happy-college-shorts-07-30-2026.md).
 > All links curl-verified 2026-07-30; private repos (super-u, DreamMakeTrue) are deliberately

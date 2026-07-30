@@ -1,4 +1,4 @@
-# Happy College — syndication shorts (DRAFTS, human gate pending)
+# Happy College — syndication shorts (long-form PUBLISHED; shorts await Paul's 1-click)
 
 > Flow (Paul's canonical publishing rule): long-form to the
 > [agentic portfolio](https://agentic-portfolio-lovat.vercel.app) FIRST → then these two shorts
@@ -70,4 +70,4 @@ You leave each session with an artifact, not annotations.
 
 7/ Your jump shot is your syllabus.
 
-Full article + the curriculum: [PORTFOLIO-URL]
+Full article + the curriculum: https://agentic-portfolio-lovat.vercel.app/articles/happy-college.html

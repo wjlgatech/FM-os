@@ -520,5 +520,37 @@
         "evidence": "human-gated: needs Paul's publish + a club signup page (the discovered conversion gap)"
       }
     ]
+  },
+  {
+    "id": "rc0022",
+    "delivery": "Happy College PUBLISHED to the portfolio (live-verified) \u2014 viral-loop publish step complete; syndication composers handed to Paul",
+    "objective": "Publish the Happy College article to the agentic portfolio per the viral marketing playbook; provide the link",
+    "created_at": "2026-07-30T16:40:08Z",
+    "key_results": [
+      {
+        "text": "Article live at canonical URL, per ARTICLE_AUTHORING.md definition of done: cover og:image + first figure, mapping infographic, backlink, engage.js, related trio, registry entry",
+        "target": "live 200 + title verified",
+        "score": 1.0,
+        "evidence": "https://agentic-portfolio-lovat.vercel.app/articles/happy-college.html"
+      },
+      {
+        "text": "House-style art shipped + visually verified; 2 render defects caught and fixed pre-publish (label collision, tofu emoji)",
+        "target": "cover + infographic 200",
+        "score": 1.0,
+        "evidence": "public/articles/assets/happy-college-*.png (PR agentic-portfolio#138)"
+      },
+      {
+        "text": "Scope discipline: cherry-picked ONLY Happy College off a branch carrying an unshipped sibling article; npm test green pre-merge",
+        "target": "no unauthorized content published",
+        "score": 1.0,
+        "evidence": "PR #138 diff"
+      },
+      {
+        "text": "Syndication executed",
+        "target": "LinkedIn+X posted w/ backlinks + engagement logged",
+        "score": 0.0,
+        "evidence": "prefilled composers delivered \u2014 Paul's 1-click gate"
+      }
+    ]
   }
 ]
