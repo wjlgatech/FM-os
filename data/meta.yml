@@ -29,6 +29,7 @@ nav:
   - { label: "Repos", anchor: "open-source-repos" }
   - { label: "Courses", anchor: "courses" }
   - { label: "Papers", anchor: "papers" }
+  - { label: "Reading Lists", anchor: "reading-lists" }
   - { label: "Jobs", anchor: "jobs--careers" }
   - { label: "Roadmap", anchor: "learning-roadmap" }
   - { label: "Contribute", anchor: "contribute" }
@@ -151,6 +152,18 @@ sections:
       - { key: molecular,    title: "ML for Molecular & Bio Design" }
       - { key: neuroscience, title: "Neuroscience & Brain-Computer Interfaces" }
       - { key: ssm,          title: "State-Space & Sequence Models" }
+  - id: reading-lists
+    icon: "📚"
+    title: "Reading Lists"
+    source: readinglists
+    key: focus
+    groups:
+      - { key: ai,      title: "AI — Deep-Learning Canon → Physical AI → AGI/ASI" }
+      - { key: math,    title: "Mathematics" }
+      - { key: physics, title: "Physics" }
+      - { key: cs,      title: "Computer Science" }
+      - { key: bio,     title: "Biology · BioMed · BioTech" }
+      - { key: index,   title: "Track Index & Contract" }
   - id: labs--platforms
     icon: "🏛️"
     title: "Labs & Platforms"

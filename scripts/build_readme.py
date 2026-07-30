@@ -58,8 +58,15 @@ def fmt_person(e: dict) -> str:
     return f"- **[{esc(e['name'])}]({e['url']})**{aff} — {esc(e.get('focus',''))}"
 
 
+def fmt_readinglist(e: dict) -> str:
+    """One community reading list → a Markdown bullet with its status."""
+    status = " · _planned_" if e.get("status") == "planned" else ""
+    return f"- **[{esc(e['name'])}]({e['url']})**{status} — {esc(e.get('blurb',''))}"
+
+
 FMT = {"repos": fmt_repo, "courses": fmt_course, "papers": fmt_paper,
-       "jobs": fmt_job, "labs": fmt_lab, "people": fmt_person}
+       "jobs": fmt_job, "labs": fmt_lab, "people": fmt_person,
+       "readinglists": fmt_readinglist}
 
 
 def render_section(sec: dict, entries: list) -> str:
@@ -296,7 +303,8 @@ def build() -> str:
     """Assemble the full README from data/*.yml. Sections are emitted in order."""
     meta = load("meta")
     data = {"repos": repos_with_stars()}
-    data.update({name: load(name) for name in ("courses", "papers", "jobs", "labs", "people")})
+    data.update({name: load(name) for name in
+                 ("courses", "papers", "jobs", "labs", "people", "readinglists")})
     models, registry = load("models"), load("registry")
     certs = load("_certifications") if (DATA / "_certifications.yml").exists() else {}
     owner, repo = meta["repo_owner"], meta["repo_name"]

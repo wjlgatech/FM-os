@@ -1,0 +1,15 @@
+# Community reading-list track. One entry per list doc (docs/reading-lists/).
+# focus: ai|math|physics|cs|bio|index — drives README grouping.
+# Discipline: dated docs, every link curl-verified at intake, honest gaps marked.
+
+- name: "Frontier AI Reading List — deep-learning canon → Physical AI → AGI/ASI (2026-07-30)"
+  url: https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/ai-reading-list-07-30-2026.md
+  focus: ai
+  status: live
+  blurb: "12 seminal works in Statement/Quote/Evidence/Actions/Patterns/1st-Principle format across two layers (compute & scaling canon; world models & VLA robotics); all 15 links verified, 2 fixed at intake; Layer 3 (AGI/ASI safety & alignment) pending."
+
+- name: "Reading-list track index — math · physics · CS · bio-biomed-biotech (planned)"
+  url: https://github.com/wjlgatech/FM-os/blob/main/docs/reading-lists/README.md
+  focus: index
+  status: live
+  blurb: "The track contract (trackable dated docs, every link verified, entries earn their place, honest gaps) and the roadmap for the math, physics, computer-science, and biology lists."
