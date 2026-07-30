@@ -436,5 +436,25 @@
         "evidence": "intake snapshot truncated mid-entry-4 \u2014 honest gaps marked, awaiting Paul's remaining content"
       }
     ]
+  },
+  {
+    "id": "rc0019",
+    "delivery": "Architecture ruling: FM-os x rsi-os reading lists \u2014 keep repos separate, one canonical home per list, cross-link",
+    "objective": "Decide: combine FM-os and rsi-os or keep separated with different focus + links",
+    "created_at": "2026-07-30T15:18:15Z",
+    "key_results": [
+      {
+        "text": "Ruling grounded in live evidence: rsi-os surveyed (field-map structure, own data-driven README, papers taxonomy, roadmaps) + FM-os track state",
+        "target": "evidence-based brief",
+        "score": 1.0,
+        "evidence": "transcript + docs/research/RESEARCH-PROGRAM.md role map"
+      },
+      {
+        "text": "Recommendation falsifiable + actionable: separate repos; ai-enabled-research list canonical home -> rsi-os; FM-os keeps pointer; bidirectional links",
+        "target": "decision brief delivered",
+        "score": 1.0,
+        "evidence": "final message"
+      }
+    ]
   }
 ]
