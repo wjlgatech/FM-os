@@ -31,3 +31,23 @@ drafting pass; scored against the LIVE page, not the draft.
    smaller opponent 40 times in a row, because only one of those institutions let him re-enroll
    every six minutes.
 4. Re-run the 5-S review post-revision; ship v1.1 only if all mandatory ≥4.
+
+---
+
+## v1.1 re-review (2026-07-30, post-revision — SHIPPED)
+
+Revision executed and merged (agentic-portfolio#140); all quotes verified verbatim against the
+fetched Quanta source before landing (one reading-list paraphrase corrected in the process:
+Ryu's actual line is "The use of ChatGPT really accelerated the discovery."; the "50 years"
+quote is Geordie Williamson's).
+
+| Dim | v1.0 | v1.1 | Gate | What changed |
+|---|:--:|:--:|:--:|---|
+| S1 Simple | 5 | **5** | ✅ | story intact; humor built into the argument, not bolted on |
+| S2 Solid | 2 | **4.5** | ✅ | inline cites [1]–[6] + References w/ survival-test framing; Ericsson DOI 200; Sage DOIs canonical (bot-403 noted); quotes source-verified |
+| S3 Sharp | 3 | **4.5** | ✅ | 3 verbatim insider quotes w/ reasoning (Ryu, Williamson, Tao); explicit Patterns/Anti-patterns blocks; mechanism in one sentence |
+| S4 SMART | 4 | **4.5** | ✅ | metric made binary + public: one artifact per member per session |
+| S5 Surprise | 2 | **4** | ✅ | the PhD-vs-origami confession ("the diploma is a bruise"), the CrossFit pop-quiz rebrand, the dog-food foot |
+
+**Verdict: PASS — all mandatory ≥4. Shipped as v1.1**, with the failed v1.0 review disclosed in
+the article's own footer (the audit trail is the trust asset).

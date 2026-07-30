@@ -578,5 +578,37 @@
         "evidence": "revision plan drafted, awaiting Paul's gate (live-article republish)"
       }
     ]
+  },
+  {
+    "id": "rc0024",
+    "delivery": "Happy College v1.1 SHIPPED \u2014 passes the 5-S reviewer it failed at v1.0; live-verified",
+    "objective": "Revise the article per the v1.1 plan and ship through the full loop",
+    "created_at": "2026-07-30T17:21:50Z",
+    "key_results": [
+      {
+        "text": "S2 Solid 2->4.5: inline cites + References (Ericsson/Roediger-Karpicke/Bjork/Vygotsky/Azad/Quanta, survival-test framing); Ericsson DOI verified 200",
+        "target": "citations verified",
+        "score": 1.0,
+        "evidence": "live References section"
+      },
+      {
+        "text": "S3 Sharp 3->4.5: three insider quotes verified VERBATIM against fetched Quanta source (Ryu, Williamson, Tao \u2014 one reading-list paraphrase corrected in the process) + explicit Patterns/Anti-patterns + mechanism sentence",
+        "target": "quotes source-true",
+        "score": 1.0,
+        "evidence": "live page + review doc"
+      },
+      {
+        "text": "S5 Surprise 2->4: PhD-vs-origami confession built into the argument; failed v1.0 review disclosed in the article footer as a trust asset",
+        "target": "belly-laugh beat present",
+        "score": 1.0,
+        "evidence": "live foot + section 2"
+      },
+      {
+        "text": "Shipped complete: npm test green (498 checks), PR agentic-portfolio#140 merged, live page verified 3/3 v1.1 markers, records updated in FM-os",
+        "target": "all gates green",
+        "score": 1.0,
+        "evidence": "https://agentic-portfolio-lovat.vercel.app/articles/happy-college.html"
+      }
+    ]
   }
 ]
