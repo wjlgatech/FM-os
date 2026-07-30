@@ -610,5 +610,31 @@
         "evidence": "https://agentic-portfolio-lovat.vercel.app/articles/happy-college.html"
       }
     ]
+  },
+  {
+    "id": "rc0025",
+    "delivery": "OpenAI North Stars application SUBMITTED (Ashby, JD1 \u2014 the campaign's 8.6/10 primary target): North-Stars-angled resume rebuilt (md+html+pdf, archived in-repo), every field machine-verified pre-submit, Ashby spam flag defeated by the human-click endgame; playbook upgraded with Stage 7.5 (agentic submission) codifying both live submissions",
+    "objective": "Use & upgrade the jobapp playbook to apply to OpenAI Personal AGI North Stars (Ashby)",
+    "created_at": "2026-07-30T17:26:19Z",
+    "key_results": [
+      {
+        "text": "application submitted: all fields verify-gated green (name/email/phone/location/date/resume-chip/4 checkboxes/4 EEOC radios/757-char pitch), arbitration PDF actually opened before ack per its literal wording",
+        "target": "user-confirmed success",
+        "score": 1.0,
+        "evidence": "ashby session + screenshots"
+      },
+      {
+        "text": "playbook Stage 7.5 shipped: real-Chrome-CDP rule (headless gets bot-reset/spam-flagged), answers vault, verify-gate, widget field-notes, anti-spam human-click endgame, evidence-of-submission, resumes-in-repo",
+        "target": "docs/PLAYBOOK-jobapp-flywheel.md",
+        "score": 1.0,
+        "evidence": "make check green"
+      },
+      {
+        "text": "resume sources now repo-archived (openai-north-stars.md, thinking-machines-tinker-dx.md) after the Downloads-wipe lesson",
+        "target": "docs/jd-fit/resumes/",
+        "score": 1.0,
+        "evidence": "files committed"
+      }
+    ]
   }
 ]

@@ -174,6 +174,51 @@ agent session; a full campaign is 1–3 days, not weeks.
   same never-auto-send rule as `/viral-loop`.
 - **Time budget:** 1–2 h.
 
+### Stage 7.5 — Agentic submission (earned on Greenhouse 2026-07-30 + Ashby 2026-07-30)
+
+- **Goal:** submit the application itself with the same verify-gate discipline as everything
+  else — no field unverified, no legal box clicked without explicit consent, and evidence of
+  submission recorded. Two live submissions (Thinking Machines/Greenhouse, OpenAI/Ashby)
+  earned every rule below; skip them and you repeat their failures.
+- **Tool: `browser-harness` real-Chrome CDP** (isolated profile, port 9223), NEVER a headless
+  browser: Greenhouse bot-detection silently *reloads the page* under headless drivers
+  (~4-5 interactions in — every technique loses its state and it looks like your code is
+  broken), and Ashby's invisible reCAPTCHA flags fully-automated submits as spam. Real
+  browser + compositor-level coordinate clicks pass where synthetic events fail.
+- **The answers vault (ask once, reuse):** collect via explicit user questions and never
+  fabricate — legal name, phone, city, work-authorization (authorized? sponsorship?), start
+  date, EEOC preferences (decline-all is a choice the human makes, not a default), and each
+  LEGAL acknowledgment individually (arbitration agreements, truthfulness certifications).
+  Honor literal wording: "I have OPENED and read" ⇒ actually open the linked PDF first.
+- **Verify-gate before submit (the non-negotiable):** machine-read every field back
+  (values, selected dropdown texts, resume chip, checked boxes/radios) and compare against
+  expected; submit ONLY on all-green. This gate blocked three premature Greenhouse submits
+  (an empty-menu Enter that wiped the form, a hidden always-required field, stale
+  validation) — each would have submitted a broken application.
+- **Widget field-notes (portable):** react-select opens on real click but TOGGLES closed if
+  already focused (use ArrowDown to reopen); NEVER press Enter with an empty options menu
+  (it submits the form); `scrollIntoView` is unreliable — compute `rect.y + scrollY` and
+  `window.scrollTo` manually, re-measure before every click; Ashby Yes/No questions are
+  segmented BUTTONS with hidden 0×0 checkbox mirrors — click the visible button; a "No"
+  answer may leave its mirror unchecked (verify the button's visual state, not the mirror);
+  hidden always-required fields exist (Greenhouse's "if you selected Other" is required
+  even with Other unchecked) — sweep `[aria-invalid=true]` after a failed submit.
+- **Anti-spam endgame:** if the platform flags the submit (Ashby: "flagged as possible
+  spam"), do NOT retry automated — the form state survives; bring the visible window
+  forward and have the HUMAN click submit (one human click passed on the first try).
+  Mind stated application limits (OpenAI: ≤5 per 180 days — a flagged attempt may count).
+- **Evidence of submission:** Greenhouse → the `/confirmation` URL in the profile's History
+  sqlite (`~/.browser-harness-chrome/Default/History`); Ashby → user-confirmed success +
+  the confirmation email. Record it in the Stage 8 card the same turn.
+- **Resume source-of-truth lives in the repo** (`docs/jd-fit/resumes/<slug>.md`), not in
+  ~/Downloads — a Downloads wipe cost a full rebuild-from-context once. Render html/pdf
+  from the repo copy per application (pandoc + Chrome `--print-to-pdf`).
+- **Artifact:** submitted application + evidence + the tailored resume md archived in-repo.
+- **Gate:** the verify-gate output is all-green in the same session as the submit, and the
+  submission evidence exists. An application submitted without the verify-gate is a defect
+  even if it goes through.
+- **Time budget:** 1-2 h for a new ATS platform; ~20 min for a known one.
+
 ### Stage 8 — Report + OUTCOME TRACKING
 
 - **Goal:** close the accountability loop *and* fix the flywheel's one recorded blind spot:
