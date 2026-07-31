@@ -95,6 +95,16 @@ def main() -> int:
     t_mean, t_std = statistics.mean(treat), statistics.stdev(treat) if len(treat) > 1 else 0.0
     s_mean, s_std = statistics.mean(shuf), statistics.stdev(shuf) if len(shuf) > 1 else 0.0
 
+    # ── M3 pre-registration (declared + committed BEFORE seeds 3+ ever ran) ──
+    # The M2 every-seed rule stays reported. M3 adds a robust-criterion verdict
+    # for the 5+-seed run, declared now: CONFIRMED-M3 iff
+    #   (a) median treatment drop >= MIN_DROP, and
+    #   (b) every treatment drop > every control drop (complete separation).
+    # Rationale: the every-seed floor makes one borderline seed permanently
+    # decisive regardless of n; the median rule scales with n while the
+    # separation clause still forbids label-free improvement. The floor itself
+    # is UNCHANGED.
+    m3_confirmed = statistics.median(treat) >= MIN_DROP and min(treat) > max(shuf)
     if min(treat) >= MIN_DROP and max(shuf) < min(treat):
         verdict = "CONFIRMED — every treatment seed clears the floor and the best control is worse than the worst treatment"
     elif max(shuf) >= min(treat):
@@ -103,6 +113,9 @@ def main() -> int:
                    "NO-EFFECT — treatment and control ranges overlap; reported as no effect, not inflated")
     else:
         verdict = "NO-EFFECT — treatment below the pre-registered floor on at least one seed"
+
+    m3_verdict = ("CONFIRMED-M3 — median treatment clears the floor with complete arm separation"
+                  if m3_confirmed else "NOT-CONFIRMED-M3")
 
     stamp = datetime.date.today().isoformat()
     lines = [
@@ -122,7 +135,8 @@ def main() -> int:
         "",
         f"**treatment drop: {t_mean:+.3f} ± {t_std:.3f}** (n={len(treat)}) · **shuffled drop: {s_mean:+.3f} ± {s_std:.3f}** (n={len(shuf)})",
         "",
-        f"## Verdict: {verdict}",
+        f"## Verdict (M2 every-seed rule): {verdict}",
+        f"## Verdict (M3 median+separation rule, pre-registered in git before the 5-seed run): {m3_verdict}",
         "",
         "Threats to validity: single small model (135M); toy grounding task; 8 held-out worlds;",
         "greedy decoding (deterministic eval). Reproduce: `python -m rewardforge.sweep`.",
@@ -130,7 +144,8 @@ def main() -> int:
     OUT.mkdir(exist_ok=True)
     (OUT / "M2-RESULTS.md").write_text("\n".join(lines))
     print(f"wrote {OUT / 'M2-RESULTS.md'}")
-    print(f"verdict: {verdict}")
+    print(f"verdict M2: {verdict}")
+    print(f"verdict M3: {m3_verdict}")
     return 0
 
 
