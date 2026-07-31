@@ -21,7 +21,7 @@ sections are still TODO); the tooling below closes exactly that gap.
 
 | Tool | What it gives each paper | Proof |
 |---|---|---|
-| [`skills/vlm-failure-probe`](../../skills/vlm-failure-probe/) | VSS §IV–XI: the failure taxonomy **as data** (`probe_spec.yml`, one probe per observed failure in the paper), deterministic synthetic stimuli for every probe (`stimuli.py` — the paper's own methodology, as code), a runner that scores any pipeline exposed as `answer(probe)`, and a blocking gate that cannot pass on unmeasured modes. The benchmark becomes a CI regression gate, and the Results section generates from a run: `run_real.py` emits `out/RESULTS.md` + a paste-ready `out/vss_results_table.tex`. | **Measured live 2026-07-25:** baseline VSS fails 5/5 modes; `claude-sonnet-5` passes 5/5 at 1.00 over the same probes (raw answers in `reference/out/RESULTS.md`) |
+| [`skills/vlm-failure-probe`](../../skills/vlm-failure-probe/) | VSS §IV–XI: the failure taxonomy **as data** (`probe_spec.yml`, one probe per observed failure in the paper), deterministic synthetic stimuli for every probe (`stimuli.py` — the paper's own methodology, as code), a runner that scores any pipeline exposed as `answer(probe)`, and a blocking gate that cannot pass on unmeasured modes. The benchmark becomes a CI regression gate, and the Results section generates from a run: `run_real.py` emits `out/RESULTS.md` + a paste-ready `out/vss_results_table.tex`. | **Measured live (multi-model, 2026-07-31):** baseline VSS fails 5/5 modes; claude-opus-5 and claude-sonnet-5 pass 5/5; **claude-haiku-4.5 fails 3/5** (temporal 0.67, multipart 0.58, retrieval 0.00 — e.g. it reads the rising fork as 'moving down') — the failure profile is capability-dependent, not only architectural (raw answers in `reference/out/RESULTS.md`) |
 | [`skills/syndata-bare`](../../skills/syndata-bare/) | syndata §III–IV: BARE-VLM as a **closed loop with twin gates** — alignment floor (mock-CLIP, swap in real CLIP) catches base-model hallucination; diversity floor (pairwise Jaccard) catches instruct-model mode collapse. The paper's central thesis becomes a falsifiable assertion: BARE must beat both single-stage baselines at equal budget and seed. | `python reference/bare_loop.py` — base fails alignment (0.88), instruct fails diversity (0.00), BARE passes both at 100% yield |
 | [`skills/research-loop`](../../skills/research-loop/) (existing) | Both papers' experiment sections: pre-registered thresholds, ≥3 seeds with variance, ablations, adversarial critique, repro command — the write-up gate for every TODO results section. | rubric enforced by the skill itself |
 | [`skills/agentic-eval`](../../skills/agentic-eval/) (existing) | VSS §X: wiring standard video benchmarks (Video-MME, MMBench-Video) alongside the custom probes, LLM-as-judge for narrative consistency, per-axis CI gates. | see skill |
@@ -55,6 +55,11 @@ These are the claims a reviewer will attack first; each maps to a concrete next 
   probe across the dataset.
 - **BARE-VLM refinement can homogenize** (the paper acknowledges this) — the diversity floor in
   `syndata-bare` is the guard; report diversity *after* refinement, not just before.
+- **Proxy stimuli can under-credit weaker models** (multi-model run, 2026-07-31): the 2D
+  tennis-court proxy is unambiguous to opus/sonnet but haiku-4.5 read it as a different
+  sport — one of its temporal-mode misses may be stimulus ambiguity rather than model
+  failure. Its retrieval-mode failures (rising fork read as "moving down") are unambiguous.
+  Rule: when tiers disagree, audit whether the stimulus or the model is at fault, per probe.
 - **Graders fail before models do** (lesson from the live run): the first live pass scored
   claude-sonnet-5 at 0.58 on multi-part prompts — but the raw answers showed every sub-question
   answered; the misses were stimulus/matcher artifacts (a drawn vest read as a "yellow shirt",

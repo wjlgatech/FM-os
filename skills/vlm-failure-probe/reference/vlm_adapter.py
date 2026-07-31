@@ -35,6 +35,52 @@ def _subsample(frames: list, k: int = MAX_FRAMES) -> list:
     return [frames[round(i * step)] for i in range(k)]
 
 
+def get_adapter(model: str):
+    """Route a model name to its provider adapter (anthropic claude-* / openai gpt-*)."""
+    if model.startswith("claude"):
+        return RealVLM(model)
+    if model.startswith(("gpt-", "o4", "gpt4")):
+        return OpenAIVLM(model)
+    raise ValueError(f"no adapter for model {model!r}")
+
+
+class OpenAIVLM:
+    """answer(probe) via an OpenAI vision model over the probe's stimulus."""
+
+    def __init__(self, model: str = "gpt-4o-mini"):
+        self.model = model
+        self._client = None
+        if os.environ.get("OPENAI_API_KEY"):
+            from openai import OpenAI
+
+            self._client = OpenAI()
+
+    def __call__(self, probe: dict) -> str | None:
+        if self._client is None:
+            return None  # no key -> not measured, never a fake answer
+        frames = _subsample(stimuli.generate(probe["id"]))
+        content = [
+            {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{_b64(f)}"}}
+            for f in frames
+        ]
+        content.append({
+            "type": "text",
+            "text": (
+                f"These {len(frames)} frames are sampled in chronological order from a "
+                f"short video. {probe['question']} Answer in one or two short sentences."
+            ),
+        })
+        try:
+            r = self._client.chat.completions.create(
+                model=self.model, max_completion_tokens=200,
+                messages=[{"role": "user", "content": content}],
+            )
+            return (r.choices[0].message.content or "").strip()
+        except Exception as exc:  # noqa: BLE001 — any API failure means "not measured"
+            print(f"  ! {probe['id']}: API error, probe not measured ({exc})", file=sys.stderr)
+            return None
+
+
 class RealVLM:
     """answer(probe) via a vision-capable Claude model over the probe's stimulus."""
 
