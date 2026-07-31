@@ -256,6 +256,38 @@ def test_empty_response_is_not_measured_never_a_zero():
     assert not ok and any("NOT MEASURED" in r for r in reasons)
 
 
+def test_truncated_response_is_not_measured_never_a_zero():
+    """Found live: a compound answer cut off mid-word ("...A yellow short") had its
+    missing tail graded as a missing sub-answer. A truncated answer carries no
+    evidence about what it would have said — exclude it, never score it."""
+    import vlm_adapter
+
+    class _Text:
+        type = "text"
+        text = "The person is wearing a yellow short"  # cut off mid-phrase
+
+    class _Msg:
+        stop_reason = "max_tokens"
+        content = [_Text()]
+
+    class _Client:
+        class messages:
+            @staticmethod
+            def create(**_):
+                return _Msg()
+
+    model = vlm_adapter.RealVLM.__new__(vlm_adapter.RealVLM)
+    model.model, model._client = "test", _Client()
+    assert model({"id": "summary_count_clothing", "question": "?"}) is None
+
+    # a COMPLETE response with the same text is still graded normally
+    class _Done(_Msg):
+        stop_reason = "end_turn"
+
+    _Client.messages.create = staticmethod(lambda **_: _Done())
+    assert model({"id": "summary_count_clothing", "question": "?"}) == _Text.text
+
+
 def test_real_adapter_returns_none_without_key(monkeypatch):
     import vlm_adapter
 

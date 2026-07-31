@@ -22,6 +22,12 @@ import stimuli
 
 DEFAULT_MODEL = os.environ.get("VLM_PROBE_MODEL", "claude-sonnet-5")
 MAX_FRAMES = 6
+# 200 was too tight: compound-prompt answers were cut off MID-WORD ("...A yellow
+# short") and the missing tail was then graded as a missing sub-answer — a fake
+# failure. Found by the 3-repeat variance run. 400 is ample for the "one or two
+# short sentences" the prompt asks for; truncation is ALSO detected below, because
+# a bigger budget reduces truncation but cannot rule it out.
+MAX_TOKENS = int(os.environ.get("VLM_PROBE_MAX_TOKENS", "400"))
 
 
 def _b64(frame) -> str:
@@ -74,9 +80,16 @@ class OpenAIVLM:
         })
         try:
             r = self._client.chat.completions.create(
-                model=self.model, max_completion_tokens=200,
+                model=self.model, max_completion_tokens=MAX_TOKENS,
                 messages=[{"role": "user", "content": content}],
             )
+            if r.choices[0].finish_reason == "length":  # truncated ⇒ not measured
+                print(
+                    f"  ! {probe['id']}: response TRUNCATED at max_tokens={MAX_TOKENS}"
+                    " — NOT MEASURED",
+                    file=sys.stderr,
+                )
+                return None
             text = (r.choices[0].message.content or "").strip()
             if not text:  # empty ⇒ not measured, never a fake FAILURE (see RealVLM)
                 print(
@@ -125,10 +138,20 @@ class RealVLM:
         try:
             msg = self._client.messages.create(
                 model=self.model,
-                max_tokens=200,
+                max_tokens=MAX_TOKENS,
                 messages=[{"role": "user", "content": content}],
             )
             text = "".join(b.text for b in msg.content if b.type == "text").strip()
+            # A TRUNCATED answer must not be graded either: the content the matcher
+            # is looking for may be in the part that was cut off, so scoring it is
+            # the same fake failure as scoring an empty one. Not measured.
+            if getattr(msg, "stop_reason", None) == "max_tokens":
+                print(
+                    f"  ! {probe['id']}: response TRUNCATED at max_tokens={MAX_TOKENS}"
+                    " — NOT MEASURED (grading a cut-off answer invents a failure)",
+                    file=sys.stderr,
+                )
+                return None
             # An EMPTY response is NOT a wrong answer. Returning "" here would score
             # 0.0 and be reported as a model failure — a FAKE FAILURE, the exact
             # mirror of the fake pass this suite is built to prevent. Found live:
