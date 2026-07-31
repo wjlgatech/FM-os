@@ -47,7 +47,7 @@ def test_temporal_grounding_score_discriminates_and_states_its_floor():
 def test_spec_audit_log_and_predictions_are_committed_with_the_spec():
     """spec-as-data: a version bump only counts if its rationale ships beside it."""
     raw = (REF / "probe_spec.yml").read_text()
-    assert 'version: "0.3"' in raw
-    assert raw.count("AUDIT LOG") == 2  # v0.1→v0.2 and v0.2→v0.3, both retained
+    assert 'version: "0.4"' in raw
+    assert raw.count("AUDIT LOG") >= 2  # every audit retained
     assert "PRE-REGISTERED PREDICTION" in raw
     assert "ANTI-GOALPOST RULE" in raw

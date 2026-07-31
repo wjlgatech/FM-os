@@ -5,10 +5,16 @@
 # paper's observed failure examples, made machine-checkable.
 # scripts read this; the prose never drifts from what is actually gated.
 # ─────────────────────────────────────────────────────────────────────────────
-version: "0.3"
+version: "0.4"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# PRE-REGISTERED FOR v0.4 — DIAGNOSED, DELIBERATELY *NOT* APPLIED YET.
+# v0.4 — APPLIED. Change 1 below was pre-registered (with its prediction) in the
+# previous commit and is now applied VERBATIM: `end_of_video` part 1 accepts any
+# vehicle noun. Change 2 was diagnosed as model nondeterminism and correctly
+# needed no spec change. The prediction is scored in out/RESULTS.md whether it
+# holds or not.
+# ─────────────────────────────────────────────────────────────────────────────
+# PRE-REGISTERED FOR v0.4 — the diagnosis this applied (kept verbatim as the record).
 #
 # The 3-repeat run under v0.3 (all three harness fake-failure bugs fixed) left
 # exactly two unstable pairs, and reading their answers diagnoses both. Neither is
@@ -248,7 +254,12 @@ failure_modes:
         question: "What happens at the very end of the video?"
         # v0.2 MATCHER-SYNONYM: added multi-word frame-exit phrasings. NOT the bare
         # word "disappears" — that would credit "disappears behind the dock".
-        expect: ["truck", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away|disappears off|disappears from|off the right|off screen|off the screen|out of frame|out of the frame|out of view"]
+        # v0.4 EXPECTATION-INTENT (applied exactly as pre-registered above, after
+        # sonnet-5 described the exit correctly 3/3 but called the drawn vehicle a
+        # "car-like vehicle" once): part 1 accepts any VEHICLE noun. Still requires
+        # the moving object — the canned baseline answer names none ("a worker
+        # stacks pallets near the entrance") and still scores 0.
+        expect: ["truck|lorry|van|vehicle|car", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away|disappears off|disappears from|off the right|off screen|off the screen|out of frame|out of the frame|out of view|off the edge"]
         match: contains
 
   - id: grounding_hallucination

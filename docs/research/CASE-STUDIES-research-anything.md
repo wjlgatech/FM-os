@@ -119,8 +119,12 @@ last is a property of the model:
 | **grader alias gaps** | "the truck **disappears off the right side**" not in the aliases for *leaves*; "**volleyball**… two **teams**" not matched by `rally\|ball\|players` | partly — the diagnosed remainder is pre-registered for v0.4, deliberately unpatched |
 | **genuine model nondeterminism** | haiku answers the provably rising fork *down/up/up*; sonnet calls the same drawn vehicle a "truck" then a "car-like vehicle" | not fixable — this is the signal, and it is why variance must be reported |
 
-Fixing the two harness bugs cut instability from **5 unstable probe/model pairs to 2**, and both
-survivors are model-side. **The pre-registered prediction was FALSIFIED** — `summary_count_clothing`
+Fixing the two harness bugs cut instability from **5 unstable probe/model pairs to 2**; applying the
+pre-registered v0.4 fix then cut it to **1**. That v0.4 prediction was made in git BEFORE its run and
+**CONFIRMED**: `end_of_video` went sd 0.471 → **0.000** on all three tiers once the expectation
+accepted any vehicle noun (sonnet had described the exit correctly 3/3 while once calling the drawn
+truck a "car-like vehicle"). The single survivor is model-side: haiku sometimes omits the summary
+half of the compound prompt. **The pre-registered prediction was FALSIFIED** — `summary_count_clothing`
 did *not* reach sd = 0.00 under the phrasing-invariance fix (opus 1.00/1.00/0.67). The
 pre-registered fallback was "then keyword matching cannot grade compound-prompt completeness and it
 needs an LLM judge"; the raw answers instead showed **truncation** as the cause, so that fallback is

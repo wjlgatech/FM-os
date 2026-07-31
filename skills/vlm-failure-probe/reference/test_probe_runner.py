@@ -128,6 +128,22 @@ def test_end_of_video_accepts_frame_exit_phrasing_but_not_bare_disappearance():
     assert score_probe("A worker stacks pallets near the entrance.", probe) == 0.0  # no truck
 
 
+def test_v04_accepts_any_vehicle_noun_without_going_vacuous():
+    """v0.4, applied exactly as pre-registered: sonnet described the exit correctly
+    3/3 but once called the drawn vehicle a "car-like vehicle" and scored 0. Object
+    naming is incidental to this mode's intent (did the answer describe the END).
+    The relaxation must still require a MOVING OBJECT that LEAVES."""
+    probe = _probe("end_of_video")
+    assert score_probe(
+        "The car-like vehicle drives off to the right and out of frame, leaving the building.", probe
+    ) == 1.0
+    assert score_probe("The van pulls away from the dock.", probe) == 1.0
+    # still zero: no vehicle at all, an earlier scene, or a non-exit
+    assert score_probe("Only the tan building remains visible at the end.", probe) == 0.0
+    assert score_probe(MockVSS.ANSWERS["end_of_video"], probe) == 0.0
+    assert score_probe("The car parks behind the loading dock.", probe) == 0.0
+
+
 def test_audit_relaxations_did_not_let_the_paper_baseline_pass():
     """The whole point: MockVSS encodes the VSS paper's OBSERVED failures. If a
     grader fix lets those pass, the fix broke the benchmark."""
@@ -164,8 +180,8 @@ def test_spec_records_its_own_audit():
     from pathlib import Path
 
     raw = Path(__file__).parent.joinpath("probe_spec.yml").read_text()
-    assert SPEC["version"] == "0.3"
-    assert raw.count("AUDIT LOG") == 2  # v0.1→v0.2 and v0.2→v0.3, both retained
+    assert SPEC["version"] == "0.4"
+    assert raw.count("AUDIT LOG") >= 2  # v0.1→v0.2 and v0.2→v0.3, both retained
     assert "PRE-REGISTERED PREDICTION" in raw
 
 
