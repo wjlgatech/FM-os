@@ -164,8 +164,59 @@ def test_spec_records_its_own_audit():
     from pathlib import Path
 
     raw = Path(__file__).parent.joinpath("probe_spec.yml").read_text()
-    assert SPEC["version"] == "0.2"
-    assert "AUDIT LOG" in raw and "PRE-REGISTERED PREDICTIONS" in raw
+    assert SPEC["version"] == "0.3"
+    assert raw.count("AUDIT LOG") == 2  # v0.1→v0.2 and v0.2→v0.3, both retained
+    assert "PRE-REGISTERED PREDICTION" in raw
+
+
+def test_phrasing_invariance_v03_markdown_and_prose_score_alike():
+    """The v0.3 fix, stated as a property: two answers with IDENTICAL content must
+    score identically regardless of phrasing. This is the exact pair that flipped
+    claude-opus-5's gate between the v0.1 and v0.2 runs."""
+    probe = _probe("summary_count_clothing")
+    prose = (
+        "There is one person — a figure standing on a gray floor with brown boxes "
+        "behind them. They're wearing a yellow short-sleeved top and blue pants."
+    )
+    markdown = (
+        "**Summary:** A figure stands between brown boxes on a gray floor.\n\n"
+        "**People present:** One.\n\n**Clothing:** A yellow short-sleeved top and blue pants."
+    )
+    assert score_probe(prose, probe) == score_probe(markdown, probe) == 1.0
+    # part 1 is NOT relaxed: an answer that skips the summary still loses a third
+    no_summary = "One person is present. The person is wearing a yellow shirt and blue pants."
+    assert round(score_probe(no_summary, probe), 2) == 0.67
+
+
+def test_variance_report_flags_an_unstable_probe():
+    """A grader that moves on rephrasing must be FLAGGED, not averaged away."""
+    import run_real
+
+    class Rephraser:
+        """Semantically identical, differently worded on each call."""
+
+        def __init__(self):
+            self.n = 0
+
+        def __call__(self, probe):
+            if probe["id"] != "floor_color":
+                return "no idea"
+            self.n += 1
+            # same meaning both times; only the SECOND uses a word the alias list
+            # happens to know — precisely the grader defect this flag exists for
+            return "The floor is a plain neutral surface." if self.n == 1 else "The floor is grey."
+
+    spec = load_spec()
+    m = Rephraser()
+    runs = {"fake": [run_probes(m, spec) for _ in range(2)]}
+    report = run_real.variance_report(runs, spec)
+    assert "GRADER-UNSTABLE" in report and "floor_color" in report
+    assert "1 unstable probe/model pair" in report
+
+    stable = {"fake": [run_probes(PatchedVSS(), spec) for _ in range(3)]}
+    ok_report = run_real.variance_report(stable, spec)
+    assert "GRADER-UNSTABLE" not in ok_report
+    assert "Every probe/model pair was stable" in ok_report
 
 
 def test_real_adapter_returns_none_without_key(monkeypatch):

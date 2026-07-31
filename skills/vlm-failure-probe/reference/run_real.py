@@ -84,18 +84,86 @@ def results_md(baseline: dict, results: dict[str, dict], spec: dict, stamp: str)
     return "\n".join(lines)
 
 
+def variance_report(runs: dict[str, list[dict]], spec: dict) -> str:
+    """Per-probe mean ± sd across repeats, flagging GRADER-UNSTABLE probes.
+
+    Motivation (spec v0.3 audit log): claude-opus-5 scored 0.67 then 0.33 on the
+    SAME probe with the SAME deterministic stimulus across two runs, purely
+    because it rephrased a semantically identical answer. A single-run score from
+    this suite is therefore not a measurement until its variance is known — the
+    grader is the least reliable component, and the papers' fuzzy-matching
+    metrics have the same exposure without reporting it.
+    """
+    n = len(next(iter(runs.values())))
+    lines = [
+        f"## Grader stability — {n} repeats per model (spec v{spec['version']})",
+        "",
+        "sd is over REPEATS of an identical, deterministic stimulus. Any sd > 0 is",
+        "grader instability (or model nondeterminism the grader fails to absorb) —",
+        "never a property of the failure mode being probed.",
+        "",
+        "| model | probe | scores | mean | sd | flag |",
+        "|---|---|---|---|---|---|",
+    ]
+    unstable = []
+    for model, reps in runs.items():
+        for mode in spec["failure_modes"]:
+            for probe in mode["probes"]:
+                scores = []
+                for rep in reps:
+                    hit = next(
+                        (p for p in rep[mode["id"]]["probes"] if p["id"] == probe["id"]), None
+                    )
+                    if hit and hit["score"] is not None:
+                        scores.append(hit["score"])
+                if not scores:
+                    continue
+                mean = sum(scores) / len(scores)
+                sd = (sum((s - mean) ** 2 for s in scores) / len(scores)) ** 0.5
+                flag = "GRADER-UNSTABLE" if sd > 1e-9 else "stable"
+                if sd > 1e-9:
+                    unstable.append(f"{model}:{probe['id']}")
+                lines.append(
+                    f"| {model} | `{probe['id']}` | {', '.join(f'{s:.2f}' for s in scores)} "
+                    f"| {mean:.2f} | {sd:.3f} | {flag} |"
+                )
+    lines += [
+        "",
+        (
+            f"**{len(unstable)} unstable probe/model pair(s):** {', '.join(unstable)}"
+            if unstable
+            else "**Every probe/model pair was stable across repeats (all sd = 0.00).**"
+        ),
+        "",
+    ]
+    return "\n".join(lines)
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default=DEFAULT_MODELS)
+    ap.add_argument(
+        "--repeat",
+        type=int,
+        default=1,
+        help="probe each model N times and report per-probe mean ± sd "
+        "(variance is a first-class output, not an assumption)",
+    )
     args = ap.parse_args()
 
     spec = load_spec()
     n_probes = sum(len(m["probes"]) for m in spec["failure_modes"])
     baseline = run_probes(MockVSS(), spec)
     results: dict[str, dict] = {}
+    runs: dict[str, list[dict]] = {}
     for model in [m.strip() for m in args.models.split(",") if m.strip()]:
-        print(f"probing {model} across {n_probes} probes…")
-        results[model] = run_probes(get_adapter(model), spec)
+        adapter = get_adapter(model)
+        runs[model] = []
+        for i in range(max(1, args.repeat)):
+            label = f"{model} (repeat {i + 1}/{args.repeat})" if args.repeat > 1 else model
+            print(f"probing {label} across {n_probes} probes…")
+            runs[model].append(run_probes(adapter, spec))
+        results[model] = runs[model][0]  # the headline table reports repeat 1
         print(scorecard(model, results[model], spec))
 
     measured = [m for m, r in results.items() if any(v["measured"] for v in r.values())]
@@ -105,6 +173,10 @@ if __name__ == "__main__":
 
     stamp = datetime.date.today().isoformat()
     OUT.mkdir(exist_ok=True)
-    (OUT / "RESULTS.md").write_text(results_md(baseline, results, spec, stamp))
+    body = results_md(baseline, results, spec, stamp)
+    if args.repeat > 1:
+        head, _, tail = body.partition("## Raw answers (evidence)")
+        body = head + variance_report(runs, spec) + "## Raw answers (evidence)" + tail
+    (OUT / "RESULTS.md").write_text(body)
     (OUT / "vss_results_table.tex").write_text(latex_table(baseline, results))
     print(f"wrote {OUT / 'RESULTS.md'} and {OUT / 'vss_results_table.tex'}")

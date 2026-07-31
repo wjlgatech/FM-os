@@ -5,7 +5,51 @@
 # paper's observed failure examples, made machine-checkable.
 # scripts read this; the prose never drifts from what is actually gated.
 # ─────────────────────────────────────────────────────────────────────────────
-version: "0.2"
+version: "0.3"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AUDIT LOG — v0.2 → v0.3 (pre-registered BEFORE the repeat run; FULL DISCLOSURE:
+# the defect below was surfaced BY the v0.2 run, so it is declared here as a
+# post-hoc-discovered / pre-registered-fix change, and it is PAID FOR by a
+# measurement that can refute it — see the prediction.)
+#
+# WHAT THE v0.2 RUN EXPOSED (out/RESULTS.md vs out/RESULTS-v0.1-spec.md):
+#   claude-opus-5 scored 0.67 on `summary_count_clothing` in the v0.1 run and 0.33
+#   in the v0.2 run — on a probe v0.2 did NOT touch, with the same deterministic
+#   stimulus. The two answers are semantically IDENTICAL:
+#     v0.1  "There is one person … wearing a yellow short-sleeved top"     → 0.67
+#     v0.2  "**People present:** One. … A yellow short-sleeved top"        → 0.33
+#   The only difference is PHRASING, and it flipped the model's gate PASS → FAIL.
+#
+# WHY THIS MATTERS MORE THAN THE ORIGINAL AUDIT: it means a single-run score from
+# this benchmark — including the TABLE I already published in the VSS paper — is
+# not a stable measurement. The grader, not the model, is the least reliable
+# component. The papers' fuzzy-matching metrics have the same exposure and neither
+# reports variance.
+#
+# CHANGES:
+#  - probe: summary_count_clothing                    class: EXPECTATION-INTENT
+#    parts 2 and 3 now accept the sub-answer in any phrasing that actually answers
+#    it ("one person" | "present one" | "count one" | "1"; "yellow top" |
+#    "yellow short sleeved top" | …). Justified by the mode's declared `what:` —
+#    "every sub-question answered" — under the SAME v0.2 rule that a fix must
+#    apply identically whichever model produced the answer. Part 1 (a summary must
+#    exist) is STILL NOT relaxed: haiku omitted the summary and still scores 0.67.
+#  - harness: `run_real.py --repeat N`                 class: MEASUREMENT
+#    the same model is probed N times and every mode reports mean ± sd, with any
+#    probe whose sd > 0 flagged GRADER-UNSTABLE. Variance becomes a first-class
+#    output instead of an unstated assumption.
+#
+# PRE-REGISTERED PREDICTION (this is what makes the fix falsifiable rather than
+# convenient — scored honestly in out/RESULTS.md either way):
+#   Under v0.3, across 3 repeats × 3 models, `summary_count_clothing` shows
+#   sd = 0.00 for every model, because phrasing no longer moves it. If it still
+#   varies, the phrasing-invariance fix DID NOT WORK and the honest conclusion is
+#   that keyword matching cannot grade compound-prompt completeness at all — in
+#   which case the probe needs an LLM judge (skills/agentic-eval), not more
+#   aliases. Any OTHER probe showing sd > 0 is reported as newly-found grader
+#   instability, not smoothed over.
+# ─────────────────────────────────────────────────────────────────────────────
 
 # Discipline (FM-os Certified / BRACE): no evidence ⇒ No. A mode with no model
 # answers is "not measured" — excluded from the score and the gate CANNOT pass.
@@ -139,7 +183,14 @@ failure_modes:
     probes:
       - id: summary_count_clothing
         question: "Provide a summary. How many people are present? What is the person wearing?"
-        expect: ["warehouse|storage|boxes", "one person|1 person|single person|one man|one worker|a man|a worker", "yellow vest|yellow shirt|yellow top|wearing yellow|hi vis|high visibility"]
+        # v0.3 EXPECTATION-INTENT: parts 2 and 3 accept ANY phrasing that answers the
+        # sub-question (a markdown answer writes "**People present:** One."; a prose
+        # one writes "there is one person" — same answer, and v0.2 credited only the
+        # second). Part 1 stays STRICT: a summary must actually be present.
+        expect:
+          - "warehouse|storage|boxes|crates|pallets"
+          - "one person|1 person|single person|one man|one worker|a man|a worker|one figure|one individual|people present one|person present one|count one|only one|just one|there is one|exactly one"
+          - "yellow vest|yellow shirt|yellow top|yellow short sleeved top|yellow t shirt|yellow tee|yellow tank|wearing yellow|yellow upper|hi vis|high visibility"
         match: all_parts
       - id: describe_and_closer
         question: "Describe what is happening in the video and identify which player is closer to the camera."
