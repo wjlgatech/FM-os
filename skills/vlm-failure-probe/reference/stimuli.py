@@ -21,6 +21,7 @@ W, H = 320, 240
 WHITE, BLACK, GRAY = (255, 255, 255), (20, 20, 20), (150, 150, 150)
 RED, BLUE, GREEN, YELLOW = (220, 40, 40), (40, 80, 220), (40, 160, 60), (235, 200, 30)
 ORANGE, SKIN, CONCRETE = (240, 130, 30), (230, 190, 160), (168, 168, 168)
+TENNIS_BALL = (205, 235, 60)  # yellow-GREEN: v0.1's orange-ish ball read as a soccer ball
 
 
 def _canvas(bg=WHITE):
@@ -61,16 +62,50 @@ def _letter(d, ch, x, y, w=18, h=26):
         d.line([x + x0 * w, y + y0 * h, x + x1 * w, y + y1 * h], fill=BLACK, width=3)
 
 
+def _racket(d, x, y, angle_up=True):
+    """An oval strung head + handle — the single strongest 'this is tennis' cue."""
+    hx, hy = (x + 13, y - 13) if angle_up else (x + 13, y + 13)
+    d.line([x, y, hx, hy], fill=(90, 60, 40), width=4)  # handle
+    head = [hx - 9, hy - 12, hx + 9, hy + 12] if angle_up else [hx - 9, hy - 12, hx + 9, hy + 12]
+    d.ellipse(head, outline=BLACK, width=3, fill=(245, 245, 245))
+    for i in range(1, 3):  # strings
+        d.line([head[0] + i * 6, head[1] + 2, head[0] + i * 6, head[3] - 2], fill=GRAY, width=1)
+        d.line([head[0] + 2, head[1] + i * 8, head[2] - 2, head[1] + i * 8], fill=GRAY, width=1)
+
+
 def _tennis_scene(ball_t: float, near_shirt=WHITE, far_shirt=RED):
+    """A TENNIS court, unmistakably — service boxes, centre service line, a posted
+    mesh net, strung rackets, a yellow-green ball.
+
+    v0.2 stimulus fix: the v0.1 proxy (plain green rectangle + a grey halfway band
+    + an orange-ish ball + two hairline racket strokes) read as a SOCCER pitch to
+    claude-haiku-4.5, which cost it the whole temporal mode. The ground truth the
+    probe grades on (sport = tennis; near player = the large one below the net) is
+    unchanged — only the pixels meant to depict tennis now depict it.
+    """
     img, d = _canvas((70, 130, 80))  # court green
-    d.rectangle([30, 30, W - 30, H - 20], outline=WHITE, width=3)
-    d.rectangle([10, H // 2 - 4, W - 10, H // 2 + 4], fill=(230, 230, 230))  # net
-    _person(d, 110, 78, far_shirt, scale=0.7)  # far player: small, above the net
-    _person(d, 200, 205, near_shirt, scale=1.3)  # near player: large, below the net
-    d.line([90, 60, 100, 75], fill=BLACK, width=3)
-    d.line([222, 165, 236, 150], fill=BLACK, width=4)  # rackets
-    by = 75 + ball_t * 110
-    d.ellipse([160 - 5, by - 5, 160 + 5, by + 5], fill=YELLOW, outline=BLACK)
+    L, R, T, B = 30, W - 30, 26, H - 14
+    mid = H // 2
+    d.rectangle([L, T, R, B], outline=WHITE, width=3)  # doubles boundary
+    for sx in (L + 22, R - 22):  # singles sidelines
+        d.line([sx, T, sx, B], fill=WHITE, width=2)
+    for sy in (T + 42, B - 42):  # service lines
+        d.line([L + 22, sy, R - 22, sy], fill=WHITE, width=2)
+    d.line([W // 2, T + 42, W // 2, B - 42], fill=WHITE, width=2)  # centre service line
+    # net: posts + a hatched mesh band across the court (not a solid halfway line)
+    d.rectangle([L - 8, mid - 9, R + 8, mid + 5], fill=(238, 238, 238), outline=BLACK)
+    for nx in range(L - 6, R + 8, 7):
+        d.line([nx, mid - 9, nx, mid + 5], fill=GRAY, width=1)
+    d.line([L - 8, mid - 11, R + 8, mid - 11], fill=WHITE, width=3)  # net tape
+    for px in (L - 8, R + 8):
+        d.line([px, mid - 12, px, mid + 16], fill=(60, 60, 60), width=4)  # net posts
+    _person(d, 118, 74, far_shirt, scale=0.7)  # far player: small, above the net
+    _racket(d, 128, 66, angle_up=True)
+    _person(d, 196, 200, near_shirt, scale=1.3)  # near player: large, below the net
+    _racket(d, 214, 178, angle_up=False)
+    by = 78 + ball_t * 104
+    d.ellipse([158, by - 6, 170, by + 6], fill=TENNIS_BALL, outline=BLACK)
+    d.arc([158, by - 6, 170, by + 6], 200, 340, fill=WHITE, width=1)  # seam
     return img
 
 

@@ -5,11 +5,87 @@
 # paper's observed failure examples, made machine-checkable.
 # scripts read this; the prose never drifts from what is actually gated.
 # ─────────────────────────────────────────────────────────────────────────────
-version: "0.1"
+version: "0.2"
 
 # Discipline (FM-os Certified / BRACE): no evidence ⇒ No. A mode with no model
 # answers is "not measured" — excluded from the score and the gate CANNOT pass.
 require_measured: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AUDIT LOG — v0.1 → v0.2 (pre-registered 2026-07-31, BEFORE the re-run)
+#
+# WHY an audit at all: the v0.1 multi-model run (out/RESULTS-v0.1-spec.md) scored
+# claude-haiku-4.5 at 3/5 modes FAILED and that table shipped into the VSS paper
+# as a "capability ladder". Reading its RAW ANSWERS (the repo's own rule: graders
+# fail before models do) shows three of those five misses were OUR grader's
+# fault, not the model's.
+#
+# THE ANTI-GOALPOST RULE (this is why the log is in the spec, in git, first):
+#   1. Every change is CLASSIFIED and justified by the failure mode's `what:` —
+#      the intent declared in v0.1 — never by which model happened to miss.
+#   2. A change may only be made if it would apply IDENTICALLY had a frontier
+#      model produced the same answer. No model-specific carve-outs.
+#   3. Relaxations must be paid for with a TIGHTENING: `reject:` (below) zeroes a
+#      probe whose answer credits the WRONG entity, so accepting positional
+#      language does not accept wrong answers.
+#   4. Non-vacuity is a TEST, not a promise: MockVSS (the paper's canned
+#      failures) and CheaterVSS (plausible-but-wrong prose) must STILL score 0
+#      on every touched probe. See test_probe_runner.py.
+#   5. v0.1 results are preserved, never overwritten, and reported side by side.
+#
+# PRE-REGISTERED PREDICTIONS for the v0.2 re-run (falsifiable; scored honestly
+# in out/RESULTS.md whether right or wrong):
+#   sport_stays_tennis      haiku 0.00 → 1.00   (if it STILL says soccer against an
+#                                                unmistakable court, the failure was
+#                                                real and the stimulus was not at fault)
+#   describe_and_closer     haiku 0.50 → 1.00
+#   end_of_video            haiku 0.00 → 1.00
+#   forklift_fork_direction haiku 0.00 → 0.00   (real failure; predicted UNCHANGED)
+#   summary_count_clothing  haiku 0.67 → 0.67   (real miss: it never gave a summary)
+#   opus-5 / sonnet-5       1.00 → 1.00 on every touched probe. A stimulus fix that
+#                                                BREAKS a frontier model is a bad fix.
+#   ⇒ implied: haiku's gate goes FAIL(3 modes) → PASS, and the "capability ladder"
+#     claim already published in the paper's TABLE I needs a correction to ONE real
+#     failure mode, not three.
+#
+# CHANGES (5 touched, 2 deliberately untouched):
+#  - probe: sport_stays_tennis                        class: TIGHTENING
+#    found by the CheaterVSS adversarial test BEFORE the re-run, not by any
+#    model's answer: bare `contains: tennis` credited "a tennis-style warm-up
+#    before the soccer match". Added claim-shaped rejects. This can only LOWER
+#    scores — it is the payment for the two relaxations below.
+#  - matcher: whitespace collapse in _norm/_find      class: MATCHER-CORRECTNESS
+#    multi-word aliases ("drives away", "one person") silently failed when
+#    punctuation normalized to a double space. Affects v0.1 aliases too, so a
+#    handful of v0.1 zeros may have been this bug rather than the model.
+#  - probe: sport_stays_tennis + describe_and_closer   class: STIMULUS
+#    the shared `_tennis_scene` proxy read as a soccer pitch to a weaker model
+#    (green field, halfway band, orange-ish ball). Fixed in stimuli.py: service
+#    boxes + centre service line, a posted mesh net, oval strung rackets, and a
+#    yellow-green ball. Question, expectations and ground truth are UNCHANGED —
+#    only the pixels that were supposed to depict tennis now depict tennis.
+#    justification: the mode grades "consistency across chunks", not the viewer's
+#    ability to infer a sport from an ambiguous drawing.
+#  - probe: describe_and_closer                       class: EXPECTATION-INTENT
+#    v0.1 demanded the literal token "white" to identify the near player. The
+#    mode's `what:` is "every sub-question answered" — compound-prompt
+#    completeness. An answer identifying the near player POSITIONALLY ("the
+#    player at the bottom / in the lower court") answers the sub-question.
+#    Now accepts either, and pays for it with a `reject:` on the far player.
+#  - probe: end_of_video                              class: MATCHER-SYNONYM
+#    "the truck completely disappears off the right side of the screen" IS the
+#    truck leaving; the alias list simply lacked the phrasing. Added multi-word
+#    exit phrasings only ("disappears off", "out of frame", …) — deliberately NOT
+#    the bare word "disappears", which would credit "disappears behind the dock".
+#  - probe: forklift_fork_direction                   class: NO-CHANGE (real failure)
+#    the fork provably rises (stimuli.py: `fy = 140 - t * 12`); the model said it
+#    descends. Nothing to fix but the model.
+#  - probe: summary_count_clothing                    class: NO-CHANGE (real miss)
+#    tempting to blame "warehouse|storage|boxes" as incidental scene-naming, but
+#    the answer contains NO summary at all — it opens on the count. That is
+#    exactly the failure mode (answering only the later sub-questions). Left at
+#    0.67. The audit is not allowed to fix everything.
+# ─────────────────────────────────────────────────────────────────────────────
 
 failure_modes:
   - id: spatial_directional
@@ -43,7 +119,14 @@ failure_modes:
         match: contains
       - id: sport_stays_tennis
         question: "What sport is being played at the end of the video?"
+        # v0.2 TIGHTENING (found by CheaterVSS, not by any model's answer): bare
+        # `contains: tennis` credited "a tennis-style warm-up before the soccer
+        # match" — an answer whose END sport is soccer, i.e. the exact drift this
+        # mode exists to catch. Rejects are CLAIM-shaped ("soccer match", "switches
+        # to"), never bare sport words, so a correct contrastive answer
+        # ("tennis, not soccer") still scores 1.0 — see the test of that name.
         expect: ["tennis"]
+        reject: ["soccer match|soccer game|football match|football game|playing soccer|playing football|switches to|switch to|changes to|change to|turns into|padel|table tennis|ping pong|pingpong|badminton|volleyball"]
         match: contains
       - id: shirt_stays_white
         question: "What color shirt does the person wear throughout the video?"
@@ -60,7 +143,11 @@ failure_modes:
         match: all_parts
       - id: describe_and_closer
         question: "Describe what is happening in the video and identify which player is closer to the camera."
-        expect: ["rally|ball|players", "white"]
+        # part 2 accepts the near player named by SHIRT or by POSITION (v0.2
+        # EXPECTATION-INTENT); `reject` zeroes the probe if the FAR player is
+        # credited instead, so the relaxation cannot pass a wrong answer.
+        expect: ["rally|ball|players", "white|bottom|lower|near|nearer|nearest|closest|foreground|front"]
+        reject: ["red is closer|red player is closer|far player is closer|top player is closer|upper player is closer|player in red is closer|player at the top is closer|background player is closer"]
         match: all_parts
 
   - id: retrieval_reranking
@@ -73,7 +160,9 @@ failure_modes:
         match: contains
       - id: end_of_video
         question: "What happens at the very end of the video?"
-        expect: ["truck", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away"]
+        # v0.2 MATCHER-SYNONYM: added multi-word frame-exit phrasings. NOT the bare
+        # word "disappears" — that would credit "disappears behind the dock".
+        expect: ["truck", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away|disappears off|disappears from|off the right|off screen|off the screen|out of frame|out of the frame|out of view"]
         match: contains
 
   - id: grounding_hallucination
