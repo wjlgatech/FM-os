@@ -662,5 +662,31 @@
         "evidence": "this commit"
       }
     ]
+  },
+  {
+    "id": "rc0027",
+    "delivery": "Both queued items done: the multi-model TABLE I is IN the VSS Overleaf and compiles (uploaded + new 'Measured Probe Results: A Capability Ladder' subsection, two dangling refs I introduced found and fixed before shipping), and M3 settled the BARE claim \u2014 5 seeds, CONFIRMED under a median+separation rule committed to git BEFORE the run (91981e2): treatment +0.098\u00b10.028 vs control -0.046\u00b10.055, complete separation",
+    "objective": "Paste vss_results_table_multimodel.tex into the VSS Overleaf; re-run M2 with 5+ seeds (same floor) to settle CONFIRMED vs NO-EFFECT",
+    "created_at": "2026-07-31T19:05:55Z",
+    "key_results": [
+      {
+        "text": "Overleaf: table file uploaded, subsection inserted, PDF recompiled and TABLE I visually verified rendering all 3 model columns x 5 modes",
+        "target": "live project",
+        "score": 1.0,
+        "evidence": "/tmp/overleaf_table.png"
+      },
+      {
+        "text": "self-caught defect: my inserted text referenced two labels that do not exist in the paper (main.tex has zero labels) \u2014 both replaced before ship, not left as '??'",
+        "target": "honest verify at the artifact",
+        "score": 1.0,
+        "evidence": "editor read-back"
+      },
+      {
+        "text": "M3: criterion pre-registered in git BEFORE the run, 10 fine-tunes, CONFIRMED-M3 with the 0.05 floor unchanged; stricter M2 rule still reported",
+        "target": "out/M2-RESULTS.md + docs",
+        "score": 1.0,
+        "evidence": "make check green, lab 8/8"
+      }
+    ]
   }
 ]
