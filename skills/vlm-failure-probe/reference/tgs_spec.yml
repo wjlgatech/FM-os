@@ -1,0 +1,82 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# tgs_spec.yml — the Temporal Grounding Score, DEFINED.
+#
+# WHY THIS FILE EXISTS. The VSS paper (§X, "Evaluation Metrics") introduces:
+#
+#     "Temporal Grounding Score: A custom metric that quantifies the model's
+#      ability to correctly interpret and respond to temporal cues in the input
+#      (e.g., sequencing of events, time-based references)."
+#
+# …and then reports results against it in §XI, which is still `TODO`. That is a
+# metric with a NAME and no FORMULA — nothing is reproducible against it, and a
+# reviewer cannot check a single number computed from it. FM-os's contribution
+# here is not a better metric, it is a *stated* one: formula, weights, tie-breaks,
+# degenerate cases, and hand-computed fixture tests (the agentic-eval gate-math
+# pattern), all as data so the prose can never drift from what is computed.
+#
+# THE FORMULA
+#
+#   TGS = ( Σ_c  w_c · s_c )  /  ( Σ_c  w_c )        for c ∈ measured components
+#
+#   where each component score s_c ∈ [0,1] is the unweighted mean of its item
+#   scores, and the denominator RENORMALIZES over measured components only.
+#
+#   Renormalization is what keeps "no evidence ⇒ No" honest: an unmeasured
+#   component is EXCLUDED from the average, never silently scored 0 (which would
+#   fake a failure) and never silently scored 1 (which would fake a pass). If a
+#   component required by `require_all_components` is unmeasured, TGS is undefined
+#   (None) and the gate CANNOT pass — see tgs.py::gate_tgs.
+#
+# THE THREE COMPONENTS — each maps to a clause of the paper's own prose:
+#
+#   order        "sequencing of events"   — does the answer get the temporal ORDER
+#                                           / direction of change right?
+#   anchor       "time-based references"  — asked about a specific moment ("at the
+#                                           end", "throughout"), does the answer
+#                                           describe the state that actually holds
+#                                           THERE, not at some other moment?
+#   persistence  the paper's §VII         — cross-chunk drift: does the answer
+#                observed failure           invent a transition or drift an
+#                                           attribute that never changed?
+#
+# WEIGHTS. Equal by default. They are a JUDGEMENT, declared here so a reviewer can
+# disagree with the number by disagreeing with a line of YAML — that is the whole
+# point of putting them in data rather than in code.
+# ─────────────────────────────────────────────────────────────────────────────
+version: "1.0"
+
+# Gate floor. A measured TGS below this fails; UNMEASURED never passes.
+floor: 0.75
+
+# If true, every component below must be measured for TGS to be defined at all.
+require_all_components: true
+
+components:
+  - id: order
+    weight: 1.0
+    paper_clause: "sequencing of events"
+    what: "Temporal order and direction of change across frames."
+    # Items reference probes in probe_spec.yml by id — single source of truth.
+    # `probe_scores` items reuse the probe's own 0-1 score.
+    items:
+      # "which square crosses FIRST" is an ordering question over time
+      - probe: squares_race
+      # the fork's direction of travel is a sign-of-change-over-time question:
+      # the paper's observed VSS failure answered it backwards
+      - probe: forklift_fork_direction
+
+  - id: anchor
+    weight: 1.0
+    paper_clause: "time-based references"
+    what: "The state at a NAMED moment (end / throughout / across the full video)."
+    items:
+      - probe: sport_stays_tennis   # "at the end of the video"
+      - probe: end_of_video         # "at the very end"
+
+  - id: persistence
+    weight: 1.0
+    paper_clause: "cross-chunk consistency (§VII observed failures)"
+    what: "No fabricated transitions, no attribute drift across chunks."
+    items:
+      - probe: warehouse_no_fall    # fabricated event (the person 'falls')
+      - probe: shirt_stays_white    # attribute drift (white shirt → blue)

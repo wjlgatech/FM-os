@@ -219,6 +219,43 @@ def test_variance_report_flags_an_unstable_probe():
     assert "Every probe/model pair was stable" in ok_report
 
 
+def test_empty_response_is_not_measured_never_a_zero():
+    """Found in a live 3-repeat run: a response with no text block joined to "",
+    which is not None, so it was SCORED 0.0 and reported as a model failure the
+    model never committed. An absent answer must be excluded, never a fake FAIL."""
+    import vlm_adapter
+
+    class _Block:
+        def __init__(self, type_):
+            self.type = type_
+
+    class _Msg:
+        stop_reason = "max_tokens"
+        content = [_Block("thinking")]  # zero text blocks
+
+    class _Client:
+        class messages:
+            @staticmethod
+            def create(**_):
+                return _Msg()
+
+    model = vlm_adapter.RealVLM.__new__(vlm_adapter.RealVLM)
+    model.model = "test"
+    model._client = _Client()
+    assert model({"id": "floor_color", "question": "What color?"}) is None
+
+    # and the runner must treat that as unmeasured, not as a wrong answer
+    spec = load_spec()
+    patched = PatchedVSS()
+    results = run_probes(
+        lambda p: None if p["id"] == "floor_color" else patched(p), spec
+    )
+    hallu = results["grounding_hallucination"]
+    assert hallu["measured"] is False and hallu["score"] is None
+    ok, reasons = gate(results, spec)
+    assert not ok and any("NOT MEASURED" in r for r in reasons)
+
+
 def test_real_adapter_returns_none_without_key(monkeypatch):
     import vlm_adapter
 

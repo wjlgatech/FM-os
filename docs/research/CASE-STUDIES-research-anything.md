@@ -48,18 +48,39 @@ These are the claims a reviewer will attack first; each maps to a concrete next 
   baseline-comparison protocol. Until the vDPO run is pre-registered and reproducible, treat
   0.92 as a placeholder, not a result. `research-loop` stages 2–6 are the recipe;
   `vlm-failure-probe`'s baseline-vs-patched scorecard is the reporting format.
-- **"Temporal Grounding Score" (VSS §X) is undefined** — a custom metric needs a formula and a
-  fixture test before results are computed against it (the `agentic-eval` gate-math pattern).
+- ~~**"Temporal Grounding Score" (VSS §X) is undefined**~~ — **CLOSED 2026-07-31.** The paper names
+  the metric ("a custom metric that quantifies the model's ability to correctly interpret and
+  respond to temporal cues … sequencing of events, time-based references") and then reports against
+  it in a §XI that is still `TODO` — a name with no formula, so no number computed from it can be
+  checked. Now defined in [`skills/vlm-failure-probe/reference/tgs_spec.yml`](../../skills/vlm-failure-probe/reference/tgs_spec.yml):
+  `TGS = Σ wᶜ·sᶜ / Σ wᶜ` over three components mapped 1:1 to the paper's own prose — **order**
+  ("sequencing of events"), **anchor** ("time-based references"), **persistence** (the §VII
+  cross-chunk drift failures) — weights as data so a reviewer can disagree with the number by
+  disagreeing with a line of YAML. Unmeasured components are excluded and the weights renormalize
+  (never zeroed = a fake failure; never assumed = a fake pass), and a required-but-unmeasured
+  component makes TGS **undefined** and the gate unpassable. Arithmetic pinned to hand computation
+  in `test_tgs.py` (10 tests); it discriminates — the paper's observed baseline scores **TGS 0.000**,
+  a grounded model **1.000**.
 - **Prompt-sensitivity findings are anecdotal n=1 observations** ("MAKE SURE TO ANSWER ALL
   QUESTIONS" fixed one video) — the probe suite turns each anecdote into a repeated, scored
   probe across the dataset.
 - **BARE-VLM refinement can homogenize** (the paper acknowledges this) — the diversity floor in
   `syndata-bare` is the guard; report diversity *after* refinement, not just before.
-- **Proxy stimuli can under-credit weaker models** (multi-model run, 2026-07-31): the 2D
-  tennis-court proxy is unambiguous to opus/sonnet but haiku-4.5 read it as a different
-  sport — one of its temporal-mode misses may be stimulus ambiguity rather than model
-  failure. Its retrieval-mode failures (rising fork read as "moving down") are unambiguous.
-  Rule: when tiers disagree, audit whether the stimulus or the model is at fault, per probe.
+- ~~**Proxy stimuli can under-credit weaker models**~~ — **SETTLED 2026-07-31 by measurement, and
+  the answer reversed a published claim.** The suspicion was correct and larger than suspected. A
+  per-probe audit of haiku-4.5's raw answers (pre-registered in `probe_spec.yml`'s audit log and
+  committed *before* the re-run) found **3 of its 5 apparent failures were OUR grader's fault**:
+  the 2D tennis proxy genuinely read as a soccer pitch (green field, halfway band, orange-ish
+  ball → fixed with service boxes, a posted mesh net, strung rackets, a yellow-green ball); the
+  compound-prompt probe demanded the literal token "white" when the model had identified the near
+  player *positionally*; and "the truck disappears off the right side of the screen" was not in the
+  alias list for "leaves". Every pre-registered per-probe prediction held: **haiku went from
+  FAIL(3 modes) to PASS on all 5**, leaving exactly **one** real, unambiguous failure — it reads the
+  provably rising forklift fork as descending — plus one genuine compound-prompt miss (it never
+  gave the summary). So the earlier "capability ladder" framing overstated a grader artifact as
+  architecture: the honest claim is *one* capability-dependent failure mode, not three.
+  Rule, upgraded: when tiers disagree, audit the stimulus AND the matcher per probe **before**
+  publishing — and pre-register the fix so the correction cannot become goalpost-moving.
 - **Graders fail before models do** (lesson from the live run): the first live pass scored
   claude-sonnet-5 at 0.58 on multi-part prompts — but the raw answers showed every sub-question
   answered; the misses were stimulus/matcher artifacts (a drawn vest read as a "yellow shirt",

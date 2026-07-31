@@ -12,10 +12,12 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import json
 import sys
 from pathlib import Path
 
 from probe_runner import MockVSS, gate, load_spec, run_probes, scorecard
+from tgs import compute_tgs, gate_tgs, load_tgs_spec, tgs_report
 from vlm_adapter import get_adapter
 
 OUT = Path(__file__).parent / "out"
@@ -71,6 +73,32 @@ def results_md(baseline: dict, results: dict[str, dict], spec: dict, stamp: str)
     for m in models:
         ok, reasons = gate(results[m], spec)
         lines.append(f"**{m} gate:** {'PASS' if ok else 'FAIL — ' + '; '.join(reasons)}")
+
+    # Temporal Grounding Score — the paper's §X metric, now with a formula (tgs_spec.yml)
+    tspec = load_tgs_spec()
+    lines += ["", f"## Temporal Grounding Score (tgs_spec v{tspec['version']}, floor {tspec['floor']:.2f})", ""]
+    lines.append("| model | order | anchor | persistence | **TGS** | gate |")
+    lines.append("|---|---|---|---|---|---|")
+    for m in models:
+        t = compute_tgs(results[m], tspec)
+        ok, reasons = gate_tgs(t, tspec)
+        cells = [m]
+        for comp in tspec["components"]:
+            c = t["components"][comp["id"]]
+            cells.append("n.m." if not c["measured"] else f"{c['score']:.2f}")
+        cells.append("**undefined**" if t["tgs"] is None else f"**{t['tgs']:.3f}**")
+        cells.append("PASS" if ok else "FAIL — " + "; ".join(reasons))
+        lines.append("| " + " | ".join(cells) + " |")
+    base_t = compute_tgs(baseline, tspec)
+    base_shown = "undefined" if base_t["tgs"] is None else f"{base_t['tgs']:.3f}"
+    lines += [
+        "",
+        f"VSS baseline (the paper's observed failures, canned): **TGS = {base_shown}**",
+        "",
+        "Formula, weights and degenerate cases: `tgs_spec.yml`. Arithmetic pinned to hand"
+        " computation in `test_tgs.py`. An unmeasured component is excluded and the weights"
+        " renormalize — never zeroed (a fake failure), never assumed (a fake pass).",
+    ]
     lines += ["", "## Raw answers (evidence)", ""]
     for m in models:
         lines.append(f"## {m}")
@@ -165,6 +193,7 @@ if __name__ == "__main__":
             runs[model].append(run_probes(adapter, spec))
         results[model] = runs[model][0]  # the headline table reports repeat 1
         print(scorecard(model, results[model], spec))
+        print(tgs_report(model, compute_tgs(results[model], load_tgs_spec()), load_tgs_spec()))
 
     measured = [m for m, r in results.items() if any(v["measured"] for v in r.values())]
     if not measured:
@@ -179,4 +208,31 @@ if __name__ == "__main__":
         body = head + variance_report(runs, spec) + "## Raw answers (evidence)" + tail
     (OUT / "RESULTS.md").write_text(body)
     (OUT / "vss_results_table.tex").write_text(latex_table(baseline, results))
-    print(f"wrote {OUT / 'RESULTS.md'} and {OUT / 'vss_results_table.tex'}")
+    # Evidence as DATA, not only prose: every repeat's raw answers and scores, so a
+    # later analysis (variance, TGS, a re-grade under a new spec) never needs a
+    # fresh round of API calls — and a re-grade can be checked against the answers
+    # that were actually given.
+    (OUT / "raw_answers.json").write_text(
+        json.dumps(
+            {
+                "spec_version": spec["version"],
+                "date": stamp,
+                "repeats": args.repeat,
+                "runs": {
+                    m: [
+                        {
+                            mode_id: [
+                                {"id": p["id"], "score": p["score"], "answer": p["answer"]}
+                                for p in r["probes"]
+                            ]
+                            for mode_id, r in rep.items()
+                        }
+                        for rep in reps
+                    ]
+                    for m, reps in runs.items()
+                },
+            },
+            indent=1,
+        )
+    )
+    print(f"wrote {OUT / 'RESULTS.md'}, {OUT / 'vss_results_table.tex'}, {OUT / 'raw_answers.json'}")

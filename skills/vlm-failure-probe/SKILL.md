@@ -37,6 +37,16 @@ mitigation actually work", or names a system like NVIDIA VSS / a video-RAG pipel
 4. **Gate honestly** — a mode with no answers is **"not measured", never a pass**, and the
    blocking gate cannot pass while a required mode is unmeasured (FM-os Certified / BRACE
    discipline). Exits non-zero on failure so it gates CI.
+5. **Define the paper's undefined metric** — the VSS paper names a *Temporal Grounding Score*
+   (§X) and reports against it in a §XI that is still `TODO`. [`tgs_spec.yml`](reference/tgs_spec.yml)
+   supplies the missing formula — `TGS = Σ wᶜ·sᶜ / Σ wᶜ` over three components mapped 1:1 to the
+   paper's own prose (**order** = "sequencing of events", **anchor** = "time-based references",
+   **persistence** = cross-chunk drift) — with weights as data, unmeasured components excluded
+   and renormalized (never zeroed, never assumed), and the arithmetic pinned to hand computation
+   in [`test_tgs.py`](reference/test_tgs.py).
+6. **Report the grader's own variance** — `--repeat N` scores each model N times over the
+   identical deterministic stimulus and flags any probe with `sd > 0` as **GRADER-UNSTABLE**.
+   This exists because it caught us: see *Grader stability* below.
 
 ## Example
 
@@ -44,12 +54,16 @@ mitigation actually work", or names a system like NVIDIA VSS / a video-RAG pipel
 # self-contained proof: the paper's observed VSS failures are all caught,
 # and a grounded model passes — exits non-zero if either side breaks
 python reference/probe_runner.py
-# offline gate:
-python -m pytest reference/test_probe_runner.py -q
+# offline gate (probe suite + the TGS gate math):
+python -m pytest reference/test_probe_runner.py reference/test_tgs.py -q
+# the Temporal Grounding Score derivation, baseline vs grounded:
+python reference/tgs.py
 # regenerate the deterministic synthetic stimuli (the paper's own methodology, as code):
 python reference/stimuli.py
-# LIVE: probe a real vision model; writes out/RESULTS.md + a paste-ready LaTeX table
-ANTHROPIC_API_KEY=… python reference/run_real.py [--model claude-sonnet-5]
+# LIVE: probe real vision models; writes out/RESULTS.md, the LaTeX table, raw_answers.json
+ANTHROPIC_API_KEY=… python reference/run_real.py [--models claude-sonnet-5]
+# LIVE + variance: score each model 3x and flag grader-unstable probes
+ANTHROPIC_API_KEY=… python reference/run_real.py --repeat 3
 ```
 
 ```python
@@ -77,6 +91,16 @@ table live in [`reference/out/`](reference/out/). Every stimulus is deterministi
   score and fatal to the gate; a fake pass is impossible by construction.
 - **Mitigations are measured** — the bundled `MockVSS` (reproduces the paper's failures) and
   `PatchedVSS` (the bar a fix must reach) keep the harness itself regression-tested.
+- **The grader is audited like a model, and every audit is pre-registered** — spec changes carry
+  a classified, justified audit log *in the spec* (`probe_spec.yml`), committed with falsifiable
+  per-probe predictions **before** the run that tests them. Relaxing an expectation must be paid
+  for by a tightening: the `reject:` field zeroes a probe whose answer credits the **wrong**
+  entity, and `CheaterVSS` (fluent, confident, visually wrong prose) must still score 0 on every
+  touched probe — so a grader fix can never make the gate vacuous.
+- **A metric is not a name** — `tgs_spec.yml` states the formula, the weights, the tie-breaks and
+  the degenerate cases; `test_tgs.py` pins the arithmetic to numbers a reviewer can check with a
+  pencil. The paper's observed baseline scores **TGS 0.000** and a grounded model **1.000**, so
+  the metric demonstrably discriminates.
 
 ## Deeper reference (FM-os knowledge base)
 
