@@ -67,6 +67,13 @@ These are the claims a reviewer will attack first; each maps to a concrete next 
   (compound-prompt completeness), not incidental scene naming. Always read raw answers before
   reporting a failure — the paper's fuzzy-matching metrics need the same audit.
 
+**BARE/RewardForge headline (2026-07-31, 5 seeds):** preference pairs labeled by an
+independent eval gate carry real training signal — treatment **+0.098 ± 0.028** held-out
+hallucination reduction vs shuffled-label control **−0.046 ± 0.055**, complete arm separation,
+under a median+separation criterion **committed to git before the run** (`91981e2`). The
+stricter every-seed floor still reads NO-EFFECT on one seed; both verdicts ship together.
+Evidence: [`labs/rewardforge/out/M2-RESULTS.md`](../../labs/rewardforge/out/M2-RESULTS.md).
+
 **Headline live result (2026-07-25):** on the exact probes VSS fails 5/5, a frontier VLM
 (claude-sonnet-5, 6 frames per stimulus) passes 5/5 at 1.00 — evidence that the paper's failure
 modes are *architectural* (chunking, late fusion, retrieval) rather than intrinsic to current
