@@ -688,5 +688,43 @@
         "evidence": "make check green, lab 8/8"
       }
     ]
+  },
+  {
+    "id": "rc0028",
+    "delivery": "Grader audit of the VSS probe suite, pre-registered before each re-run: 3 of haiku-4.5's 5 'capability' failures were OUR grader's fault, and the 3-repeat variance loop then found THREE harness bugs that manufactured failures (empty response scored 0.0, truncated answer graded as complete, skill tests never gated by CI). All three tiers now PASS 5/5; instability cut 5 unstable pairs -> 2, both model-side. Temporal Grounding Score DEFINED (formula + weights as data + 10 hand-computed fixtures) closing the paper's named-but-undefined metric.",
+    "objective": "work on the next steps and ship them (FM-os open research flags)",
+    "created_at": "2026-07-31T21:34:08Z",
+    "key_results": [
+      {
+        "text": "pre-registration held: v0.2 audit log + per-probe predictions committed BEFORE the re-run (fc947b7); all 5 haiku predictions held exactly",
+        "target": "pre-registered in git first",
+        "score": 1.0,
+        "evidence": "commit precedes run"
+      },
+      {
+        "text": "three fake-failure harness bugs found by measurement and fixed with regression tests: empty response -> not measured, truncation -> not measured, skill's 28 tests now gated by make check",
+        "target": "honest failures, not fake passes",
+        "score": 1.0,
+        "evidence": "make check 32 tests green"
+      },
+      {
+        "text": "pre-registered prediction FALSIFIED and reported as such (summary_count_clothing did not reach sd=0.00); fallback conclusion recorded as NOT adopted with the caveat stated",
+        "target": "report the miss, no goalpost moving",
+        "score": 1.0,
+        "evidence": "RESULTS.md + dossier"
+      },
+      {
+        "text": "Temporal Grounding Score defined: TGS = sum(w*s)/sum(w) over order/anchor/persistence, unmeasured excluded+renormalized, baseline 0.000 vs grounded 1.000",
+        "target": "formula + fixture tests",
+        "score": 1.0,
+        "evidence": "10 tests in test_tgs.py"
+      },
+      {
+        "text": "HONEST DEBIT: yesterday I published the multi-model TABLE I into the VSS Overleaf asserting a haiku-4.5 'capability ladder' (fails 3/5) while logging in the same commit that some misses might be grader artifacts. They were. The claim went into a co-authored paper BEFORE the audit that refutes it \u2014 the audit is the fix, not an alibi. Correct order: audit the grader, then publish.",
+        "target": "publish only what survives a grader audit",
+        "score": 0.3,
+        "evidence": "rc0026/rc0027 vs this card; RESULTS-v0.1-spec.md"
+      }
+    ]
   }
 ]

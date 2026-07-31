@@ -8,6 +8,41 @@
 version: "0.3"
 
 # ─────────────────────────────────────────────────────────────────────────────
+# PRE-REGISTERED FOR v0.4 — DIAGNOSED, DELIBERATELY *NOT* APPLIED YET.
+#
+# The 3-repeat run under v0.3 (all three harness fake-failure bugs fixed) left
+# exactly two unstable pairs, and reading their answers diagnoses both. Neither is
+# patched here: three times today a defect was found by looking at results, and
+# patching a third one in the same session — after seeing the scores — is how a
+# grader drifts into fitting its own outcomes. Written down instead, so the NEXT
+# run tests a prediction made in advance.
+#
+#  1. probe: end_of_video · model: claude-sonnet-5 · scores 1.00, 0.00, 1.00
+#     DIAGNOSIS: all three answers describe the END event correctly ("drives off
+#     to the right and out of frame"). The zero is only because repeat 2 called it
+#     a "car-like vehicle" instead of a "truck" — the expectation requires the
+#     NOUN. The mode's `what:` is "the retrieved chunk actually answers the query
+#     (no keyword-overlap drift)", i.e. did the answer describe the end rather than
+#     an earlier scene. Object naming is incidental to that intent, and the 2D
+#     proxy vehicle (a box plus a trailer) does not unambiguously read as a truck.
+#     PROPOSED v0.4: relax part 1 to "truck|lorry|van|vehicle|car" (still requires
+#     the moving object, not the building) OR redraw the vehicle unmistakably.
+#     PREDICTION IF APPLIED: sonnet end_of_video sd → 0.00, and MockVSS still
+#     scores 0.00 (its canned answer names no vehicle at all: "a worker stacks
+#     pallets near the entrance").
+#
+#  2. probe: forklift_fork_direction · model: claude-haiku-4.5 · scores 0.00, 1.00, 1.00
+#     DIAGNOSIS: genuine MODEL nondeterminism. The fork provably rises
+#     (stimuli.py: fy = 140 - t * 12) and haiku answers "down" some of the time and
+#     "up" the rest, with confident frame-by-frame justifications either way.
+#     NOT A GRADER DEFECT — nothing to fix in the spec. It does mean the earlier
+#     claim that this is haiku's "one real, unambiguous failure" was overstated:
+#     it is a real but STOCHASTIC failure, ~1/3 of the time in this run. A single
+#     run cannot tell a stochastic failure from a deterministic one, which is the
+#     whole argument for --repeat.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ─────────────────────────────────────────────────────────────────────────────
 # AUDIT LOG — v0.2 → v0.3 (pre-registered BEFORE the repeat run; FULL DISCLOSURE:
 # the defect below was surfaced BY the v0.2 run, so it is declared here as a
 # post-hoc-discovered / pre-registered-fix change, and it is PAID FOR by a

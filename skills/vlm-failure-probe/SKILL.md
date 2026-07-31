@@ -73,14 +73,47 @@ results = run_probes(my_vlm_adapter, spec)
 ok, reasons = gate(results, spec)       # unmeasured mode -> cannot pass
 ```
 
-## Live proof (measured 2026-07-25)
+## Live proof (multi-model, re-measured 2026-07-31 under the audited spec v0.3)
 
-Run against **claude-sonnet-5** over the bundled synthetic stimuli: **5/5 failure modes PASS
-at 1.00** — the same probes the observed VSS baseline fails 5/5 (spatial 0.25, temporal 0.00,
-multipart 0.42, reranking 0.00, grounding 0.00). Raw answers + the generated LaTeX results
-table live in [`reference/out/`](reference/out/). Every stimulus is deterministic
-(`stimuli.manifest()` is hash-pinned by the tests), and a missing API key yields
-"not measured" — never a fake pass.
+3 Claude tiers × 12 probes × 3 repeats. All three **PASS 5/5 failure modes**, against an observed
+VSS baseline that fails 5/5 (spatial 0.00, temporal 0.00, multipart 0.42, reranking 0.00,
+grounding 0.00):
+
+| | VSS baseline | opus-5 | sonnet-5 | haiku-4.5 |
+|---|---|---|---|---|
+| failure modes passed | 0/5 | **5/5** | **5/5** | **5/5** |
+| Temporal Grounding Score | **0.000** | **1.000** | **1.000** | **0.833** |
+
+Headline columns are repeat 1; 3-repeat means are in the stability table of
+[`reference/out/RESULTS.md`](reference/out/RESULTS.md), alongside every raw answer and
+`raw_answers.json`. **This supersedes the 2026-07-25/-07-31 single-run result** in which haiku
+failed 3/5 modes: an audit of its raw answers found 3 of those 5 misses were the grader's fault
+(a tennis proxy that read as a soccer pitch, an expectation demanding the literal word "white",
+a missing alias for "disappears off the right side"). Every stimulus is deterministic
+(`stimuli.manifest()` is hash-pinned by the tests); a missing key, an **empty** response and a
+**truncated** response all yield "not measured" — never a fake pass, and never a fake failure.
+
+## Grader stability (measured 2026-07-31 — why `--repeat` exists)
+
+`--repeat 3` over 3 Claude tiers (108 live probes/run) found that **repeating an identical,
+deterministic stimulus moved scores enough to flip gate verdicts**, and that the unstable set
+differed between runs. Auditing every unstable answer found **three harness bugs that manufactured
+failures**, all now fixed and regression-tested:
+
+1. an **empty** response (no text block — all tokens spent on a `thinking` block) joined to `""`,
+   which is not `None`, so it scored **0.0** and was published as a model failure it never
+   committed — one `claude-opus-5` gate FAIL was this;
+2. a **truncated** response (cut off mid-word at `max_tokens=200`) was graded as complete, so the
+   missing tail counted as a missing sub-answer;
+3. the skill's own tests were **never run by `make check`** (root pytest collects `tests/` only).
+
+Fixing 1–2 cut instability from 5 unstable probe/model pairs to **2**, both model-side: haiku reads
+the provably rising forklift fork as *down/up/up*, and sonnet calls one drawn vehicle a "truck" then
+a "car-like vehicle". A single run cannot tell a stochastic failure from a deterministic one — which
+is the whole argument for reporting variance, and an exposure any paper computing fuzzy-match
+metrics over API responses shares. The diagnosed remainder is **pre-registered in `probe_spec.yml`
+for v0.4 and deliberately left unpatched**, because patching a defect you found by looking at your
+own scores is how a grader drifts into fitting its outcomes.
 
 ## Discipline (why this is trustworthy)
 
