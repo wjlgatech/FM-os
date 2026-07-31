@@ -636,5 +636,31 @@
         "evidence": "files committed"
       }
     ]
+  },
+  {
+    "id": "rc0026",
+    "delivery": "Both papers advanced with shipped evidence: VSS gets a multi-model Results table (opus/sonnet pass 5/5, haiku-4.5 FAILS 3/5 \u2014 failure profile is capability-dependent; tex in Downloads for Overleaf) and BARE/RewardForge gets M2 rigor (3 seeds x shuffled-pair ablation: complete arm separation, verdict honestly NO-EFFECT because one seed missed the pre-registered floor by 0.002 \u2014 no post-hoc goalposts)",
+    "objective": "VSS + BARE papers: update, recommend, work, ship",
+    "created_at": "2026-07-31T11:12:31Z",
+    "key_results": [
+      {
+        "text": "VSS multi-model live run: 3 Claude tiers x 12 probes; haiku raw answers audited (rising fork read as 'moving down' = real failure; tennis-proxy ambiguity logged as stimulus caveat); OpenAI honestly n.m. (zero credits)",
+        "target": "multi-model RESULTS.md + tex",
+        "score": 1.0,
+        "evidence": "run exit 0"
+      },
+      {
+        "text": "RewardForge M2: sweep.py with pre-registered verdict rules; treatment +0.090\u00b10.036 vs control -0.035; verdict NO-EFFECT per pre-registration with full-separation note",
+        "target": "out/M2-RESULTS.md",
+        "score": 1.0,
+        "evidence": "6 runs complete"
+      },
+      {
+        "text": "docs updated: case-studies dossier (capability-dependence headline + stimulus-audit rule), labs README M2 status",
+        "target": "make check green, lab 8/8",
+        "score": 1.0,
+        "evidence": "this commit"
+      }
+    ]
   }
 ]
