@@ -726,5 +726,37 @@
         "evidence": "rc0026/rc0027 vs this card; RESULTS-v0.1-spec.md"
       }
     ]
+  },
+  {
+    "id": "rc0029",
+    "delivery": "The two AI reading lists now have their primary sources downloaded locally, one folder per essay, via a regenerable fetcher with an HONEST per-source status. 11/16 have the real primary text; the audit demoted three apparent successes that were landing pages or JS shells (Brook's project page, OpenReview's 42-word shell, RT-2's site) \u2014 two repaired with verified author-hosted PDFs, one left landing-only because OpenReview 403s automated clients. Three works the list names without any URL stay 'unresolved' \u2014 searched arXiv, found nothing, invented no citation. Downloads are gitignored: FM-os is public and committing third-party PDFs would be redistribution.",
+    "objective": "Download each AI reading list's essays into named folders, set up for deep one-by-one digestion via allin-anything",
+    "created_at": "2026-08-01T14:27:21Z",
+    "key_results": [
+      {
+        "text": "16 essay folders across 2 lists, each with the source + SOURCE.md (provenance/status/licence) + PRIOR.md (the list's own claims, framed as a prior to TEST not absorb)",
+        "target": "one folder per essay",
+        "score": 1.0,
+        "evidence": "docs/reading-lists/sources/"
+      },
+      {
+        "text": "honest status beat volume: the count went DOWN 12->11 'full' when the stricter check reclassified a 42-word JS shell that had reported success",
+        "target": "a truer number, not a bigger one",
+        "score": 1.0,
+        "evidence": "fetch_reading_sources.py word-count gate"
+      },
+      {
+        "text": "no paywall or block circumvented (Nature landing-only, OpenReview 403 recorded with the browser URL); no citation invented for 3 unresolved works",
+        "target": "legitimate access only",
+        "score": 1.0,
+        "evidence": "SOURCE.md per entry"
+      },
+      {
+        "text": "DIGEST.md encodes the depth contract (experience/conviction/understanding/connection) + dependency order + the master-anything invocation",
+        "target": "depth >> width",
+        "score": 1.0,
+        "evidence": "sources/DIGEST.md"
+      }
+    ]
   }
 ]
