@@ -55,22 +55,29 @@ def test_the_campaign_arithmetic_holds():
     """Two separate facts, both worth pinning:
 
     1. The LinkedIn search's 10 postings collapse to 7 application targets.
-    2. One MORE target exists that LinkedIn never surfaced — the actual "Human
-       Understanding" role, found only by searching the employer's own board. Its
-       job_id is prefixed `GC-` to mark the different source.
+    2. More targets exist that LinkedIn never surfaced — the actual "Human Understanding"
+       role and Anthropic's Research Engineer, Agents — found by searching the employers'
+       own boards.
 
-    This test failed when role 8 was added, which is the gate working: the 10→7 claim
-    must not silently absorb a role that did not come from those 10 links.
+    Prefix convention marks provenance: a bare numeric job_id came from the LinkedIn
+    search, `GC-` from Google Careers, `GH-` from a Greenhouse board. The 10-to-7 claim is
+    pinned against the LinkedIn-sourced set ONLY, so a target added from anywhere else can
+    never quietly inflate it. This test has now failed twice on exactly that — once when
+    role 8 was added and again at role 9 — which is the gate doing its job on its author.
     """
-    linkedin = [r for r in ROLES if not r["job_id"].startswith("GC-")]
-    employer_board = [r for r in ROLES if r["job_id"].startswith("GC-")]
+    linkedin = [r for r in ROLES if r["job_id"].isdigit()]
+    off_aggregator = [r for r in ROLES if not r["job_id"].isdigit()]
     dropped = sum(len(r.get("dupe_of", [])) for r in ROLES)
 
     assert len(linkedin) == 7, f"{len(linkedin)} LinkedIn-sourced targets, expected 7"
     assert len(linkedin) + dropped == 10, (
         f"{len(linkedin)} kept + {dropped} deduped != the 10 postings searched")
-    assert len(employer_board) == 1, "expected exactly 1 role found off-aggregator"
-    assert len(ROLES) == 8, "8 application targets in total"
+    assert off_aggregator, "no off-aggregator target — the employer-board lesson is unused"
+    assert len(ROLES) == len(linkedin) + len(off_aggregator)
+    for r in off_aggregator:
+        assert r.get("apply_url"), (
+            f"{r['slug']} came from an employer board but carries no apply_url — the whole "
+            f"point of going off-aggregator is a direct, verified apply link")
 
 
 def test_every_role_names_the_edge_it_would_be_learning():

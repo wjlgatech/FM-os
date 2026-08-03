@@ -844,5 +844,50 @@
       "C1:met:probed the auth wall with a real DOM read before claiming submission was possible \u2014 caught that stale accounts.google.com cookies are not a live session",
       "P2:met:the default was 7 hand-written resumes; used one fact base plus per-role selection instead, so tailoring is auditable and no two documents contradict each other"
     ]
+  },
+  {
+    "id": "rc0032",
+    "delivery": "Anthropic Research Engineer, Agents added as target 9 (95/100 over 11 caps \u2014 highest of the nine, and the ONLY Greenhouse target, so the only one submittable with no employer account). Tailored resume generated from the shared fact base. DELIBERATELY NO drafted essay prose: Anthropic's candidate-ai-guidance says for application questions 'create your first draft yourself, then use Claude to refine it', so the dossier ships the sanctioned help instead \u2014 a requirement-to-artifact map (harness design->loop-engineering-anything, agentic benchmarks->mcp-arena, automated model/prompt eval->the grader audit, data mixes->rewardforge) plus raw material per question and all 22 mechanical fields answered. Also resolved 2 more verified Google Careers apply URLs (Winslow, plus humanoids/agi-safety recorded), leaving 4 honestly unresolved.",
+    "objective": "Add Anthropic Research Engineer, Agents to the campaign and ship everything recommended",
+    "created_at": "2026-08-03T14:13:46-05:00",
+    "key_results": [
+      {
+        "text": "Anthropic target added and scored honestly at 95/100 with its edge named (no interpretability tooling; DPO-scale not frontier RL; harnesses not many-agent-at-scale)",
+        "target": "fit measured, edge disclosed",
+        "score": 1.0,
+        "evidence": "jdfit over GH-4017544008 + resume PDF"
+      },
+      {
+        "text": "read the employer's AI policy BEFORE writing, then followed it: 4 required essays left for Paul's first draft, evidence-map supplied instead",
+        "target": "respect the employer's stated process",
+        "score": 1.0,
+        "evidence": "anthropic.com/candidate-ai-guidance quoted in the dossier"
+      },
+      {
+        "text": "apply URLs: 5 of 9 now verified by HTTP 200 + title match; the other 4 left UNRESOLVED rather than guessing a job id that would apply Paul to the wrong role",
+        "target": "never guess a job number",
+        "score": 1.0,
+        "evidence": "apply_url fields + a test that off-aggregator roles must carry one"
+      },
+      {
+        "text": "the campaign arithmetic gate failed on its author a SECOND time (role 9 from Greenhouse) and was generalised by provenance prefix instead of loosened",
+        "target": "a gate that keeps catching me",
+        "score": 1.0,
+        "evidence": "tests/test_campaign_roles.py, 39 tests green"
+      },
+      {
+        "text": "still 0 of 9 submitted",
+        "target": "an honest zero beats a fake green",
+        "score": 0.0,
+        "evidence": "Anthropic awaits Paul's essay drafts; 7 Google/NVIDIA await his signed-in session"
+      }
+    ],
+    "request": "https://job-boards.greenhouse.io/anthropic/jobs/4017544008 apply for this one too / ship all that you recommend",
+    "headline": "Anthropic added at 95/100 \u2014 I refused to write the essays, on their own rule",
+    "brief": "You added an Anthropic job. It scores 95 of 100 and is the best match of all nine: its first line asks for novel agent harness design, which is literally one of your repos. It is also the only one of the nine you can submit without an employer account. But Anthropic publishes a rule for applicants: write your own first draft, then let Claude polish it. So I did not write your four required essays. Instead I mapped each of your real shipped projects to the exact question it answers, which is the help their own guidance invites. Your first drafts, then I refine. I also pinned down 2 more direct apply links and left 4 unresolved rather than guess a job number.",
+    "growth": [
+      "C1:met:checked the employer's AI-usage policy before drafting, catching that ghost-writing the essays would violate Anthropic's stated first-draft rule at the one company most certain to notice",
+      "R3:met:considered writing polished essays (faster, looks more complete) and rejected it against the employer's published guidance \u2014 the rejected alternative is recorded, not hidden"
+    ]
   }
 ]

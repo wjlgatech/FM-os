@@ -71,6 +71,7 @@
 
 - slug: gdm-humanoids
   job_id: "4439883302"
+  apply_url: "https://www.google.com/about/careers/applications/jobs/results/105870811830592198-research-engineer-humanoids-deepmind"   # verified 2026-08-03: HTTP 200, page title matched
   title: "Research Engineer, Humanoids"
   company: "Google DeepMind"
   location: "Mountain View, CA"
@@ -88,6 +89,7 @@
 
 - slug: gdm-winslow
   job_id: "4442660455"
+  apply_url: "https://www.google.com/about/careers/applications/jobs/results/76114032863388358-research-engineer-winslow-deepmind"   # verified 2026-08-03: HTTP 200, page title matched
   title: "Research Engineer, Winslow"
   company: "Google DeepMind"
   location: "Mountain View, CA"
@@ -108,6 +110,7 @@
 
 - slug: gdm-agi-safety-alignment
   job_id: "4443139630"
+  apply_url: "https://www.google.com/about/careers/applications/jobs/results/102552346151527110-research-engineer-agi-safety-and-alignment-deepmind"   # verified 2026-08-03: HTTP 200, page title matched
   title: "Research Engineer, AGI Safety and Alignment"
   company: "Google DeepMind"
   location: "Mountain View, CA"
@@ -185,3 +188,40 @@
       ecosystem but shipped no production JAX model. I would be ramping on Flax in the
       first weeks, and my audio/speech-visual work is evaluation-side rather than training
       speech models from scratch.
+
+# ── Added 2026-08-03 at Paul's request. Greenhouse (form-based, NO account required),
+# unlike the Google/NVIDIA targets — so this is the one that is actually submittable.
+# 95/100 over 11 caps; arguably the strongest match of all nine: the JD's first line is
+# "novel harness design", which is loop-engineering-anything, and "rigorous quantitative
+# benchmarks for large scale agentic tasks", which is mcp-arena.
+#
+# IMPORTANT — the 4 required essay answers are NOT drafted by the agent. Anthropic's
+# candidate AI guidance (anthropic.com/candidate-ai-guidance, read 2026-08-03) says for
+# application questions: "Please create your first draft yourself, then use Claude to
+# refine it." Ghost-writing them would break the employer's stated process. What IS
+# sanctioned — and what shipped — is resume tailoring plus identifying which experiences
+# to highlight (their own example prompt). See docs/jd-fit/anthropic-agents.md.
+- slug: anthropic-research-engineer-agents
+  job_id: "GH-4017544008"
+  title: "Research Engineer, Agents"
+  company: "Anthropic"
+  location: "Remote-friendly (travel required) | San Francisco | Seattle | New York"
+  apply_url: "https://job-boards.greenhouse.io/anthropic/jobs/4017544008"
+  ats: greenhouse
+  submittable_without_account: true
+  note: >-
+    26 form fields, 4 of them REQUIRED free-text essays. Paul writes the first drafts
+    (employer policy); the agent supplies the evidence map and refines afterwards.
+  resume:
+    title: "Research Engineer — Agent Harnesses · Agentic Benchmarks · Automated Evaluation"
+    thesis: >-
+      Agent harnesses are my daily build, and I judge them the hard way: quality comes only
+      from an independent referee, benchmarks assert the tool-call trace rather than the
+      prose, and a run that fails the gate gets rolled back rather than reframed.
+    lead: [loop_engineering, mcp_arena, vlm_probe_audit, rewardforge, enterprise_eval]
+    also: [product_rl_loop, fmos_hub, tinker_loop]
+    honest_edge: >-
+      I have shipped no interpretability tooling, and my RL is DPO-scale on small open
+      models rather than large-scale RL on frontier language models. Multi-agent
+      coordination I have built as harnesses and referees, not as many-agent systems at
+      scale — that is the part of this role I would be growing into.
