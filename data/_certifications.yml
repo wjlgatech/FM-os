@@ -52,6 +52,15 @@ fm-os-sync:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/scripts
   tier: certified
+hci-study-gate:
+  gaps:
+  - cross_runtime (50)
+  kind: skill
+  on_mission: true
+  score: 93
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate
+  tier: certified
 personalization-loop:
   gaps:
   - relevance (54)

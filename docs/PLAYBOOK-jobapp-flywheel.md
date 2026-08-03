@@ -47,6 +47,21 @@ agent session; a full campaign is 1–3 days, not weeks.
 
 - **Goal:** capture the JD verbatim and recon the company's product surface before scoring
   anything.
+- **FIRST, if the input is a search/notification URL with several job ids: DEDUPE BEFORE
+  YOU EVALUATE** (earned 2026-08-02, GDM×Google×NVIDIA: 10 postings → **7** roles).
+  LinkedIn *public* job views need no auth — `curl https://www.linkedin.com/jobs/view/<id>/`
+  returns the full posting (~300KB), and the body sits in
+  `div.show-more-less-html__markup`. Fetch every id, extract the text, then dedupe on
+  **evidence, not titles**: two of the ten were byte-identical (same role, two cities) and
+  two more were the same team's posting with only boilerplate diffs. Applying to all ten
+  would have sent two teams duplicate applications — the single most avoidable own-goal in
+  a campaign. Record the dedupe evidence in `data/campaign_roles.yml` so the call is
+  auditable later.
+- **Never trust the search phrase as the role.** The keyword that surfaced the top hit was
+  *"Research Engineer, Human Understanding"*; the actual JD was Science & Strategic
+  Initiatives (self-improving agents), and its `human_ai_interaction` capability did not
+  even trigger. Tailoring to the phrase instead of the body targets a role that does not
+  exist. Diff the phrase against the JD and record any mismatch in the roles file.
 - **Commands:** save the JD *unedited* as `docs/jd-fit/_<slug>.jd.txt` (underscore prefix =
   raw input, never rendered). Recon: does the company run an official community-projects
   channel or call-for-projects (the sanctioned lane, like Tinker's)? What is their
@@ -70,7 +85,37 @@ agent session; a full campaign is 1–3 days, not weeks.
   suspicious, not convenient); `make jdfit` runs clean; the score is recorded *before* any
   building — a low honest number is the baseline, not a problem. Precedent: NomadicML
   started at 50, Tinker DX at 82.
+- **The false 100 recurred on 2026-08-02** — six of six roles scored 100/100 on the first
+  pass, two campaigns after Merge taught this exact lesson. Treat *any* 100 as a bug report
+  against the taxonomy until proven otherwise. Two habits that make it self-catching:
+  1. **Deliberately add caps that must fail.** Of the +8 added, three carried no
+     `skill_tag` and one had neither knowledge nor tooling, so they were guaranteed to read
+     `partial`/`gap`. A cap invented to be green is worse than no cap, and a taxonomy that
+     only knows what you already have will always return 100.
+  2. **Read the denominator.** `100/100 over 9 caps` from a 552-word JD is missing
+     information; `92/100 over 12 caps` is the stronger match. Rank by cap-density and
+     honest openness, never by the score alone.
 - **Time budget:** 1–2 h.
+
+### Stage 1.5 — the campaign graph (only when N roles > 1)
+
+- **Goal:** for a multi-role campaign, compute what is *shared* so it is built once —
+  the alternative is redoing Stages 2–4 per role, or shipping one generic package to all of
+  them (the false-100 trap at campaign scale).
+- **Command:** `python3 scripts/campaign_graph.py --jds <dir> --roles data/campaign_roles.yml`
+- **What it computes:** roles × capabilities as a bipartite graph, then
+  **shared core** (caps ≥3 roles need), **role-specific** (exactly one role — the only
+  legitimate per-role build, and the real material that makes a resume *custom* rather than
+  reworded), and **leverage = #roles × openness** (gap 1.0 / partial 0.5 / covered 0.0) as
+  the build order.
+- **Why it earns its place (measured 2026-08-02):** the top-leverage item was a hard **gap
+  shared by 3 of 7 roles** (`human_ai_interaction`). It was invisible from the single
+  best-fit role, whose JD does not mention it at all. Closing it with one certified skill
+  moved three roles at once: 92→100, 86→95, 75→92. Picking "the best role" and applying
+  would have left the campaign's weakest edge untouched.
+- **Gate:** the graph runs clean; the shared core is built before any role-specific work;
+  every role's remaining openness is written into its dossier as the honest edge.
+- **Time budget:** 1 h, and it pays for itself at N≥3.
 
 ### Stage 2 — Knowledge base
 
@@ -82,6 +127,12 @@ agent session; a full campaign is 1–3 days, not weeks.
   README sections.
 - **Gate:** `make check` green (validate + pytest + ainative ≥85 + distill-check + drift
   gates). Re-run `make jdfit` — gaps with knowledge flip to *partial*.
+- **A reachable URL is NOT a verified citation** (earned 2026-08-02). An arXiv id returned
+  HTTP 200 and would have entered `papers.yml` as an HCI reference; reading the page
+  `<title>` showed it was *"Percolation-induced PT symmetry breaking"* — an unrelated
+  physics paper, recalled wrongly from memory. **Verify identity, not just liveness:**
+  fetch the title and check it matches the entry you are writing. When the arXiv API is
+  unreachable (it was), add fewer entries — never backfill from recall to hit a count.
 - **Time budget:** 2–4 h.
 
 ### Stage 3 — Agentic tooling
@@ -117,6 +168,12 @@ agent session; a full campaign is 1–3 days, not weeks.
   kill criteria does not.
 - **Time budget:** 1–2 days. **Hard cap: ONE lab per campaign** (depth rule,
   [RESEARCH-PROGRAM.md](research/RESEARCH-PROGRAM.md)).
+- **At N roles, "one lab per campaign" still means ONE — not one per role** (clarified
+  2026-08-02, when the campaign became 7 roles at once). A multi-role campaign is one
+  campaign. Aim the single lab at the **shared core** from Stage 1.5, so it is evidence for
+  several roles rather than a bespoke demo for each; the per-role differentiation belongs in
+  the resume and dossier (Stage 5), driven by the graph's role-specific capabilities. Seven
+  labs is not seven times the depth — it is one seventh of it, seven times.
 
 ### Stage 5 — Resume + dossier
 

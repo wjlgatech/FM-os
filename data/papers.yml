@@ -832,3 +832,20 @@
   url: https://arxiv.org/abs/2310.08560
   topic: personalization
   blurb: "Virtual context management — OS-style hierarchical memory for LLMs; the canonical per-user persistent-memory design behind personal models. Operationalized in skills/personalization-loop."
+# ── Human-centred AI (added 2026-08-02; titles verified against the arXiv abs page) ──
+- title: "Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy"
+  authors: "Ben Shneiderman"
+  org: "University of Maryland"
+  year: 2020
+  venue: "arXiv:2002.04087"
+  url: https://arxiv.org/abs/2002.04087
+  topic: hci
+  blurb: "The HCAI framing: high automation and high human control are not opposites, and reliability/safety/trust are design targets rather than after-the-fact audits."
+- title: "Explaining Explanations: An Overview of Interpretability of Machine Learning"
+  authors: "Leilani H. Gilpin et al."
+  org: "MIT"
+  year: 2018
+  venue: "arXiv:1806.00069"
+  url: https://arxiv.org/abs/1806.00069
+  topic: hci
+  blurb: "Separates explainability from interpretability and insists an explanation be evaluated against a stated audience — the bridge between the HCI and alignment roles in this campaign."

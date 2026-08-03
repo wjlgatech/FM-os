@@ -105,3 +105,9 @@
   kind: skill
   author: community
   note: "Continual learning / catastrophic forgetting for SLMs; awaiting self-cert."
+- name: hci-study-gate
+  kind: skill
+  path: skills/hci-study-gate
+  tags: [hci, eval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate

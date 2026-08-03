@@ -758,5 +758,46 @@
         "evidence": "sources/DIGEST.md"
       }
     ]
+  },
+  {
+    "id": "rc0030",
+    "delivery": "Campaign opened across 7 DISTINCT roles (from 10 LinkedIn postings) with a computed dependency graph instead of 7 separate campaigns. Dedupe found two byte-identical postings and two same-team near-dupes. The false-100 recurred (6/6 roles at 100/100) and was fixed by extending the taxonomy +8 caps FIRST, three of them deliberately unable to pass. The graph then surfaced the campaign's highest-leverage item: a hard GAP shared by 3 of 7 roles (human-AI interaction) that was INVISIBLE from the single best-fit role. Closing it with one certified skill (hci-study-gate, 93/100) moved three roles at once: 92->100, 86->95, 75->92. Nothing submitted \u2014 per-role resumes are the gate before any application.",
+    "objective": "Eval + select + apply across the LinkedIn DeepMind/Google/NVIDIA postings using the jobapp playbook; reflect and update the playbook",
+    "created_at": "2026-08-03T09:20:02-05:00",
+    "key_results": [
+      {
+        "text": "10 postings deduped to 7 roles on textual evidence (byte-identical MV/SF pair; same-team near-dupes), recorded auditably in data/campaign_roles.yml",
+        "target": "never apply twice to one team",
+        "score": 1.0,
+        "evidence": "tests/test_campaign_roles.py \u2014 6 gates incl. a byte-identity check that verifies the 'byte-identical' claim rather than trusting it"
+      },
+      {
+        "text": "false-100 caught and fixed: 6/6 roles scored 100/100 until +8 caps were added, 3 with no skill_tag and 1 with neither knowledge nor tooling so they COULD NOT pass",
+        "target": "honest scores that rank",
+        "score": 1.0,
+        "evidence": "scores now spread 92-100 over 6-12 caps"
+      },
+      {
+        "text": "shared-core build validated by measurement: one certified skill (93/100, 18 tests, power math pinned to G*Power) lifted THREE roles \u2014 the gap was invisible from the best-fit role alone",
+        "target": "graph beats best-single-role",
+        "score": 1.0,
+        "evidence": "campaign_graph.py before/after"
+      },
+      {
+        "text": "a reachable URL rejected as a citation: an arXiv 200 turned out to be an unrelated physics paper on title check; added fewer entries rather than backfilling from recall",
+        "target": "verify identity not liveness",
+        "score": 1.0,
+        "evidence": "CAMPAIGN doc Stage 2"
+      },
+      {
+        "text": "NOTHING submitted: per-role dossier + genuinely custom resume + traceable claims + named weak edge is the gate before any application",
+        "target": "quality >> quantity, as instructed",
+        "score": 1.0,
+        "evidence": "CAMPAIGN doc submission gate"
+      }
+    ],
+    "request": "eval, select (do NOT apply each one, many duplicated position in different locations) and apply the position under this <LinkedIn search URL>, using our playbook in job application which include [knowledge-base, agentic tooling, research project and or reverse engineer products, writing long form article]. Reflect and Update our playbook after this experience. [follow-up: all 7, do them parallel or in a graph (understand their overlapping or dependency). NO rush, each application need customed resume. Quality>>quantity]",
+    "headline": "10 postings were 7 real roles; the graph found a gap shared by 3 of them that the best single role never mentions",
+    "brief": "A LinkedIn search returned 10 job links. Two pairs were the same job posted twice, so 10 links were really 7 jobs \u2014 applying to all 10 would have sent two teams the same person twice. Then our scoring tool said we were a perfect 100/100 match for six of them, which can't be true of six different jobs; it only knew how to look for skills we already had. After teaching it 8 new skills to look for \u2014 4 of them deliberately ones we DON'T have, so they had to come back red \u2014 the scores spread out honestly. Mapping all 7 jobs together then showed one missing skill that three of them need but our single best-fit job never mentions: how to run a proper study on real humans. We built and certified that one tool, and three job scores rose at once. Nothing has been submitted; each application still needs its own resume first."
   }
 ]

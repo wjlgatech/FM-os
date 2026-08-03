@@ -728,3 +728,26 @@
   category: finetuning
   slm: true
   blurb: "Apache-2.0 post-training recipe library on the Tinker fine-tuning API — SFT, DPO, RLHF, and custom RL environments composed from four low-level training primitives over LoRA adapters."
+# ── Human-AI interaction / behavioural experiment tooling (added 2026-08-02) ──
+# Stage 2 for the campaign's top-leverage GAP: human_ai_interaction, required by 3 of
+# the 7 target roles. Every URL below returned 200 at intake.
+- name: jsPsych
+  repo: jspsych/jsPsych
+  url: https://github.com/jspsych/jsPsych
+  category: hci
+  blurb: "Browser-based behavioural experiments in JavaScript — the standard way to run a timed, randomised human study at scale."
+- name: PsychoPy
+  repo: psychopy/psychopy
+  url: https://github.com/psychopy/psychopy
+  category: hci
+  blurb: "Precise stimulus presentation and response timing for human experiments; the reference tool for lab-grade psychophysics."
+- name: OpenFace
+  repo: TadasBaltrusaitis/OpenFace
+  url: https://github.com/TadasBaltrusaitis/OpenFace
+  category: hci
+  blurb: "Facial behaviour analysis (landmarks, gaze, action units) — the observable channel for measuring reaction to an AI system."
+- name: Lab Streaming Layer (liblsl)
+  repo: labstreaminglayer/liblsl
+  url: https://github.com/labstreaminglayer/liblsl
+  category: hci
+  blurb: "Time-synchronised streaming of heterogeneous sensor data — how behavioural, physiological, and interaction logs get aligned on one clock."

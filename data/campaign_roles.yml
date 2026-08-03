@@ -1,0 +1,75 @@
+# campaign_roles.yml — the 7 DISTINCT roles behind 10 LinkedIn postings (2026-08-02).
+#
+# Dedupe evidence, not judgement: `dupe_of` rows were confirmed by comparing the
+# extracted JD text byte-for-byte, or by reading two near-identical postings from the
+# same team. Ten postings → seven applications. Applying to all ten would have sent the
+# same team two copies of the same person.
+#
+# One entry per application target. `search_keyword_mismatch` records where the
+# LinkedIn search phrase does NOT describe the actual JD — worth knowing before a
+# resume is tailored to the wrong thing.
+
+- slug: gdm-ssi-self-improving-agents
+  job_id: "4437900123"
+  title: "Research Engineer, DeepMind (Science & Strategic Initiatives)"
+  company: "Google DeepMind"
+  location: "Mountain View, CA"
+  comp: "$262,000–$365,000 + 25% bonus + equity"
+  search_keyword_mismatch: >-
+    Found via the keyword "Research Engineer, Human Understanding". The JD is not a
+    human-understanding role at all — it is SSI: a self-improving agent framework,
+    automated failure-mode diagnosis, and eval pipelines beyond lab benchmarks. The
+    human_ai_interaction capability does not even trigger on this text.
+
+- slug: google-research-swe-multimodal
+  job_id: "4442087734"
+  title: "Research Software Engineer, Multimodal AI"
+  company: "Google"
+  location: "San Jose, CA"
+
+- slug: gdm-multimodal-information-literacy
+  job_id: "4398928640"
+  title: "Research Engineer, Multimodal Reasoning for Information Literacy"
+  company: "Google DeepMind"
+  location: "(per posting)"
+
+- slug: gdm-humanoids
+  job_id: "4439883302"
+  title: "Research Engineer, Humanoids"
+  company: "Google DeepMind"
+  location: "Mountain View, CA"
+
+- slug: gdm-winslow
+  job_id: "4442660455"
+  title: "Research Engineer, Winslow"
+  company: "Google DeepMind"
+  location: "Mountain View, CA"
+  note: >-
+    Thinnest JD of the seven (552 words, few specific capability signals). Treat the
+    low cap-count as missing information, not as an easy match.
+
+- slug: gdm-agi-safety-alignment
+  job_id: "4443139630"
+  title: "Research Engineer, AGI Safety and Alignment"
+  company: "Google DeepMind"
+  location: "Mountain View, CA"
+  dupe_of:
+    - job_id: "4443145447"
+      location: "San Francisco, CA"
+      evidence: "extracted JD text is byte-identical to 4443139630"
+
+- slug: nvidia-human-ai-perception
+  job_id: "4435941809"
+  title: "Senior Research Scientist, Human-AI Perception and Interaction"
+  company: "NVIDIA"
+  location: "Santa Clara, CA"
+  dupe_of:
+    - job_id: "4437932202"
+      location: "Santa Clara, CA"
+      evidence: "same team and title; near-identical posting (text differs only in boilerplate)"
+    - job_id: "4395479271"
+      location: "(PhD new-grad tier)"
+      evidence: >-
+        same team, Research Scientist (PhD new grad) rather than Senior. Not applied
+        for separately — applying to both tiers of one team reads as unfocused. If the
+        senior tier is declined, this is the fallback, not a parallel shot.

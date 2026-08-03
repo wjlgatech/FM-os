@@ -261,3 +261,76 @@
   repo_categories: [eval]
   topics: [eval, posttraining]
   kind: knowledge
+
+# ── Added 2026-08-02 for the Google DeepMind / NVIDIA research-engineer campaign.
+# Stage 1 rule: extend the taxonomy BEFORE scoring, and let the score fall where it
+# falls. Several of these deliberately carry no skill_tag — FM-os has real knowledge
+# but no certified tool, so they must read `partial`, and one has neither and must
+# read `gap`. A cap invented to be green is worse than no cap.
+- id: self_improving_agents
+  label: "Self-improving agent frameworks (diagnose failures → improve automatically)"
+  keywords: ["self-improving", "self improving", "continuously improve", "improve agent quality",
+             "feedback loop", "agent framework", "agentic framework"]
+  repo_categories: [agents, frameworks]
+  topics: [agents, posttraining]
+  skill_tag: eval
+
+- id: failure_mode_diagnosis
+  label: "Automatic failure-mode diagnosis + characterizing model limitations empirically"
+  keywords: ["failure mode", "failure modes", "diagnose", "model limitations", "empirical evidence",
+             "characterize", "root cause"]
+  repo_categories: [eval]
+  topics: [eval, benchmarks]
+  skill_tag: eval
+
+- id: eval_beyond_benchmarks
+  label: "Automated eval pipelines capturing real-world quality beyond lab benchmarks"
+  keywords: ["evaluation pipeline", "automated evaluation", "beyond lab", "real-world",
+             "real world", "agent quality", "leaderboard", "leaderboards"]
+  repo_categories: [eval, benchmark]
+  topics: [eval, benchmarks]
+  skill_tag: benchmark
+
+- id: cross_deployment_transfer
+  label: "Cross-engagement learning — generalize insights from one deployment to all"
+  keywords: ["cross-engagement", "generalize learnings", "generalize insights", "at scale",
+             "transfer", "across customer"]
+  repo_categories: [agents]
+  topics: [posttraining]
+  # no skill_tag on purpose: FM-os curates the knowledge but ships no certified
+  # cross-deployment transfer tool. Honest reading is `partial`.
+
+- id: agi_safety_alignment
+  label: "AGI safety & alignment — interpretability, RLHF, eval awareness"
+  keywords: [alignment, "agi safety", interpretability, rlhf, "eval awareness", "safety case",
+             oversight, "dangerous capability"]
+  repo_categories: [alignment, eval]
+  topics: [alignment, safety, rlhf]
+  # no skill_tag: no certified alignment/interpretability skill exists here.
+
+- id: embodied_humanoid
+  label: "Humanoid / robot learning, sim-to-real, physics simulators"
+  keywords: [humanoid, robot, robots, robotics, "sim-to-real", "physics simulator",
+             manipulation, locomotion, embodiment]
+  repo_categories: [robotics, multimodal]
+  topics: [robotics, vla]
+  skill_tag: vlm
+
+- id: human_ai_interaction
+  label: "Human-AI perception & interaction research (HCI, user studies)"
+  keywords: ["human-ai", "human ai", "user study", "user studies", hci, perception,
+             "interaction research", "human factors", "human understanding"]
+  repo_categories: [hci]
+  topics: [hci]
+  skill_tag: hci
+  # Was a bare `gap` when first added (2026-08-02) — no knowledge, no tooling. The
+  # campaign graph then showed it as the HIGHEST-LEVERAGE gap (3 of 7 roles), so
+  # Stage 2 curated the hci repos/papers and Stage 3 shipped hci-study-gate.
+
+- id: distributed_infra
+  label: "Large-scale distributed systems / data infrastructure"
+  keywords: ["distributed systems", "large-scale infrastructure", "large scale infrastructure",
+             mapreduce, hadoop, spark, bigquery, hive, impala, flume]
+  repo_categories: [infra, frameworks]
+  topics: [infrastructure, serving]
+  # no skill_tag: FM-os curates serving/infra knowledge but ships no infra skill.
