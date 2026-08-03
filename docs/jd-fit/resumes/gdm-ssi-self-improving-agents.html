@@ -1,0 +1,64 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+  @page { size: Letter; margin: 0.5in; }
+  body { font: 10.5pt/1.42 "Helvetica Neue", Helvetica, Arial, sans-serif;
+          color: #141413; max-width: 7.5in; margin: 0 auto; }
+  h1 { font-size: 19pt; margin: 0 0 2pt; letter-spacing: -0.2pt; }
+  h2 { font-size: 10pt; text-transform: uppercase; letter-spacing: 0.9pt;
+        border-bottom: 1.2pt solid #d97757; padding-bottom: 2pt;
+        margin: 13pt 0 6pt; color: #141413; }
+  p { margin: 0 0 5pt; }
+  ul { margin: 0 0 7pt; padding-left: 15pt; }
+  li { margin-bottom: 4pt; }
+  a { color: #6a9bcc; text-decoration: none; }
+  strong { color: #141413; }
+</style></head><body>
+<h1>Paul Jialiang Wu, PhD</h1>
+<p><strong>Research Engineer — Self-Improving Agent Systems · Automated Failure Diagnosis · Eval Beyond Benchmarks</strong></p>
+<p>wjlgatech@gmail.com · github.com/wjlgatech · linkedin.com/in/paul-jialiang-wu-phd · <a href="https://agentic-portfolio-lovat.vercel.app">live portfolio</a></p>
+<h2>SUMMARY</h2>
+<p>This role&#x27;s three duties are my daily build: diagnose agent failure modes automatically, build eval pipelines that capture real-world quality beyond lab benchmarks, and characterize model limitations with empirical evidence. I have shipped each — including the uncomfortable version, where the audit demoted my own published claim.</p>
+<h2>WHY GOOGLE DEEPMIND — RESEARCH ENGINEER, DEEPMIND (SCIENCE &amp; STRATEGIC INITIATIVES)</h2>
+<ul>
+<li><strong>Audited my own benchmark and it demoted my own published result:</strong> A VLM failure taxonomy as data → gated probe suite. Then a 3-repeat variance run found the grader, not the model, was the least reliable component: three harness bugs were MANUFACTURING failures (an empty API response scored 0.0; a truncated answer graded as complete; the suite&#x27;s own tests never gated by CI). Fixing them cut instability from 5 unstable probe/model pairs to 1, and forced a correction to a capability claim I had already put in a paper table. Every spec change was pre-registered with falsifiable per-probe predictions BEFORE the run that tested it. (github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe)</li>
+<li><strong>Eval gates → preference data → a REAL gated fine-tune:</strong> 162 preference pairs labeled by certified eval gates (zero human labels) → DPO loss written from scratch (torch+peft) → LoRA on a small open model → held-out hallucination 0.398→0.287, SHIP. Under a median+separation criterion committed to git BEFORE the 5-seed run: treatment +0.098±0.028 vs shuffled-label control −0.046±0.055, complete arm separation. The same gate rolled back a collapsed run first: the honest negative result was reported before the positive one. (github.com/wjlgatech/FM-os/tree/main/labs/rewardforge)</li>
+<li><strong>Evidence-gated tool-use benchmark over real MCP servers:</strong> 12 tasks × 6 failure-mode categories as data, over REAL MCP servers; the tool-call trace is asserted, so &quot;right words, no tool calls&quot; scores zero by construction. The harness ships its own falsifier — an EvidenceHallucinator mock that must score 0 in CI. Failures export as DPO preference pairs. (github.com/wjlgatech/mcp-arena)</li>
+<li><strong>Self-improving harness with an independent referee:</strong> generate → judge → refactor loops where quality comes ONLY from an independent referee (maker ≠ checker, enforced fail-closed); convergence policy with plateau detection, regression rollback and budgets; live-verified F→A runs. 543 tests. (github.com/wjlgatech/loop-engineering-anything)</li>
+<li><strong>The eval framework that decided production model selection:</strong> Primary technical interface on an executive-level enterprise AI deployment (Accenture OpenAI-DSI). Built the multi-model evaluation framework comparing 6+ VLMs (Gemini-class, NVIDIA VSS, Cosmos-Predict2) on accuracy, latency under load, edge-case failure modes and integration cost — the basis for production model selection. Shipped a confidence-calibrated selective-verification pipeline routing only high-uncertainty outputs to human review: ~90% annotation cost reduction. (Accenture, Physical AI Team (2024–present))</li>
+</ul>
+<h2>ALSO SHIPPED</h2>
+<ul>
+<li><strong>FM-os — spec-as-data FM-ops hub (creator)</strong> — github.com/wjlgatech/FM-os</li>
+<li><strong>Self-Calibrating World Models (NeurIPS 2026, under review)</strong> — NeurIPS 2026 under review</li>
+</ul>
+<h2>EXPERIENCE</h2>
+<p><strong>Applied AI Scientist / Forward Deployed Engineer — Accenture, Physical AI Team</strong> · Jan 2024–Present</p>
+<ul>
+<li>Primary technical interface for an executive-level enterprise AI deployment (OpenAI-DSI engagement); recognized for a &quot;no surprises&quot; standard built on deep model understanding and contextual judgment at decision points.</li>
+<li>Built the multi-model evaluation framework comparing 6+ VLMs (Gemini-class, NVIDIA VSS, Cosmos-Predict2) on accuracy, latency under load, edge-case failure modes and integration cost — the basis for production model selection.</li>
+<li>Shipped a confidence-calibrated selective-verification pipeline routing only high-uncertainty outputs to human review: ~90% annotation cost reduction.</li>
+<li>Technical lead on 4 simultaneous production systems: synthetic data generation, zero-shot safety detection, adaptive evaluation under distribution shift, vision-language reasoning over live sensor streams.</li>
+</ul>
+<p><strong>Principal Data Scientist — Genentech</strong> · Jun 2021–Dec 2022</p>
+<ul>
+<li>Production ML for biomedical research; 3 open-source PyPI packages for multimodal learning; 85% reduction in unproductive process time.</li>
+</ul>
+<p><strong>Principal Data Scientist — Galvanize Inc.</strong> · Sep 2019–Jun 2021</p>
+<ul>
+<li>Technical lead across 13+ end-to-end ML systems for Fortune 500 clients; 5-star-rated delivery.</li>
+</ul>
+<h2>PUBLICATIONS</h2>
+<ul>
+<li><strong>Self-Calibrating World Models (NeurIPS 2026, under review)</strong> — Online Bayesian calibration for sim-to-real transfer; 40% transfer-error reduction vs domain randomization.</li>
+<li><strong>Physical AI: The Next Frontier in AI and Robotics</strong> — Preprints.org, Apr 2026. DOI: 10.20944/preprints202604.0549.v1.</li>
+</ul>
+<h2>TECHNICAL SKILLS</h2>
+<p><strong>Tooluse:</strong> MCP servers/benchmarks, agent harness design, evidence-gated trace verification, instruction-following probes, connector generation (OpenAPI→CLI/MCP)</p>
+<p><strong>Posttraining:</strong> DPO from scratch (torch+peft), LoRA/QLoRA, preference-data pipelines from eval failures, reward-hack detection, win-rate gates, ship/rollback</p>
+<p><strong>Evaluation:</strong> LLM-as-judge referees (maker≠checker), failure-taxonomy-as-data suites, held-out gated benchmarks, pre-registered criteria, variance reporting, confidence calibration, distribution-shift detection</p>
+<p><strong>Engineering:</strong> Python, PyTorch, numpy, JAX-adjacent, FastAPI, Docker/K8s, CI/CD, large-codebase debugging (543-test OSS), Go, SQLite/Postgres</p>
+<h2>EDUCATION</h2>
+<p><strong>Yale University</strong> — National BioMed Fellow, Computational Immunology · <strong>Georgia Tech</strong> — PhD, Bioinformatics · <strong>University of South Carolina</strong> — MS, Mathematics &amp; CS · <strong>Sun Yat-Sen University</strong> — BS, Applied Mathematics</p>
+<h2>THE EDGE I&#x27;D BE LEARNING, NOT TEACHING</h2>
+<p>My distributed-systems depth is the real edge here: I have curated and used large-scale training infrastructure, but I have not owned a MapReduce/Spark/BigQuery data platform in production. I would be learning that stack, not teaching it.</p>
+</body></html>

@@ -20,24 +20,71 @@
     human-understanding role at all — it is SSI: a self-improving agent framework,
     automated failure-mode diagnosis, and eval pipelines beyond lab benchmarks. The
     human_ai_interaction capability does not even trigger on this text.
+  resume:
+    title: "Research Engineer — Self-Improving Agent Systems · Automated Failure Diagnosis · Eval Beyond Benchmarks"
+    thesis: >-
+      This role's three duties are my daily build: diagnose agent failure modes
+      automatically, build eval pipelines that capture real-world quality beyond lab
+      benchmarks, and characterize model limitations with empirical evidence. I have
+      shipped each — including the uncomfortable version, where the audit demoted my own
+      published claim.
+    lead: [vlm_probe_audit, rewardforge, mcp_arena, loop_engineering, enterprise_eval]
+    also: [fmos_hub, scwm]
+    honest_edge: >-
+      My distributed-systems depth is the real edge here: I have curated and used
+      large-scale training infrastructure, but I have not owned a MapReduce/Spark/BigQuery
+      data platform in production. I would be learning that stack, not teaching it.
 
 - slug: google-research-swe-multimodal
   job_id: "4442087734"
   title: "Research Software Engineer, Multimodal AI"
   company: "Google"
   location: "San Jose, CA"
+  resume:
+    title: "Research Software Engineer — Multimodal AI · Personalization & Memory · Evaluation"
+    thesis: >-
+      Multimodal systems judged by what a person actually gets: I build the eval that
+      decides which VLM ships, and the personalization gates that make memory prove it
+      pays rent.
+    lead: [enterprise_eval, super_u, vlm_probe_audit, product_rl_loop, hci_study_gate]
+    also: [fmos_hub, scwm]
+    honest_edge: >-
+      My multimodal work is evaluation- and deployment-side rather than pretraining a
+      frontier multimodal model from scratch.
 
 - slug: gdm-multimodal-information-literacy
   job_id: "4398928640"
   title: "Research Engineer, Multimodal Reasoning for Information Literacy"
   company: "Google DeepMind"
   location: "(per posting)"
+  resume:
+    title: "Research Engineer — Multimodal Reasoning · Grounding & Hallucination Gates"
+    thesis: >-
+      Information literacy is a grounding problem with teeth: I build probe suites where a
+      fluent, confident, ungrounded answer scores zero by construction, and I audit the
+      grader before I trust the model score.
+    lead: [vlm_probe_audit, mcp_arena, enterprise_eval, rewardforge, hci_study_gate]
+    also: [fmos_hub]
+    honest_edge: >-
+      I have not worked on misinformation/provenance datasets specifically; my grounding
+      work is on synthetic and enterprise sensor data.
 
 - slug: gdm-humanoids
   job_id: "4439883302"
   title: "Research Engineer, Humanoids"
   company: "Google DeepMind"
   location: "Mountain View, CA"
+  resume:
+    title: "Research Engineer — Humanoids · Sim-to-Real · World Models"
+    thesis: >-
+      Sim-to-real is a calibration problem, and calibration is a measurement problem: my
+      NeurIPS submission cuts transfer error 40% by calibrating the world model online
+      rather than randomizing the domain.
+    lead: [scwm, physical_ai_paper, enterprise_eval, vlm_probe_audit, tinker_loop]
+    also: [fmos_hub, loop_engineering]
+    honest_edge: >-
+      My robotics work is world-model and perception-side; I have not shipped
+      whole-body-control or locomotion policies on hardware.
 
 - slug: gdm-winslow
   job_id: "4442660455"
@@ -47,6 +94,17 @@
   note: >-
     Thinnest JD of the seven (552 words, few specific capability signals). Treat the
     low cap-count as missing information, not as an easy match.
+  resume:
+    title: "Research Engineer — Agent Harnesses · Evaluation · Post-Training"
+    thesis: >-
+      I ship gated closed loops: an independent referee, a pre-registered criterion, and a
+      rollback when the number does not move. Breadth across eval, post-training and agent
+      harnesses, with a measured artifact behind each.
+    lead: [loop_engineering, rewardforge, mcp_arena, vlm_probe_audit, enterprise_eval]
+    also: [fmos_hub, scwm]
+    honest_edge: >-
+      This posting is the thinnest of the seven, so this resume leads with breadth and
+      rigor rather than guessing at a specialization the JD does not name.
 
 - slug: gdm-agi-safety-alignment
   job_id: "4443139630"
@@ -57,6 +115,19 @@
     - job_id: "4443145447"
       location: "San Francisco, CA"
       evidence: "extracted JD text is byte-identical to 4443139630"
+  resume:
+    title: "Research Engineer — AGI Safety & Alignment · Honest Evaluation · Red-Teaming"
+    thesis: >-
+      Safety work fails the way evaluation fails: silently. My practice is
+      no-evidence-no-pass, pre-registered criteria, and adversarial self-audit — including
+      finding that three of my own harness bugs were manufacturing failures that looked
+      like model limitations.
+    lead: [vlm_probe_audit, rewardforge, product_rl_loop, loop_engineering, mcp_arena]
+    also: [hci_study_gate, fmos_hub]
+    honest_edge: >-
+      I have shipped no interpretability tooling. My alignment contribution is
+      evaluation-and-oversight discipline, not mechanistic interpretability, and I would
+      say so on day one.
 
 - slug: nvidia-human-ai-perception
   job_id: "4435941809"
@@ -73,3 +144,44 @@
         same team, Research Scientist (PhD new grad) rather than Senior. Not applied
         for separately — applying to both tiers of one team reads as unfocused. If the
         senior tier is declined, this is the fallback, not a parallel shot.
+  resume:
+    title: "Senior Research Scientist — Human-AI Interaction · Perception · Honest User Evaluation"
+    thesis: >-
+      When humans are the measuring instrument, the design decides whether the result
+      exists. I build gates that refuse an underpowered or order-confounded study, and I
+      have run the model-side perception evaluation that production selection depended on.
+    lead: [hci_study_gate, enterprise_eval, vlm_probe_audit, scwm, mcp_arena]
+    also: [fmos_hub, physical_ai_paper]
+    honest_edge: >-
+      I have not run lab-based human-subjects studies at publication scale; my HCI
+      contribution is the measurement discipline and tooling, and I would want to pair
+      with an experienced study lead.
+
+# ── Added 2026-08-03: the role Paul ACTUALLY searched for, found only after going to
+# Google Careers directly. It is NOT among the 10 LinkedIn ids — LinkedIn surfaced the
+# SSI posting under the "Human Understanding" keyword instead. Scores 95/100 over 11
+# caps (audio/speech-visual models, VLM tuning, JAX/Flax): a stronger and more literal
+# match than the posting the search returned. Lesson: search the EMPLOYER'S board, not
+# only the aggregator.
+- slug: gdm-human-understanding
+  job_id: "GC-107269257477137094"
+  title: "Research Engineer, Human Understanding"
+  company: "Google DeepMind"
+  location: "Mountain View, CA / Los Angeles, CA"
+  apply_url: "https://www.google.com/about/careers/applications/jobs/results/107269257477137094-research-engineer-human-understanding-deepmind"
+  note: >-
+    Requires 5 yrs ML model development (audio/speech-visual), VLM tuning, and JAX/Flax.
+    JAX/Flax is the honest edge — curated knowledge, no shipped JAX artifact.
+  resume:
+    title: "Research Engineer — Human Understanding · Audio-Visual Models · VLM Evaluation"
+    thesis: >-
+      Understanding people from multimodal signal is an evaluation problem before it is a
+      modelling problem: I built the multi-model VLM evaluation that decided production
+      selection, and I audit the grader before trusting any model score.
+    lead: [enterprise_eval, vlm_probe_audit, hci_study_gate, scwm, mcp_arena]
+    also: [fmos_hub, physical_ai_paper]
+    honest_edge: >-
+      My deep-learning framework depth is PyTorch, not JAX/Flax — I have curated the JAX
+      ecosystem but shipped no production JAX model. I would be ramping on Flax in the
+      first weeks, and my audio/speech-visual work is evaluation-side rather than training
+      speech models from scratch.

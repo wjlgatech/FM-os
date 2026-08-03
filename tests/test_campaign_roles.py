@@ -51,12 +51,34 @@ def test_every_dedupe_claim_carries_evidence():
             assert len(ev) > 20, f"{r['slug']} → {d['job_id']} has no real evidence"
 
 
-def test_ten_postings_seven_roles():
-    """The headline arithmetic of the campaign."""
-    kept = len(ROLES)
+def test_the_campaign_arithmetic_holds():
+    """Two separate facts, both worth pinning:
+
+    1. The LinkedIn search's 10 postings collapse to 7 application targets.
+    2. One MORE target exists that LinkedIn never surfaced — the actual "Human
+       Understanding" role, found only by searching the employer's own board. Its
+       job_id is prefixed `GC-` to mark the different source.
+
+    This test failed when role 8 was added, which is the gate working: the 10→7 claim
+    must not silently absorb a role that did not come from those 10 links.
+    """
+    linkedin = [r for r in ROLES if not r["job_id"].startswith("GC-")]
+    employer_board = [r for r in ROLES if r["job_id"].startswith("GC-")]
     dropped = sum(len(r.get("dupe_of", [])) for r in ROLES)
-    assert kept == 7, kept
-    assert kept + dropped == 10, f"{kept} kept + {dropped} dropped != 10 postings"
+
+    assert len(linkedin) == 7, f"{len(linkedin)} LinkedIn-sourced targets, expected 7"
+    assert len(linkedin) + dropped == 10, (
+        f"{len(linkedin)} kept + {dropped} deduped != the 10 postings searched")
+    assert len(employer_board) == 1, "expected exactly 1 role found off-aggregator"
+    assert len(ROLES) == 8, "8 application targets in total"
+
+
+def test_every_role_names_the_edge_it_would_be_learning():
+    """A tailored resume without a stated weak spot is marketing. The builder refuses
+    to generate one, and this pins that the data actually carries it."""
+    for r in ROLES:
+        edge = (r.get("resume", {}).get("honest_edge") or "").strip()
+        assert len(edge) > 40, f"{r['slug']} has no honest_edge"
 
 
 @pytest.mark.skipif(not JD_DIR.is_dir(), reason="JD texts are not committed (third-party)")

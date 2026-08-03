@@ -799,5 +799,50 @@
     "request": "eval, select (do NOT apply each one, many duplicated position in different locations) and apply the position under this <LinkedIn search URL>, using our playbook in job application which include [knowledge-base, agentic tooling, research project and or reverse engineer products, writing long form article]. Reflect and Update our playbook after this experience. [follow-up: all 7, do them parallel or in a graph (understand their overlapping or dependency). NO rush, each application need customed resume. Quality>>quantity]",
     "headline": "10 postings were 7 real roles; the graph found a gap shared by 3 of them that the best single role never mentions",
     "brief": "A LinkedIn search returned 10 job links. Two pairs were the same job posted twice, so 10 links were really 7 jobs \u2014 applying to all 10 would have sent two teams the same person twice. Then our scoring tool said we were a perfect 100/100 match for six of them, which can't be true of six different jobs; it only knew how to look for skills we already had. After teaching it 8 new skills to look for \u2014 4 of them deliberately ones we DON'T have, so they had to come back red \u2014 the scores spread out honestly. Mapping all 7 jobs together then showed one missing skill that three of them need but our single best-fit job never mentions: how to run a proper study on real humans. We built and certified that one tool, and three job scores rose at once. Nothing has been submitted; each application still needs its own resume first."
+  },
+  {
+    "id": "rc0031",
+    "delivery": "8 role-tailored resumes (md+html+pdf) generated from ONE verified fact base so no two disagree, each ending in a required 'edge I would be learning, not teaching' section the builder refuses to omit. Submission of all 8 is BLOCKED at authentication, and this was MEASURED: launched the isolated automation Chrome on CDP 9223, opened the real Google Careers apply page, evaluated the DOM, got signedIn:false \u2014 stale cookies, no live session. Refused to use the daily browser or any credential. Biggest find: the 'Research Engineer, Human Understanding' role Paul actually searched for was NOT among the 10 LinkedIn postings; it exists on Google Careers, scores 95/100 over 11 caps, and is now target #1 of 8.",
+    "objective": "Apply to each campaign role via CLI or computer-use agent, with a custom resume per role",
+    "created_at": "2026-08-03T11:10:42-05:00",
+    "key_results": [
+      {
+        "text": "8 tailored resumes from one fact base, every claim traceable to a shipped artifact; emoji caught and stripped after a real browser render",
+        "target": "custom resume per role, zero drift",
+        "score": 1.0,
+        "evidence": "scripts/build_resume.py + 8 PDFs, screenshot-verified"
+      },
+      {
+        "text": "auth blocker MEASURED not assumed: real apply page opened in the isolated profile, DOM read back signedIn:false; daily browser untouched, no credentials used",
+        "target": "verify at the altitude of the process that submits",
+        "score": 1.0,
+        "evidence": "CDP Runtime.evaluate output"
+      },
+      {
+        "text": "found the role the search never showed: Human Understanding is absent from all 10 LinkedIn ids, lives on Google Careers, scores 95/100 \u2014 now target #1",
+        "target": "search the employer board, not the aggregator",
+        "score": 1.0,
+        "evidence": "GC-107269257477137094 fetched and scored"
+      },
+      {
+        "text": "my own dedupe test FAILED when role 8 was added; corrected the arithmetic without weakening the gate (7 from LinkedIn + 1 off-aggregator = 8)",
+        "target": "a gate that catches its author",
+        "score": 1.0,
+        "evidence": "tests/test_campaign_roles.py, 8 tests"
+      },
+      {
+        "text": "NOT submitted \u2014 0 of 8 applications sent",
+        "target": "an honest incomplete beats a fake green",
+        "score": 0.0,
+        "evidence": "APPLY-KIT.md states the blocker in its first line"
+      }
+    ],
+    "request": "apply each of the position using cli or computer use agent with custom resume",
+    "headline": "8 tailored resumes built and verified; submission blocked at Google's sign-in wall \u2014 measured, not assumed",
+    "brief": "You asked me to apply to each job with its own resume. I built all 8 resumes from one verified list of your real accomplishments, so no two documents tell a different story about the same work, and each ends by naming the thing it would be learning rather than teaching. Then I hit a wall I cannot pass: Google and NVIDIA both require signing in to your account to submit. I checked rather than guessed \u2014 opened the real apply page in the isolated automation browser and read back 'signed in: false'. I will not use your personal login, so the final click is yours. Along the way I found the job you originally searched for: it was never in the 10 LinkedIn links, it lives on Google's own careers site, and it scores higher than the one LinkedIn showed you.",
+    "growth": [
+      "C1:met:probed the auth wall with a real DOM read before claiming submission was possible \u2014 caught that stale accounts.google.com cookies are not a live session",
+      "P2:met:the default was 7 hand-written resumes; used one fact base plus per-role selection instead, so tailoring is auditable and no two documents contradict each other"
+    ]
   }
 ]
