@@ -52,7 +52,7 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `19`
+- [🏅 FM-os Certified](#fm-os-certified) `20`
 - [🧰 Open-Source Repos](#open-source-repos) `121`
 - [🎓 Courses](#courses) `33`
 - [📄 Papers](#papers) `101`
@@ -107,6 +107,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [vector-rag](https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag) | skill | 94/100 | ✅ certified |
 | [fm-os](https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os) | skill | 94/100 | ✅ certified |
 | [hci-study-gate](https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate) | skill | 93/100 | ✅ certified |
+| [eval-awareness-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/eval-awareness-probe) | skill | 93/100 | ✅ certified |
 | [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 92/100 | ✅ certified |
 | [transfer-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/transfer-loop) | skill | 92/100 | ✅ certified |
 | [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |

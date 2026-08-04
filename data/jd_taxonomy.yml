@@ -310,7 +310,12 @@
              oversight, "dangerous capability"]
   repo_categories: [alignment, eval]
   topics: [alignment, safety, rlhf]
-  # no skill_tag: no certified alignment/interpretability skill exists here.
+  skill_tag: eval
+  # Partially closed 2026-08-04 by skills/eval-awareness-probe (certified): it covers the
+  # EVAL-AWARENESS and oversight clause — does a model behave differently when it can tell
+  # it is being watched, with a negative control that can fail the run. It does NOT cover
+  # mechanistic interpretability, and the dossier for the AGI-safety role says so in the
+  # honest-edge section rather than letting a green cell imply otherwise.
 
 - id: embodied_humanoid
   label: "Humanoid / robot learning, sim-to-real, physics simulators"

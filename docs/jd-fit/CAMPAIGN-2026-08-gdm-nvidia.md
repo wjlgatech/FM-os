@@ -112,6 +112,31 @@ small to earn. 18 tests; the power math is pinned to the conventional G*Power va
 (d=0.5 → 64/arm), and it rounds toward *more* participants because for a gate, one too
 few is a false pass.
 
+## State as of 2026-08-04 — 8 of 9 roles at 100/100
+
+Two shared builds closed the graph. Both were found by the graph, not by reading any one JD:
+
+| Build | Certified | Closed | Effect |
+|---|:--:|---|---|
+| [`hci-study-gate`](../../skills/hci-study-gate/) | 93 | `human_ai_interaction` (3 roles) | 92→100 · 86→95 · 75→92 |
+| [`transfer-loop`](../../skills/transfer-loop/) | 92 | `cross_deployment_transfer` (3 roles) | humanoids 94→100 · nvidia 95→100 · ssi 92→96 |
+| [`eval-awareness-probe`](../../skills/eval-awareness-probe/) | 93 | `agi_safety_alignment` (3 roles) | agi-safety 92→100 |
+
+Nine dossiers are generated from the same fact base as the resumes
+(`python3 scripts/build_dossier.py`) so no dossier can contradict its own resume, and each
+one regenerates its scorecard by RUNNING jdfit rather than pasting a remembered number.
+
+**Dated checkpoints now live in [`data/campaign_checkpoints.yml`](../../data/campaign_checkpoints.yml)**
+and are gated by `tests/test_campaign_checkpoints.py`: an overdue open checkpoint FAILS
+`make check`. This closes a growth miss (F3) that three consecutive cards recorded — the
+partials were always named with a leverage score, which reads like a plan and is only a
+ranking.
+
+**Honest scope limit:** `agi_safety_alignment` reads covered via eval-awareness, which
+does **not** include mechanistic interpretability. One green cell is standing for two
+capabilities, and the checkpoint dated 2026-09-01 is to split the cap rather than let it
+imply coverage it does not have.
+
 ## Remaining build list (by leverage)
 
 | Leverage | Capability | Roles |
