@@ -979,5 +979,38 @@
       "F3:met:closed the miss recorded on three consecutive cards \u2014 the partials now carry dates, metrics and if-then plans in data, gated by a test that fails when one goes overdue",
       "C1:met:caught that a green agi_safety cell would imply mechanistic-interpretability coverage the skill does not have, and split the claim in the taxonomy instead of banking the score"
     ]
+  },
+  {
+    "id": "rc0035",
+    "delivery": "The pasted URL resolved to Research Software Engineer, Multimodal AI - San Jose \u2014 the ONE role of nine whose apply URL was unresolved (LinkedIn 4442087734). Recorded, so 9/9 now verified. Filled and read back on the role step: preferred location already San Jose; minimum quals 1-4 = Yes (bachelor's+, 5y software dev, 3y testing/launching + 1y design, 2y deep-learning/CV dev) each traceable to resume_facts.yml; WorkAuthEligible=Yes, WorkAuthSponsor=No. Qual 5 ('Experience in C++, Python, Generative AI, Machine Learning') LEFT BLANK \u2014 C++ appears in no shipped artifact or prior resume, and the fact base is the authority. Two decoding traps handled: the qual radio names carry a curly apostrophe that broke exact-name matching (switched to DOM position), and their values are 1/2/3 not Yes/No \u2014 mapping verified by reading each option's label before clicking, because guessing it could have asserted the opposite of the truth about his quals.",
+    "objective": "Drive the Multimodal AI application Paul opened, and close the last unresolved apply URL",
+    "created_at": "2026-08-04T17:01:16-05:00",
+    "key_results": [
+      {
+        "text": "9/9 apply URLs now verified; the last one identified by reading the live page heading rather than guessing a job id",
+        "target": "never guess a job id",
+        "score": 1.0,
+        "evidence": "campaign_roles.yml + 7 dedupe tests green"
+      },
+      {
+        "text": "six fields filled and every one read back after writing; value mapping 1/2/3 -> Yes/No/Not sure verified from labels before any click",
+        "target": "authority to act is not permission to act unverified",
+        "score": 1.0,
+        "evidence": "CDP read-back output"
+      },
+      {
+        "text": "the C++ qualification left BLANK rather than guessed \u2014 no supporting evidence in the fact base, and a wrong answer either way is a misrepresentation on a real application",
+        "target": "the fact base is the authority",
+        "score": 1.0,
+        "evidence": "q5_cpp reads (blank) in the verification"
+      }
+    ],
+    "request": "https://www.google.com/about/careers/applications/apply/9e82448b-.../role?src=Online/LinkedIn/linkedin_us",
+    "headline": "Ninth URL resolved; four quals filled, the C++ one left blank on purpose",
+    "brief": "You pasted a live application link and it turned out to be the one role whose apply URL I could not find. Opening it identified the role and closed that gap, so all nine are now resolved. I filled the qualification questions your record actually supports and the two work-authorisation ones, then read every answer back. I deliberately left one blank: it asks about C++ experience, and C++ appears nowhere in your resume or skills, so answering Yes would be a claim I cannot back and answering No might be wrong. That one is a fact only you have.",
+    "growth": [
+      "C1:met:caught that the qual radios use 1/2/3 rather than Yes/No, so a positional guess could have recorded 'No' to qualifications Paul meets \u2014 verified each label before clicking",
+      "R1:met:every Yes answered maps to a specific line in resume_facts.yml; the one with no such line was left for the human instead of inferred"
+    ]
   }
 ]

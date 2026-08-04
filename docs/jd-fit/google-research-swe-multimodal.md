@@ -1,7 +1,7 @@
 # Research Software Engineer, Multimodal AI — Google
 
 **Fit:** 100/100 · **Location:** San Jose, CA
-**Apply:** ⚠ UNRESOLVED — do not guess a job id; resolve it first
+**Apply:** https://www.google.com/about/careers/applications/apply/9e82448b-599e-4021-b51c-2d0c6800961c/role
 **Resume:** [`resumes/google-research-swe-multimodal.pdf`](resumes/google-research-swe-multimodal.pdf)
 
 ## The angle
@@ -81,7 +81,7 @@ Not submitted until ALL hold:
 2. The resume is the one tailored to THIS role, not a generic copy.
 3. Every resume claim traces to a shipped artifact.
 4. The honest edge above is stated in the application, not hidden.
-5. The apply URL is verified — ⚠ NOT YET.
+5. The apply URL is verified ✓.
 
 ## Outcome log
 
