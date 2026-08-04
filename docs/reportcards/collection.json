@@ -889,5 +889,44 @@
       "C1:met:checked the employer's AI-usage policy before drafting, catching that ghost-writing the essays would violate Anthropic's stated first-draft rule at the one company most certain to notice",
       "R3:met:considered writing polished essays (faster, looks more complete) and rejected it against the employer's published guidance \u2014 the rejected alternative is recorded, not hidden"
     ]
+  },
+  {
+    "id": "rc0033",
+    "delivery": "skills/transfer-loop CERTIFIED 92/100 (13 tests, keyless demo, 4 verdicts: TRANSFERS / LOCAL-ONLY / NEGATIVE-TRANSFER / NOT-MEASURED). Holds out ENGAGEMENTS not rows because the engagement is the unit of generalisation; refuses a prediction registered after the test regardless of how good the numbers look; refuses fewer than 2 held-out engagements; and ranks NEGATIVE-TRANSFER above everything because a harmful default is worth more than a pass. Closes cross_deployment_transfer, the campaign graph's top-leverage partial (3 of 9 roles) \u2014 humanoids 94->100, nvidia 95->100, ssi 92->96, five roles now 100/100. Apply URLs 5/9 -> 8/9: two Google Careers ids verified by page title, NVIDIA's via its own Workday JSON API (JR2020674). The ninth left unresolved rather than guessed.",
+    "objective": "Close the campaign's top shared partial and resolve the remaining apply URLs without being asked",
+    "created_at": "2026-08-04T12:12:40-05:00",
+    "key_results": [
+      {
+        "text": "transfer-loop certified 92/100 with all four verdict paths discriminating, incl. a harmful default caught as NEGATIVE-TRANSFER even with a +0.30 source gain",
+        "target": "a gate that can refuse, not a rubber stamp",
+        "score": 1.0,
+        "evidence": "13 tests + make certify"
+      },
+      {
+        "text": "top shared partial closed: 5 of 9 roles now 100/100, recomputed from the graph rather than asserted",
+        "target": "build once, pays across the campaign",
+        "score": 1.0,
+        "evidence": "campaign_graph.py before/after"
+      },
+      {
+        "text": "apply URLs 5/9 -> 8/9, each verified by page title or employer API; the ninth honestly unresolved",
+        "target": "never guess a job id",
+        "score": 1.0,
+        "evidence": "39 tests green incl. the off-aggregator apply_url gate"
+      },
+      {
+        "text": "make check green after the build: 39 tests, AI-native 100/100, README regenerated from spec",
+        "target": "undocumented is unshipped",
+        "score": 1.0,
+        "evidence": "make check"
+      }
+    ],
+    "request": "if you already know what to do next, why not go ahead to finish them and report back the results",
+    "headline": "transfer-loop certified 92; five of nine roles now score 100",
+    "brief": "The highest-value thing left on the campaign map was a skill that tests whether a lesson learned at one customer actually helps the others. Most teams get this wrong the same way: they take the fix that worked in one place, make it the default everywhere, and never check. The skill holds out whole engagements rather than rows, insists you predict which way the number should move before you look, and reports the case where a default actively HURTS everywhere else instead of quietly calling it no effect. It is certified 92 and it lifted five of the nine target roles to a full score. I also tracked down three more application links and verified each one.",
+    "growth": [
+      "F3:missed:still no dated checkpoint for the two remaining partials (AGI-safety interpretability, distributed infra) \u2014 they are named with leverage scores but not scheduled",
+      "R1:met:every score in this card was recomputed by campaign_graph.py after the build rather than reasoned about \u2014 the 94->100 and 95->100 moves are tool output, not estimates"
+    ]
   }
 ]

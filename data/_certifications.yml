@@ -112,6 +112,15 @@ tinker-loop:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop
   tier: certified
+transfer-loop:
+  gaps:
+  - cross_runtime (50)
+  kind: skill
+  on_mission: true
+  score: 92
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/transfer-loop
+  tier: certified
 vector-rag:
   gaps:
   - correctness (55)

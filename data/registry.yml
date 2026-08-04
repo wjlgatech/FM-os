@@ -111,3 +111,9 @@
   tags: [hci, eval]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate
+- name: transfer-loop
+  kind: skill
+  path: skills/transfer-loop
+  tags: [eval, research]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/transfer-loop

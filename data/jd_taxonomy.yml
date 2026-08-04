@@ -297,8 +297,12 @@
              "transfer", "across customer"]
   repo_categories: [agents]
   topics: [posttraining]
-  # no skill_tag on purpose: FM-os curates the knowledge but ships no certified
-  # cross-deployment transfer tool. Honest reading is `partial`.
+  skill_tag: research
+  # Was deliberately tagless (honest `partial`) when added 2026-08-02. Closed
+  # 2026-08-04 by skills/transfer-loop: holds out ENGAGEMENTS not rows, requires a
+  # pre-registered directional prediction, and reports NEGATIVE-TRANSFER rather than
+  # rounding a harmful default to "no effect". Top remaining leverage on the campaign
+  # graph (3 of 9 roles).
 
 - id: agi_safety_alignment
   label: "AGI safety & alignment — interpretability, RLHF, eval awareness"
