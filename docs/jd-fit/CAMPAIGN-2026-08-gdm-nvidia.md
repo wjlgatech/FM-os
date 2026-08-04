@@ -1,9 +1,12 @@
 # Campaign — Google DeepMind × Google × NVIDIA research-engineer roles (2026-08)
 
-**Status: nothing submitted.** Stages 0–3 are done; per-role resumes (Stage 5) and
-submission (Stage 7.5) are the remaining work, one role at a time. Quality over
-quantity was the explicit instruction, so a role is submitted only after its own
-dossier and custom resume pass the gate — never in a batch.
+**Status (2026-08-04): 9 roles prepared, 0 submitted.** Stages 0–5 are done — honest
+scoring, the dependency graph, three shared skill builds, nine tailored resumes and nine
+dossiers. Submission (Stage 7.5) is the only stage left, and it is blocked on two
+genuinely human things, not on preparation: Anthropic's four essay first drafts (employer
+policy requires the candidate's own draft) and the Google profile résumé swap (a native OS
+file dialog; two automation methods exhausted). Quality over quantity was the instruction,
+so a role ships only after its own gate passes — never in a batch.
 
 Regenerate every number here:
 
@@ -139,10 +142,12 @@ imply coverage it does not have.
 
 ## Remaining build list (by leverage)
 
-| Leverage | Capability | Roles |
-|---|---|---|
-| 1.5 | Cross-engagement learning — generalize insights from one deployment to all 🟡 | SSI · Humanoids · NVIDIA |
-| 0.5 | Large-scale distributed systems / data infrastructure 🟡 | SSI |
+| Leverage | Capability | Roles | Status |
+|---|---|---|---|
+| ~~3.0~~ | ~~Human-AI perception & interaction~~ | 3 | **closed** — `hci-study-gate` (93) |
+| ~~1.5~~ | ~~Cross-engagement learning~~ | 3 | **closed** — `transfer-loop` (92) |
+| ~~1.5~~ | ~~AGI safety & alignment (eval-awareness clause)~~ | 3 | **closed** — `eval-awareness-probe` (93) |
+| 0.5 | Large-scale distributed systems / data infrastructure 🟡 | SSI | open · [checkpoint 2026-08-18](../../data/campaign_checkpoints.yml) |
 | 0.5 | AGI safety & alignment — interpretability, RLHF, eval awareness 🟡 | AGI Safety |
 
 ## Per-role submission gate (Stage 5 → 7.5)
