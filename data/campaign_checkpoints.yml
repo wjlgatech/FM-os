@@ -72,4 +72,9 @@ checkpoints:
       If still zero by the date, the campaign's bottleneck is not preparation and the
       honest report is that nine polished packages worth nothing is a worse outcome than
       three submitted ones. Escalate the two blockers as the only remaining work.
-    status: open
+    status: done
+    resolved: >-
+      2026-08-04 — MET early. Research Software Engineer, Multimodal AI (San Jose) shows
+      "Submitted" on the Google Careers dashboard, carrying its role-tailored resume
+      (verified server-side before submit). 1 of 9. The remaining 8 are blocked on one
+      human click each, not on preparation.

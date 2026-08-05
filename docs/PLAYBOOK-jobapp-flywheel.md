@@ -276,6 +276,32 @@ agent session; a full campaign is 1–3 days, not weeks.
   even if it goes through.
 - **Time budget:** 1-2 h for a new ATS platform; ~20 min for a known one.
 
+### Stage 7.6 — the résumé-upload wall (earned 2026-08-04, five methods)
+
+- **An agent can drive every field of an application and still not attach the file.** On
+  Google Careers the résumé lives on a GLOBAL profile, and replacing it goes through the
+  operating system's file picker. Five distinct methods failed: CDP file-chooser
+  interception armed after the click, the same armed before it with `ok` confirmed,
+  `DOM.setFileInputFiles` (no `input[type=file]` exists on the widget), an in-page `File`
+  built from base64 dispatched as `drop` on six dropzones, and that same drop against a
+  different site's uploader. Browsers refuse scripted file injection deliberately —
+  synthetic drag events are untrusted. Treat this as settled; do not burn a session
+  re-running it.
+- **Sequence the campaign around it.** One profile résumé serves all applications, so the
+  order is: swap → submit → swap → submit, one role at a time. Preparing N applications
+  and submitting them in a batch sends N−1 of them the wrong file.
+- **Make the human's step 40 seconds, not a scavenger hunt.** Copy every tailored résumé
+  into `~/Downloads` with picker-friendly names (`Paul Jialiang Wu - Resume - <Role>.pdf`)
+  BEFORE asking: the file dialog sorts alphabetically and the right file should be
+  obvious in it. Then the ask is one sentence, not a path.
+- **Verify the swap server-side, never from the DOM.** A cancelled edit modal leaves the
+  old filename rendered and a removed file can still be saved; reload the page and read
+  what persisted. On 2026-08-04 a DOM read said the résumé was gone when the server still
+  had it, and that wrong report reached Paul.
+- **Confirm submission on the DASHBOARD, not the form.** A review page with no submit
+  button means the application was already submitted at least as often as it means
+  something is blocked. `Your career → Applications` states it plainly.
+
 ### Stage 8 — Report + OUTCOME TRACKING
 
 - **Goal:** close the accountability loop *and* fix the flywheel's one recorded blind spot:

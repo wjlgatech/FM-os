@@ -38,6 +38,8 @@
 
 - slug: google-research-swe-multimodal
   job_id: "4442087734"
+  submitted: "2026-08-04"   # CONFIRMED on the Google Careers dashboard: "Research Software Engineer, Multimodal AI - San Jose — Submitted"
+  submitted_resume: "google-research-swe-multimodal.pdf"   # verified server-side before submit
   apply_url: "https://www.google.com/about/careers/applications/apply/9e82448b-599e-4021-b51c-2d0c6800961c/role"   # live draft, verified 2026-08-04 by heading "Research Software Engineer, Multimodal AI - San Jose"
   title: "Research Software Engineer, Multimodal AI"
   company: "Google"
