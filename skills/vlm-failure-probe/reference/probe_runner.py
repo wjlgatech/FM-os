@@ -28,16 +28,24 @@ def load_spec(path: Path = SPEC_PATH) -> dict:
 
 
 def _norm(text: str) -> str:
-    return re.sub(r"[^a-z0-9 ]", " ", text.lower())
+    """Lowercase, punctuation → space, and COLLAPSE runs of space. The collapse
+    matters: markdown answers are full of punctuation, so 'the truck drives,
+    away' normalizes to a double space that a literal multi-word alias would
+    miss — a grader artifact, not a model failure."""
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", text.lower())).strip()
 
 
 def _find(ans: str, aliases: str) -> int:
     """Position of the first whole-word match of any `|`-separated alias, else -1.
     Word boundaries keep 'no' from matching inside 'snow' — real-model answers
-    are free text, so substring matching would grade on accidents."""
+    are free text, so substring matching would grade on accidents. Spaces inside
+    a multi-word alias match any run of whitespace."""
     best = -1
     for alias in aliases.split("|"):
-        m = re.search(r"\b" + re.escape(_norm(alias).strip()) + r"\b", ans)
+        pattern = r"\s+".join(re.escape(w) for w in _norm(alias).split())
+        if not pattern:
+            continue
+        m = re.search(r"\b" + pattern + r"\b", ans)
         if m and (best == -1 or m.start() < best):
             best = m.start()
     return best
@@ -48,6 +56,13 @@ def score_probe(answer: str, probe: dict) -> float:
     ans = _norm(answer)
     expect = probe["expect"]
     kind = probe["match"]
+    # `reject` (spec v0.2): a disqualifier that zeroes the probe outright. It is
+    # what PAYS for accepting looser phrasing in `expect` — an answer may name the
+    # right entity in many ways, but crediting the WRONG entity is never partial
+    # credit. Checked before scoring so it overrides every matcher kind.
+    for alias in probe.get("reject", []):
+        if _find(ans, alias) >= 0:
+            return 0.0
     if kind == "contains":
         return 1.0 if all(_find(ans, e) >= 0 for e in expect) else 0.0
     if kind == "order":  # every item present AND in the stated order

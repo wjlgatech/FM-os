@@ -1,0 +1,80 @@
+# campaign_checkpoints.yml — dated checkpoints for the campaign's open work.
+#
+# WHY THIS FILE EXISTS: three consecutive report cards recorded the SAME growth miss
+# (F3 — "a dated future checkpoint exists"). Each time the partials were named with a
+# leverage score and never scheduled, which made the miss invisible between cards: a
+# leverage number looks like a plan, and it is only a ranking. A checkpoint that lives in
+# someone's head is indistinguishable from a forgotten one.
+#
+# Contract: every item carries `by` (a date), `metric` (what will be true), and
+# `if_missed` (the if-then, so it is WOOP-complete rather than a wish). Verified by
+# tests/test_campaign_checkpoints.py, which fails when an item is past due and unresolved
+# — so the gap becomes a red test rather than a quiet omission.
+version: "1.0"
+created: "2026-08-04"
+
+checkpoints:
+  - id: distributed-infra-partial
+    what: >-
+      The last open capability on the campaign graph: large-scale distributed systems /
+      data infrastructure, required by gdm-ssi-self-improving-agents (leverage 0.5).
+    by: "2026-08-18"
+    metric: >-
+      Either the cap reads `covered` in `campaign_graph.py` output, OR this entry is
+      resolved as WONT-BUILD with the reason recorded here. A partial that is honestly
+      declined is a closed checkpoint; a partial that is merely still open is not.
+    if_missed: >-
+      If no legitimate artifact exists by the date, resolve it WONT-BUILD and state the
+      edge plainly in the SSI dossier's honest-edge section rather than building a thin
+      skill to turn a cell green. A cap invented to be covered is worse than an open one.
+    status: open
+
+  - id: interpretability-scope-limit
+    what: >-
+      `agi_safety_alignment` now reads covered via eval-awareness-probe, but that skill
+      deliberately does NOT cover mechanistic interpretability. The green cell therefore
+      overstates coverage by one clause.
+    by: "2026-09-01"
+    metric: >-
+      Either an interpretability artifact exists, OR the taxonomy splits the cap into
+      `eval_awareness_oversight` (covered) and `mech_interpretability` (honest gap) so the
+      scorecard stops implying both.
+    if_missed: >-
+      Split the cap. Leaving one green cell to represent two capabilities is the
+      false-100 trap at the level of a single row, and this campaign has already been
+      caught by that twice.
+    status: open
+
+  - id: independent-5s-review
+    what: >-
+      The computer-use-agent longform (agentic-portfolio PR #229) passed a 5-S review in
+      which reviewer == maker, which the authoring contract forbids.
+    by: "2026-08-11"
+    metric: >-
+      A second model or a fresh context scores S1-S5 and the scorecard is committed beside
+      the article, OR the article is unpublished pending it.
+    if_missed: >-
+      Do not merge on a self-review. If no independent pass has happened by the date, the
+      PR stays open and the growth record says so.
+    status: open
+
+  - id: submission-blockers
+    what: >-
+      Nine roles are dossier-ready and eight have verified apply URLs, but zero are
+      submitted. Two blockers are genuinely human: Anthropic's four essay first drafts
+      (FORBIDDEN — employer policy) and the Google profile résumé swap
+      (BLOCKED_BY_PLATFORM — native file dialog, two methods exhausted).
+    by: "2026-08-11"
+    metric: >-
+      At least one application submitted with its role-tailored résumé attached, and its
+      Outcome log row filled in.
+    if_missed: >-
+      If still zero by the date, the campaign's bottleneck is not preparation and the
+      honest report is that nine polished packages worth nothing is a worse outcome than
+      three submitted ones. Escalate the two blockers as the only remaining work.
+    status: done
+    resolved: >-
+      2026-08-04 — MET early. Research Software Engineer, Multimodal AI (San Jose) shows
+      "Submitted" on the Google Careers dashboard, carrying its role-tailored resume
+      (verified server-side before submit). 1 of 9. The remaining 8 are blocked on one
+      human click each, not on preparation.

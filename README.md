@@ -52,10 +52,10 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `17`
-- [🧰 Open-Source Repos](#open-source-repos) `117`
+- [🏅 FM-os Certified](#fm-os-certified) `20`
+- [🧰 Open-Source Repos](#open-source-repos) `121`
 - [🎓 Courses](#courses) `33`
-- [📄 Papers](#papers) `99`
+- [📄 Papers](#papers) `101`
 - [📚 Reading Lists](#reading-lists) `3`
 - [🏛️ Labs & Platforms](#labs--platforms) `22`
 - [🧑‍🔬 People to Follow](#people--researchers) `16`
@@ -106,7 +106,10 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
 | [vector-rag](https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag) | skill | 94/100 | ✅ certified |
 | [fm-os](https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os) | skill | 94/100 | ✅ certified |
+| [hci-study-gate](https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate) | skill | 93/100 | ✅ certified |
+| [eval-awareness-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/eval-awareness-probe) | skill | 93/100 | ✅ certified |
 | [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 92/100 | ✅ certified |
+| [transfer-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/transfer-loop) | skill | 92/100 | ✅ certified |
 | [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |
 | [personalization-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop) | skill | 91/100 | ✅ certified |
 | [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 83/100 | ✅ certified |
@@ -306,6 +309,14 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[MNE-Python](https://github.com/mne-tools/mne-python)** — The standard toolkit for analyzing human neurophysiology data (MEG, EEG, iEEG) — the data layer for non-invasive brain-signal modeling.
 - **[Braindecode](https://github.com/braindecode/braindecode)** — Deep learning for EEG/neural-signal decoding on PyTorch — models, datasets, and training loops for brain-computer-interface decoding.
 - **[Neural Latents Benchmark (nlb_tools)](https://github.com/neurallatents/nlb_tools)** — Tools for the Neural Latents Benchmark — evaluating latent-variable models of neural population dynamics; the eval harness for neural representation learning.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### More
+- **[jsPsych](https://github.com/jspsych/jsPsych)** — Browser-based behavioural experiments in JavaScript — the standard way to run a timed, randomised human study at scale.
+- **[PsychoPy](https://github.com/psychopy/psychopy)** — Precise stimulus presentation and response timing for human experiments; the reference tool for lab-grade psychophysics.
+- **[OpenFace](https://github.com/TadasBaltrusaitis/OpenFace)** — Facial behaviour analysis (landmarks, gaze, action units) — the observable channel for measuring reaction to an AI system.
+- **[Lab Streaming Layer (liblsl)](https://github.com/labstreaminglayer/liblsl)** — Time-synchronised streaming of heterogeneous sensor data — how behavioural, physiological, and interaction logs get aligned on one clock.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -582,6 +593,8 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 ### More
 - **[MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560)** (Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez, UC Berkeley, 2023) · arXiv:2310.08560 — Virtual context management — OS-style hierarchical memory for LLMs; the canonical per-user persistent-memory design behind personal models. Operationalized in skills/personalization-loop.
+- **[Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy](https://arxiv.org/abs/2002.04087)** (Ben Shneiderman, University of Maryland, 2020) · arXiv:2002.04087 — The HCAI framing: high automation and high human control are not opposites, and reliability/safety/trust are design targets rather than after-the-fact audits.
+- **[Explaining Explanations: An Overview of Interpretability of Machine Learning](https://arxiv.org/abs/1806.00069)** (Leilani H. Gilpin et al., MIT, 2018) · arXiv:1806.00069 — Separates explainability from interpretability and insists an explanation be evaluated against a stated audience — the bridge between the HCI and alignment roles in this campaign.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

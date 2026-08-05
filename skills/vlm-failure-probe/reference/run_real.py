@@ -12,10 +12,12 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import json
 import sys
 from pathlib import Path
 
 from probe_runner import MockVSS, gate, load_spec, run_probes, scorecard
+from tgs import compute_tgs, gate_tgs, load_tgs_spec, tgs_report
 from vlm_adapter import get_adapter
 
 OUT = Path(__file__).parent / "out"
@@ -71,6 +73,32 @@ def results_md(baseline: dict, results: dict[str, dict], spec: dict, stamp: str)
     for m in models:
         ok, reasons = gate(results[m], spec)
         lines.append(f"**{m} gate:** {'PASS' if ok else 'FAIL — ' + '; '.join(reasons)}")
+
+    # Temporal Grounding Score — the paper's §X metric, now with a formula (tgs_spec.yml)
+    tspec = load_tgs_spec()
+    lines += ["", f"## Temporal Grounding Score (tgs_spec v{tspec['version']}, floor {tspec['floor']:.2f})", ""]
+    lines.append("| model | order | anchor | persistence | **TGS** | gate |")
+    lines.append("|---|---|---|---|---|---|")
+    for m in models:
+        t = compute_tgs(results[m], tspec)
+        ok, reasons = gate_tgs(t, tspec)
+        cells = [m]
+        for comp in tspec["components"]:
+            c = t["components"][comp["id"]]
+            cells.append("n.m." if not c["measured"] else f"{c['score']:.2f}")
+        cells.append("**undefined**" if t["tgs"] is None else f"**{t['tgs']:.3f}**")
+        cells.append("PASS" if ok else "FAIL — " + "; ".join(reasons))
+        lines.append("| " + " | ".join(cells) + " |")
+    base_t = compute_tgs(baseline, tspec)
+    base_shown = "undefined" if base_t["tgs"] is None else f"{base_t['tgs']:.3f}"
+    lines += [
+        "",
+        f"VSS baseline (the paper's observed failures, canned): **TGS = {base_shown}**",
+        "",
+        "Formula, weights and degenerate cases: `tgs_spec.yml`. Arithmetic pinned to hand"
+        " computation in `test_tgs.py`. An unmeasured component is excluded and the weights"
+        " renormalize — never zeroed (a fake failure), never assumed (a fake pass).",
+    ]
     lines += ["", "## Raw answers (evidence)", ""]
     for m in models:
         lines.append(f"## {m}")
@@ -84,19 +112,88 @@ def results_md(baseline: dict, results: dict[str, dict], spec: dict, stamp: str)
     return "\n".join(lines)
 
 
+def variance_report(runs: dict[str, list[dict]], spec: dict) -> str:
+    """Per-probe mean ± sd across repeats, flagging GRADER-UNSTABLE probes.
+
+    Motivation (spec v0.3 audit log): claude-opus-5 scored 0.67 then 0.33 on the
+    SAME probe with the SAME deterministic stimulus across two runs, purely
+    because it rephrased a semantically identical answer. A single-run score from
+    this suite is therefore not a measurement until its variance is known — the
+    grader is the least reliable component, and the papers' fuzzy-matching
+    metrics have the same exposure without reporting it.
+    """
+    n = len(next(iter(runs.values())))
+    lines = [
+        f"## Grader stability — {n} repeats per model (spec v{spec['version']})",
+        "",
+        "sd is over REPEATS of an identical, deterministic stimulus. Any sd > 0 is",
+        "grader instability (or model nondeterminism the grader fails to absorb) —",
+        "never a property of the failure mode being probed.",
+        "",
+        "| model | probe | scores | mean | sd | flag |",
+        "|---|---|---|---|---|---|",
+    ]
+    unstable = []
+    for model, reps in runs.items():
+        for mode in spec["failure_modes"]:
+            for probe in mode["probes"]:
+                scores = []
+                for rep in reps:
+                    hit = next(
+                        (p for p in rep[mode["id"]]["probes"] if p["id"] == probe["id"]), None
+                    )
+                    if hit and hit["score"] is not None:
+                        scores.append(hit["score"])
+                if not scores:
+                    continue
+                mean = sum(scores) / len(scores)
+                sd = (sum((s - mean) ** 2 for s in scores) / len(scores)) ** 0.5
+                flag = "GRADER-UNSTABLE" if sd > 1e-9 else "stable"
+                if sd > 1e-9:
+                    unstable.append(f"{model}:{probe['id']}")
+                lines.append(
+                    f"| {model} | `{probe['id']}` | {', '.join(f'{s:.2f}' for s in scores)} "
+                    f"| {mean:.2f} | {sd:.3f} | {flag} |"
+                )
+    lines += [
+        "",
+        (
+            f"**{len(unstable)} unstable probe/model pair(s):** {', '.join(unstable)}"
+            if unstable
+            else "**Every probe/model pair was stable across repeats (all sd = 0.00).**"
+        ),
+        "",
+    ]
+    return "\n".join(lines)
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--models", default=DEFAULT_MODELS)
+    ap.add_argument(
+        "--repeat",
+        type=int,
+        default=1,
+        help="probe each model N times and report per-probe mean ± sd "
+        "(variance is a first-class output, not an assumption)",
+    )
     args = ap.parse_args()
 
     spec = load_spec()
     n_probes = sum(len(m["probes"]) for m in spec["failure_modes"])
     baseline = run_probes(MockVSS(), spec)
     results: dict[str, dict] = {}
+    runs: dict[str, list[dict]] = {}
     for model in [m.strip() for m in args.models.split(",") if m.strip()]:
-        print(f"probing {model} across {n_probes} probes…")
-        results[model] = run_probes(get_adapter(model), spec)
+        adapter = get_adapter(model)
+        runs[model] = []
+        for i in range(max(1, args.repeat)):
+            label = f"{model} (repeat {i + 1}/{args.repeat})" if args.repeat > 1 else model
+            print(f"probing {label} across {n_probes} probes…")
+            runs[model].append(run_probes(adapter, spec))
+        results[model] = runs[model][0]  # the headline table reports repeat 1
         print(scorecard(model, results[model], spec))
+        print(tgs_report(model, compute_tgs(results[model], load_tgs_spec()), load_tgs_spec()))
 
     measured = [m for m, r in results.items() if any(v["measured"] for v in r.values())]
     if not measured:
@@ -105,6 +202,37 @@ if __name__ == "__main__":
 
     stamp = datetime.date.today().isoformat()
     OUT.mkdir(exist_ok=True)
-    (OUT / "RESULTS.md").write_text(results_md(baseline, results, spec, stamp))
+    body = results_md(baseline, results, spec, stamp)
+    if args.repeat > 1:
+        head, _, tail = body.partition("## Raw answers (evidence)")
+        body = head + variance_report(runs, spec) + "## Raw answers (evidence)" + tail
+    (OUT / "RESULTS.md").write_text(body)
     (OUT / "vss_results_table.tex").write_text(latex_table(baseline, results))
-    print(f"wrote {OUT / 'RESULTS.md'} and {OUT / 'vss_results_table.tex'}")
+    # Evidence as DATA, not only prose: every repeat's raw answers and scores, so a
+    # later analysis (variance, TGS, a re-grade under a new spec) never needs a
+    # fresh round of API calls — and a re-grade can be checked against the answers
+    # that were actually given.
+    (OUT / "raw_answers.json").write_text(
+        json.dumps(
+            {
+                "spec_version": spec["version"],
+                "date": stamp,
+                "repeats": args.repeat,
+                "runs": {
+                    m: [
+                        {
+                            mode_id: [
+                                {"id": p["id"], "score": p["score"], "answer": p["answer"]}
+                                for p in r["probes"]
+                            ]
+                            for mode_id, r in rep.items()
+                        }
+                        for rep in reps
+                    ]
+                    for m, reps in runs.items()
+                },
+            },
+            indent=1,
+        )
+    )
+    print(f"wrote {OUT / 'RESULTS.md'}, {OUT / 'vss_results_table.tex'}, {OUT / 'raw_answers.json'}")
