@@ -1057,5 +1057,52 @@
       "C1:met:stopped after five methods and wrote a do_not_retry_without clause, so the next session cannot burn time re-running an exhausted approach and calling it diligence",
       "R3:met:considered submitting the remaining applications with the currently-attached resume to show progress, and rejected it \u2014 the rejected alternative is recorded rather than quietly dropped"
     ]
+  },
+  {
+    "id": "rc0037",
+    "delivery": "Added data/demos.yml (FM-os's own labs as spec, distinct from labs.yml's external ecosystem) plus render_demos() in build_readme.py: openable links in the open, what/why/how behind <details>. nomadic-mini leads with the live app (https://nomadic-mini-demo.vercel.app), labeled password-gated at the link itself, with the UNGATED architecture walkthrough (/system.html) beside it so a visitor is never left at a wall. rewardforge and merge-bo carry the same disclosure without a hosted link. validate.py schema-gates demos.yml (name/path/what/why/how required, url optional); 2 new tests; nav pill + TOC row wired. DECIDED AGAINST wiring this demo to the FM-os project card's Open App button in agentic-portfolio: it is password-gated (dead end for the portfolio's actual audience), it is one interview lab about driving video rather than FM-os's SLM/FM-ops thesis, and it couples a public card to a credit-spending endpoint. The honest Open App for FM-os is its own live GitHub Pages copilot (https://wjlgatech.github.io/FM-os/, verified 200); the demo deserves its own card. FM-os has no card in content/projects.json at all today \u2014 it is only in fleet.json \u2014 so either way the card has to be created, and that was left for Paul.",
+    "objective": "Make FM-os's live work findable and honestly labeled from the front page",
+    "created_at": "2026-08-11T14:51:02-05:00",
+    "key_results": [
+      {
+        "text": "the hosted demo is reachable from the public README with its access stated at the link",
+        "target": "no dead-end clicks",
+        "score": 1.0,
+        "evidence": "README 'Labs & Live Demos' section; / and /system.html both 200; /api/chat without a password returns 'unauthorized'"
+      },
+      {
+        "text": "the demo section is spec-as-data, not hand-written markdown",
+        "target": "drift-gated like every other section",
+        "score": 1.0,
+        "evidence": "data/demos.yml + validate.py REQUIRED['demos']; build_readme --check reports 'README.md is up to date'"
+      },
+      {
+        "text": "progressive disclosure delivered where it was asked for",
+        "target": "what/why/how one click away",
+        "score": 1.0,
+        "evidence": "<details> per lab, tested by test_render_demos_discloses_progressively_and_labels_access"
+      },
+      {
+        "text": "the portfolio-card question answered with a decision and its evidence, not a menu",
+        "target": "a ruling Paul can overturn in one sentence",
+        "score": 0.8,
+        "evidence": "decision recorded in this card; NOT implemented in agentic-portfolio (cross-repo, and FM-os has no card there yet)"
+      }
+    ],
+    "request": "post that agentic webapp as a demo in the README. Shall we use this webapp for FM-os project card behind \"Open App\" button, with a progressive disclosure discription on what, why and how? Reason and decide by yourself",
+    "headline": "The hosted demo is now on the README \u2014 and it says it's gated",
+    "brief": "FM-os had a real, deployed app (drop in a driving video, an AI describes what happens) that the public README never mentioned. It now has a Labs & Live Demos section: the links are in the open, the what/why/how is one click away, and the gated app says it's gated with an ungated architecture page next to it. On the portfolio question I said no: pointing FM-os's Open App at a password wall spends the visitor's click and returns nothing.",
+    "growth": [
+      "C1:met:checked whether the password gate was client-side theatre before publishing the link \u2014 it is enforced server-side on chat/analyze/blob-upload, which is what made publishing safe",
+      "R1:met:refused the framing that a live app is automatically the right Open App target; separated 'is it impressive' from 'does it answer what the card claims' and found FM-os's own Pages copilot already live"
+    ],
+    "why": "Nine applications are in flight and the README is the first surface a recruiter reads; a deployed agentic app that only exists in a lab subfolder is work already paid for and never spent. Displaced: nothing on the campaign critical path \u2014 this was a gap, not a queue item.",
+    "needle": {
+      "name": "FM-os labs openable from the README",
+      "before": "0",
+      "after": "3",
+      "better": "up",
+      "source": "README.md 'Labs & Live Demos'"
+    }
   }
 ]
