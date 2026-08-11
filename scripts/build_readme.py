@@ -169,6 +169,56 @@ def render_certified(registry: list, certs: dict, owner: str, repo: str) -> str:
     return "\n".join(out)
 
 
+def render_demos(demos: list) -> str:
+    """Render FM-os's own applied labs, live links first, what/why/how disclosed on click.
+
+    Progressive disclosure is the point: the section stays a skimmable list of
+    openable things, and the reasoning is one click away for whoever wants it.
+    """
+    out = [
+        '<h2 id="labs--demos">🧪 Labs & Live Demos</h2>',
+        "",
+        "The method, applied. Each lab is self-contained, gate-tested, and built from "
+        "public surfaces only — full index in [`labs/`](labs/). Open the hosted one, or "
+        "expand any row for what it is, why it exists, and how it works.",
+        "",
+    ]
+    for d in demos:
+        icon = f"{d['icon']} " if d.get("icon") else ""
+        tagline = f" — {esc(d['tagline'])}" if d.get("tagline") else ""
+        out += [f"### {icon}{esc(d['name'])}{tagline}", ""]
+
+        links = []
+        if d.get("url"):
+            note = f" {esc(d['url_note'])}" if d.get("url_note") else ""
+            links.append(f"**[▶ Open the live app]({d['url']})**{note}")
+        if d.get("public"):
+            label = esc(d.get("public_label", "Public page"))
+            links.append(f"**[{label}]({d['public']})**")
+        links.append(f"[Source](https://github.com/wjlgatech/FM-os/tree/main/{d['path']})")
+        out += [" · ".join(links), ""]
+        # Gates on their own line: they carry their own " · " separators, so folding
+        # them into the link row makes both unreadable.
+        if d.get("gates"):
+            out += [f"<sub>Gates: {esc(d['gates'])}</sub>", ""]
+
+        out += [
+            "<details>",
+            "<summary><b>What it is · why it exists · how it works</b></summary>",
+            "",
+            f"**What** — {esc(d['what'])}",
+            "",
+            f"**Why** — {esc(d['why'])}",
+            "",
+            f"**How** — {esc(d['how'])}",
+            "",
+            "</details>",
+            "",
+        ]
+    out += ["<sub>[↑ back to top](#-table-of-contents)</sub>", ""]
+    return "\n".join(out)
+
+
 def render_header(meta: dict, slug: str) -> list[str]:
     """Title, badge row, tagline, nav, and the 'why different' hook."""
     out = [
@@ -225,13 +275,15 @@ def render_start_here() -> list[str]:
     ]
 
 
-def render_toc(meta: dict, data: dict, models: list, registry: list) -> list[str]:
+def render_toc(meta: dict, data: dict, models: list, registry: list, demos: list) -> list[str]:
     """Table of contents with per-section entry counts."""
     out = ['<h2 id="-table-of-contents">📚 Table of Contents</h2>', "", "- [🚀 Start Here](#start-here)"]
     if models:
         out.append(f"- [🤖 SLM Model Zoo](#model-zoo) `{len(models)}`")
     if registry:
         out.append(f"- [🏅 FM-os Certified](#fm-os-certified) `{len(registry)}`")
+    if demos:
+        out.append(f"- [🧪 Labs & Live Demos](#labs--demos) `{len(demos)}`")
     for sec in meta["sections"]:
         out.append(f"- [{sec['icon']} {sec['title']}](#{sec['id']}) `{len(data[sec['source']])}`")
     return out + ["- [🗺️ Learning Roadmap](#learning-roadmap)", "- [🤝 Contribute](#contribute)", "", "---", ""]
@@ -305,16 +357,19 @@ def build() -> str:
     data = {"repos": repos_with_stars()}
     data.update({name: load(name) for name in
                  ("courses", "papers", "jobs", "labs", "people", "readinglists")})
-    models, registry = load("models"), load("registry")
+    models, registry, demos = load("models"), load("registry"), load("demos")
     certs = load("_certifications") if (DATA / "_certifications.yml").exists() else {}
     owner, repo = meta["repo_owner"], meta["repo_name"]
     slug = f"{owner}/{repo}"
 
-    parts: list[str] = render_header(meta, slug) + render_start_here() + render_toc(meta, data, models, registry)
+    parts: list[str] = (render_header(meta, slug) + render_start_here()
+                        + render_toc(meta, data, models, registry, demos))
     if models:
         parts += [render_model_table(models), "---", ""]
     if registry:
         parts += [render_certified(registry, certs, owner, repo), "---", ""]
+    if demos:
+        parts += [render_demos(demos), "---", ""]
     for sec in meta["sections"]:
         parts += [render_section(sec, data[sec["source"]]), "---", ""]
     parts += render_roadmap() + render_footer(meta, slug)

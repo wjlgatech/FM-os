@@ -26,6 +26,7 @@ applied_banner: >-
 # Nav pills rendered under the tagline (label -> anchor)
 nav:
   - { label: "Start Here", anchor: "start-here" }
+  - { label: "Demos", anchor: "labs--demos" }
   - { label: "Repos", anchor: "open-source-repos" }
   - { label: "Courses", anchor: "courses" }
   - { label: "Papers", anchor: "papers" }

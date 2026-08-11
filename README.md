@@ -16,7 +16,7 @@ The most comprehensive, community-driven, **living** map of how modern language 
 
 🧬 **The flywheel, applied → [longevity-loop](https://github.com/wjlgatech/longevity-loop)**: an AI-native, build-in-public loop turning this SLM/FM-ops method into real aging-science results — code-only, verified, no wet lab.
 
-[Start Here](#start-here) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Reading Lists](#reading-lists) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
+[Start Here](#start-here) • [Demos](#labs--demos) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Reading Lists](#reading-lists) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
 
 <img src="site/infographics/flywheel.svg" alt="The FM-os compounding flywheel: curate → generate → gate → ship → signal, every turn adds a capability" width="760">
 
@@ -53,6 +53,7 @@ New to foundation-model ops? Read this in order:
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
 - [🏅 FM-os Certified](#fm-os-certified) `20`
+- [🧪 Labs & Live Demos](#labs--demos) `3`
 - [🧰 Open-Source Repos](#open-source-repos) `121`
 - [🎓 Courses](#courses) `33`
 - [📄 Papers](#papers) `101`
@@ -120,6 +121,65 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 > ```md
 > ![FM-os Certified](https://img.shields.io/endpoint?url=https://wjlgatech.github.io/FM-os/badges/YOUR-TOOL.json)
 > ```
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+---
+
+<h2 id="labs--demos">🧪 Labs & Live Demos</h2>
+
+The method, applied. Each lab is self-contained, gate-tested, and built from public surfaces only — full index in [`labs/`](labs/). Open the hosted one, or expand any row for what it is, why it exists, and how it works.
+
+### 🎬 nomadic-mini — driving video → structured events → semantic search, with a grounded lab copilot
+
+**[▶ Open the live app](https://nomadic-mini-demo.vercel.app)** 🔒 password-gated — the gate protects the credit-spending endpoints; ask [@wjlgatech](https://github.com/wjlgatech) · **[Architecture walkthrough (no password)](https://nomadic-mini-demo.vercel.app/system.html)** · [Source](https://github.com/wjlgatech/FM-os/tree/main/labs/nomadicml)
+
+<sub>Gates: `make check` (offline) · `make e2e` (real VLM) · `make parity` (live API)</sub>
+
+<details>
+<summary><b>What it is · why it exists · how it works</b></summary>
+
+**What** — A small-scale, working clone of a VLM video-analysis product: upload a driving clip → a vision-language model returns events in a fixed schema → embedding search over them. The hosted app adds two live agentic surfaces — a **lab copilot** (Claude, streamed) whose system prompt is assembled from every doc and source file in the lab, and **"analyze your own clip"**, which runs the real pipeline on a video you drop in and streams each stage back as it happens.
+
+**Why** — Interview proof-of-capability for Member of Technical Staff (ML) at NomadicML, built clean-room from public surfaces only (PyPI wheel source, docs `llms.txt`, site-bundle examples) and then compared term-by-term against their production API — so the claim is checkable rather than asserted. It is also the FM-os thesis in one page: an eval-gated build is the artifact you can hand someone.
+
+**How** — A static front end on Vercel's CDN plus Python serverless functions. `api/chat.py` streams Claude over SSE against a build-time knowledge bundle; `api/analyze.py` runs the pipeline on Gemini native video (no ffmpeg) and streams stage progress; big uploads go browser → Vercel Blob directly, so the 4.5 MB function limit never applies. The password is enforced **server-side on every credit-spending endpoint** — the overlay is the door, not the lock.
+
+</details>
+
+### 🔁 rewardforge — eval failures → preference pairs → a real, gated LoRA fine-tune
+
+[Source](https://github.com/wjlgatech/FM-os/tree/main/labs/rewardforge)
+
+<sub>Gates: `make check` (offline, 8 tests) · `make e2e` (real fine-tune) · `python -m rewardforge.sweep`</sub>
+
+<details>
+<summary><b>What it is · why it exists · how it works</b></summary>
+
+**What** — The loop from FM-os's certified eval gates to an actual model update: gate-labeled chosen/rejected pairs, a from-scratch DPO loss (torch + peft, unit-tested math), LoRA on SmolLM2-135M, and a held-out grounding gate that ships or rolls back the tune.
+
+**Why** — "Evals → training data → reward signals" is the bridge frontier-lab JDs keep asking for. This lab builds it end to end with **no human labels anywhere** — the labels come from gates that were themselves certified.
+
+**How** — Held-out worlds share zero word overlap with training, so leakage is a *tested property* rather than a hope. Result at 5 seeds under a pre-registered rule: treatment +0.098±0.028 vs control −0.046±0.055, complete arm separation — and the stricter every-seed rule still reads NO-EFFECT on one seed, which is reported alongside it.
+
+</details>
+
+### 🧪 merge-bo — a closed-loop Bayesian-optimization backbone over a molecular library
+
+[Source](https://github.com/wjlgatech/FM-os/tree/main/labs/merge-bo)
+
+<sub>Gates: `make check` (offline pytest) · `make e2e` (regenerate RESULTS.md) · `make botorch` (real BoTorch)</sub>
+
+<details>
+<summary><b>What it is · why it exists · how it works</b></summary>
+
+**What** — A Gaussian-process surrogate plus EI / UCB / constrained-EI / EHVI acquisition, driving a Design→Build→Test→Learn loop — in numpy so it runs anywhere, with an adapter that runs the same loop on the production BoTorch stack.
+
+**Why** — Proof-of-capability for the Merge Labs *ML Research Scientist — Bayesian Optimization* role, whose ask is literally "architect the closed-loop optimization backbone."
+
+**How** — Measured, not asserted: at a fixed budget of 30 experiments, BO finds ~51% better candidates and cuts regret ~71% versus random search — regenerate the numbers with `make e2e`.
+
+</details>
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
