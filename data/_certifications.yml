@@ -43,6 +43,14 @@ eval-awareness-probe:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/eval-awareness-probe
   tier: certified
+eval-subset:
+  gaps: []
+  kind: skill
+  on_mission: true
+  score: 98
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/eval-subset
+  tier: certified
 fm-os:
   gaps:
   - correctness (55)

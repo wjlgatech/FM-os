@@ -48,6 +48,12 @@
   tags: [bayesopt, research]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop
+- name: eval-subset
+  kind: skill
+  path: skills/eval-subset
+  tags: [eval, benchmark, research]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/eval-subset
 - name: continual-rl-eval
   kind: skill
   path: skills/continual-rl-eval

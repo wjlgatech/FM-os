@@ -1104,5 +1104,58 @@
       "better": "up",
       "source": "README.md 'Labs & Live Demos'"
     }
+  },
+  {
+    "id": "rc0038",
+    "delivery": "Reverse-engineered the Thomson-1-Large stack from the Thomson Reuters / Oxford team's own literature and landed it in FM-os as spec-as-data, runnable tooling and a scored forecast ledger.\n\nKNOWLEDGE BASE (data, not prose)\n- data/thomson_stack.yml \u2014 18 pipeline stages, each with mechanism, owner, primary source and an evidence tier (published 14 / stated 4 / inferred 0).\n- data/predictions.yml \u2014 12 pre-registered claims with probabilities and resolution criteria, registered 2026-08-13 against the promised technical report.\n- data/papers.yml +14 papers (ADMIRE-BayesOpt, SIMoE, CoLoR-Filter, CapTrack, Composable Interventions, Memory of Amortized Contexts, Knowledge Graphs for training data, Principal Hierarchies, Scales++, DeCE, Measuring What Matters, Every Eval Ever, PRISM, LingOly, GLEAN, HalluLens) under two new topics.\n- data/people.yml +11 researchers under a new eval-science category, each mapped to the MECHANISM they own. Two names tagged in the post are deliberately absent (no public technical trace) under no-evidence-no-entry.\n\nTHE THREE FINDINGS\n1. The org chart is the architecture. Bean is Evaluations Lead FOR LLM post-training \u2014 eval and post-training are one team. That is FM-os's own thesis ('eval gates are training-signal factories') as an external existence proof, now cited in RESEARCH-PROGRAM.md.\n2. 'Minimal impact on other aspects' is a mechanism claim: SIMoE puts domain knowledge into separable sparse parameter subsets; CapTrack shows preference optimization is more conservative than instruction tuning and can partially recover. Schwarz's pre-Thomson career is continual learning \u2014 he was hired for exactly this.\n3. The moat is the corpus and the editors, not the recipe. Every mechanism is published. Westlaw/Practical Law/Checkpoint/Reuters (<10% used) and 174 years of bar-admitted attorney editors are not. Reported scores confirm the shape: instruction following 0.914 and long context 0.753 best-in-class, LegalBench 0.823, Harvey Legal Agent 0.857 \u2014 but coding 0.399.\n\nAGENTIC TOOLING\n- skills/eval-subset (certified 98/100) \u2014 item-centric evaluation-subset selection, stage E1 made runnable. 2000-item benchmark, 100-item subset, 36 runs: item-centric mean MAE 0.0316 / p90 0.0363 at ZERO seed-model runs vs model-centric 0.0326 / 0.0356 at 40 runs vs random 0.0375 / 0.0452. Gates on p90 (tail risk), not the mean. Ships a falsifier that destroys the feature signal and asserts the edge vanishes. Two honest gate failures kept in the source.\n- scripts/thomson.py + make thomson \u2014 validates both files and enforces the core rule: an 'inferred' stage must carry a registered bet. Brier scoring excludes unresolved predictions rather than crediting them.\n\nCOMMUNITY\nEvery Eval Ever (arXiv:2606.14516, Bean among 49 authors; 22,235 models, 2,273 benchmarks, 31 formats) named as the contribution target instead of founding a new forum. NOTHING SUBMITTED YET \u2014 recorded as open.\n\nVERIFICATION\nmake validate + make thomson + 81 pytest passed + README/router drift clean + ainative 100%. One pre-existing failure (campaign checkpoint 'independent-5s-review', due 2026-08-11) fails on a clean tree and is untouched \u2014 Paul's gate to resolve.\n\nHONEST LIMITS\nQwen 3.5 397B is single-sourced to the post (TR says only 'open source LLMs'); stage ORDERING is our reconstruction; no stage is confirmed to be in Thomson-1 \u2014 publishing a method is not shipping it, and that gap is exactly what the ledger measures. eval-subset numbers are synthetic-benchmark numbers, not a Scales++ reproduction.",
+    "objective": "Turn a LinkedIn teaser into a falsifiable, scored reconstruction of Thomson Reuters' LLM specialization stack, landed in FM-os as data + runnable tooling + a real community target",
+    "created_at": "2026-08-13T08:04:11-05:00",
+    "key_results": [
+      {
+        "text": "Stack stages resting on a primary source, not on our reading",
+        "target": "100%",
+        "score": 1.0,
+        "evidence": "make thomson: 18/18 stages (14 published, 4 stated, 0 inferred)"
+      },
+      {
+        "text": "Pre-registered falsifiable predictions with resolution criteria",
+        "target": ">=10",
+        "score": 1.0,
+        "evidence": "data/predictions.yml: 12 claims registered 2026-08-13, Brier UNSCORED pending report"
+      },
+      {
+        "text": "New runnable skill certified",
+        "target": ">=75",
+        "score": 1.0,
+        "evidence": "skills/eval-subset certified 98/100; item-centric matches model-centric selector (MAE 0.0316 vs 0.0326) at 0 vs 40 seed-model runs"
+      },
+      {
+        "text": "Gate wired into make check with tests",
+        "target": "pass",
+        "score": 1.0,
+        "evidence": "scripts/thomson.py + tests/test_thomson.py (19 tests) + skills/eval-subset (17 tests); 81 passed"
+      },
+      {
+        "text": "Community contribution to Every Eval Ever",
+        "target": "submitted",
+        "score": 0.0,
+        "evidence": "NOT DONE \u2014 target named (arXiv:2606.14516, Bean coauthor), nothing submitted yet"
+      }
+    ],
+    "request": "eval this post from Linkedin [Andrew Bean, Thomson Reuters/Oxford, new LLM from Qwen 3.5 397B competitive with Opus 4.8] ... track Andrew Bean recent publications, talks, interview to reverse engineer the technical stack leading to such results. Do similar deep research on the people Bean mentioned in his post, finding the principal structures, mechanism and best practices. Eval my request and 10X it. Take this as a case study in FM-os, with knowledge base, agentic tooling and community built around the same research theme.",
+    "headline": "18-stage stack reverse-engineered; 12 bets registered before the answer key",
+    "brief": "A Thomson Reuters scientist teased a new LLM built by specializing an open model for legal work. Instead of writing a guess about how they did it, I rebuilt the pipeline from the team's OWN published papers \u2014 18 stages, all 18 tracing to a real source \u2014 and then wrote down 12 numbered predictions about what their technical report will say, with probabilities, BEFORE it exists. When the report lands, a script scores how right I was. I also built the one stage FM-os could actually run: a way to shrink an expensive benchmark to 5% of its size and still predict the full score.",
+    "growth": [
+      "C1:met:caught that the request's premise was already stale \u2014 Thomson Reuters published Thomson-1 benchmark numbers on 2026-07-31 and named the model at Q2 earnings, so part of the 'reverse-engineering' was re-deriving public facts; split every stage into published/stated/inferred instead of passing reporting off as inference",
+      "R1:met:the eval-subset probe failed its own gate twice and I diagnosed the statistics rather than lowering the threshold \u2014 single-medoid Bernoulli variance, then effective-sample-size loss from equal allocation across unequal clusters; kept both dead ends in the shipped source"
+    ],
+    "why": "The request as asked would have produced an unfalsifiable essay re-deriving facts Thomson Reuters had already published on 2026-07-31. Registering probabilities before the technical report is the only version of this work that can be graded. It displaced adding 11 researcher bios, which FM-os's own depth discipline forbids.",
+    "needle": {
+      "name": "falsifiable registered predictions about the Thomson-1 stack",
+      "before": "0",
+      "after": "12",
+      "better": "up",
+      "source": "make thomson"
+    }
   }
 ]

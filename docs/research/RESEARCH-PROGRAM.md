@@ -8,6 +8,11 @@ Everything below is a probe of that single thesis. This is the depth discipline:
 must either deepen a probe or sharpen the thesis — a project that does neither gets a brief
 and a kill criterion, not a repo.
 
+> **External confirmation (2026-08-13).** The thesis stopped being only ours. Thomson Reuters'
+> Andrew M. Bean is *Evaluations Lead **for LLM post-training*** — one team, not two — and that
+> org ships a frontier-competitive professional model. Full reconstruction, with 12 scored
+> predictions: [`CASE-STUDY-thomson-stack.md`](CASE-STUDY-thomson-stack.md).
+
 ## The probes and their homes (decided 2026-07-27)
 
 | probe | question it tests | home | why THIS home (depth rationale) | status |
@@ -16,6 +21,7 @@ and a kill criterion, not a repo.
 | **P2 MCP-Arena** | can evidence-gating separate models on real tool-use? | [`wjlgatech/mcp-arena`](https://github.com/wjlgatech/mcp-arena) (new repo — the one width exception) | a benchmark's PMF **is** being a standalone schelling point (BFCL, τ-bench are standalone); it consumes cli-judge + printing-press as satellites, never vendored | **M0 shipped** — 12 tasks × 6 categories as data, self-testing harness (golden=1.0, evidence-hallucinator fails) |
 | **P3 Proactive Twin** | does proactivity pay rent (net of interruption cost)? | [`super-u/docs/PROACTIVE-TWIN-BRIEF.md`](https://github.com/wjlgatech/dreammaketrue) | super-u already owns the Digital Twin, memory layer, and telemetry — a new repo would fork our own personalization effort | **brief shipped** — five gates, kill criteria, 60%-built asset map |
 | **VSS / BARE case studies** | do the gate disciplines transfer to VLM research papers? | [`research-anything/case-studies`](https://github.com/wjlgatech/research-anything) + FM-os skills | research-anything owns the *method*; FM-os certifies the *tooling* (vlm-failure-probe 98, syndata-bare 98) | live-measured (claude-sonnet-5 5/5 vs VSS 0/5) |
+| **P4 Thomson-1 stack** | can you predict a lab's training stack from its publications — and is that reading *scored*, not asserted? | [`docs/research/CASE-STUDY-thomson-stack.md`](CASE-STUDY-thomson-stack.md) | it is a direct existence proof of THIS program's thesis: Thomson Reuters' evaluations lead reports into post-training, i.e. eval and post-training are literally one team | **12 predictions registered 2026-08-13**, Brier UNSCORED pending the technical report; `eval-subset` skill certified 98 |
 
 ## The role of each hub (so efforts compound instead of spread)
 
