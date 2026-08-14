@@ -48,6 +48,12 @@
   tags: [bayesopt, research]
   author: wjlgatech
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop
+- name: eval-subset
+  kind: skill
+  path: skills/eval-subset
+  tags: [eval, benchmark, research]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/eval-subset
 - name: continual-rl-eval
   kind: skill
   path: skills/continual-rl-eval
@@ -105,3 +111,21 @@
   kind: skill
   author: community
   note: "Continual learning / catastrophic forgetting for SLMs; awaiting self-cert."
+- name: hci-study-gate
+  kind: skill
+  path: skills/hci-study-gate
+  tags: [hci, eval]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate
+- name: transfer-loop
+  kind: skill
+  path: skills/transfer-loop
+  tags: [eval, research]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/transfer-loop
+- name: eval-awareness-probe
+  kind: skill
+  path: skills/eval-awareness-probe
+  tags: [eval, research]
+  author: wjlgatech
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/eval-awareness-probe

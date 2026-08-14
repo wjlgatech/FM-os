@@ -1,0 +1,216 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# predictions.yml — PRE-REGISTERED, falsifiable claims about the Thomson-1
+# technical stack, recorded BEFORE the technical report is published.
+#
+# WHY THIS FILE EXISTS (the 10x):
+# "Reverse-engineer their stack" is unfalsifiable as an essay. Anyone can write
+# a plausible pipeline and no one can check it. So we write the pipeline down as
+# numbered claims with explicit probabilities and explicit resolution criteria,
+# BEFORE the answer key exists. The technical report Bean promised is the
+# resolver. Then `python3 scripts/thomson.py --score` computes a Brier score and
+# we find out whether our reading of a research team is actually any good.
+#
+# RULES (enforced by scripts/thomson.py):
+#   * Every prediction needs: claim, probability (0-1 exclusive), resolves_by,
+#     resolver, and resolution_criteria specific enough that a third party
+#     reading the technical report would rule the same way.
+#   * `outcome` starts null. It is set to true/false ONLY from a cited source,
+#     recorded in `resolved_by`. Never set from memory.
+#   * A prediction may NOT be edited after `registered` — add a superseding one.
+#   * Probabilities are honest, not decorative: several are near 0.5 because the
+#     evidence genuinely does not decide them. A ledger with no 0.5s is a ledger
+#     someone tuned after the fact.
+#
+# Contract: docs/research/CASE-STUDY-thomson-stack.md
+# ─────────────────────────────────────────────────────────────────────────────
+
+registered: 2026-08-13
+subject: "Thomson-1-Large technical report (Thomson Reuters)"
+resolver_note: >-
+  Primary resolver is the official technical report announced in Andrew Bean's
+  2026-07-30 LinkedIn post. If no technical report is published by resolves_by,
+  each prediction resolves from any peer-reviewed paper or official Thomson
+  Reuters technical documentation describing Thomson-1's training; failing
+  that it is marked UNRESOLVED and excluded from the Brier score (never
+  silently scored as a win).
+
+predictions:
+  - id: P1-base-family
+    claim: "The base model is from the Qwen family."
+    probability: 0.85
+    rationale: >-
+      Bean's own post names Qwen 3.5 397B. Discounted from ~0.97 only because
+      the post is a single unofficial source, Thomson Reuters' own materials say
+      only "open source LLMs", and a base swap between teaser and report is not
+      unheard of.
+    resolution_criteria: "The report names a Qwen-family checkpoint as the base. A different open-weight family (Llama, DeepSeek, Mistral, GLM, Kimi) resolves FALSE."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: base-selection
+    outcome: null
+    resolved_by: null
+
+  - id: P2-sparse-experts
+    claim: "Specialization uses sparse / mixture-of-experts parameter subsets with a learned router (the SIMoE mechanism), not only dense full-parameter or LoRA fine-tuning."
+    probability: 0.55
+    rationale: >-
+      SIMoE is the team's own ACL 2025 Oral and is precisely the mechanism for
+      "specialize without degrading the rest". But if the base is already a
+      large MoE, upcycling is redundant, and industrial pipelines often ship the
+      boring dense recipe. Genuinely uncertain.
+    resolution_criteria: "The report describes expert discovery, sparse parameter subsets, or interpolated/upcycled experts as part of specialization. Plain SFT + preference optimization with no expert structure resolves FALSE."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: specialization
+    outcome: null
+    resolved_by: null
+
+  - id: P3-forgetting-reported
+    claim: "Forgetting / capability retention is reported as a first-class result with a capability-decomposed measurement, not just 'no regression on MMLU'."
+    probability: 0.70
+    rationale: >-
+      The post explicitly claims "minimal impact on other aspects of model
+      performance", and a team member (Winzeck) coauthored CapTrack, which
+      exists to measure exactly this. A team that built the instrument tends to
+      report with it.
+    resolution_criteria: "The report includes a retention/forgetting section reporting more than one capability axis (e.g. robustness or default behaviours alongside knowledge). A single aggregate general-benchmark delta resolves FALSE."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: forgetting-control
+    outcome: null
+    resolved_by: null
+
+  - id: P4-preference-after-sft
+    claim: "The pipeline applies preference optimization (DPO/GRPO/RLHF-family) AFTER supervised fine-tuning, rather than SFT alone."
+    probability: 0.90
+    rationale: >-
+      Near-standard practice, and CapTrack gives this team a specific published
+      reason to prefer it (preference optimization drifts less and can partially
+      recover lost capability). High confidence, low information — included so
+      the ledger is honest about which claims were easy.
+    resolution_criteria: "The report describes a preference-optimization or RL-from-feedback stage following supervised fine-tuning."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: forgetting-control
+    outcome: null
+    resolved_by: null
+
+  - id: P5-pluralism-operationalized
+    claim: "'Pluralism' is operationalized as an explicit hierarchy or policy over competing stakeholder demands (user vs. authority vs. professional standards), not solely as demographically representative preference data."
+    probability: 0.50
+    rationale: >-
+      The team owns both readings: PRISM is the representative-preference
+      reading, Principal Hierarchies is the competing-demands reading. Bean's
+      post pairs pluralism with factuality, which leans toward the value-conflict
+      reading. But 'pluralism' in alignment writing most often means PRISM-style
+      representation. A true coin-flip, and deliberately recorded as one.
+    resolution_criteria: "The report describes a principal/authority hierarchy, constitution, or explicit conflict-resolution policy over competing stakeholders. Pluralism described only as diverse or representative preference data resolves FALSE. Both present resolves TRUE."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: value-realignment
+    outcome: null
+    resolved_by: null
+
+  - id: P6-decomposed-judge
+    claim: "Evaluation uses a decomposed criteria-based judge (DeCE lineage) rather than only pointwise LLM-as-judge scores."
+    probability: 0.60
+    rationale: >-
+      DeCE is the team's own EMNLP 2025 industry-track paper built on legal QA,
+      i.e. built for this exact model. Discounted because technical reports tend
+      to lead with standard public benchmarks for comparability.
+    resolution_criteria: "The report describes criteria-decomposed or rubric-decomposed judging (e.g. element-level precision/recall) for at least one professional-domain evaluation."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: eval-quality
+    outcome: null
+    resolved_by: null
+
+  - id: P7-cheap-eval-in-loop
+    claim: "A compute-efficient evaluation-subset method (Scales++ lineage) is used inside the training loop to keep candidate evaluation affordable."
+    probability: 0.45
+    rationale: >-
+      Bean is Evaluations Lead for post-training and first author of Scales++,
+      so the capability is in-house. But technical reports usually describe
+      final evaluation, not the internal triage harness — this may be true and
+      simply unreported, which under our own resolution rule still resolves
+      FALSE. Recorded at 0.45 with that asymmetry acknowledged.
+    resolution_criteria: "The report describes using a selected evaluation subset, proxy benchmark, or predicted-score method to triage training runs. Silence on internal eval tooling resolves FALSE."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: eval-cost
+    outcome: null
+    resolved_by: null
+
+  - id: P8-decontamination-section
+    claim: "The technical report contains an explicit contamination or decontamination analysis."
+    probability: 0.65
+    rationale: >-
+      This team's evaluations lead built contamination-resistant benchmarks
+      (LingOly, LingOly-TOO) and audited 445 benchmarks for validity. Claiming
+      frontier parity without addressing contamination would contradict their
+      own published standards.
+    resolution_criteria: "The report has a named section, subsection, or dedicated analysis on train/test contamination or decontamination."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: eval-contamination
+    outcome: null
+    resolved_by: null
+
+  - id: P9-agentic-rl-verifiable
+    claim: "Agentic capability is trained with RL in tool-use environments whose rewards are grounded in retrieval over Thomson Reuters' own corpora (verifiable citation/groundedness), not only imitation of agent trajectories."
+    probability: 0.70
+    rationale: >-
+      The post names "RL environments" explicitly; TR Labs already runs an
+      in-house agentic harness over Westlaw/Practical Law; and groundedness
+      against an authoritative corpus is a checkable reward they uniquely own.
+    resolution_criteria: "The report describes RL (any policy-gradient/preference-RL variant) in an interactive tool-use or retrieval environment with programmatic reward. Pure SFT on agent trajectories resolves FALSE."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: agentic-training
+    outcome: null
+    resolved_by: null
+
+  - id: P10-online-adaptation
+    claim: "The report describes a mechanism for incorporating new content without full retraining (amortized-context memory, continual pre-training, or equivalent)."
+    probability: 0.40
+    rationale: >-
+      Schwarz published Memory of Amortized Contexts for exactly this, and legal
+      content changes daily. But v1 model reports usually stop at the training
+      recipe and leave freshness to retrieval at inference time.
+    resolution_criteria: "The report describes a post-training content-update mechanism other than inference-time RAG."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: online-adaptation
+    outcome: null
+    resolved_by: null
+
+  - id: P11-mixture-optimized
+    claim: "The report describes an optimized (searched or learned) data mixture rather than hand-set domain weights."
+    probability: 0.75
+    rationale: >-
+      ADMIRE-BayesOpt is the team's own TMLR paper and Thomson Reuters' NeurIPS
+      2025 write-up independently touts a data-weighting technique worth "up to
+      500%" training efficiency. Discounted because the report may cite the
+      efficiency without describing the optimizer.
+    resolution_criteria: "The report describes mixture weights chosen by search, optimization, or learned reweighting (Bayesian optimization, proxy-model sweeps, or equivalent). Hand-tuned or unspecified weights resolve FALSE."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: data-mixture
+    outcome: null
+    resolved_by: null
+
+  - id: P12-parity-caveated
+    claim: "The 'competitive with Opus 4.8' claim holds in the report only on professional-domain and instruction-following benchmarks, and NOT on general coding."
+    probability: 0.80
+    rationale: >-
+      Already strongly indicated by the numbers Thomson Reuters published on
+      2026-07-31: LegalBench 0.823, Harvey Legal Agent 0.857, instruction
+      following 0.914 and long context 0.753 both best-in-class — against coding
+      0.399 and reasoning 0.684. This is close to a confirmation rather than a
+      forecast, and is recorded to keep the ledger's easy/hard mix visible.
+    resolution_criteria: "The report's own comparison tables show parity-or-better vs. Opus 4.8 on legal/professional and instruction-following axes while trailing on general coding."
+    resolves_by: 2026-12-31
+    resolver: "Thomson-1 technical report"
+    stage: base-selection
+    outcome: null
+    resolved_by: null

@@ -832,3 +832,154 @@
   url: https://arxiv.org/abs/2310.08560
   topic: personalization
   blurb: "Virtual context management — OS-style hierarchical memory for LLMs; the canonical per-user persistent-memory design behind personal models. Operationalized in skills/personalization-loop."
+# ── Human-centred AI (added 2026-08-02; titles verified against the arXiv abs page) ──
+- title: "Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy"
+  authors: "Ben Shneiderman"
+  org: "University of Maryland"
+  year: 2020
+  venue: "arXiv:2002.04087"
+  url: https://arxiv.org/abs/2002.04087
+  topic: hci
+  blurb: "The HCAI framing: high automation and high human control are not opposites, and reliability/safety/trust are design targets rather than after-the-fact audits."
+- title: "Explaining Explanations: An Overview of Interpretability of Machine Learning"
+  authors: "Leilani H. Gilpin et al."
+  org: "MIT"
+  year: 2018
+  venue: "arXiv:1806.00069"
+  url: https://arxiv.org/abs/1806.00069
+  topic: hci
+  blurb: "Separates explainability from interpretability and insists an explanation be evaluated against a stated audience — the bridge between the HCI and alignment roles in this campaign."
+
+# ── Domain specialization of open base models (the Thomson-1 stack) ──────────
+# Added 2026-08-13. Reverse-engineered from the Thomson Reuters / Oxford team's
+# OWN published work — see docs/research/CASE-STUDY-thomson-stack.md.
+- title: "ADMIRE-BayesOpt: Accelerated Data Mixture Reweighting for Language Models with Bayesian Optimization"
+  authors: "Chen, Ouyang, Pearce, Hartvigsen, Schwarz"
+  org: "Thomson Reuters"
+  year: 2025
+  venue: "TMLR 2025"
+  url: https://arxiv.org/abs/2508.11551
+  topic: domain-specialization
+  blurb: "Data-mixture choice as multi-fidelity Bayesian optimization: learn the mixture on cheap proxy models and transfer up. Over 500% speed-up at the largest scale (1M-7B params), with 460 training+eval runs (13,000 GPU-hours) released as the ADMIRE IFT Runs dataset."
+- title: "Automatic Expert Discovery in LLM Upcycling via Sparse Interpolated Mixture-of-Experts (SIMoE)"
+  authors: "Chen, Wei, Schwarz"
+  org: "Thomson Reuters"
+  year: 2025
+  venue: "ACL 2025 (Oral)"
+  url: https://arxiv.org/abs/2506.12597
+  topic: domain-specialization
+  blurb: "Turns a dense pre-trained LLM into an MoE-style model during instruction tuning: each expert is a structurally sparse subset of the seed model's own parameters, discovered automatically under a sparsity constraint, merged input-dependently by a learned router."
+- title: "CoLoR-Filter: Conditional Loss Reduction Filtering for Targeted Language Model Pre-Training"
+  authors: "Brandfonbrener, Zhang, Kirsch, Schwarz, Kakade"
+  org: "Harvard · Thomson Reuters"
+  year: 2024
+  venue: "NeurIPS 2024"
+  url: https://arxiv.org/abs/2406.10670
+  topic: domain-specialization
+  blurb: "Selects pre-training data by how much it reduces loss on a target domain relative to a prior model — the targeted-data-selection half of specializing a general base model."
+- title: "CapTrack: Multifaceted Evaluation of Forgetting in LLM Post-Training"
+  authors: "Thede, Winzeck, Akata, Schwarz"
+  org: "Thomson Reuters · Helmholtz/TUM"
+  year: 2026
+  venue: "arXiv:2603.06610"
+  url: https://arxiv.org/abs/2603.06610
+  topic: domain-specialization
+  blurb: "Redefines forgetting as systematic model drift across capabilities, not just accuracy loss. Finds instruction fine-tuning drifts harder than preference optimization, which is more conservative and can partially recover — the mechanism behind 'specialize with minimal impact elsewhere'."
+- title: "Composable Interventions for Language Models"
+  authors: "Kolbeinsson, O'Brien, Huang, Gao, Liu, Schwarz, Vaidya, Mahmood, Zitnik, Chen"
+  org: "multi-institution"
+  year: 2025
+  venue: "ICLR 2025"
+  url: https://arxiv.org/abs/2407.06483
+  topic: domain-specialization
+  blurb: "Studies what happens when editing, unlearning, compression and quantization are stacked on one model — order and interaction matter. The composition law for any multi-stage specialization pipeline."
+- title: "Online Adaptation of Language Models with a Memory of Amortized Contexts"
+  authors: "Tack, Kim, Mitchell, Shin, Teh, Schwarz"
+  org: "KAIST · Thomson Reuters"
+  year: 2024
+  venue: "NeurIPS 2024"
+  url: https://arxiv.org/abs/2403.04317
+  topic: domain-specialization
+  blurb: "Amortizes new documents into a compact memory so a deployed model absorbs fresh information without a training run — the update path for a corpus (case law, filings) that changes daily."
+- title: "Knowledge Graphs for LLM Training Data Construction"
+  authors: "Schwarz et al."
+  org: "Thomson Reuters"
+  year: 2026
+  venue: "arXiv:2601.13806"
+  url: https://arxiv.org/abs/2601.13806
+  topic: domain-specialization
+  blurb: "Builds training data from a structured knowledge graph rather than raw text scraping — the route from proprietary editorial corpora (Westlaw, Practical Law, Checkpoint) to supervised data."
+- title: "Principal Hierarchies Under High-Stakes Competing Demands"
+  authors: "Yu, Seedat, Schwarz, Bean"
+  org: "Thomson Reuters · Oxford"
+  year: 2026
+  venue: "arXiv:2605.12120"
+  url: https://arxiv.org/abs/2605.12120
+  topic: domain-specialization
+  blurb: "10 frontier models over 7,136 legal/medical scenarios: models hold an unstable implicit ordering over user, authority and professional standards, and exhibit knowledge omission — reasoning traces show they know a drug was withdrawn, then recommend it under authority pressure."
+
+# ── Evaluation science — validity, cost, and shared schemas ──────────────────
+- title: "Measuring What Matters: Construct Validity in Large Language Model Benchmarks"
+  authors: "Bean, Kearns, Romanou, Hafner, Mayne, Batzner et al. (29 reviewers)"
+  org: "Oxford Internet Institute + multi-institution"
+  year: 2025
+  venue: "NeurIPS 2025"
+  url: https://arxiv.org/abs/2511.04703
+  topic: eval-science
+  blurb: "Systematic review of 445 LLM benchmarks by 29 expert reviewers: most fail construct validity — they do not measure the thing they name. The prerequisite paper for anyone who trusts a leaderboard number."
+- title: "Scales++: Compute Efficient Evaluation Subset Selection with Cognitive Scales Embeddings"
+  authors: "Bean, Seedat, Chen, Schwarz"
+  org: "Oxford · Thomson Reuters"
+  year: 2025
+  venue: "arXiv:2510.26384"
+  url: https://arxiv.org/abs/2510.26384
+  topic: eval-science
+  blurb: "Item-centric benchmark subsetting: choose evaluation items by their intrinsic cognitive demands instead of by model failure patterns, so no seed-model runs are needed. 18x cheaper selection; 0.25% of the Open LLM Leaderboard predicts full scores to 3.2% MAE, 2.0% of Humanity's Last Exam to 2.9% MAE."
+- title: "Beyond Pointwise Scores: Decomposed Criteria-Based Evaluation of LLM Responses (DeCE)"
+  authors: "Yu, Seedat, Herrmannova, Schilder, Schwarz"
+  org: "Thomson Reuters"
+  year: 2025
+  venue: "EMNLP 2025 (Industry Track)"
+  url: https://arxiv.org/abs/2509.16093
+  topic: eval-science
+  blurb: "Splits an expert-domain judgement into decomposed criteria (precision vs. recall of required elements) instead of one pointwise LLM-judge score. Validated on 224 attorney-curated legal QA pairs across US jurisdictions."
+- title: "Every Eval Ever: A Unifying Schema and Community Repository for AI Evaluation Results"
+  authors: "Batzner, Nelaturu, Stachura, ... Bean, et al."
+  org: "EvalEval Coalition"
+  year: 2026
+  venue: "arXiv:2606.14516"
+  url: https://arxiv.org/abs/2606.14516
+  topic: eval-science
+  blurb: "One JSON schema for evaluation results plus converters and a crowdsourced Hugging Face database — 22,235 models, 2,273 benchmarks, 31 formats. The community substrate that makes eval results comparable across labs."
+- title: "The PRISM Alignment Project: What Participatory, Representative and Individualised Human Feedback Reveals About the Subjective and Multicultural Alignment of Large Language Models"
+  authors: "Kirk, Whitefield, Röttger, Bean, Margatina, Ciro, Mosquera, Bartolo, Williams, He, Vidgen, Hale"
+  org: "Oxford Internet Institute + multi-institution"
+  year: 2024
+  venue: "NeurIPS 2024 (Best Paper, Datasets & Benchmarks)"
+  url: https://arxiv.org/abs/2404.16019
+  topic: eval-science
+  blurb: "1,500 participants from 75 countries mapped to their preferences across 8,011 conversations with 21 LLMs — the empirical basis for treating alignment as plural rather than a single average human."
+- title: "LINGOLY: A Benchmark of Olympiad-Level Linguistic Reasoning Puzzles in Low-Resource and Extinct Languages"
+  authors: "Bean, Hellsten, Mayne, Magomere, Chi, Chi, Hale, Kirk"
+  org: "Oxford Internet Institute"
+  year: 2024
+  venue: "NeurIPS 2024 (Oral)"
+  url: https://arxiv.org/abs/2406.06196
+  topic: eval-science
+  blurb: "1,133 problems in 90+ low-resource and extinct languages — reasoning that cannot be memorised because the training data does not exist. Contamination resistance by construction."
+- title: "GLEAN: Guideline-Grounded Evidence Accumulation for High-Stakes Agent Verification"
+  authors: "Zhang, Seedat, Dong, Cui, Zhu, van der Schaar"
+  org: "Tsinghua · Cambridge"
+  year: 2026
+  venue: "ICLR 2026 Workshop (Best Paper)"
+  url: https://arxiv.org/abs/2603.02798
+  topic: eval-science
+  blurb: "Agent verification as sequential evidence accumulation against domain guidelines: per-step alignment scores turned into calibrated correctness probabilities via Bayesian logistic regression, with active evidence collection when uncertain. AUROC > 0.94, Brier < 0.10; Best-of-N lifts diagnosis 55.6% -> 77.5%."
+- title: "HalluLens: LLM Hallucination Benchmark"
+  authors: "Bang, Ji, et al."
+  org: "Meta AI · HKUST"
+  year: 2025
+  venue: "ACL 2025"
+  url: https://arxiv.org/abs/2504.17550
+  topic: eval-science
+  blurb: "Insists hallucination and factuality are distinct problems needing distinct benchmarks, and supplies a taxonomy plus dynamically regenerated extrinsic-hallucination tasks that resist contamination."

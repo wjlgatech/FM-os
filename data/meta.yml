@@ -26,6 +26,7 @@ applied_banner: >-
 # Nav pills rendered under the tagline (label -> anchor)
 nav:
   - { label: "Start Here", anchor: "start-here" }
+  - { label: "Demos", anchor: "labs--demos" }
   - { label: "Repos", anchor: "open-source-repos" }
   - { label: "Courses", anchor: "courses" }
   - { label: "Papers", anchor: "papers" }
@@ -152,6 +153,8 @@ sections:
       - { key: molecular,    title: "ML for Molecular & Bio Design" }
       - { key: neuroscience, title: "Neuroscience & Brain-Computer Interfaces" }
       - { key: ssm,          title: "State-Space & Sequence Models" }
+      - { key: domain-specialization, title: "Domain Specialization of Open Base Models" }
+      - { key: eval-science, title: "Evaluation Science — Validity, Cost & Shared Schemas" }
   - id: reading-lists
     icon: "📚"
     title: "Reading Lists"
@@ -188,6 +191,7 @@ sections:
       - { key: molecular,  title: "ML for Molecules & Self-Driving Labs" }
       - { key: probabilistic, title: "Probabilistic ML & Uncertainty" }
       - { key: ssm,        title: "State-Space Models & Neuro-adjacent" }
+      - { key: eval-science, title: "Domain Specialization & Evaluation Science" }
   - id: jobs--careers
     icon: "💼"
     title: "Jobs & Careers"

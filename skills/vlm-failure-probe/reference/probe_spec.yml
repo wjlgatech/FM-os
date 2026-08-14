@@ -5,11 +5,172 @@
 # paper's observed failure examples, made machine-checkable.
 # scripts read this; the prose never drifts from what is actually gated.
 # ─────────────────────────────────────────────────────────────────────────────
-version: "0.1"
+version: "0.4"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# v0.4 — APPLIED. Change 1 below was pre-registered (with its prediction) in the
+# previous commit and is now applied VERBATIM: `end_of_video` part 1 accepts any
+# vehicle noun. Change 2 was diagnosed as model nondeterminism and correctly
+# needed no spec change. The prediction is scored in out/RESULTS.md whether it
+# holds or not.
+# ─────────────────────────────────────────────────────────────────────────────
+# PRE-REGISTERED FOR v0.4 — the diagnosis this applied (kept verbatim as the record).
+#
+# The 3-repeat run under v0.3 (all three harness fake-failure bugs fixed) left
+# exactly two unstable pairs, and reading their answers diagnoses both. Neither is
+# patched here: three times today a defect was found by looking at results, and
+# patching a third one in the same session — after seeing the scores — is how a
+# grader drifts into fitting its own outcomes. Written down instead, so the NEXT
+# run tests a prediction made in advance.
+#
+#  1. probe: end_of_video · model: claude-sonnet-5 · scores 1.00, 0.00, 1.00
+#     DIAGNOSIS: all three answers describe the END event correctly ("drives off
+#     to the right and out of frame"). The zero is only because repeat 2 called it
+#     a "car-like vehicle" instead of a "truck" — the expectation requires the
+#     NOUN. The mode's `what:` is "the retrieved chunk actually answers the query
+#     (no keyword-overlap drift)", i.e. did the answer describe the end rather than
+#     an earlier scene. Object naming is incidental to that intent, and the 2D
+#     proxy vehicle (a box plus a trailer) does not unambiguously read as a truck.
+#     PROPOSED v0.4: relax part 1 to "truck|lorry|van|vehicle|car" (still requires
+#     the moving object, not the building) OR redraw the vehicle unmistakably.
+#     PREDICTION IF APPLIED: sonnet end_of_video sd → 0.00, and MockVSS still
+#     scores 0.00 (its canned answer names no vehicle at all: "a worker stacks
+#     pallets near the entrance").
+#
+#  2. probe: forklift_fork_direction · model: claude-haiku-4.5 · scores 0.00, 1.00, 1.00
+#     DIAGNOSIS: genuine MODEL nondeterminism. The fork provably rises
+#     (stimuli.py: fy = 140 - t * 12) and haiku answers "down" some of the time and
+#     "up" the rest, with confident frame-by-frame justifications either way.
+#     NOT A GRADER DEFECT — nothing to fix in the spec. It does mean the earlier
+#     claim that this is haiku's "one real, unambiguous failure" was overstated:
+#     it is a real but STOCHASTIC failure, ~1/3 of the time in this run. A single
+#     run cannot tell a stochastic failure from a deterministic one, which is the
+#     whole argument for --repeat.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AUDIT LOG — v0.2 → v0.3 (pre-registered BEFORE the repeat run; FULL DISCLOSURE:
+# the defect below was surfaced BY the v0.2 run, so it is declared here as a
+# post-hoc-discovered / pre-registered-fix change, and it is PAID FOR by a
+# measurement that can refute it — see the prediction.)
+#
+# WHAT THE v0.2 RUN EXPOSED (out/RESULTS.md vs out/RESULTS-v0.1-spec.md):
+#   claude-opus-5 scored 0.67 on `summary_count_clothing` in the v0.1 run and 0.33
+#   in the v0.2 run — on a probe v0.2 did NOT touch, with the same deterministic
+#   stimulus. The two answers are semantically IDENTICAL:
+#     v0.1  "There is one person … wearing a yellow short-sleeved top"     → 0.67
+#     v0.2  "**People present:** One. … A yellow short-sleeved top"        → 0.33
+#   The only difference is PHRASING, and it flipped the model's gate PASS → FAIL.
+#
+# WHY THIS MATTERS MORE THAN THE ORIGINAL AUDIT: it means a single-run score from
+# this benchmark — including the TABLE I already published in the VSS paper — is
+# not a stable measurement. The grader, not the model, is the least reliable
+# component. The papers' fuzzy-matching metrics have the same exposure and neither
+# reports variance.
+#
+# CHANGES:
+#  - probe: summary_count_clothing                    class: EXPECTATION-INTENT
+#    parts 2 and 3 now accept the sub-answer in any phrasing that actually answers
+#    it ("one person" | "present one" | "count one" | "1"; "yellow top" |
+#    "yellow short sleeved top" | …). Justified by the mode's declared `what:` —
+#    "every sub-question answered" — under the SAME v0.2 rule that a fix must
+#    apply identically whichever model produced the answer. Part 1 (a summary must
+#    exist) is STILL NOT relaxed: haiku omitted the summary and still scores 0.67.
+#  - harness: `run_real.py --repeat N`                 class: MEASUREMENT
+#    the same model is probed N times and every mode reports mean ± sd, with any
+#    probe whose sd > 0 flagged GRADER-UNSTABLE. Variance becomes a first-class
+#    output instead of an unstated assumption.
+#
+# PRE-REGISTERED PREDICTION (this is what makes the fix falsifiable rather than
+# convenient — scored honestly in out/RESULTS.md either way):
+#   Under v0.3, across 3 repeats × 3 models, `summary_count_clothing` shows
+#   sd = 0.00 for every model, because phrasing no longer moves it. If it still
+#   varies, the phrasing-invariance fix DID NOT WORK and the honest conclusion is
+#   that keyword matching cannot grade compound-prompt completeness at all — in
+#   which case the probe needs an LLM judge (skills/agentic-eval), not more
+#   aliases. Any OTHER probe showing sd > 0 is reported as newly-found grader
+#   instability, not smoothed over.
+# ─────────────────────────────────────────────────────────────────────────────
 
 # Discipline (FM-os Certified / BRACE): no evidence ⇒ No. A mode with no model
 # answers is "not measured" — excluded from the score and the gate CANNOT pass.
 require_measured: true
+
+# ─────────────────────────────────────────────────────────────────────────────
+# AUDIT LOG — v0.1 → v0.2 (pre-registered 2026-07-31, BEFORE the re-run)
+#
+# WHY an audit at all: the v0.1 multi-model run (out/RESULTS-v0.1-spec.md) scored
+# claude-haiku-4.5 at 3/5 modes FAILED and that table shipped into the VSS paper
+# as a "capability ladder". Reading its RAW ANSWERS (the repo's own rule: graders
+# fail before models do) shows three of those five misses were OUR grader's
+# fault, not the model's.
+#
+# THE ANTI-GOALPOST RULE (this is why the log is in the spec, in git, first):
+#   1. Every change is CLASSIFIED and justified by the failure mode's `what:` —
+#      the intent declared in v0.1 — never by which model happened to miss.
+#   2. A change may only be made if it would apply IDENTICALLY had a frontier
+#      model produced the same answer. No model-specific carve-outs.
+#   3. Relaxations must be paid for with a TIGHTENING: `reject:` (below) zeroes a
+#      probe whose answer credits the WRONG entity, so accepting positional
+#      language does not accept wrong answers.
+#   4. Non-vacuity is a TEST, not a promise: MockVSS (the paper's canned
+#      failures) and CheaterVSS (plausible-but-wrong prose) must STILL score 0
+#      on every touched probe. See test_probe_runner.py.
+#   5. v0.1 results are preserved, never overwritten, and reported side by side.
+#
+# PRE-REGISTERED PREDICTIONS for the v0.2 re-run (falsifiable; scored honestly
+# in out/RESULTS.md whether right or wrong):
+#   sport_stays_tennis      haiku 0.00 → 1.00   (if it STILL says soccer against an
+#                                                unmistakable court, the failure was
+#                                                real and the stimulus was not at fault)
+#   describe_and_closer     haiku 0.50 → 1.00
+#   end_of_video            haiku 0.00 → 1.00
+#   forklift_fork_direction haiku 0.00 → 0.00   (real failure; predicted UNCHANGED)
+#   summary_count_clothing  haiku 0.67 → 0.67   (real miss: it never gave a summary)
+#   opus-5 / sonnet-5       1.00 → 1.00 on every touched probe. A stimulus fix that
+#                                                BREAKS a frontier model is a bad fix.
+#   ⇒ implied: haiku's gate goes FAIL(3 modes) → PASS, and the "capability ladder"
+#     claim already published in the paper's TABLE I needs a correction to ONE real
+#     failure mode, not three.
+#
+# CHANGES (5 touched, 2 deliberately untouched):
+#  - probe: sport_stays_tennis                        class: TIGHTENING
+#    found by the CheaterVSS adversarial test BEFORE the re-run, not by any
+#    model's answer: bare `contains: tennis` credited "a tennis-style warm-up
+#    before the soccer match". Added claim-shaped rejects. This can only LOWER
+#    scores — it is the payment for the two relaxations below.
+#  - matcher: whitespace collapse in _norm/_find      class: MATCHER-CORRECTNESS
+#    multi-word aliases ("drives away", "one person") silently failed when
+#    punctuation normalized to a double space. Affects v0.1 aliases too, so a
+#    handful of v0.1 zeros may have been this bug rather than the model.
+#  - probe: sport_stays_tennis + describe_and_closer   class: STIMULUS
+#    the shared `_tennis_scene` proxy read as a soccer pitch to a weaker model
+#    (green field, halfway band, orange-ish ball). Fixed in stimuli.py: service
+#    boxes + centre service line, a posted mesh net, oval strung rackets, and a
+#    yellow-green ball. Question, expectations and ground truth are UNCHANGED —
+#    only the pixels that were supposed to depict tennis now depict tennis.
+#    justification: the mode grades "consistency across chunks", not the viewer's
+#    ability to infer a sport from an ambiguous drawing.
+#  - probe: describe_and_closer                       class: EXPECTATION-INTENT
+#    v0.1 demanded the literal token "white" to identify the near player. The
+#    mode's `what:` is "every sub-question answered" — compound-prompt
+#    completeness. An answer identifying the near player POSITIONALLY ("the
+#    player at the bottom / in the lower court") answers the sub-question.
+#    Now accepts either, and pays for it with a `reject:` on the far player.
+#  - probe: end_of_video                              class: MATCHER-SYNONYM
+#    "the truck completely disappears off the right side of the screen" IS the
+#    truck leaving; the alias list simply lacked the phrasing. Added multi-word
+#    exit phrasings only ("disappears off", "out of frame", …) — deliberately NOT
+#    the bare word "disappears", which would credit "disappears behind the dock".
+#  - probe: forklift_fork_direction                   class: NO-CHANGE (real failure)
+#    the fork provably rises (stimuli.py: `fy = 140 - t * 12`); the model said it
+#    descends. Nothing to fix but the model.
+#  - probe: summary_count_clothing                    class: NO-CHANGE (real miss)
+#    tempting to blame "warehouse|storage|boxes" as incidental scene-naming, but
+#    the answer contains NO summary at all — it opens on the count. That is
+#    exactly the failure mode (answering only the later sub-questions). Left at
+#    0.67. The audit is not allowed to fix everything.
+# ─────────────────────────────────────────────────────────────────────────────
 
 failure_modes:
   - id: spatial_directional
@@ -43,7 +204,14 @@ failure_modes:
         match: contains
       - id: sport_stays_tennis
         question: "What sport is being played at the end of the video?"
+        # v0.2 TIGHTENING (found by CheaterVSS, not by any model's answer): bare
+        # `contains: tennis` credited "a tennis-style warm-up before the soccer
+        # match" — an answer whose END sport is soccer, i.e. the exact drift this
+        # mode exists to catch. Rejects are CLAIM-shaped ("soccer match", "switches
+        # to"), never bare sport words, so a correct contrastive answer
+        # ("tennis, not soccer") still scores 1.0 — see the test of that name.
         expect: ["tennis"]
+        reject: ["soccer match|soccer game|football match|football game|playing soccer|playing football|switches to|switch to|changes to|change to|turns into|padel|table tennis|ping pong|pingpong|badminton|volleyball"]
         match: contains
       - id: shirt_stays_white
         question: "What color shirt does the person wear throughout the video?"
@@ -56,11 +224,22 @@ failure_modes:
     probes:
       - id: summary_count_clothing
         question: "Provide a summary. How many people are present? What is the person wearing?"
-        expect: ["warehouse|storage|boxes", "one person|1 person|single person|one man|one worker|a man|a worker", "yellow vest|yellow shirt|yellow top|wearing yellow|hi vis|high visibility"]
+        # v0.3 EXPECTATION-INTENT: parts 2 and 3 accept ANY phrasing that answers the
+        # sub-question (a markdown answer writes "**People present:** One."; a prose
+        # one writes "there is one person" — same answer, and v0.2 credited only the
+        # second). Part 1 stays STRICT: a summary must actually be present.
+        expect:
+          - "warehouse|storage|boxes|crates|pallets"
+          - "one person|1 person|single person|one man|one worker|a man|a worker|one figure|one individual|people present one|person present one|count one|only one|just one|there is one|exactly one"
+          - "yellow vest|yellow shirt|yellow top|yellow short sleeved top|yellow t shirt|yellow tee|yellow tank|wearing yellow|yellow upper|hi vis|high visibility"
         match: all_parts
       - id: describe_and_closer
         question: "Describe what is happening in the video and identify which player is closer to the camera."
-        expect: ["rally|ball|players", "white"]
+        # part 2 accepts the near player named by SHIRT or by POSITION (v0.2
+        # EXPECTATION-INTENT); `reject` zeroes the probe if the FAR player is
+        # credited instead, so the relaxation cannot pass a wrong answer.
+        expect: ["rally|ball|players", "white|bottom|lower|near|nearer|nearest|closest|foreground|front"]
+        reject: ["red is closer|red player is closer|far player is closer|top player is closer|upper player is closer|player in red is closer|player at the top is closer|background player is closer"]
         match: all_parts
 
   - id: retrieval_reranking
@@ -73,7 +252,14 @@ failure_modes:
         match: contains
       - id: end_of_video
         question: "What happens at the very end of the video?"
-        expect: ["truck", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away"]
+        # v0.2 MATCHER-SYNONYM: added multi-word frame-exit phrasings. NOT the bare
+        # word "disappears" — that would credit "disappears behind the dock".
+        # v0.4 EXPECTATION-INTENT (applied exactly as pre-registered above, after
+        # sonnet-5 described the exit correctly 3/3 but called the drawn vehicle a
+        # "car-like vehicle" once): part 1 accepts any VEHICLE noun. Still requires
+        # the moving object — the canned baseline answer names none ("a worker
+        # stacks pallets near the entrance") and still scores 0.
+        expect: ["truck|lorry|van|vehicle|car", "leaves|leaving|drives away|drives off|driving away|exits|departs|pulls away|disappears off|disappears from|off the right|off screen|off the screen|out of frame|out of the frame|out of view|off the edge"]
         match: contains
 
   - id: grounding_hallucination

@@ -1,0 +1,78 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# demos.yml — FM-os's OWN applied labs, and the ones you can open in a browser.
+# Distinct from labs.yml (that file is the external lab/platform ecosystem).
+#
+# Rendered by scripts/build_readme.py into the "🧪 Labs & Live Demos" section,
+# with what/why/how behind a <details> disclosure so the section stays skimmable.
+#
+# Required: name, path, what, why, how.  Optional: icon, tagline, url (live app),
+# url_note (honest access label), public (an UNGATED page anyone can open),
+# public_label, gates.
+# A `url` is checked for uniqueness + http(s) by scripts/validate.py and by the
+# CI link-checker — never list a demo here that isn't actually up.
+# ─────────────────────────────────────────────────────────────────────────────
+- name: nomadic-mini
+  icon: "🎬"
+  tagline: "driving video → structured events → semantic search, with a grounded lab copilot"
+  path: labs/nomadicml
+  url: https://nomadic-mini-demo.vercel.app
+  url_note: "🔒 password-gated — the gate protects the credit-spending endpoints; ask [@wjlgatech](https://github.com/wjlgatech)"
+  public: https://nomadic-mini-demo.vercel.app/system.html
+  public_label: "Architecture walkthrough (no password)"
+  gates: "`make check` (offline) · `make e2e` (real VLM) · `make parity` (live API)"
+  what: >-
+    A small-scale, working clone of a VLM video-analysis product: upload a driving clip →
+    a vision-language model returns events in a fixed schema → embedding search over them.
+    The hosted app adds two live agentic surfaces — a **lab copilot** (Claude, streamed)
+    whose system prompt is assembled from every doc and source file in the lab, and
+    **"analyze your own clip"**, which runs the real pipeline on a video you drop in and
+    streams each stage back as it happens.
+  why: >-
+    Interview proof-of-capability for Member of Technical Staff (ML) at NomadicML, built
+    clean-room from public surfaces only (PyPI wheel source, docs `llms.txt`, site-bundle
+    examples) and then compared term-by-term against their production API — so the claim is
+    checkable rather than asserted. It is also the FM-os thesis in one page: an eval-gated
+    build is the artifact you can hand someone.
+  how: >-
+    A static front end on Vercel's CDN plus Python serverless functions. `api/chat.py`
+    streams Claude over SSE against a build-time knowledge bundle; `api/analyze.py` runs the
+    pipeline on Gemini native video (no ffmpeg) and streams stage progress; big uploads go
+    browser → Vercel Blob directly, so the 4.5 MB function limit never applies. The password
+    is enforced **server-side on every credit-spending endpoint** — the overlay is the door,
+    not the lock.
+
+- name: rewardforge
+  icon: "🔁"
+  tagline: "eval failures → preference pairs → a real, gated LoRA fine-tune"
+  path: labs/rewardforge
+  gates: "`make check` (offline, 8 tests) · `make e2e` (real fine-tune) · `python -m rewardforge.sweep`"
+  what: >-
+    The loop from FM-os's certified eval gates to an actual model update: gate-labeled
+    chosen/rejected pairs, a from-scratch DPO loss (torch + peft, unit-tested math), LoRA on
+    SmolLM2-135M, and a held-out grounding gate that ships or rolls back the tune.
+  why: >-
+    "Evals → training data → reward signals" is the bridge frontier-lab JDs keep asking for.
+    This lab builds it end to end with **no human labels anywhere** — the labels come from
+    gates that were themselves certified.
+  how: >-
+    Held-out worlds share zero word overlap with training, so leakage is a *tested property*
+    rather than a hope. Result at 5 seeds under a pre-registered rule: treatment +0.098±0.028
+    vs control −0.046±0.055, complete arm separation — and the stricter every-seed rule still
+    reads NO-EFFECT on one seed, which is reported alongside it.
+
+- name: merge-bo
+  icon: "🧪"
+  tagline: "a closed-loop Bayesian-optimization backbone over a molecular library"
+  path: labs/merge-bo
+  gates: "`make check` (offline pytest) · `make e2e` (regenerate RESULTS.md) · `make botorch` (real BoTorch)"
+  what: >-
+    A Gaussian-process surrogate plus EI / UCB / constrained-EI / EHVI acquisition, driving a
+    Design→Build→Test→Learn loop — in numpy so it runs anywhere, with an adapter that runs the
+    same loop on the production BoTorch stack.
+  why: >-
+    Proof-of-capability for the Merge Labs *ML Research Scientist — Bayesian Optimization*
+    role, whose ask is literally "architect the closed-loop optimization backbone."
+  how: >-
+    Measured, not asserted: at a fixed budget of 30 experiments, BO finds ~51% better
+    candidates and cuts regret ~71% versus random search — regenerate the numbers with
+    `make e2e`.

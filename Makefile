@@ -1,4 +1,4 @@
-.PHONY: check build validate test ainative sync site certify distill distill-check build-router clean help
+.PHONY: check build validate test ainative sync site certify distill distill-check build-router thomson power clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
@@ -10,6 +10,8 @@ help:
 	@echo "  make sync      Refresh live repo stars/releases (needs network)"
 	@echo "  make certify   Re-certify the tooling registry + refresh badges"
 	@echo "  make ainative  Self-audit vs AI-native / loop-engineering principles"
+	@echo "  make thomson   Gate the Thomson-1 stack + score the prediction ledger"
+	@echo "  make power     What can a study of this size actually see? (CI + MDE)"
 	@echo "  make jdfit JD=<file>   Score FM-os coverage of a job description"
 	@echo ""
 
@@ -30,9 +32,20 @@ ainative:
 
 # The finish line: code behaves (pytest), data is well-formed (validate), the
 # committed README matches the generator (drift), AND we stay AI-native (audit).
-check: validate test ainative distill-check
+check: validate test ainative distill-check thomson
 	python3 scripts/build_readme.py --check
 	python3 scripts/build_router.py --check
+
+# The Thomson-1 stack reconstruction + its pre-registered prediction ledger.
+# Gates on the rule that keeps a reverse-engineering honest: every `inferred`
+# stage must carry a registered, falsifiable bet.
+thomson:
+	python3 scripts/thomson.py --score
+
+# A rate without its n is an opinion (rule earned 2026-08-14). Wilson CIs,
+# the rule of three, and the minimum detectable difference for a two-arm design.
+power:
+	python3 scripts/power.py --intern-report
 
 # Distill cited repos -> per-repo knowledge graph + tooling scaffold under distill/.
 #   make distill              regenerate every distilled repo (spec = data/repos.yml)

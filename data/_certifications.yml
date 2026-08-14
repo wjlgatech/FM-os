@@ -34,6 +34,23 @@ curation-loop:
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop
   tier: certified
+eval-awareness-probe:
+  gaps:
+  - cross_runtime (50)
+  kind: skill
+  on_mission: true
+  score: 93
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/eval-awareness-probe
+  tier: certified
+eval-subset:
+  gaps: []
+  kind: skill
+  on_mission: true
+  score: 98
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/eval-subset
+  tier: certified
 fm-os:
   gaps:
   - correctness (55)
@@ -51,6 +68,15 @@ fm-os-sync:
   score: 83
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/scripts
+  tier: certified
+hci-study-gate:
+  gaps:
+  - cross_runtime (50)
+  kind: skill
+  on_mission: true
+  score: 93
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate
   tier: certified
 personalization-loop:
   gaps:
@@ -102,6 +128,15 @@ tinker-loop:
   score: 98
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop
+  tier: certified
+transfer-loop:
+  gaps:
+  - cross_runtime (50)
+  kind: skill
+  on_mission: true
+  score: 92
+  security_ok: true
+  source: https://github.com/wjlgatech/FM-os/tree/main/skills/transfer-loop
   tier: certified
 vector-rag:
   gaps:

@@ -89,3 +89,59 @@
   url: https://www.ong-home.my/
   affiliation: "CSIRO's Data61 · Australian National University"
   focus: "Co-author of *Mathematics for Machine Learning*; probabilistic modeling foundations."
+
+# ── Domain specialization & evaluation science (the Thomson-1 stack) ─────────
+# Added 2026-08-13. Each person is listed against the MECHANISM they own in
+# docs/research/CASE-STUDY-thomson-stack.md — not because they were tagged in a
+# LinkedIn post. Names tagged in that post with no public technical trace are
+# deliberately absent: no evidence => no entry.
+- name: Jonathan Richard Schwarz
+  category: eval-science
+  url: https://jonathan-schwarz.github.io/
+  affiliation: "Thomson Reuters (Head of AI Research) · Imperial College London (Visiting Prof) · ex-Google DeepMind"
+  focus: "Architect of the specialization stack: data mixtures (ADMIRE-BayesOpt), targeted selection (CoLoR-Filter), sparse expert upcycling (SIMoE), forgetting (CapTrack). Continual-learning lineage — Progress & Compress, Powerpropagation — is why 'specialize without breaking everything else' is a solvable problem here."
+- name: Andrew M. Bean
+  category: eval-science
+  url: https://am-bean.github.io/
+  affiliation: "Thomson Reuters (Evaluations Lead, LLM post-training) · Oxford Internet Institute (DPhil)"
+  focus: "Evaluation science: construct validity across 445 benchmarks, contamination-resistant reasoning (LingOly), cheap-but-faithful eval subsets (Scales++), and the Every Eval Ever shared schema. Runs eval FOR post-training — the two are one loop, not two teams."
+- name: Nabeel Seedat
+  category: eval-science
+  url: https://nabeelseedat.com/
+  affiliation: "University of Cambridge (van der Schaar Lab) · Thomson Reuters"
+  focus: "Data-centric AI and high-stakes agent verification: decomposed criteria evaluation (DeCE), eval subset selection (Scales++), and GLEAN's calibrated, guideline-grounded verification for agents that must be trusted."
+- name: Shengzhuang Chen
+  category: eval-science
+  url: https://szc12153.github.io/
+  affiliation: "Thomson Reuters · City University of Hong Kong"
+  focus: "Sparse interpolated experts — the actual specialization mechanism (SIMoE, meta-tuning) — plus the ADMIRE-BayesOpt data-mixture optimizer. The two levers that turn a general base model into a professional one."
+- name: Yejin Bang
+  category: eval-science
+  url: https://yejinbang.github.io/
+  affiliation: "Thomson Reuters · ex-HKUST CAiRE"
+  focus: "Factuality and hallucination as separate, separately-benchmarked problems (HalluLens taxonomy) — the measurement discipline behind a 're-alignment toward factuality' claim."
+- name: Fangyi Yu
+  category: eval-science
+  url: https://fangyiyu.github.io/
+  affiliation: "Thomson Reuters Labs"
+  focus: "Legal reasoning evaluation: decomposed criteria-based judging (DeCE) on attorney-curated QA, and principal hierarchies under competing professional demands."
+- name: Dietrich Trautmann
+  category: eval-science
+  url: https://dietrichtrautmann.github.io/
+  affiliation: "Thomson Reuters Labs (Zug)"
+  focus: "Groundedness measurement for legal question answering — whether an answer is actually supported by the retrieved authority, which is the load-bearing property in professional deployment."
+- name: Daniele Giofré
+  category: eval-science
+  url: https://scholar.google.com/citations?user=n8YQ8XoAAAAJ
+  affiliation: "Thomson Reuters Labs (Zug)"
+  focus: "Cheap domain pretraining — BudgetLongformer showed a SOTA long-context legal LM from scratch in under 12 GPU-days. The efficiency instinct that shows up again as a $20M frontier-competitive model."
+- name: Mihaela van der Schaar
+  category: eval-science
+  url: https://www.vanderschaar-lab.com/
+  affiliation: "University of Cambridge"
+  focus: "Data-centric AI at scale and trustworthy ML for high-stakes domains; the lab lineage (Data-IQ, GLEAN) behind the verification methods this stack leans on."
+- name: Hannah Rose Kirk
+  category: eval-science
+  url: https://www.hannahrosekirk.com/
+  affiliation: "UK AI Safety Institute · Oxford Internet Institute"
+  focus: "Lead author of PRISM — participatory, representative and individualised human feedback. The empirical foundation for 'pluralism' meaning something measurable rather than a value statement."

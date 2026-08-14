@@ -16,7 +16,7 @@ The most comprehensive, community-driven, **living** map of how modern language 
 
 🧬 **The flywheel, applied → [longevity-loop](https://github.com/wjlgatech/longevity-loop)**: an AI-native, build-in-public loop turning this SLM/FM-ops method into real aging-science results — code-only, verified, no wet lab.
 
-[Start Here](#start-here) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Reading Lists](#reading-lists) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
+[Start Here](#start-here) • [Demos](#labs--demos) • [Repos](#open-source-repos) • [Courses](#courses) • [Papers](#papers) • [Reading Lists](#reading-lists) • [Jobs](#jobs--careers) • [Roadmap](#learning-roadmap) • [Contribute](#contribute)
 
 <img src="site/infographics/flywheel.svg" alt="The FM-os compounding flywheel: curate → generate → gate → ship → signal, every turn adds a capability" width="760">
 
@@ -52,13 +52,14 @@ New to foundation-model ops? Read this in order:
 
 - [🚀 Start Here](#start-here)
 - [🤖 SLM Model Zoo](#model-zoo) `13`
-- [🏅 FM-os Certified](#fm-os-certified) `17`
-- [🧰 Open-Source Repos](#open-source-repos) `117`
+- [🏅 FM-os Certified](#fm-os-certified) `21`
+- [🧪 Labs & Live Demos](#labs--demos) `3`
+- [🧰 Open-Source Repos](#open-source-repos) `121`
 - [🎓 Courses](#courses) `33`
-- [📄 Papers](#papers) `99`
+- [📄 Papers](#papers) `117`
 - [📚 Reading Lists](#reading-lists) `3`
 - [🏛️ Labs & Platforms](#labs--platforms) `22`
-- [🧑‍🔬 People to Follow](#people--researchers) `16`
+- [🧑‍🔬 People to Follow](#people--researchers) `26`
 - [💼 Jobs & Careers](#jobs--careers) `12`
 - [🗺️ Learning Roadmap](#learning-roadmap)
 - [🤝 Contribute](#contribute)
@@ -96,6 +97,7 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | Tool | Kind | Score | Status |
 |---|---|--:|:--|
 | [bayesopt-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop) | skill | 98/100 | ✅ certified |
+| [eval-subset](https://github.com/wjlgatech/FM-os/tree/main/skills/eval-subset) | skill | 98/100 | ✅ certified |
 | [continual-rl-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval) | skill | 98/100 | ✅ certified |
 | [vlm-failure-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe) | skill | 98/100 | ✅ certified |
 | [syndata-bare](https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare) | skill | 98/100 | ✅ certified |
@@ -106,7 +108,10 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 | [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
 | [vector-rag](https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag) | skill | 94/100 | ✅ certified |
 | [fm-os](https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os) | skill | 94/100 | ✅ certified |
+| [hci-study-gate](https://github.com/wjlgatech/FM-os/tree/main/skills/hci-study-gate) | skill | 93/100 | ✅ certified |
+| [eval-awareness-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/eval-awareness-probe) | skill | 93/100 | ✅ certified |
 | [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 92/100 | ✅ certified |
+| [transfer-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/transfer-loop) | skill | 92/100 | ✅ certified |
 | [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |
 | [personalization-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop) | skill | 91/100 | ✅ certified |
 | [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 83/100 | ✅ certified |
@@ -117,6 +122,65 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 > ```md
 > ![FM-os Certified](https://img.shields.io/endpoint?url=https://wjlgatech.github.io/FM-os/badges/YOUR-TOOL.json)
 > ```
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+---
+
+<h2 id="labs--demos">🧪 Labs & Live Demos</h2>
+
+The method, applied. Each lab is self-contained, gate-tested, and built from public surfaces only — full index in [`labs/`](labs/). Open the hosted one, or expand any row for what it is, why it exists, and how it works.
+
+### 🎬 nomadic-mini — driving video → structured events → semantic search, with a grounded lab copilot
+
+**[▶ Open the live app](https://nomadic-mini-demo.vercel.app)** 🔒 password-gated — the gate protects the credit-spending endpoints; ask [@wjlgatech](https://github.com/wjlgatech) · **[Architecture walkthrough (no password)](https://nomadic-mini-demo.vercel.app/system.html)** · [Source](https://github.com/wjlgatech/FM-os/tree/main/labs/nomadicml)
+
+<sub>Gates: `make check` (offline) · `make e2e` (real VLM) · `make parity` (live API)</sub>
+
+<details>
+<summary><b>What it is · why it exists · how it works</b></summary>
+
+**What** — A small-scale, working clone of a VLM video-analysis product: upload a driving clip → a vision-language model returns events in a fixed schema → embedding search over them. The hosted app adds two live agentic surfaces — a **lab copilot** (Claude, streamed) whose system prompt is assembled from every doc and source file in the lab, and **"analyze your own clip"**, which runs the real pipeline on a video you drop in and streams each stage back as it happens.
+
+**Why** — Interview proof-of-capability for Member of Technical Staff (ML) at NomadicML, built clean-room from public surfaces only (PyPI wheel source, docs `llms.txt`, site-bundle examples) and then compared term-by-term against their production API — so the claim is checkable rather than asserted. It is also the FM-os thesis in one page: an eval-gated build is the artifact you can hand someone.
+
+**How** — A static front end on Vercel's CDN plus Python serverless functions. `api/chat.py` streams Claude over SSE against a build-time knowledge bundle; `api/analyze.py` runs the pipeline on Gemini native video (no ffmpeg) and streams stage progress; big uploads go browser → Vercel Blob directly, so the 4.5 MB function limit never applies. The password is enforced **server-side on every credit-spending endpoint** — the overlay is the door, not the lock.
+
+</details>
+
+### 🔁 rewardforge — eval failures → preference pairs → a real, gated LoRA fine-tune
+
+[Source](https://github.com/wjlgatech/FM-os/tree/main/labs/rewardforge)
+
+<sub>Gates: `make check` (offline, 8 tests) · `make e2e` (real fine-tune) · `python -m rewardforge.sweep`</sub>
+
+<details>
+<summary><b>What it is · why it exists · how it works</b></summary>
+
+**What** — The loop from FM-os's certified eval gates to an actual model update: gate-labeled chosen/rejected pairs, a from-scratch DPO loss (torch + peft, unit-tested math), LoRA on SmolLM2-135M, and a held-out grounding gate that ships or rolls back the tune.
+
+**Why** — "Evals → training data → reward signals" is the bridge frontier-lab JDs keep asking for. This lab builds it end to end with **no human labels anywhere** — the labels come from gates that were themselves certified.
+
+**How** — Held-out worlds share zero word overlap with training, so leakage is a *tested property* rather than a hope. Result at 5 seeds under a pre-registered rule: treatment +0.098±0.028 vs control −0.046±0.055, complete arm separation — and the stricter every-seed rule still reads NO-EFFECT on one seed, which is reported alongside it.
+
+</details>
+
+### 🧪 merge-bo — a closed-loop Bayesian-optimization backbone over a molecular library
+
+[Source](https://github.com/wjlgatech/FM-os/tree/main/labs/merge-bo)
+
+<sub>Gates: `make check` (offline pytest) · `make e2e` (regenerate RESULTS.md) · `make botorch` (real BoTorch)</sub>
+
+<details>
+<summary><b>What it is · why it exists · how it works</b></summary>
+
+**What** — A Gaussian-process surrogate plus EI / UCB / constrained-EI / EHVI acquisition, driving a Design→Build→Test→Learn loop — in numpy so it runs anywhere, with an adapter that runs the same loop on the production BoTorch stack.
+
+**Why** — Proof-of-capability for the Merge Labs *ML Research Scientist — Bayesian Optimization* role, whose ask is literally "architect the closed-loop optimization backbone."
+
+**How** — Measured, not asserted: at a fixed budget of 30 experiments, BO finds ~51% better candidates and cuts regret ~71% versus random search — regenerate the numbers with `make e2e`.
+
+</details>
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -306,6 +370,14 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 - **[MNE-Python](https://github.com/mne-tools/mne-python)** — The standard toolkit for analyzing human neurophysiology data (MEG, EEG, iEEG) — the data layer for non-invasive brain-signal modeling.
 - **[Braindecode](https://github.com/braindecode/braindecode)** — Deep learning for EEG/neural-signal decoding on PyTorch — models, datasets, and training loops for brain-computer-interface decoding.
 - **[Neural Latents Benchmark (nlb_tools)](https://github.com/neurallatents/nlb_tools)** — Tools for the Neural Latents Benchmark — evaluating latent-variable models of neural population dynamics; the eval harness for neural representation learning.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### More
+- **[jsPsych](https://github.com/jspsych/jsPsych)** — Browser-based behavioural experiments in JavaScript — the standard way to run a timed, randomised human study at scale.
+- **[PsychoPy](https://github.com/psychopy/psychopy)** — Precise stimulus presentation and response timing for human experiments; the reference tool for lab-grade psychophysics.
+- **[OpenFace](https://github.com/TadasBaltrusaitis/OpenFace)** — Facial behaviour analysis (landmarks, gaze, action units) — the observable channel for measuring reaction to an AI system.
+- **[Lab Streaming Layer (liblsl)](https://github.com/labstreaminglayer/liblsl)** — Time-synchronised streaming of heterogeneous sensor data — how behavioural, physiological, and interaction logs get aligned on one clock.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -580,8 +652,34 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
+### Domain Specialization of Open Base Models
+- **[ADMIRE-BayesOpt: Accelerated Data Mixture Reweighting for Language Models with Bayesian Optimization](https://arxiv.org/abs/2508.11551)** (Chen, Ouyang, Pearce, Hartvigsen, Schwarz, Thomson Reuters, 2025) · TMLR 2025 — Data-mixture choice as multi-fidelity Bayesian optimization: learn the mixture on cheap proxy models and transfer up. Over 500% speed-up at the largest scale (1M-7B params), with 460 training+eval runs (13,000 GPU-hours) released as the ADMIRE IFT Runs dataset.
+- **[Automatic Expert Discovery in LLM Upcycling via Sparse Interpolated Mixture-of-Experts (SIMoE)](https://arxiv.org/abs/2506.12597)** (Chen, Wei, Schwarz, Thomson Reuters, 2025) · ACL 2025 (Oral) — Turns a dense pre-trained LLM into an MoE-style model during instruction tuning: each expert is a structurally sparse subset of the seed model's own parameters, discovered automatically under a sparsity constraint, merged input-dependently by a learned router.
+- **[CoLoR-Filter: Conditional Loss Reduction Filtering for Targeted Language Model Pre-Training](https://arxiv.org/abs/2406.10670)** (Brandfonbrener, Zhang, Kirsch, Schwarz, Kakade, Harvard · Thomson Reuters, 2024) · NeurIPS 2024 — Selects pre-training data by how much it reduces loss on a target domain relative to a prior model — the targeted-data-selection half of specializing a general base model.
+- **[CapTrack: Multifaceted Evaluation of Forgetting in LLM Post-Training](https://arxiv.org/abs/2603.06610)** (Thede, Winzeck, Akata, Schwarz, Thomson Reuters · Helmholtz/TUM, 2026) · arXiv:2603.06610 — Redefines forgetting as systematic model drift across capabilities, not just accuracy loss. Finds instruction fine-tuning drifts harder than preference optimization, which is more conservative and can partially recover — the mechanism behind 'specialize with minimal impact elsewhere'.
+- **[Composable Interventions for Language Models](https://arxiv.org/abs/2407.06483)** (Kolbeinsson, O'Brien, Huang, Gao, Liu, Schwarz, Vaidya, Mahmood, Zitnik, Chen, multi-institution, 2025) · ICLR 2025 — Studies what happens when editing, unlearning, compression and quantization are stacked on one model — order and interaction matter. The composition law for any multi-stage specialization pipeline.
+- **[Online Adaptation of Language Models with a Memory of Amortized Contexts](https://arxiv.org/abs/2403.04317)** (Tack, Kim, Mitchell, Shin, Teh, Schwarz, KAIST · Thomson Reuters, 2024) · NeurIPS 2024 — Amortizes new documents into a compact memory so a deployed model absorbs fresh information without a training run — the update path for a corpus (case law, filings) that changes daily.
+- **[Knowledge Graphs for LLM Training Data Construction](https://arxiv.org/abs/2601.13806)** (Schwarz et al., Thomson Reuters, 2026) · arXiv:2601.13806 — Builds training data from a structured knowledge graph rather than raw text scraping — the route from proprietary editorial corpora (Westlaw, Practical Law, Checkpoint) to supervised data.
+- **[Principal Hierarchies Under High-Stakes Competing Demands](https://arxiv.org/abs/2605.12120)** (Yu, Seedat, Schwarz, Bean, Thomson Reuters · Oxford, 2026) · arXiv:2605.12120 — 10 frontier models over 7,136 legal/medical scenarios: models hold an unstable implicit ordering over user, authority and professional standards, and exhibit knowledge omission — reasoning traces show they know a drug was withdrawn, then recommend it under authority pressure.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Evaluation Science — Validity, Cost & Shared Schemas
+- **[Measuring What Matters: Construct Validity in Large Language Model Benchmarks](https://arxiv.org/abs/2511.04703)** (Bean, Kearns, Romanou, Hafner, Mayne, Batzner et al. (29 reviewers), Oxford Internet Institute + multi-institution, 2025) · NeurIPS 2025 — Systematic review of 445 LLM benchmarks by 29 expert reviewers: most fail construct validity — they do not measure the thing they name. The prerequisite paper for anyone who trusts a leaderboard number.
+- **[Scales++: Compute Efficient Evaluation Subset Selection with Cognitive Scales Embeddings](https://arxiv.org/abs/2510.26384)** (Bean, Seedat, Chen, Schwarz, Oxford · Thomson Reuters, 2025) · arXiv:2510.26384 — Item-centric benchmark subsetting: choose evaluation items by their intrinsic cognitive demands instead of by model failure patterns, so no seed-model runs are needed. 18x cheaper selection; 0.25% of the Open LLM Leaderboard predicts full scores to 3.2% MAE, 2.0% of Humanity's Last Exam to 2.9% MAE.
+- **[Beyond Pointwise Scores: Decomposed Criteria-Based Evaluation of LLM Responses (DeCE)](https://arxiv.org/abs/2509.16093)** (Yu, Seedat, Herrmannova, Schilder, Schwarz, Thomson Reuters, 2025) · EMNLP 2025 (Industry Track) — Splits an expert-domain judgement into decomposed criteria (precision vs. recall of required elements) instead of one pointwise LLM-judge score. Validated on 224 attorney-curated legal QA pairs across US jurisdictions.
+- **[Every Eval Ever: A Unifying Schema and Community Repository for AI Evaluation Results](https://arxiv.org/abs/2606.14516)** (Batzner, Nelaturu, Stachura, ... Bean, et al., EvalEval Coalition, 2026) · arXiv:2606.14516 — One JSON schema for evaluation results plus converters and a crowdsourced Hugging Face database — 22,235 models, 2,273 benchmarks, 31 formats. The community substrate that makes eval results comparable across labs.
+- **[The PRISM Alignment Project: What Participatory, Representative and Individualised Human Feedback Reveals About the Subjective and Multicultural Alignment of Large Language Models](https://arxiv.org/abs/2404.16019)** (Kirk, Whitefield, Röttger, Bean, Margatina, Ciro, Mosquera, Bartolo, Williams, He, Vidgen, Hale, Oxford Internet Institute + multi-institution, 2024) · NeurIPS 2024 (Best Paper, Datasets & Benchmarks) — 1,500 participants from 75 countries mapped to their preferences across 8,011 conversations with 21 LLMs — the empirical basis for treating alignment as plural rather than a single average human.
+- **[LINGOLY: A Benchmark of Olympiad-Level Linguistic Reasoning Puzzles in Low-Resource and Extinct Languages](https://arxiv.org/abs/2406.06196)** (Bean, Hellsten, Mayne, Magomere, Chi, Chi, Hale, Kirk, Oxford Internet Institute, 2024) · NeurIPS 2024 (Oral) — 1,133 problems in 90+ low-resource and extinct languages — reasoning that cannot be memorised because the training data does not exist. Contamination resistance by construction.
+- **[GLEAN: Guideline-Grounded Evidence Accumulation for High-Stakes Agent Verification](https://arxiv.org/abs/2603.02798)** (Zhang, Seedat, Dong, Cui, Zhu, van der Schaar, Tsinghua · Cambridge, 2026) · ICLR 2026 Workshop (Best Paper) — Agent verification as sequential evidence accumulation against domain guidelines: per-step alignment scores turned into calibrated correctness probabilities via Bayesian logistic regression, with active evidence collection when uncertain. AUROC > 0.94, Brier < 0.10; Best-of-N lifts diagnosis 55.6% -> 77.5%.
+- **[HalluLens: LLM Hallucination Benchmark](https://arxiv.org/abs/2504.17550)** (Bang, Ji, et al., Meta AI · HKUST, 2025) · ACL 2025 — Insists hallucination and factuality are distinct problems needing distinct benchmarks, and supplies a taxonomy plus dynamically regenerated extrinsic-hallucination tasks that resist contamination.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
 ### More
 - **[MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560)** (Packer, Wooders, Lin, Fang, Patil, Stoica, Gonzalez, UC Berkeley, 2023) · arXiv:2310.08560 — Virtual context management — OS-style hierarchical memory for LLMs; the canonical per-user persistent-memory design behind personal models. Operationalized in skills/personalization-loop.
+- **[Human-Centered Artificial Intelligence: Reliable, Safe & Trustworthy](https://arxiv.org/abs/2002.04087)** (Ben Shneiderman, University of Maryland, 2020) · arXiv:2002.04087 — The HCAI framing: high automation and high human control are not opposites, and reliability/safety/trust are design targets rather than after-the-fact audits.
+- **[Explaining Explanations: An Overview of Interpretability of Machine Learning](https://arxiv.org/abs/1806.00069)** (Leilani H. Gilpin et al., MIT, 2018) · arXiv:1806.00069 — Separates explainability from interpretability and insists an explanation be evaluated against a stated audience — the bridge between the HCI and alignment roles in this campaign.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 
@@ -691,6 +789,20 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 ### State-Space Models & Neuro-adjacent
 - **[Albert Gu](https://goombalab.github.io/)** — _Carnegie Mellon University_ — S4 and Mamba — structured/selective state-space models for long-sequence and time-series data.
 - **[Cheng Soon Ong](https://www.ong-home.my/)** — _CSIRO's Data61 · Australian National University_ — Co-author of *Mathematics for Machine Learning*; probabilistic modeling foundations.
+
+<sub>[↑ back to top](#-table-of-contents)</sub>
+
+### Domain Specialization & Evaluation Science
+- **[Jonathan Richard Schwarz](https://jonathan-schwarz.github.io/)** — _Thomson Reuters (Head of AI Research) · Imperial College London (Visiting Prof) · ex-Google DeepMind_ — Architect of the specialization stack: data mixtures (ADMIRE-BayesOpt), targeted selection (CoLoR-Filter), sparse expert upcycling (SIMoE), forgetting (CapTrack). Continual-learning lineage — Progress & Compress, Powerpropagation — is why 'specialize without breaking everything else' is a solvable problem here.
+- **[Andrew M. Bean](https://am-bean.github.io/)** — _Thomson Reuters (Evaluations Lead, LLM post-training) · Oxford Internet Institute (DPhil)_ — Evaluation science: construct validity across 445 benchmarks, contamination-resistant reasoning (LingOly), cheap-but-faithful eval subsets (Scales++), and the Every Eval Ever shared schema. Runs eval FOR post-training — the two are one loop, not two teams.
+- **[Nabeel Seedat](https://nabeelseedat.com/)** — _University of Cambridge (van der Schaar Lab) · Thomson Reuters_ — Data-centric AI and high-stakes agent verification: decomposed criteria evaluation (DeCE), eval subset selection (Scales++), and GLEAN's calibrated, guideline-grounded verification for agents that must be trusted.
+- **[Shengzhuang Chen](https://szc12153.github.io/)** — _Thomson Reuters · City University of Hong Kong_ — Sparse interpolated experts — the actual specialization mechanism (SIMoE, meta-tuning) — plus the ADMIRE-BayesOpt data-mixture optimizer. The two levers that turn a general base model into a professional one.
+- **[Yejin Bang](https://yejinbang.github.io/)** — _Thomson Reuters · ex-HKUST CAiRE_ — Factuality and hallucination as separate, separately-benchmarked problems (HalluLens taxonomy) — the measurement discipline behind a 're-alignment toward factuality' claim.
+- **[Fangyi Yu](https://fangyiyu.github.io/)** — _Thomson Reuters Labs_ — Legal reasoning evaluation: decomposed criteria-based judging (DeCE) on attorney-curated QA, and principal hierarchies under competing professional demands.
+- **[Dietrich Trautmann](https://dietrichtrautmann.github.io/)** — _Thomson Reuters Labs (Zug)_ — Groundedness measurement for legal question answering — whether an answer is actually supported by the retrieved authority, which is the load-bearing property in professional deployment.
+- **[Daniele Giofré](https://scholar.google.com/citations?user=n8YQ8XoAAAAJ)** — _Thomson Reuters Labs (Zug)_ — Cheap domain pretraining — BudgetLongformer showed a SOTA long-context legal LM from scratch in under 12 GPU-days. The efficiency instinct that shows up again as a $20M frontier-competitive model.
+- **[Mihaela van der Schaar](https://www.vanderschaar-lab.com/)** — _University of Cambridge_ — Data-centric AI at scale and trustworthy ML for high-stakes domains; the lab lineage (Data-IQ, GLEAN) behind the verification methods this stack leans on.
+- **[Hannah Rose Kirk](https://www.hannahrosekirk.com/)** — _UK AI Safety Institute · Oxford Internet Institute_ — Lead author of PRISM — participatory, representative and individualised human feedback. The empirical foundation for 'pluralism' meaning something measurable rather than a value statement.
 
 <sub>[↑ back to top](#-table-of-contents)</sub>
 

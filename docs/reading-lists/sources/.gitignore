@@ -1,0 +1,11 @@
+# Downloaded third-party sources stay LOCAL. FM-os is a public repo, so committing the
+# PDFs/HTML here would be redistributing other people's copyrighted work — the exact
+# thing every SOURCE.md says we do not do. Fetching for personal study is fine;
+# republishing is not.
+#
+# What IS committed: the fetcher (scripts/fetch_reading_sources.py), the digest plan,
+# and our own per-entry notes (SOURCE.md / PRIOR.md / INDEX.md). Anyone can regenerate
+# the corpus from those in one command.
+*.pdf
+*.html
+page.txt

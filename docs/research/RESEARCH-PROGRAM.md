@@ -8,6 +8,11 @@ Everything below is a probe of that single thesis. This is the depth discipline:
 must either deepen a probe or sharpen the thesis — a project that does neither gets a brief
 and a kill criterion, not a repo.
 
+> **External confirmation (2026-08-13).** The thesis stopped being only ours. Thomson Reuters'
+> Andrew M. Bean is *Evaluations Lead **for LLM post-training*** — one team, not two — and that
+> org ships a frontier-competitive professional model. Full reconstruction, with 12 scored
+> predictions: [`CASE-STUDY-thomson-stack.md`](CASE-STUDY-thomson-stack.md).
+
 ## The probes and their homes (decided 2026-07-27)
 
 | probe | question it tests | home | why THIS home (depth rationale) | status |
@@ -15,7 +20,8 @@ and a kill criterion, not a repo.
 | **P1 RewardForge** | can gate-labeled failures train a better model? | [`FM-os/labs/rewardforge`](../../labs/rewardforge/) | it consumes FM-os's certified gates as its label source; a standalone repo earns itself only after a HF dataset + external users | **M1 shipped** — real LoRA-DPO, halluc 0.398→0.287, honest rollback first (PR #22) |
 | **P2 MCP-Arena** | can evidence-gating separate models on real tool-use? | [`wjlgatech/mcp-arena`](https://github.com/wjlgatech/mcp-arena) (new repo — the one width exception) | a benchmark's PMF **is** being a standalone schelling point (BFCL, τ-bench are standalone); it consumes cli-judge + printing-press as satellites, never vendored | **M0 shipped** — 12 tasks × 6 categories as data, self-testing harness (golden=1.0, evidence-hallucinator fails) |
 | **P3 Proactive Twin** | does proactivity pay rent (net of interruption cost)? | [`super-u/docs/PROACTIVE-TWIN-BRIEF.md`](https://github.com/wjlgatech/dreammaketrue) | super-u already owns the Digital Twin, memory layer, and telemetry — a new repo would fork our own personalization effort | **brief shipped** — five gates, kill criteria, 60%-built asset map |
-| **VSS / BARE case studies** | do the gate disciplines transfer to VLM research papers? | [`research-anything/case-studies`](https://github.com/wjlgatech/research-anything) + FM-os skills | research-anything owns the *method*; FM-os certifies the *tooling* (vlm-failure-probe 98, syndata-bare 98) | live-measured (claude-sonnet-5 5/5 vs VSS 0/5) |
+| **VSS / BARE case studies** | do the gate disciplines transfer to VLM research papers? | [`research-anything/case-studies`](https://github.com/wjlgatech/research-anything) + FM-os skills | research-anything owns the *method*; FM-os certifies the *tooling* (vlm-failure-probe 98, syndata-bare 98) | both live-measured (VSS: claude-sonnet-5 5/5 vs VSS 0/5 · BARE 2026-08-14: mode collapse reproduced 0.23 vs 0.62; the pipeline claim's first "not substantiated" was **retracted as UNDERPOWERED** (rule of three, 0/18 ⇒ CI [0, 16.7%]), then **re-resolved at n=66 + n=72 as a genuine negative** — 0 hallucinations, CIs [0, 4.5%] / [0, 4.2%], both excluding the 4.62% reference rate: [`POWER-AND-THE-ZERO-NUMERATOR.md`](POWER-AND-THE-ZERO-NUMERATOR.md)) |
+| **P4 Thomson-1 stack** | can you predict a lab's training stack from its publications — and is that reading *scored*, not asserted? | [`docs/research/CASE-STUDY-thomson-stack.md`](CASE-STUDY-thomson-stack.md) | it is a direct existence proof of THIS program's thesis: Thomson Reuters' evaluations lead reports into post-training, i.e. eval and post-training are literally one team | **12 predictions registered 2026-08-13**, Brier UNSCORED pending the technical report; `eval-subset` skill certified 98 |
 
 ## The role of each hub (so efforts compound instead of spread)
 
@@ -27,6 +33,25 @@ and a kill criterion, not a repo.
   convergence policy; probes borrow its organs (vlm-probe demo, arena's judge lineage).
 - **rsi-os** — the FIELD MAP: automated-research knowledge base the program cites.
 - **super-u** — the PERSONALIZATION PRODUCT surface where P3 lives.
+
+**Inbound collaborations** are read against this program, never absorbed into it:
+[`COLLAB-intern-projects.md`](COLLAB-intern-projects.md) maps three Physical AI intern
+projects onto existing probes — trajectory labels feed **P1 RewardForge**, thread memory
+meets **P3 Proactive Twin**, spatial grounding tests the **VSS** probe suite. None earns a
+new probe, which is the depth discipline working rather than being recited.
+
+## The discipline the program nearly failed (2026-08-14)
+
+The thesis says an honest gate is a training-signal factory. A gate that reports an
+**unsupported negative** is as broken as one that reports an unsupported positive — and it is the
+failure an eval-focused repo is most likely to wave through, because a negative reads as
+modesty. `syndata-bare` shipped exactly that: `NOT SUBSTANTIATED` on 0 events in 18 trials, a
+sample size that could not have detected the effect it was denying.
+
+**The rule now, everywhere a gate reports a negative:** state the *n*, and state the smallest
+effect that *n* could have resolved. A negative without a power statement is an opinion.
+It has a tool — `make power` (`scripts/power.py`: Wilson CIs, the rule of three, and the
+minimum detectable difference for a two-arm design) — because a rule without one is a slogan.
 
 **The rule that keeps us deep:** a new idea lands as (1) a brief with kill criteria in an
 existing home, then (2) a gated lab/module, and only then (3) a standalone repo — and only

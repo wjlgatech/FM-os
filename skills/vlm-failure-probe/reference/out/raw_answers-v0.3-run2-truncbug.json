@@ -1,0 +1,661 @@
+{
+ "spec_version": "0.3",
+ "date": "2026-07-31",
+ "repeats": 3,
+ "runs": {
+  "claude-opus-5": [
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "**Red.** It advances fastest across the frames and is the first to reach/cross the dashed finish line."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "**From top to bottom: yellow, green, blue, red.**\n\nThe stack stays unchanged across all four frames."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The snowboarder in the **orange jacket** is the one on the left, positioned higher up on the slope's edge, while the blue-jacketed rider stays to the right and lower in the frame."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "The circled letter is **H** \u2014 the fourth letter of TECHNOLOGY (right after \"TEC\")."
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No. The figure only leans/twists slightly to the side and then straightens back up \u2014 it stays standing on its legs the whole time."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "**Tennis.** The final frames show two players on a tennis court with rackets, hitting a ball back and forth over the net."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "The person wears a white shirt the whole time \u2014 it stays white in every frame, paired with dark pants at the waist and blue legs."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "One person is present \u2014 a simple stick-style figure that stands in place, shifting slightly to the right across the frames in front of some brown boxes. They are wearing a yellow short-sleeved top with black shorts/lower torso and blue pants."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 1.0,
+      "answer": "The ball is hit from the near court, travels up over the net toward the far player, and then comes back down toward the near player again as they rally. The player at the bottom"
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 1.0,
+      "answer": "The fork is moving **up** \u2014 across the frames the fork (with its brown box) rises steadily along the vertical mast, from near ground level to near the top."
+     },
+     {
+      "id": "end_of_video",
+      "score": 1.0,
+      "answer": "The truck keeps driving to the right and finally drives completely off the right edge of the frame, leaving just the tan building and empty road/background."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray \u2014 a flat, medium-gray surface that fills the lower portion of the frame."
+     }
+    ]
+   },
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "**Red.** It advances the fastest and is the only square reaching the dashed finish line by the final frame."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "From top to bottom, the squares are yellow, green, blue, and red. This order stays the same throughout all four frames."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The snowboarder in the **orange jacket** is the one on the left. The blue-jacketed snowboarder is farther to the right and lower down the slope."
+     },
+     {
+      "id": "circled_letter",
+      "score": null,
+      "answer": null
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No. The figure only leans/shifts slightly to the side and then returns to an upright standing position \u2014 it never falls to the ground."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "Tennis \u2014 the same sport throughout. Two players with rackets are rallying a ball over the net on a tennis court."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "Throughout the video the figure wears a white shirt (a white top with a dark black band at the waist)."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "One person is present \u2014 a simple stick-style figure in a yellow top and blue pants standing on gray ground between brown boxes, shifting slightly to the right over the frames."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 1.0,
+      "answer": "The ball is hit up over the net toward the far player in the red shirt and then returned back down toward the near player, bou"
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 1.0,
+      "answer": "The fork is moving **up**. Across the frames, the fork (with the brown box on it) rises steadily along the vertical mast, from near ground level in the first frame to near the top of the mast in the last."
+     },
+     {
+      "id": "end_of_video",
+      "score": 1.0,
+      "answer": "The truck keeps driving to the right until it disappears completely off the right edge of the frame, leaving only the tan building and empty road in the final shot."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is a flat medium gray color, slightly darker than the light gray wall behind it."
+     }
+    ]
+   },
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "**Red.** It advances the fastest across the frames and is the one touching/crossing the dashed finish line by the final frame."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "From top to bottom, the squares are yellow, green, blue, and red. This order stays the same throughout all four frames."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The snowboarder in the **orange jacket** is on the left, positioned higher up the slope in the middle-left of the frame. The blue-jacketed rider stays to the right, farther down the slope."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "The circled letter is **H** \u2014 the fourth letter of \"TECHNOLOGY,\" marked with a red ellipse."
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No. The figure only leans/turns slightly (its torso and head shift to the side) before returning upright \u2014 it stays standing on its feet the whole time."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "Tennis. Two players are rallying a ball back and forth over the net on a tennis court, with rackets in hand."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "The person wears a white shirt (a white top with a dark/black waistband at the bottom) throughout the entire video."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 0.6666666666666666,
+      "answer": "**Summary:** A single stick-figure character stands in a plain gray room with brown boxes on the floor behind them, shifting only slightly (drifting a little to the right) across the six frames.\n\n**People present:** One.\n\n**Clothing:** A yellow short-sleeved shirt and blue pants."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 0.5,
+      "answer": "The ball is rallied from the"
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 1.0,
+      "answer": "The fork is moving **up** \u2014 across the frames the fork (with the brown box on it) rises from ground level near the truck bed up along the mast toward the top."
+     },
+     {
+      "id": "end_of_video",
+      "score": 1.0,
+      "answer": "At the end the truck has driven all the way off to the right and disappeared from view, leaving only the tan building on the left and the empty road/background."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray \u2014 a flat, medium-gray surface that fills the lower portion of the frames."
+     }
+    ]
+   }
+  ],
+  "claude-sonnet-5": [
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "The red square crosses the finish line first, moving fastest toward the dashed vertical line while the other squares lag behind."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "From top to bottom, the squares are: yellow, green, blue, and red. This order remains consistent across all four frames."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The orange jacket snowboarder is on the left throughout the sequence, while the blue jacket snowboarder remains on the right."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "The circled letter is **H**."
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No, the person remains standing upright in all frames without any indication of falling."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "Tennis is being played at the end of the video, with the ball moving back toward the player on the near side of the court after being hit over the net."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "The person wears a white shirt throughout the video."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "One person is present in the animation, standing between two brown boxes in a simple room, wearing a yellow shirt, black pants, and blue shoes."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 1.0,
+      "answer": "The video shows a tennis rally where the player closer to the camera (bottom of the court) hits the ball upward over the net toward the opponent in the red shirt, who is farther away near the top of the court, and the ball then returns back down toward the closer player, repeating the sequence."
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 1.0,
+      "answer": "The forklift's fork is moving up, lifting the box higher along the vertical mast with each frame."
+     },
+     {
+      "id": "end_of_video",
+      "score": 1.0,
+      "answer": "The car-like object (blue truck with dark trailer and black wheels) drives off the right edge of the screen and disappears, leaving only the tan building/block visible in the final frame."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray."
+     }
+    ]
+   },
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "The red square crosses the finish line first, moving fastest toward the dashed line while the other squares lag behind."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "From top to bottom, the squares are: yellow, green, blue, and red. This order remains consistent across all four frames."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The snowboarder in the orange jacket is on the left, while the one in the blue jacket is on the right, throughout all four frames."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "The circled letter is **H**."
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No, the person remains standing upright throughout all frames, with only minor shifts in torso shape suggesting a slight bending motion rather than a fall."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "Tennis is being played at the end of the video, shown by the two players on a tennis court with rackets and a ball being hit back and forth over the net."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "The person wears a white shirt throughout the video."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "There is 1 person present, standing between two crates on the left and one crate on the right, appearing to walk in place. The person is wearing a yellow shirt, dark pants, and has blue legs/shoes depicted in a simple stick-figure style."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 1.0,
+      "answer": "The video shows a tennis rally: the player near the bottom of the court hits the ball, which travels up over the net toward the player at the top, then falls back down toward the bottom player again. The player in the white shirt with blue pants (bottom court) is closer to the camera."
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 1.0,
+      "answer": "The fork is moving up \u2014 the box on the fork rises higher along the vertical mast in each successive frame."
+     },
+     {
+      "id": "end_of_video",
+      "score": 0.0,
+      "answer": "The car moves to the right and off the edge of the frame, eventually disappearing completely, leaving only the tan building visible in the final frame."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray."
+     }
+    ]
+   },
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "The red square crosses the finish line first, moving fastest toward the dashed line while the other squares lag behind."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "From top to bottom, the squares are: yellow, green, blue, and red."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The snowboarder in the orange jacket is on the left, while the one in the blue jacket is on the right throughout all four frames."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "The circled letter is **H**."
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No, the person remains standing upright throughout all frames with no indication of falling."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "Tennis is being played, shown on a tennis court with two players hitting a ball back and forth over the net."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "The person wears a white shirt throughout the video."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "There is 1 person present, standing between two brown boxes, appearing to walk or shift slightly in place. The person is wearing a yellow shirt, black pants, and has blue legs/shoes visible below."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 1.0,
+      "answer": "The video shows a rally in a tennis match: the player in front (closer to the camera) hits the ball, which travels up and over the net toward the player in the back (in red), and then returns back down toward the front player, repeating the cycle."
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 1.0,
+      "answer": "The forklift's fork is moving up, lifting the box higher along the vertical mast in each successive frame."
+     },
+     {
+      "id": "end_of_video",
+      "score": 0.0,
+      "answer": "The car moves rightward off screen, leaving only the tan building visible in the frame."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray."
+     }
+    ]
+   }
+  ],
+  "claude-haiku-4-5-20251001": [
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe **red square** crosses the finish line first.\n\nIn the final frame, the red square has crossed the dashed line (finish line) on the right, while the other colored squares are still approaching it."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "# Stack Colors (Top to Bottom)\n\nThe four squares from top to bottom are: **yellow, green, blue, and red**."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The snowboarder on the left is wearing the orange jacket. This person remains in a consistent position on the left side throughout all four frames while the blue-jacketed snowboarder moves from right to left across the slope."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe letter **H** is circled.\n\nThis can be determined by tracking the progressive spelling of the word across the frames, where \"TECHNOLOGY\" is fully spelled by frame 5, and frame 6 shows the letter H circled in red."
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No, the person does not fall. Throughout the 6 frames shown, the person remains standing upright in the same position without any indication of falling."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "# Answer\n\nTennis is being played at the end of the video. The yellow ball can be seen moving across the net between the two players on the tennis court."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe person wears a **white shirt** throughout the video. The white shirt is visible on the figure's torso in all six frames as the character moves across the screen."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "# Summary\n\nThere is **1 person** present in the video. The person is wearing a **yellow shirt and blue pants**.\n\nThe frames show the person walking from left to right across the scene, passing by brown boxes positioned on both sides."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 1.0,
+      "answer": "# Video Description\n\nA tennis ball is being hit back and forth across the net between two players. The player on the bottom court (closer to the camera) is closer to the camera, as indicated by their larger size in the frame."
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 0.0,
+      "answer": "The forklift's fork is moving **down**. The brown box on the fork descends progressively from the top of the frames to the bottom, indicating the fork is lowering its load."
+     },
+     {
+      "id": "end_of_video",
+      "score": 1.0,
+      "answer": "# Answer\n\nAt the very end of the video, the truck completely disappears off the right side of the screen, leaving only the beige building and the empty gray ground visible."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray. It remains the same color throughout all four frames."
+     }
+    ]
+   },
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "# The Red Square Crosses First\n\nThe red square crosses the finish line (dashed line) first. You can see it reaches the dashed line in the sixth frame while the other colored squares are still approaching it."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe four squares stacked vertically from top to bottom are: **yellow, green, blue, and red**.\n\nThis color arrangement remains consistent across all four frames shown."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe snowboarder on the **blue jacket** is on the left. Across all four frames, the blue-jacketed snowboarder remains positioned to the left of the orange-jacketed snowboarder."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe letter **H** is circled.\n\nThis can be seen in the final frame where a red circle highlights the \"H\" in the word \"TECHNOLOGY.\""
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No, the person does not fall. Throughout these frames, the figure remains standing upright in the same position on the ground."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "# Tennis\n\nBased on the sequence of frames showing players on opposite sides of a net with a ball being hit back and forth across the court, **tennis is being played**. The progression shows a rally in progress with players on each side of the net exchanging shots."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 0.0,
+      "answer": "The person wears a blue shirt throughout the video. You can see the blue colored legs/lower body consistently across all six frames."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "# Summary\n\nThere is **1 person** present in the video. The person is wearing a **yellow shirt and blue pants**.\n\nThe frames show the person walking from left to right across the scene, passing by brown boxes on either side."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 1.0,
+      "answer": "# Video Description\n\nA tennis ball is being hit back and forth over the net between two players. The player on the bottom court (closer to the camera) is closer to the camera."
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 0.0,
+      "answer": "# The forklift's fork is moving down.\n\nIn the sequence of frames, the brown box on the fork starts at the top and progressively lowers toward the ground level."
+     },
+     {
+      "id": "end_of_video",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe truck completely disappears off the right edge of the screen. By the final frame, only the beige building and the gray ground remain visible."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray. It remains the same color throughout all four frames of the video."
+     }
+    ]
+   },
+   {
+    "spatial_directional": [
+     {
+      "id": "squares_race",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe **red square** crosses the finish line first. It reaches the dashed line before the other colored squares in the final frame."
+     },
+     {
+      "id": "squares_stack",
+      "score": 1.0,
+      "answer": "# Color Stack from Top to Bottom\n\nThe four squares stacked vertically are, from top to bottom: **yellow, green, blue, and red**. This color arrangement remains consistent across all four frames shown."
+     },
+     {
+      "id": "snowboarders_left",
+      "score": 1.0,
+      "answer": "The snowboarder on the left is wearing an orange jacket. This is consistently visible across all four frames as the figure positioned on the left side of the slope."
+     },
+     {
+      "id": "circled_letter",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe letter circled is **H**.\n\nThe video shows the word \"TECHNOLOGY\" being progressively typed out letter by letter, and in the final frame, the letter H (the 4th letter) is circled in red."
+     }
+    ],
+    "temporal_cross_chunk": [
+     {
+      "id": "warehouse_no_fall",
+      "score": 1.0,
+      "answer": "No, the person does not fall. Throughout these frames, the person remains standing upright in a consistent position on the ground."
+     },
+     {
+      "id": "sport_stays_tennis",
+      "score": 1.0,
+      "answer": "# Tennis\n\nBased on the sequence of frames showing a yellow ball being hit back and forth over a net between two courts, this is a game of tennis. The video captures the ball being served and returned during a rally."
+     },
+     {
+      "id": "shirt_stays_white",
+      "score": 1.0,
+      "answer": "The person wears a white shirt throughout the video. The shirt remains white and consistent across all six frames."
+     }
+    ],
+    "prompt_multipart": [
+     {
+      "id": "summary_count_clothing",
+      "score": 1.0,
+      "answer": "# Summary\n\nThere is **1 person** present in the video. The person is wearing a **yellow shirt and blue pants**.\n\nThe frames show the person walking from left to right across the scene, passing by brown boxes on both sides."
+     },
+     {
+      "id": "describe_and_closer",
+      "score": 0.5,
+      "answer": "# Volleyball Game Analysis\n\nA volleyball is being hit back and forth over the net between two teams. The **player in the bottom court (closer to the camera)** is closer to the camera, as indicated by their larger size in the frame."
+     }
+    ],
+    "retrieval_reranking": [
+     {
+      "id": "forklift_fork_direction",
+      "score": 0.0,
+      "answer": "# The forklift's fork is moving down.\n\nIn the sequence of frames, the brown box on the fork starts at a higher position in the first frame and gradually lowers toward the ground level in the subsequent frames."
+     },
+     {
+      "id": "end_of_video",
+      "score": 1.0,
+      "answer": "# Answer\n\nThe truck completely disappears from the scene. By the final frame, only the beige building remains visible on the left side, with the ground and sky, indicating the truck has moved entirely out of view to the right."
+     }
+    ],
+    "grounding_hallucination": [
+     {
+      "id": "floor_color",
+      "score": 1.0,
+      "answer": "The warehouse floor is gray. It remains consistently gray throughout all four frames of the video."
+     }
+    ]
+   }
+  ]
+ }
+}

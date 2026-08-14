@@ -5,9 +5,11 @@ Exposes the same `answer(probe) -> str | None` seam the runner grades, backed
 by the Anthropic Messages API: each probe's synthetic stimulus (stimuli.py)
 is subsampled to a handful of ordered frames and sent with the question.
 
-Honesty rules (no evidence ⇒ No):
+Honesty rules (no evidence ⇒ No — and equally, no evidence ⇒ not a FAILURE):
 - no ANTHROPIC_API_KEY  → every answer is None → every mode "not measured"
 - an API error after retries → that probe is None, never a guessed string
+- an EMPTY response (no text block) → None, never the empty string: "" scores 0.0
+  and would be published as a model failure it never committed
 """
 from __future__ import annotations
 
@@ -20,6 +22,12 @@ import stimuli
 
 DEFAULT_MODEL = os.environ.get("VLM_PROBE_MODEL", "claude-sonnet-5")
 MAX_FRAMES = 6
+# 200 was too tight: compound-prompt answers were cut off MID-WORD ("...A yellow
+# short") and the missing tail was then graded as a missing sub-answer — a fake
+# failure. Found by the 3-repeat variance run. 400 is ample for the "one or two
+# short sentences" the prompt asks for; truncation is ALSO detected below, because
+# a bigger budget reduces truncation but cannot rule it out.
+MAX_TOKENS = int(os.environ.get("VLM_PROBE_MAX_TOKENS", "400"))
 
 
 def _b64(frame) -> str:
@@ -72,10 +80,25 @@ class OpenAIVLM:
         })
         try:
             r = self._client.chat.completions.create(
-                model=self.model, max_completion_tokens=200,
+                model=self.model, max_completion_tokens=MAX_TOKENS,
                 messages=[{"role": "user", "content": content}],
             )
-            return (r.choices[0].message.content or "").strip()
+            if r.choices[0].finish_reason == "length":  # truncated ⇒ not measured
+                print(
+                    f"  ! {probe['id']}: response TRUNCATED at max_tokens={MAX_TOKENS}"
+                    " — NOT MEASURED",
+                    file=sys.stderr,
+                )
+                return None
+            text = (r.choices[0].message.content or "").strip()
+            if not text:  # empty ⇒ not measured, never a fake FAILURE (see RealVLM)
+                print(
+                    f"  ! {probe['id']}: empty response (finish_reason="
+                    f"{r.choices[0].finish_reason}) — NOT MEASURED, not scored 0",
+                    file=sys.stderr,
+                )
+                return None
+            return text
         except Exception as exc:  # noqa: BLE001 — any API failure means "not measured"
             print(f"  ! {probe['id']}: API error, probe not measured ({exc})", file=sys.stderr)
             return None
@@ -115,10 +138,35 @@ class RealVLM:
         try:
             msg = self._client.messages.create(
                 model=self.model,
-                max_tokens=200,
+                max_tokens=MAX_TOKENS,
                 messages=[{"role": "user", "content": content}],
             )
-            return "".join(b.text for b in msg.content if b.type == "text").strip()
+            text = "".join(b.text for b in msg.content if b.type == "text").strip()
+            # A TRUNCATED answer must not be graded either: the content the matcher
+            # is looking for may be in the part that was cut off, so scoring it is
+            # the same fake failure as scoring an empty one. Not measured.
+            if getattr(msg, "stop_reason", None) == "max_tokens":
+                print(
+                    f"  ! {probe['id']}: response TRUNCATED at max_tokens={MAX_TOKENS}"
+                    " — NOT MEASURED (grading a cut-off answer invents a failure)",
+                    file=sys.stderr,
+                )
+                return None
+            # An EMPTY response is NOT a wrong answer. Returning "" here would score
+            # 0.0 and be reported as a model failure — a FAKE FAILURE, the exact
+            # mirror of the fake pass this suite is built to prevent. Found live:
+            # 3 of 5 "GRADER-UNSTABLE" pairs in the first 3-repeat run were empty
+            # responses (no text block — e.g. all tokens spent on a non-text block,
+            # or a bare refusal) silently graded as wrong.
+            if not text:
+                print(
+                    f"  ! {probe['id']}: empty response (stop_reason="
+                    f"{getattr(msg, 'stop_reason', '?')}, blocks="
+                    f"{[b.type for b in msg.content]}) — NOT MEASURED, not scored 0",
+                    file=sys.stderr,
+                )
+                return None
+            return text
         except Exception as exc:  # noqa: BLE001 — any API failure means "not measured"
             print(f"  ! {probe['id']}: API error, probe not measured ({exc})", file=sys.stderr)
             return None

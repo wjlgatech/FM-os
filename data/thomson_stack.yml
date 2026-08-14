@@ -1,0 +1,251 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# thomson_stack.yml — the reverse-engineered pipeline behind Thomson-1-Large.
+#
+# SOURCE OF THE QUESTION: Andrew Bean's LinkedIn post (2026-07-30, "~2w" before
+# 2026-08-13) announcing a pipeline that specializes an open-source base model
+# (stated: Qwen 3.5 397B) to performance competitive with Claude Opus 4.8, with
+# value re-alignment toward factuality and pluralism, targeted agentic training,
+# and minimal impact on other capabilities.
+#
+# METHOD: the coauthor list IS the bill of materials. Every stage below is
+# mapped to a mechanism that a NAMED member of that team has PUBLISHED. This is
+# not speculation about what a lab might do — it is their own literature,
+# assembled into the pipeline the post describes.
+#
+# EVIDENCE TIERS (scripts/thomson.py enforces that every stage carries one):
+#   published — a paper by a named team member describes this mechanism.
+#   stated    — the company or an author states it publicly (press, earnings,
+#               blog, the post itself) without publishing the mechanism.
+#   inferred  — OUR reconstruction. Every `inferred` stage MUST have a matching
+#               prediction id in data/predictions.yml, so it can be scored
+#               against the technical report rather than quietly believed.
+#
+# Contract: docs/research/CASE-STUDY-thomson-stack.md
+# ─────────────────────────────────────────────────────────────────────────────
+
+- id: base-selection
+  stage: "0 · Base model"
+  mechanism: "Start from an open-weight frontier base rather than pre-training from scratch — the capital-efficiency decision that makes a $20M frontier-competitive model possible at all."
+  evidence: stated
+  owner: "Andrew Bean (post) · Thomson Reuters Q2 2026 earnings"
+  source: https://www.thomsonreuters.com/en-us/posts/innovation/thomson-reuters-built-its-own-ai-model-that-now-ranks-among-the-worlds-best/
+  detail: >-
+    Bean's post names Qwen 3.5 397B. Thomson Reuters' own materials say only
+    "built on open source LLMs". The 397B figure and the MoE architecture are
+    therefore single-sourced to the post, not corporate-confirmed.
+  prediction: P1-base-family
+
+- id: data-construction
+  stage: "1 · Training data construction"
+  mechanism: "Build supervised data from a structured knowledge graph over proprietary editorial corpora, rather than scraping raw text."
+  evidence: published
+  owner: "Jonathan Richard Schwarz"
+  source: https://arxiv.org/abs/2601.13806
+  detail: >-
+    Corpora: Westlaw, Practical Law, Checkpoint, Reuters — decades of
+    attorney-editor-curated content competitors cannot access. Thomson Reuters
+    states less than 10% of its content has been used so far, which is the
+    single most important number in the whole announcement: the headroom is
+    proprietary and un-replicable, not architectural.
+
+- id: data-selection
+  stage: "2 · Targeted data selection"
+  mechanism: "CoLoR-Filter — select documents by how much they reduce loss on the target domain relative to a prior model."
+  evidence: published
+  owner: "Brandfonbrener, Zhang, Kirsch, Schwarz, Kakade (NeurIPS 2024)"
+  source: https://arxiv.org/abs/2406.10670
+  detail: >-
+    The "which of our millions of documents actually make the model better at
+    law" filter. Cheap, model-based, and targeted — as opposed to heuristic
+    quality classifiers.
+
+- id: data-mixture
+  stage: "3 · Data mixture optimization"
+  mechanism: "ADMIRE-BayesOpt — treat the domain mixture weights as a black-box optimization problem and solve it with multi-fidelity Bayesian optimization, learning on cheap proxy models and transferring up."
+  evidence: published
+  owner: "Shengzhuang Chen, Jonathan Richard Schwarz (TMLR 2025)"
+  source: https://arxiv.org/abs/2508.11551
+  detail: >-
+    Over 500% speed-up in finding the best mixture at their largest scale;
+    experiments span 1M to 7B parameters; 460 full training+eval runs
+    (13,000 GPU-hours) released as the ADMIRE IFT Runs dataset. Thomson
+    Reuters' own NeurIPS 2025 write-up independently cites a "data weighting
+    technique improving training efficiency by up to 500%" — the same number.
+  fmos_link: skills/bayesopt-loop
+
+- id: specialization
+  stage: "4 · Capacity & specialization"
+  mechanism: "SIMoE — upcycle a dense base into MoE during instruction tuning, where each expert is a structurally sparse subset of the seed model's OWN parameters, discovered automatically under a sparsity constraint and merged by a learned input-dependent router."
+  evidence: published
+  owner: "Shengzhuang Chen, Ying Wei, Jonathan Richard Schwarz (ACL 2025 Oral)"
+  source: https://arxiv.org/abs/2506.12597
+  detail: >-
+    This is the technical answer to "specialize for professional work without
+    wrecking general ability": domain knowledge goes into sparse, separable
+    parameter subsets instead of being smeared across all weights by full
+    fine-tuning. Lineage runs straight back through Schwarz's meta-tuning with
+    sparse interpolated experts (ICML 2024) to Powerpropagation (NeurIPS 2021).
+  prediction: P2-sparse-experts
+
+- id: forgetting-control
+  stage: "5 · Forgetting control"
+  mechanism: "CapTrack — treat forgetting as capability-decomposed model drift (robustness, default behaviours), not just accuracy loss on a held-out benchmark."
+  evidence: published
+  owner: "Thede, Stefan Winzeck, Akata, Schwarz (2026)"
+  source: https://arxiv.org/abs/2603.06610
+  detail: >-
+    Key finding that shapes the pipeline order: instruction fine-tuning causes
+    stronger relative drift, while preference optimization is more conservative
+    and can partially RECOVER lost capabilities. That is a direct argument for
+    putting preference optimization after SFT — and it is exactly the claim
+    "minimal impact on other aspects of model performance" is cashing.
+  prediction: P3-forgetting-reported
+
+- id: value-realignment
+  stage: "6 · Value re-alignment (pluralism)"
+  mechanism: "Preference data that is participatory and representative rather than averaged (PRISM), combined with an explicit principal hierarchy over competing stakeholder demands."
+  evidence: published
+  owner: "Hannah Rose Kirk, Andrew Bean (NeurIPS 2024 Best Paper) · Yu, Seedat, Schwarz, Bean (2026)"
+  source: https://arxiv.org/abs/2404.16019
+  detail: >-
+    PRISM maps 1,500 participants from 75 countries across 8,011 conversations
+    with 21 LLMs — pluralism as a measured distribution, not a slogan.
+    Principal Hierarchies (arXiv:2605.12120) then supplies the failure mode
+    this must fix: over 7,136 legal/medical scenarios, 10 frontier models show
+    unstable orderings over user / authority / professional standards, and
+    exhibit KNOWLEDGE OMISSION — the reasoning trace notes a drug was withdrawn
+    and the answer recommends it anyway under authority pressure.
+  prediction: P5-pluralism-operationalized
+
+- id: factuality
+  stage: "7 · Factuality re-alignment"
+  mechanism: "Separate hallucination from factuality and benchmark them separately, with dynamically regenerated tasks that resist contamination."
+  evidence: published
+  owner: "Yejin Bang (HalluLens, ACL 2025)"
+  source: https://arxiv.org/abs/2504.17550
+  detail: >-
+    Bang's central claim — that hallucination and factuality overlap but are
+    distinct challenges needing separate benchmarks and separate solutions —
+    is the reason the post can list "factuality" as its own re-alignment axis
+    rather than folding it into general alignment.
+
+- id: agentic-training
+  stage: "8 · Agentic capability training"
+  mechanism: "RL in tool-use environments over the company's own retrieval surfaces, with an in-house agentic harness wired to Westlaw / Practical Law plus web search."
+  evidence: stated
+  owner: "Thomson Reuters Labs (Deep Research in Westlaw & CoCounsel)"
+  source: https://www.zenml.io/llmops-database/agentic-ai-for-legal-research-building-deep-research-in-westlaw-and-cocounsel
+  detail: >-
+    Bean's post explicitly names "RL environments". TR Labs describes Deep
+    Research as autonomously planning multi-step research, executing parallel
+    searches, selecting tools and adapting — and evaluates models through an
+    in-house agentic harness connected to Westlaw/Practical Law and Brave.
+    The reported Harvey Legal Agent Benchmark score of 0.857 is the agentic
+    result. The RL algorithm and reward design are NOT public.
+  prediction: P9-agentic-rl-verifiable
+
+- id: intervention-composition
+  stage: "9 · Stacking the interventions"
+  mechanism: "Composable Interventions — the order in which editing, unlearning, compression and quantization are applied changes the outcome; compose deliberately."
+  evidence: published
+  owner: "Kolbeinsson, O'Brien, Schwarz, Zitnik, Chen (ICLR 2025)"
+  source: https://arxiv.org/abs/2407.06483
+  detail: >-
+    A nine-stage pipeline is a composition problem. This is the team's own
+    published study of what breaks when interventions stack — the reason the
+    pipeline can be described as a pipeline at all.
+
+- id: online-adaptation
+  stage: "10 · Staying current after training"
+  mechanism: "Memory of Amortized Contexts — absorb new documents into a compact memory so a deployed model takes on fresh information without a training run."
+  evidence: published
+  owner: "Tack, Kim, Mitchell, Shin, Teh, Schwarz (NeurIPS 2024)"
+  source: https://arxiv.org/abs/2403.04317
+  detail: >-
+    Case law and filings change daily; a quarterly retrain does not. This is
+    the published mechanism for the gap, though its use in Thomson-1 is not
+    stated.
+  prediction: P10-online-adaptation
+
+- id: eval-cost
+  stage: "E1 · Making the eval loop affordable"
+  mechanism: "Scales++ — pick evaluation items by their intrinsic cognitive demands (item-centric), so no seed-model runs are needed to choose the subset."
+  evidence: published
+  owner: "Andrew Bean, Nabeel Seedat, Shengzhuang Chen, Schwarz"
+  source: https://arxiv.org/abs/2510.26384
+  detail: >-
+    18x cheaper subset selection. 0.25% of the Open LLM Leaderboard predicts
+    full scores to 3.2% MAE; 2.0% of Humanity's Last Exam to 2.9% MAE. In a
+    post-training loop you evaluate after every candidate run — eval cost is a
+    training-throughput problem, not a reporting problem.
+  fmos_link: skills/eval-subset
+  prediction: P7-cheap-eval-in-loop
+
+- id: eval-quality
+  stage: "E2 · Judging expert-domain answers"
+  mechanism: "DeCE — decompose an expert judgement into explicit criteria (precision and recall over required elements) instead of one pointwise LLM-judge score."
+  evidence: published
+  owner: "Fangyi Yu, Nabeel Seedat, Herrmannova, Schilder, Schwarz (EMNLP 2025)"
+  source: https://arxiv.org/abs/2509.16093
+  detail: >-
+    Validated on 224 attorney-curated legal QA pairs across US jurisdictions
+    against five frontier models plus a legally post-trained model. A single
+    1-5 judge score cannot tell you WHICH professional obligation was missed;
+    a decomposed one can, which makes it a training signal.
+  prediction: P6-decomposed-judge
+
+- id: eval-validity
+  stage: "E3 · Does the benchmark measure the thing?"
+  mechanism: "Construct validity review — 445 benchmarks, 29 expert reviewers, most failing to measure what they name."
+  evidence: published
+  owner: "Andrew Bean et al. (NeurIPS 2025)"
+  source: https://arxiv.org/abs/2511.04703
+  detail: >-
+    The reason a claim of "competitive with Opus 4.8" from THIS team is worth
+    more than the same claim from most: their evaluations lead published the
+    field's most damning audit of benchmark validity first.
+
+- id: eval-contamination
+  stage: "E4 · Contamination resistance"
+  mechanism: "LingOly / LingOly-TOO — reasoning problems in low-resource and extinct languages, plus templated orthographic obfuscation, so the answer cannot have been memorised."
+  evidence: published
+  owner: "Andrew Bean (NeurIPS 2024 Oral · ICLR 2026)"
+  source: https://arxiv.org/abs/2406.06196
+  detail: >-
+    When you train on the internet and then claim frontier scores, the first
+    reviewer question is contamination. This team builds benchmarks that are
+    contamination-resistant by construction.
+  prediction: P8-decontamination-section
+
+- id: eval-longcontext
+  stage: "E5 · Long context, measured honestly"
+  mechanism: "LOFT and NovelQA at up to 1M tokens, plus 20,000+ test samples from open and private benchmarks, plus attorney-authored skill tests with an 'ideal minimum viable answer' standard."
+  evidence: stated
+  owner: "Thomson Reuters (Joel Hron, CTO)"
+  source: https://www.thomsonreuters.com/en-us/posts/innovation/legal-ai-benchmarking-evaluating-long-context-performance-for-llms/
+  detail: >-
+    Their published finding — effective context windows are much smaller than
+    advertised windows, and shrink further as reasoning complexity rises — is
+    the context for Thomson-1's reported best-in-class 0.753 long-context score.
+
+- id: eval-infrastructure
+  stage: "E6 · Shared evaluation substrate"
+  mechanism: "Every Eval Ever — one JSON schema for eval results, converters from popular harnesses, and a crowdsourced Hugging Face database."
+  evidence: published
+  owner: "EvalEval Coalition (Bean among 49 authors)"
+  source: https://arxiv.org/abs/2606.14516
+  detail: >-
+    22,235 models, 2,273 benchmarks, 31 formats. This is the community layer of
+    the whole research theme, and it is open to contribution — which is why
+    FM-os targets it rather than founding a new forum.
+  fmos_link: docs/research/CASE-STUDY-thomson-stack.md
+
+- id: human-expert-loop
+  stage: "H · The human expert loop"
+  mechanism: "Hundreds of subject-matter experts evaluating outputs, identifying failure modes, and validating that the model reasons the way professionals actually work; plus human and automated red-teaming."
+  evidence: stated
+  owner: "Thomson Reuters"
+  source: https://www.thomsonreuters.com/en-us/posts/innovation/thomson-reuters-built-its-own-ai-model-that-now-ranks-among-the-worlds-best/
+  detail: >-
+    The genuinely un-copyable asset alongside the corpus. Bar-admitted attorney
+    editors are a 174-year-old institution, not a data-labelling contract.

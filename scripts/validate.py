@@ -22,6 +22,9 @@ REQUIRED = {
     "models": ["name", "url", "params", "license"],
     "registry": ["name", "kind"],
     "readinglists": ["name", "url", "focus", "status"],
+    # Our own labs: `url` is optional (not every lab is hosted), but what/why/how
+    # are not — a demo nobody can explain is a link, not a demo.
+    "demos": ["name", "path", "what", "why", "how"],
 }
 
 
