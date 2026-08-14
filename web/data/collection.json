@@ -1157,5 +1157,65 @@
       "better": "up",
       "source": "make thomson"
     }
+  },
+  {
+    "id": "rc0039",
+    "delivery": "syndata-bare goes live against real vision models \u2014 and returns an honest null",
+    "objective": "Close the VSS/BARE asymmetry: give the BARE paper the same measured-evidence path VSS already has",
+    "created_at": "2026-08-14T14:22:43-05:00",
+    "key_results": [
+      {
+        "text": "Real-model BARE runner shipped and executed live",
+        "target": "18 captions per pipeline",
+        "score": 1.0,
+        "evidence": "run_real.py over 6 deterministic scenes, 3 pipelines, 3 runs; artifacts in reference/out/"
+      },
+      {
+        "text": "Reference suite wired into make check",
+        "target": "5 CI tests green",
+        "score": 1.0,
+        "evidence": "tests/test_syndata_bare.py subprocess pattern; 86 passed (was 81), incl. no-key exit-1 case"
+      },
+      {
+        "text": "A proxy base role cannot substantiate the paper claim",
+        "target": "enforced in code",
+        "score": 1.0,
+        "evidence": "test_proxy_base_cannot_substantiate_the_paper_claim; LaTeX caption discloses fidelity in-table"
+      },
+      {
+        "text": "Honest null reported instead of tuned stimuli",
+        "target": "null published",
+        "score": 1.0,
+        "evidence": "pipeline claim FALSE committed to SKILL.md, case-study doc and RESEARCH-PROGRAM.md"
+      },
+      {
+        "text": "Paper claim (base vs instruct checkpoints) substantiated",
+        "target": "substantiated",
+        "score": 0.0,
+        "evidence": "UNMEASURABLE \u2014 needs a real base checkpoint over an OpenAI-compatible endpoint; not run"
+      },
+      {
+        "text": "Results table landed in the BARE Overleaf project",
+        "target": "in the paper",
+        "score": 0.0,
+        "evidence": "NOT DONE \u2014 table generated, not pushed to Overleaf; co-author letter still unsent"
+      }
+    ],
+    "request": "do what you recommend / ship them",
+    "headline": "Mode collapse reproduced at 0.23 vs 0.62; the base role never hallucinated, so the pipeline claim is NOT substantiated \u2014 stimuli left untuned",
+    "brief": "The BARE paper carried a hypothesis because syndata-bare shipped only a mock-CLIP toy. It now has a real-model runner emitting a paste-ready results table. Half the thesis reproduced; the other half had no headroom, and the null is reported rather than tuned away.",
+    "growth": [
+      "C1:met:refused to make the stimuli harder after the base role failed to hallucinate \u2014 the null is the result, not a step toward a better-looking one",
+      "R1:met:diagnosed a silent whole-role failure (claude-sonnet-5 rejects temperature, 18 captions unmeasured) rather than reading the zero as a model property"
+    ],
+    "why": "the pipeline claim is measurable today and came back false; the paper claim is not measurable at all with instruction-tuned models",
+    "needle": {
+      "name": "BARE paper claims backed by measurement",
+      "before": "0 of 2",
+      "after": "1 of 2 scored, 1 blocked",
+      "better": "up",
+      "source": "python3 skills/syndata-bare/reference/run_real.py --per-scene 3"
+    },
+    "next_lever": "run the same suite with a real base checkpoint (BLIP-2 / Qwen2.5-VL) over an OpenAI-compatible endpoint \u2014 the only way the second of the two claims becomes measurable"
   }
 ]
