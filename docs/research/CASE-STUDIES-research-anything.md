@@ -123,6 +123,14 @@ exactly how the 0.92 in the draft paper happened.
 > computes this and returns a third outcome, `INCONCLUSIVE`, with its own exit code. Full
 > four-window audit: [`POWER-AND-THE-ZERO-NUMERATOR.md`](POWER-AND-THE-ZERO-NUMERATOR.md).
 
+**Resolved the same day at adequate power.** Re-run at n=66 (plain captioning) and n=72 (text
+interference, arXiv:2511.13400 — a mechanism designed to induce exactly this failure): **0
+hallucinations in both**, 95% CIs [0, 4.5%] and [0, 4.2%], both excluding the 4.62% reference
+rate. `pipeline_claim: NOT SUBSTANTIATED`, `underpowered: False` — this time the *n* carries the
+negative. The precondition BARE needs, a base role producing repairable errors, **does not hold
+for a 2026 instruction-tuned proxy**; that is a claim about the proxy, not about BARE. Mode
+collapse sharpened as n grew (diversity 0.23 → 0.19 → 0.18 against a base role at ~0.60).
+
 Two refusals are enforced in code, not prose. **Role fidelity:** every Anthropic model is
 instruction-tuned, so it fills the base *role* but is not a base *model*; a run stamps `proxy`
 and the *paper claim* (base-vs-instruct) can never be marked substantiated — the emitted LaTeX

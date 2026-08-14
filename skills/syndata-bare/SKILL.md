@@ -71,7 +71,7 @@ without CLIP, an LLM judge, or a human. **Two claims are scored separately and n
 
 | claim | what it needs | status |
 |---|---|---|
-| *pipeline* — draft-then-refine beats either single stage at matched budget | any two models | **NOT SUBSTANTIATED** at this difficulty |
+| *pipeline* — draft-then-refine beats either single stage at matched budget | any two models | **NOT SUBSTANTIATED** for this proxy, at adequate power (n=66) |
 | *paper* — a BASE checkpoint supplies diversity an instruct model cannot | a real base checkpoint in the base role | **UNMEASURABLE** with an instruction-tuned proxy |
 
 First live run (2026-08-14, base role `claude-haiku-4-5` @ T=1.0, instruct `claude-sonnet-5`,
@@ -104,11 +104,29 @@ perception, after *What Color Is It?* (arXiv:2511.13400): a conflicting colour w
 the shape and the model is asked the shape's colour. Naming the printed word is unambiguous
 hallucination — no caption parsing, no synonym trap. Both conditions are always reported.
 
-**Result at adequate power (n = 72 ⇒ CI upper bound 4.17% < 4.62%): 0 hallucinations.** The
-published interference mechanism does not fool a 2026 frontier model on this construction. That
-is a *well-powered negative* — and a far more useful result than the underpowered one it
-replaces, because it says the precondition BARE needs (a base role that produces repairable
-errors) does not hold **for this proxy**, which is a statement about the proxy, not about BARE.
+### The resolved run (2026-08-14, both conditions adequately powered)
+
+| condition | n | hallucinations | 95% CI for the true rate | resolves 4.62%? |
+|---|---|---|---|---|
+| plain captioning (base role) | 66 | 0 | [0, 4.5%] | **yes** |
+| text interference | 72 | 0 | [0, 4.2%] | **yes** |
+
+| pipeline | alignment | diversity | yield | gate |
+|---|---|---|---|---|
+| base_only | 1.00 | 0.60 | 1.00 | PASS |
+| instruct_only | 1.00 | **0.18** | 1.00 | **FAIL** — mode collapse |
+| bare | 1.00 | 0.55 | 1.00 | PASS |
+
+**`pipeline_claim: NOT SUBSTANTIATED` — and this time the *n* carries it.** The base role did not
+hallucinate once in 66 captions, nor once in 72 interference trials designed by a published paper
+to induce exactly that failure. Both intervals exclude the reference rate, so this is a real
+negative rather than an absence of evidence.
+
+**What it does and does not mean.** The precondition BARE needs — a base role producing repairable
+errors — **does not hold for this proxy**. That is a statement about a 2026 instruction-tuned
+model standing in for a base checkpoint, not about BARE. Mode collapse, the half of the thesis
+that *is* independently replicated, reproduced strongly and got clearer with sample size
+(0.23 → 0.19 → 0.18 as n grew).
 
 The plain stimuli were **not** made harder until the thesis passed. Tuning a benchmark until it
 agrees with you is how the 0.92 in the draft paper happened.

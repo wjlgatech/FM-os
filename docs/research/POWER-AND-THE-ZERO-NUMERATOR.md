@@ -88,17 +88,28 @@ thing we were trying to measure**.
    distinction between adding a control and p-hacking, and it is why the null survived rather
    than being tuned out of existence.
 
-## What the powered run found
+## What the powered runs found
 
-The precondition probe reached adequate power (n = 72 ⇒ CI upper bound 4.17% < 4.62%) and
-returned **0 hallucinations**. So the published text-interference mechanism does **not** fool a
-2026 frontier model on this construction — a well-powered negative, and a more useful result
-than the underpowered one it replaces.
+Both conditions were re-run at adequate power:
 
-That sharpens the open question rather than closing it: BARE's pipeline claim presupposes a base
-role that produces repairable errors. With an instruction-tuned proxy, at this stimulus
-difficulty, that presupposition **does not hold** — which is a statement about the proxy, not
-about BARE. The claim stays untested until a genuine base checkpoint fills the role.
+| condition | n | hallucinations | 95% CI | resolves 4.62%? |
+|---|---|---|---|---|
+| plain captioning | 66 | 0 | [0, 4.5%] | yes |
+| text interference | 72 | 0 | [0, 4.2%] | yes |
+
+**0 hallucinations in both.** The published text-interference mechanism — built specifically to
+induce colour hallucination — does not fool a 2026 frontier model on this construction. The
+verdict is now `pipeline_claim: NOT SUBSTANTIATED` with `underpowered: False`: a genuine
+negative, carried by its *n*.
+
+That sharpens the open question rather than closing it. BARE's pipeline claim presupposes a base
+role producing repairable errors. With an instruction-tuned proxy, that presupposition **does not
+hold** — a statement about the proxy, not about BARE. The paper's own claim stays untested until
+a genuine base checkpoint fills the role.
+
+**The half that did replicate:** mode collapse, and it got *clearer* with sample size — instruct
+diversity 0.23 (n=18) → 0.19 (n=36) → 0.18 (n=66) against a base role steady at ~0.60. A real
+effect sharpens as n grows; that is what the underpowered zero could never have shown us.
 
 ## Sources
 
