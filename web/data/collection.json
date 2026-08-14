@@ -1277,5 +1277,59 @@
       "source": "python3 skills/syndata-bare/reference/run_real.py --per-scene 11"
     },
     "next_lever": "finish the n=66 plain-condition run so the pipeline claim stops being INCONCLUSIVE and becomes a verdict the n can carry"
+  },
+  {
+    "id": "rc0041",
+    "delivery": "Three intern projects mapped onto our probes \u2014 and the one where their data completes our loop",
+    "objective": "Find what in the intern research is inspired, collaborative, and actually 10Xes our program",
+    "created_at": "2026-08-14T15:25:13-05:00",
+    "key_results": [
+      {
+        "text": "Report read and every project mapped to an existing probe",
+        "target": "3 of 3 mapped",
+        "score": 0.8,
+        "evidence": "docs/research/COLLAB-intern-projects.md; P1, P3 and the VSS case study, no new probe"
+      },
+      {
+        "text": "Power tool built to make the n-rule executable",
+        "target": "19 tests pinned to published values",
+        "score": 1.0,
+        "evidence": "scripts/power.py; Wilson 50/100 -> 0.404-0.596 and Hanley 0-in-1500 both pinned; 106 passed"
+      },
+      {
+        "text": "Their headline claims given the intervals the design earns",
+        "target": "CI + MDE curve computed",
+        "score": 1.0,
+        "evidence": "make power; 17 percent -> 15.0-19.3, and 288 per arm resolves only 11.7 points"
+      },
+      {
+        "text": "Trajectory logs obtained for RewardForge",
+        "target": "export received",
+        "score": 0.0,
+        "evidence": "NOT DONE \u2014 the ask is written, nothing requested or sent; their logs may not even retain per-run tool sequences"
+      },
+      {
+        "text": "ConcurTree gain checked for significance",
+        "target": "n known",
+        "score": 0.0,
+        "evidence": "NOT DONE \u2014 0.8 to 2.5 points reported with no sample size; cannot be assessed from the summary"
+      }
+    ],
+    "request": "this is the summer interns report \u2014 anything inspired? anything to work together? anything that could 10X our research?",
+    "headline": "Their gate is our training data",
+    "brief": "The Agent Assurance interns ran 1152 trajectory-scored runs and stopped at observability. Our thesis says a gate is a training-signal factory, so every trajectory violation they logged is already a preference pair \u2014 and RewardForge is exactly that pipeline, never yet fed a security label.",
+    "growth": [
+      "P1:met:read their 10X question and found the one underneath it \u2014 detection is a dashboard until a violation becomes a training label",
+      "C1:met:offered the power critique as help and refused to overreach with it \u2014 nothing above says the architectures do not differ, only that this design cannot tell"
+    ],
+    "why": "the whole collaboration converts to zero if the trajectories were scored but not stored",
+    "needle": {
+      "name": "intern findings converted into a testable ask on our own probes",
+      "before": "0",
+      "after": "4",
+      "better": "up",
+      "source": "docs/research/COLLAB-intern-projects.md"
+    },
+    "next_lever": "ask Abdi and Sibhi one question \u2014 do the run logs retain per-run tool sequences? \u2014 because every proposal here dies or lives on that answer"
   }
 ]
