@@ -102,13 +102,105 @@ def test_hallucinated_caption_lowers_alignment():
 def _thesis_shaped() -> dict:
     """Scores in exactly the shape the BARE thesis predicts."""
     return {
-        "base_only": {"measured": 9, "alignment": 0.6, "diversity": 0.7,
-                      "yield": 0.6, "gate_pass": False, "gate_reasons": ["alignment"]},
-        "instruct_only": {"measured": 9, "alignment": 1.0, "diversity": 0.05,
-                          "yield": 1.0, "gate_pass": False, "gate_reasons": ["diversity"]},
-        "bare": {"measured": 9, "alignment": 1.0, "diversity": 0.6,
-                 "yield": 1.0, "gate_pass": True, "gate_reasons": []},
+        "base_only": {"measured": 9, "alignment": 0.6, "diversity": 0.7, "yield": 0.6,
+                      "hallucinated": 4, "gate_pass": False, "gate_reasons": ["alignment"]},
+        "instruct_only": {"measured": 9, "alignment": 1.0, "diversity": 0.05, "yield": 1.0,
+                          "hallucinated": 0, "gate_pass": False, "gate_reasons": ["diversity"]},
+        "bare": {"measured": 9, "alignment": 1.0, "diversity": 0.6, "yield": 1.0,
+                 "hallucinated": 0, "gate_pass": True, "gate_reasons": []},
     }
+
+
+# ── statistical power: a zero is not a refutation ────────────────────────────
+
+
+def test_rule_of_three_matches_the_published_formula():
+    """Hanley & Lippman-Hand 1983: 0 events in n ⇒ 95% CI [0, 3/n]."""
+    assert rr.rule_of_three(18) == pytest.approx(3 / 18)
+    assert rr.rule_of_three(1500) == pytest.approx(0.002)
+    assert rr.rule_of_three(0) is None
+
+
+def test_the_first_live_run_was_underpowered_not_a_refutation():
+    """THE CORRECTION, pinned. 0 hallucinations in 18 captions puts the true rate
+    anywhere in [0, 16.7%] — it cannot exclude the ~4.6% rate independently
+    published for the very model used. Yesterday's run called this FALSE."""
+    p = rr.power_check(hallucinated=0, measured=18)
+    assert p["powered"] is False
+    assert p["upper95"] == pytest.approx(3 / 18)
+    assert p["n_required"] == 65
+    assert "CANNOT exclude" in p["why"]
+
+
+def test_enough_samples_makes_a_zero_informative():
+    p = rr.power_check(hallucinated=0, measured=100)
+    assert p["powered"] is True and p["upper95"] == pytest.approx(0.03)
+
+
+def test_observed_events_need_no_power_argument():
+    """With events observed the rate is estimated directly; the zero-numerator
+    problem does not arise."""
+    p = rr.power_check(hallucinated=3, measured=18)
+    assert p["powered"] is True and p["upper95"] is None
+
+
+def test_underpowered_zero_yields_inconclusive_never_false():
+    """A base role that showed no hallucination in too few samples must make the
+    pipeline claim INCONCLUSIVE — not refuted, not supported."""
+    s = _thesis_shaped()
+    s["base_only"].update(gate_pass=True, gate_reasons=[], alignment=1.0,
+                          hallucinated=0, measured=18)
+    v = rr.verdicts(s, "true_base")
+    assert v["pipeline_claim"] is None
+    assert v["paper_claim"] is None
+    assert v["underpowered"] is True
+    assert "lacked the power" in v["why"]
+
+
+def test_a_powered_clean_base_role_does_refute_the_pipeline_claim():
+    """The same shape WITH enough samples is a real negative, not an unknown."""
+    s = _thesis_shaped()
+    s["base_only"].update(gate_pass=True, gate_reasons=[], alignment=1.0,
+                          hallucinated=0, measured=200)
+    v = rr.verdicts(s, "true_base")
+    assert v["pipeline_claim"] is False
+    assert v["underpowered"] is False
+    assert "genuinely" in v["why"]
+
+
+# ── the precondition probe ───────────────────────────────────────────────────
+
+
+def test_interference_scenes_print_a_conflicting_colour():
+    for s in st.INTERFERENCE_SCENES:
+        true_color = s["objects"][0][0]
+        assert s["label"].lower() != true_color, "the label must CONFLICT"
+        assert s["label"].lower() in st.ALL_COLORS
+
+
+def test_interference_render_differs_from_the_plain_render():
+    s = st.INTERFERENCE_SCENES[0]
+    assert st.render(s).tobytes() != st.render_interference(s).tobytes()
+
+
+def test_naming_the_printed_word_is_scored_as_hallucination():
+    s = st.INTERFERENCE_SCENES[0]  # red circle labelled BLUE
+    res = rr.score_interference({s["id"]: ["Blue."]})
+    assert res["hallucinated"] == 1 and res["rate"] == 1.0
+
+
+def test_naming_the_true_colour_is_clean_even_if_the_word_is_mentioned():
+    """A model that says 'red, though the word BLUE is printed on it' is CORRECT.
+    Scoring that as a hallucination would invent a failure."""
+    s = st.INTERFERENCE_SCENES[0]
+    res = rr.score_interference({s["id"]: ["Red, although the word BLUE is printed on it."]})
+    assert res["hallucinated"] == 0
+
+
+def test_interference_excludes_unmeasured_answers():
+    s = st.INTERFERENCE_SCENES[0]
+    res = rr.score_interference({s["id"]: ["Red.", None, None]})
+    assert res["measured"] == 1 and res["hallucinated"] == 0
 
 
 def test_proxy_base_cannot_substantiate_the_paper_claim():
@@ -130,7 +222,7 @@ def test_pipeline_claim_fails_when_a_baseline_does_not_fail():
     s["base_only"]["gate_pass"] = True  # nothing for refinement to fix
     v = rr.verdicts(s, "true_base")
     assert v["pipeline_claim"] is False and v["paper_claim"] is False
-    assert "no hallucination" in v["why"]
+    assert "nothing for refinement to fix" in v["why"]
 
 
 def test_unmeasured_pipeline_gives_an_unmeasured_verdict_not_a_false_one():

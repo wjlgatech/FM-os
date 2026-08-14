@@ -111,10 +111,17 @@ hypothesis is closed — `skills/syndata-bare/reference/run_real.py` is the coun
 | bare | 1.00 | 0.56 | 1.00 | PASS |
 
 **Half the thesis reproduced; half had no headroom.** Mode collapse is real and large (0.23 vs
-0.62, below the 0.25 floor). But the base role did not hallucinate once across 18 captions, so
-refinement had nothing to repair and the *pipeline claim* is NOT SUBSTANTIATED at this stimulus
-difficulty. The stimuli were **not** made harder until it passed — tuning a benchmark until it
-agrees with you is exactly how the 0.92 in the draft paper happened.
+0.62, below the 0.25 floor). The base role did not hallucinate once across 18 captions. The
+stimuli were **not** made harder until it passed — tuning a benchmark until it agrees with you is
+exactly how the 0.92 in the draft paper happened.
+
+> ⚠️ **Correction, same day — that verdict was wrong.** The runner reported the pipeline claim
+> **NOT SUBSTANTIATED**. By the rule of three (Hanley & Lippman-Hand, JAMA 1983), 0 events in 18
+> trials puts the 95% CI for the true rate at **[0, 16.7%]**, which cannot exclude the **4.62%**
+> hallucination rate independently published for the very model used — where P(zero in 18) ≈
+> **0.43**. The honest verdict was never "false"; it was **UNDERPOWERED**. The runner now
+> computes this and returns a third outcome, `INCONCLUSIVE`, with its own exit code. Full
+> four-window audit: [`POWER-AND-THE-ZERO-NUMERATOR.md`](POWER-AND-THE-ZERO-NUMERATOR.md).
 
 Two refusals are enforced in code, not prose. **Role fidelity:** every Anthropic model is
 instruction-tuned, so it fills the base *role* but is not a base *model*; a run stamps `proxy`

@@ -92,10 +92,10 @@ class AnthropicRole:
 
             self._client = anthropic.Anthropic()
 
-    def caption(self, scene: dict, prompt: str) -> str | None:
+    def caption(self, scene: dict, prompt: str, renderer=None) -> str | None:
         if self._client is None:
             return None  # no key ⇒ not measured, never a fabricated caption
-        img = bare_stimuli.render(scene)
+        img = (renderer or bare_stimuli.render)(scene)
         content = [
             {"type": "image",
              "source": {"type": "base64", "media_type": "image/png", "data": _b64(img)}},
@@ -145,10 +145,10 @@ class OpenAICompatRole:
 
             self._client = OpenAI(api_key=key, base_url=base_url) if base_url else OpenAI()
 
-    def caption(self, scene: dict, prompt: str) -> str | None:
+    def caption(self, scene: dict, prompt: str, renderer=None) -> str | None:
         if self._client is None:
             return None
-        img = bare_stimuli.render(scene)
+        img = (renderer or bare_stimuli.render)(scene)
         content = [
             {"type": "image_url",
              "image_url": {"url": f"data:image/png;base64,{_b64(img)}"}},

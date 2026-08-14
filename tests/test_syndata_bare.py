@@ -52,6 +52,17 @@ def test_real_runner_reports_not_measured_without_a_key_and_never_fakes_a_pass()
     assert "nothing measured" in (r.stdout + r.stderr)
 
 
+def test_the_zero_numerator_correction_is_enforced():
+    """The correction that invalidated this skill's own first verdict: 0 events in
+    18 trials cannot exclude the reference rate, so the claim is INCONCLUSIVE —
+    exit 2 — never refuted. Guarded here because it is the finding most likely to
+    be quietly undone by a later 'simplification'."""
+    r = _run("-m", "pytest", "test_run_real.py", "-q", "-k",
+             "underpowered or zero_numerator or rule_of_three")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "no tests ran" not in r.stdout, "the power tests must exist, not merely pass"
+
+
 def test_stimuli_render_deterministically_from_the_command_line():
     import tempfile
 

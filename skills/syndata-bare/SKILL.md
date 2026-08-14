@@ -47,8 +47,11 @@ generated data", or "filter image-text pairs with CLIP".
 # self-contained proof (stdlib only): base fails alignment, instruct fails
 # diversity, BARE passes both at full yield — exits non-zero otherwise
 python reference/bare_loop.py
-# against REAL vision models, over deterministic synthetic scenes:
-ANTHROPIC_API_KEY=… python reference/run_real.py --per-scene 3 [--repeat 3]
+# against REAL vision models, over deterministic synthetic scenes.
+# --per-scene 11 gives n=66 >= the 65 needed to resolve a 4.62% rate; fewer and
+# the runner will (correctly) return INCONCLUSIVE rather than a verdict.
+ANTHROPIC_API_KEY=… python reference/run_real.py --per-scene 11 --interference-n 12
+# exit 0 = substantiated · 1 = refuted · 2 = inconclusive/underpowered
 # offline gate (no network, no keys):
 python -m pytest reference/test_bare_loop.py reference/test_run_real.py -q
 ```
@@ -81,13 +84,34 @@ First live run (2026-08-14, base role `claude-haiku-4-5` @ T=1.0, instruct `clau
 | bare | 1.00 | 0.56 | 1.00 | PASS |
 
 **Half the thesis reproduced, half had no headroom.** Mode collapse is real and large — the
-instruct role's diversity (0.23) is a third of the base role's (0.62), and it fails the floor.
-But the base role did not hallucinate *once*, so there was nothing for refinement to repair and
-the pipeline claim cannot hold. The stimuli are too easy for a 2026 model.
+instruct role's diversity is a third of the base role's, and it fails the floor. The base role
+did not hallucinate *once*.
 
-The stimuli were **not** made harder until the thesis passed. Tuning a benchmark until it agrees
-with you is how the 0.92 in the draft paper happened; the null is reported instead, and a harder
-stimulus set is named as unrun work rather than quietly executed.
+> ⚠️ **That first verdict was retracted the same day.** The runner reported the pipeline claim
+> **NOT SUBSTANTIATED**. Wrong — not the arithmetic, the logic. By the **rule of three**
+> (Hanley & Lippman-Hand, *JAMA* 1983) 0 events in 18 trials puts the 95% CI for the true rate at
+> **[0, 16.7%]**, which cannot exclude the **4.62%** rate independently published for the very
+> model used; under that rate P(zero in 18) ≈ **0.43**. A claim is only refuted by a run that
+> could have detected it. The honest verdict was **UNDERPOWERED**.
+
+**The runner now returns three outcomes, not two** — `SUBSTANTIATED` / `NOT SUBSTANTIATED` /
+**`INCONCLUSIVE`** — with exit codes `0` / `1` / **`2`**, because *we could not tell* must never
+share a code with *we tested it and it failed*. Every negative ships with its *n* and the
+smallest effect that *n* could resolve.
+
+**A second condition, added as a control — not a retuned first one.** Text interference in colour
+perception, after *What Color Is It?* (arXiv:2511.13400): a conflicting colour word is printed on
+the shape and the model is asked the shape's colour. Naming the printed word is unambiguous
+hallucination — no caption parsing, no synonym trap. Both conditions are always reported.
+
+**Result at adequate power (n = 72 ⇒ CI upper bound 4.17% < 4.62%): 0 hallucinations.** The
+published interference mechanism does not fool a 2026 frontier model on this construction. That
+is a *well-powered negative* — and a far more useful result than the underpowered one it
+replaces, because it says the precondition BARE needs (a base role that produces repairable
+errors) does not hold **for this proxy**, which is a statement about the proxy, not about BARE.
+
+The plain stimuli were **not** made harder until the thesis passed. Tuning a benchmark until it
+agrees with you is how the 0.92 in the draft paper happened.
 
 **Role fidelity is enforced, not assumed.** Every model reachable through the Anthropic API is
 instruction-tuned, so it can fill the base *role* but is not a base *model*. A run stamps
@@ -117,6 +141,10 @@ natural-image captioning.
 - **A rejected sampling parameter is disclosed** — `claude-sonnet-5` refuses `temperature`
   outright. The runner retries without it and stamps the artifact, because "matched budget" is a
   claim it makes and an unapplied temperature quietly voids it.
+- **A negative carries its power or it is an opinion** — every zero-event result reports *n* and
+  the rule-of-three CI, and an underpowered zero returns `INCONCLUSIVE`, never `FALSE`. This
+  skill's own first published verdict violated that rule; the test that would have caught it
+  (`test_the_first_live_run_was_underpowered_not_a_refutation`) is now pinned in CI.
 
 ## Deeper reference (FM-os knowledge base)
 

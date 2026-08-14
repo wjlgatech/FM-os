@@ -48,6 +48,54 @@ OUT = Path(__file__).parent / "out"
 PIPELINES = ("base_only", "instruct_only", "bare")
 GATES = {"alignment_floor": 0.95, "diversity_floor": 0.25}
 
+# The smallest base-role hallucination rate this suite must be able to SEE.
+# Anchored to a published figure rather than taste: independent 2026 frontier
+# benchmarking puts Claude Haiku 4.5 — the default base role here — at a 4.62%
+# hallucination rate. A run that cannot resolve a rate that size cannot claim
+# the base role "does not hallucinate".
+MIN_DETECTABLE_RATE = 0.0462
+
+
+def rule_of_three(n: int) -> float | None:
+    """95% upper confidence bound on an event rate after ZERO observed events.
+
+    Hanley & Lippman-Hand, "If nothing goes wrong, is everything all right?
+    Interpreting zero numerators" (JAMA 1983): with 0 events in n trials, the
+    95% CI for the true rate is [0, 3/n]. It falls straight out of the binomial
+    — (1−p)^n = 0.05 — and it is the oldest, plainest correction to the mistake
+    this runner made on its first live run: reading 0/18 as "does not happen".
+    """
+    return None if n <= 0 else 3.0 / n
+
+
+def power_check(hallucinated: int, measured: int,
+                mde: float = MIN_DETECTABLE_RATE) -> dict:
+    """Could this run have DETECTED a base-role hallucination rate of `mde`?
+
+    Only meaningful for the zero-event case, which is exactly the case that
+    misleads. With events observed, the rate is estimated directly and the
+    question does not arise.
+    """
+    if measured == 0:
+        return {"powered": None, "n": 0, "upper95": None, "n_required": None,
+                "why": "nothing measured"}
+    if hallucinated > 0:
+        return {"powered": True, "n": measured, "upper95": None,
+                "n_required": None,
+                "why": f"{hallucinated} hallucination(s) observed — rate estimated directly"}
+    upper = rule_of_three(measured)
+    n_req = int(3.0 / mde) + 1
+    return {
+        "powered": upper <= mde, "n": measured, "upper95": upper,
+        "n_required": n_req,
+        "why": (f"0 hallucinations in {measured}; 95% CI for the true rate is "
+                f"[0, {upper:.3f}]. "
+                + (f"That resolves the {mde:.2%} reference rate."
+                   if upper <= mde else
+                   f"That CANNOT exclude the {mde:.2%} reference rate — "
+                   f"n≥{n_req} is needed. The zero is uninformative.")),
+    }
+
 
 # ── metrics ──────────────────────────────────────────────────────────────────
 def _words(caption: str) -> set[str]:
@@ -101,7 +149,8 @@ def score(per_scene: dict[str, list[str | None]]) -> dict:
     if div < GATES["diversity_floor"]:
         reasons.append(f"diversity {div:.2f} < {GATES['diversity_floor']}")
     return {"measured": measured, "alignment": alignment, "diversity": div,
-            "yield": clean / measured, "gate_pass": not reasons, "gate_reasons": reasons}
+            "yield": clean / measured, "hallucinated": measured - clean,
+            "gate_pass": not reasons, "gate_reasons": reasons}
 
 
 # ── the loop ─────────────────────────────────────────────────────────────────
@@ -124,12 +173,67 @@ def run_pipeline(mode: str, base, instruct, n_per_scene: int) -> dict[str, list[
     return out
 
 
+def score_interference(answers: dict[str, list[str | None]]) -> dict:
+    """The precondition probe: does the base role hallucinate AT ALL, when a
+    published mechanism is used to induce it?
+
+    BARE's pipeline claim presupposes a base role that produces ungrounded
+    content for refinement to repair. On plain geometry that presupposition
+    could not be resolved. Here a conflicting colour word is printed on the
+    shape (arXiv:2511.13400) and the model is asked the shape's colour; naming
+    the printed word instead of the actual colour is unambiguous hallucination.
+    """
+    measured, wrong, detail = 0, 0, []
+    for scene_id, got in answers.items():
+        scene = bare_stimuli.by_id(scene_id)
+        printed = scene["label"].lower()
+        true_color = scene["objects"][0][0]
+        for a in got:
+            if a is None:
+                continue
+            measured += 1
+            words = _words(a)
+            hit = printed in words and true_color not in words
+            wrong += hit
+            detail.append({"scene": scene_id, "answer": a, "true": true_color,
+                           "printed": printed, "hallucinated": hit})
+    return {"measured": measured, "hallucinated": wrong,
+            "rate": (wrong / measured) if measured else None,
+            "power": power_check(wrong, measured), "detail": detail}
+
+
 def verdicts(scored: dict[str, dict], fidelity: str) -> dict:
-    """The two claims, scored separately and never conflated."""
+    """The two claims, scored separately, and never conflated with each other or
+    with an absence of evidence.
+
+    THE CORRECTION THIS FUNCTION EXISTS TO CARRY. The first live run reported
+    `pipeline_claim: False` because the base role hallucinated 0 times in 18
+    captions. That was wrong — not the arithmetic, the LOGIC. By the rule of
+    three, 0/18 puts the 95% CI for the true rate at [0, 16.7%], which cannot
+    exclude the ~4.6% rate independently published for that very model. The
+    honest verdict was never "false"; it was UNDERPOWERED. A claim can only be
+    refuted by a run that could have detected it.
+    """
     bare, base, instr = scored["bare"], scored["base_only"], scored["instruct_only"]
     if any(s["gate_pass"] is None for s in scored.values()):
         return {"pipeline_claim": None, "paper_claim": None,
+                "power": {"powered": None, "why": "nothing measured"},
                 "why": "at least one pipeline measured nothing"}
+
+    power = power_check(base.get("hallucinated", 0), base["measured"])
+
+    # The pipeline claim PRESUPPOSES a base role that hallucinates. If the run
+    # could not have seen hallucination at the reference rate, the claim was not
+    # tested — it is neither supported nor refuted.
+    if base["gate_pass"] and power["powered"] is False:
+        return {
+            "pipeline_claim": None, "paper_claim": None, "power": power,
+            "underpowered": True,
+            "paper_claim_blocked_by_proxy": fidelity != "true_base",
+            "why": ("base_only showed no hallucination, but the run lacked the power to "
+                    "detect it: " + power["why"]),
+        }
+
     pipeline = (bare["gate_pass"]
                 and not base["gate_pass"]
                 and not instr["gate_pass"])
@@ -137,12 +241,15 @@ def verdicts(scored: dict[str, dict], fidelity: str) -> dict:
     if not bare["gate_pass"]:
         why.append("bare failed its own gates: " + "; ".join(bare["gate_reasons"]))
     if base["gate_pass"]:
-        why.append("base_only passed — no hallucination for refinement to fix")
+        why.append("base_only passed with adequate power — this base role genuinely "
+                   "does not hallucinate here, so there is nothing for refinement to fix")
     if instr["gate_pass"]:
         why.append("instruct_only passed — no mode collapse for diversity to beat")
     return {
         "pipeline_claim": pipeline,
         "paper_claim": bool(pipeline) if fidelity == "true_base" else False,
+        "power": power,
+        "underpowered": False,
         "why": "; ".join(why) if why else "all three gates behaved as the thesis predicts",
         "paper_claim_blocked_by_proxy": fidelity != "true_base",
     }
@@ -219,6 +326,15 @@ def results_md(scored, raw, meta, verd, var) -> str:
         f"**{ {True: 'SUBSTANTIATED', False: 'NOT SUBSTANTIATED', None: 'UNMEASURED'}[verd['paper_claim']] }**",
         "",
         f"  {verd['why']}",
+        "",
+        "### Statistical power — could this run have seen what it looked for?",
+        "",
+        f"  {verd['power']['why']}",
+        "",
+        "  Rule of three (Hanley & Lippman-Hand, *JAMA* 1983): with 0 events in *n*",
+        "  trials the 95% CI for the true rate is [0, 3/n]. Reference rate: "
+        f"{MIN_DETECTABLE_RATE:.2%}, the independently published 2026 hallucination rate for",
+        "  the default base role. Observing zero does not make the rate zero.",
     ]
     if verd.get("paper_claim_blocked_by_proxy"):
         L += [
@@ -267,6 +383,37 @@ def results_md(scored, raw, meta, verd, var) -> str:
     return "\n".join(L)
 
 
+def interference_md(res: dict) -> str:
+    p = res["power"]
+    powered = {True: "ADEQUATE", False: "UNDERPOWERED", None: "UNMEASURED"}[p["powered"]]
+    lines = [
+        "## Precondition probe — does the base role hallucinate at all?",
+        "",
+        "Text-interference in colour perception, after *What Color Is It?* "
+        "(arXiv:2511.13400): a conflicting colour word is printed on the shape and the "
+        "model is asked the shape's colour. Naming the printed word is unambiguous "
+        "hallucination — no caption parsing, no synonym trap.",
+        "",
+        "This is a SECOND declared condition, not the plain condition retuned. Both are "
+        "reported; neither replaces the other.",
+        "",
+        f"- **measured**: {res['measured']} answers",
+        f"- **hallucinated**: {res['hallucinated']}",
+        f"- **rate**: {_cell(res['rate'])}",
+        f"- **power**: {powered} — {p['why']}",
+        "",
+    ]
+    if res["detail"]:
+        lines += ["| scene | true | printed | answer | hallucinated |", "|---|---|---|---|---|"]
+        for d in res["detail"][:24]:
+            lines.append(f"| {d['scene']} | {d['true']} | {d['printed']} | "
+                         f"{d['answer'][:60]} | {'YES' if d['hallucinated'] else 'no'} |")
+        if len(res["detail"]) > 24:
+            lines.append(f"| … | | | *{len(res['detail']) - 24} more in raw_captions.json* | |")
+        lines.append("")
+    return "\n".join(lines) + "\n"
+
+
 def variance_report(reps: list[dict[str, dict]], repeat: int) -> str:
     if repeat < 2:
         return ("**UNMEASURED** — a single run. The base role samples at temperature 1.0, so "
@@ -293,6 +440,12 @@ def main() -> int:
                     help="captions per scene per pipeline (diversity needs >= 2)")
     ap.add_argument("--repeat", type=int, default=1,
                     help="repeat the whole run N times and report spread")
+    ap.add_argument("--interference-n", type=int, default=12,
+                    help="answers per interference scene for the precondition probe "
+                         "(6 scenes x N; N=12 gives n=72, enough to resolve a 4.62%% rate)")
+    ap.add_argument("--skip-interference", action="store_true",
+                    help="skip the precondition probe (the plain condition alone "
+                         "could not resolve it — you will get an UNDERPOWERED verdict)")
     args = ap.parse_args()
 
     fidelity = "true_base" if is_true_base(args.base_model) else "proxy"
@@ -333,24 +486,52 @@ def main() -> int:
     verd = verdicts(scored, fidelity)
     var = variance_report(all_reps, args.repeat)
 
+    interference = None
+    if not args.skip_interference:
+        print(f"precondition probe: {len(bare_stimuli.INTERFERENCE_SCENES)} interference "
+              f"scenes × {args.interference_n} (text-interference, arXiv:2511.13400)…")
+        answers = {
+            s["id"]: [base.caption(s, bare_stimuli.INTERFERENCE_QUESTION,
+                                   renderer=bare_stimuli.render_interference)
+                      for _ in range(args.interference_n)]
+            for s in bare_stimuli.INTERFERENCE_SCENES
+        }
+        interference = score_interference(answers)
+        meta["interference_n"] = args.interference_n
+
     OUT.mkdir(exist_ok=True)
-    (OUT / "RESULTS.md").write_text(results_md(scored, raw_last, meta, verd, var))
+    body = results_md(scored, raw_last, meta, verd, var)
+    if interference is not None:
+        body = body.replace("## Raw captions (evidence)",
+                            interference_md(interference) + "## Raw captions (evidence)", 1)
+    (OUT / "RESULTS.md").write_text(body)
     (OUT / "bare_results_table.tex").write_text(latex_table(scored, meta))
     (OUT / "raw_captions.json").write_text(json.dumps(
-        {"meta": meta, "verdicts": verd, "scored": all_reps, "captions": raw_last}, indent=1))
+        {"meta": meta, "verdicts": verd, "scored": all_reps, "captions": raw_last,
+         "interference": interference}, indent=1))
 
     for mode in PIPELINES:
         s = scored[mode]
         print(f"  {mode:<14} align={_cell(s['alignment'])} div={_cell(s['diversity'])} "
               f"yield={_cell(s['yield'])} n={s['measured']} "
               f"gate={'PASS' if s['gate_pass'] else 'FAIL'}")
-    print(f"pipeline claim : {verd['pipeline_claim']}")
-    print(f"paper claim    : {verd['paper_claim']}"
+    POWER_LABEL = {True: "ADEQUATE", False: "UNDERPOWERED", None: "n.m."}
+    if interference is not None:
+        print(f"  precondition   hallucinated={interference['hallucinated']}"
+              f"/{interference['measured']} rate={_cell(interference['rate'])} "
+              f"power={POWER_LABEL[interference['power']['powered']]}")
+    label = {True: "SUBSTANTIATED", False: "NOT SUBSTANTIATED", None: "INCONCLUSIVE"}
+    print(f"pipeline claim : {label[verd['pipeline_claim']]}"
+          + ("  (UNDERPOWERED — see the power section)" if verd.get("underpowered") else ""))
+    print(f"paper claim    : {label[verd['paper_claim']]}"
           + ("  (blocked: base role is a proxy)" if verd.get("paper_claim_blocked_by_proxy") else ""))
     print(f"wrote {OUT}/RESULTS.md, bare_results_table.tex, raw_captions.json")
-    # Exit non-zero when the pipeline claim does not hold: the artifact is still
-    # written (an honest negative is evidence), but CI must not read it as green.
-    return 0 if verd["pipeline_claim"] else 1
+    # Exit codes distinguish the three outcomes, because "we could not tell" must
+    # never be filed under the same code as "we tested it and it failed":
+    #   0 = substantiated · 2 = inconclusive/underpowered · 1 = refuted
+    if verd["pipeline_claim"] is True:
+        return 0
+    return 2 if verd["pipeline_claim"] is None else 1
 
 
 if __name__ == "__main__":

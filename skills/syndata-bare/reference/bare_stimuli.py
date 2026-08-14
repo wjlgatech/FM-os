@@ -26,7 +26,7 @@ and no others.
 """
 from __future__ import annotations
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 W, H = 320, 240
 BG = (250, 250, 250)
@@ -101,10 +101,63 @@ def render(scene: dict) -> Image.Image:
 
 
 def by_id(scene_id: str) -> dict:
-    for s in SCENES:
+    for s in SCENES + INTERFERENCE_SCENES:
         if s["id"] == scene_id:
             return s
     raise KeyError(scene_id)
+
+
+# ── the interference condition (a SECOND declared condition, not a tuned knob) ─
+#
+# The plain scenes above turned out to be too easy: a 2026 instruction-tuned
+# model in the base role hallucinated 0 times in 18 captions. Rather than fiddle
+# with the plain scenes until something broke — which is how an unsupported
+# number gets into a paper — we add a DIFFERENT, PUBLISHED failure mode and
+# report both conditions side by side.
+#
+# Mechanism: text interference in colour perception, after "What Color Is It? A
+# Text-Interference Multimodal Hallucination Benchmark" (arXiv:2511.13400) — a
+# conflicting colour WORD is printed on the shape, and the model is asked what
+# colour the shape is. The known failure is answering with the printed word.
+#
+# Because a caption may legitimately *mention* the printed text, this condition
+# is probed with a targeted question rather than free captioning; naming the
+# printed colour is then unambiguous, not a parsing guess.
+
+INTERFERENCE_SCENES: list[dict] = [
+    {"id": f"i{n}_{color}_{shape}_labelled_{word}",
+     "objects": [(color, shape, "center")], "label": word}
+    for n, (color, shape, word) in enumerate([
+        ("red", "circle", "BLUE"),
+        ("blue", "square", "GREEN"),
+        ("green", "triangle", "YELLOW"),
+        ("yellow", "circle", "PURPLE"),
+        ("purple", "square", "ORANGE"),
+        ("orange", "triangle", "RED"),
+    ], start=1)
+]
+
+INTERFERENCE_QUESTION = (
+    "What colour is the shape in this image? Answer with the colour word alone."
+)
+
+
+def render_interference(scene: dict) -> Image.Image:
+    """The scene's shape with a CONFLICTING colour word printed across it."""
+    img = render(scene)
+    d = ImageDraw.Draw(img)
+    # Pillow's bundled default font: no system-font dependency, so the render is
+    # reproducible for a given Pillow version (the plain scenes are stronger —
+    # pure geometry — and this is stated rather than glossed).
+    try:
+        font = ImageFont.load_default(size=30)
+    except TypeError:  # pragma: no cover — Pillow < 10.1
+        font = ImageFont.load_default()
+    word = scene["label"]
+    box = d.textbbox((0, 0), word, font=font)
+    d.text(((W - (box[2] - box[0])) / 2, (H - (box[3] - box[1])) / 2 - 6),
+           word, fill=(255, 255, 255), font=font)
+    return img
 
 
 if __name__ == "__main__":  # pragma: no cover — visual smoke check
