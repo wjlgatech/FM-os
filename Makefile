@@ -1,4 +1,4 @@
-.PHONY: check build validate test ainative sync site certify distill distill-check build-router thomson clean help
+.PHONY: check build validate test ainative sync site certify distill distill-check build-router thomson power clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
@@ -11,6 +11,7 @@ help:
 	@echo "  make certify   Re-certify the tooling registry + refresh badges"
 	@echo "  make ainative  Self-audit vs AI-native / loop-engineering principles"
 	@echo "  make thomson   Gate the Thomson-1 stack + score the prediction ledger"
+	@echo "  make power     What can a study of this size actually see? (CI + MDE)"
 	@echo "  make jdfit JD=<file>   Score FM-os coverage of a job description"
 	@echo ""
 
@@ -40,6 +41,11 @@ check: validate test ainative distill-check thomson
 # stage must carry a registered, falsifiable bet.
 thomson:
 	python3 scripts/thomson.py --score
+
+# A rate without its n is an opinion (rule earned 2026-08-14). Wilson CIs,
+# the rule of three, and the minimum detectable difference for a two-arm design.
+power:
+	python3 scripts/power.py --intern-report
 
 # Distill cited repos -> per-repo knowledge graph + tooling scaffold under distill/.
 #   make distill              regenerate every distilled repo (spec = data/repos.yml)

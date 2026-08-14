@@ -34,6 +34,12 @@ and a kill criterion, not a repo.
 - **rsi-os** — the FIELD MAP: automated-research knowledge base the program cites.
 - **super-u** — the PERSONALIZATION PRODUCT surface where P3 lives.
 
+**Inbound collaborations** are read against this program, never absorbed into it:
+[`COLLAB-intern-projects.md`](COLLAB-intern-projects.md) maps three Physical AI intern
+projects onto existing probes — trajectory labels feed **P1 RewardForge**, thread memory
+meets **P3 Proactive Twin**, spatial grounding tests the **VSS** probe suite. None earns a
+new probe, which is the depth discipline working rather than being recited.
+
 ## The discipline the program nearly failed (2026-08-14)
 
 The thesis says an honest gate is a training-signal factory. A gate that reports an
@@ -44,6 +50,8 @@ sample size that could not have detected the effect it was denying.
 
 **The rule now, everywhere a gate reports a negative:** state the *n*, and state the smallest
 effect that *n* could have resolved. A negative without a power statement is an opinion.
+It has a tool — `make power` (`scripts/power.py`: Wilson CIs, the rule of three, and the
+minimum detectable difference for a two-arm design) — because a rule without one is a slogan.
 
 **The rule that keeps us deep:** a new idea lands as (1) a brief with kill criteria in an
 existing home, then (2) a gated lab/module, and only then (3) a standalone repo — and only
