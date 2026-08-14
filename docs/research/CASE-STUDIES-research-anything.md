@@ -22,7 +22,7 @@ sections are still TODO); the tooling below closes exactly that gap.
 | Tool | What it gives each paper | Proof |
 |---|---|---|
 | [`skills/vlm-failure-probe`](../../skills/vlm-failure-probe/) | VSS §IV–XI: the failure taxonomy **as data** (`probe_spec.yml`, one probe per observed failure in the paper), deterministic synthetic stimuli for every probe (`stimuli.py` — the paper's own methodology, as code), a runner that scores any pipeline exposed as `answer(probe)`, and a blocking gate that cannot pass on unmeasured modes. The benchmark becomes a CI regression gate, and the Results section generates from a run: `run_real.py` emits `out/RESULTS.md` + a paste-ready `out/vss_results_table.tex`. | **Measured live (multi-model, 2026-07-31):** baseline VSS fails 5/5 modes; claude-opus-5 and claude-sonnet-5 pass 5/5; **claude-haiku-4.5 fails 3/5** (temporal 0.67, multipart 0.58, retrieval 0.00 — e.g. it reads the rising fork as 'moving down') — the failure profile is capability-dependent, not only architectural (raw answers in `reference/out/RESULTS.md`) |
-| [`skills/syndata-bare`](../../skills/syndata-bare/) | syndata §III–IV: BARE-VLM as a **closed loop with twin gates** — alignment floor (mock-CLIP, swap in real CLIP) catches base-model hallucination; diversity floor (pairwise Jaccard) catches instruct-model mode collapse. The paper's central thesis becomes a falsifiable assertion: BARE must beat both single-stage baselines at equal budget and seed. | `python reference/bare_loop.py` — base fails alignment (0.88), instruct fails diversity (0.00), BARE passes both at 100% yield |
+| [`skills/syndata-bare`](../../skills/syndata-bare/) | syndata §III–IV: BARE-VLM as a **closed loop with twin gates** — alignment floor (mock-CLIP, swap in real CLIP) catches base-model hallucination; diversity floor (pairwise Jaccard) catches instruct-model mode collapse. The paper's central thesis becomes a falsifiable assertion: BARE must beat both single-stage baselines at equal budget and seed. | `python reference/bare_loop.py` — base fails alignment (0.88), instruct fails diversity (0.00), BARE passes both at 100% yield. **Live (2026-08-14):** `reference/run_real.py` over real vision models — mode collapse reproduced (0.23 vs 0.62), base-role hallucination did **not**, so the pipeline claim is NOT SUBSTANTIATED at this difficulty; see the headline below |
 | [`skills/research-loop`](../../skills/research-loop/) (existing) | Both papers' experiment sections: pre-registered thresholds, ≥3 seeds with variance, ablations, adversarial critique, repro command — the write-up gate for every TODO results section. | rubric enforced by the skill itself |
 | [`skills/agentic-eval`](../../skills/agentic-eval/) (existing) | VSS §X: wiring standard video benchmarks (Video-MME, MMBench-Video) alongside the custom probes, LLM-as-judge for narrative consistency, per-axis CI gates. | see skill |
 | [`skills/vlm-quickstart`](../../skills/vlm-quickstart/) (existing) | syndata §IV: fine-tune an open VLM on the BARE-generated data and assert no regression vs. base on a held-out benchmark — the downstream-utility experiment the paper plans. | see skill |
@@ -97,6 +97,37 @@ These are the claims a reviewer will attack first; each maps to a concrete next 
   a 2D court read as ping-pong). Expectations must grade the failure mode's *intent*
   (compound-prompt completeness), not incidental scene naming. Always read raw answers before
   reporting a failure — the paper's fuzzy-matching metrics need the same audit.
+
+**syndata-bare goes live — and returns an honest null (2026-08-14, 18 captions per pipeline,
+base role `claude-haiku-4-5` @ T=1.0, instruct `claude-sonnet-5`, six deterministic scenes):**
+the asymmetry that let the VSS paper carry measurements while the BARE paper carried a
+hypothesis is closed — `skills/syndata-bare/reference/run_real.py` is the counterpart of
+`vlm-failure-probe`'s runner, emitting `bare_results_table.tex` the same way.
+
+| pipeline | alignment | diversity | yield | gate |
+|---|---|---|---|---|
+| base_only | 1.00 | 0.62 | 1.00 | PASS |
+| instruct_only | 1.00 | 0.23 | 1.00 | **FAIL** — mode collapse |
+| bare | 1.00 | 0.56 | 1.00 | PASS |
+
+**Half the thesis reproduced; half had no headroom.** Mode collapse is real and large (0.23 vs
+0.62, below the 0.25 floor). But the base role did not hallucinate once across 18 captions, so
+refinement had nothing to repair and the *pipeline claim* is NOT SUBSTANTIATED at this stimulus
+difficulty. The stimuli were **not** made harder until it passed — tuning a benchmark until it
+agrees with you is exactly how the 0.92 in the draft paper happened.
+
+Two refusals are enforced in code, not prose. **Role fidelity:** every Anthropic model is
+instruction-tuned, so it fills the base *role* but is not a base *model*; a run stamps `proxy`
+and the *paper claim* (base-vs-instruct) can never be marked substantiated — the emitted LaTeX
+caption says so inside the table. **Metric asymmetry:** only closed-vocabulary decoys can be
+scored wrong, and high-entropy captions route around that vocabulary entirely ("crimson",
+"cobalt", "orbs" — observed live), so alignment is a weaker bound for the base role than for the
+instruct role, *in the direction that flatters the base role*.
+
+A third finding came from the API itself: `claude-sonnet-5` **rejects `temperature` outright**,
+which silently zeroed the entire instruct role on the first run (18 captions, all "not
+measured"). The runner now retries without it and stamps the artifact, because "matched budget"
+is a claim it makes and an unapplied temperature quietly voids it.
 
 **BARE/RewardForge headline (2026-07-31, 5 seeds):** preference pairs labeled by an
 independent eval gate carry real training signal — treatment **+0.098 ± 0.028** held-out

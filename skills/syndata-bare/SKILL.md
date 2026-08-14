@@ -47,8 +47,10 @@ generated data", or "filter image-text pairs with CLIP".
 # self-contained proof (stdlib only): base fails alignment, instruct fails
 # diversity, BARE passes both at full yield — exits non-zero otherwise
 python reference/bare_loop.py
-# offline gate:
-python -m pytest reference/test_bare_loop.py -q
+# against REAL vision models, over deterministic synthetic scenes:
+ANTHROPIC_API_KEY=… python reference/run_real.py --per-scene 3 [--repeat 3]
+# offline gate (no network, no keys):
+python -m pytest reference/test_bare_loop.py reference/test_run_real.py -q
 ```
 
 ```python
@@ -58,6 +60,48 @@ assert not run_pipeline("instruct_only")["gate_pass"]  # mode-collapses
 assert run_pipeline("bare")["gate_pass"]               # the thesis, measured
 ```
 
+## Measured against real models — and the honest null
+
+`reference/run_real.py` runs the three pipelines over six deterministic synthetic scenes
+(`bare_stimuli.py`) whose ground truth is known by construction, so grounding is checkable
+without CLIP, an LLM judge, or a human. **Two claims are scored separately and never conflated:**
+
+| claim | what it needs | status |
+|---|---|---|
+| *pipeline* — draft-then-refine beats either single stage at matched budget | any two models | **NOT SUBSTANTIATED** at this difficulty |
+| *paper* — a BASE checkpoint supplies diversity an instruct model cannot | a real base checkpoint in the base role | **UNMEASURABLE** with an instruction-tuned proxy |
+
+First live run (2026-08-14, base role `claude-haiku-4-5` @ T=1.0, instruct `claude-sonnet-5`,
+18 captions per pipeline):
+
+| pipeline | alignment | diversity | yield | gate |
+|---|---|---|---|---|
+| base_only | 1.00 | 0.62 | 1.00 | PASS |
+| instruct_only | 1.00 | 0.23 | 1.00 | **FAIL** (mode collapse) |
+| bare | 1.00 | 0.56 | 1.00 | PASS |
+
+**Half the thesis reproduced, half had no headroom.** Mode collapse is real and large — the
+instruct role's diversity (0.23) is a third of the base role's (0.62), and it fails the floor.
+But the base role did not hallucinate *once*, so there was nothing for refinement to repair and
+the pipeline claim cannot hold. The stimuli are too easy for a 2026 model.
+
+The stimuli were **not** made harder until the thesis passed. Tuning a benchmark until it agrees
+with you is how the 0.92 in the draft paper happened; the null is reported instead, and a harder
+stimulus set is named as unrun work rather than quietly executed.
+
+**Role fidelity is enforced, not assumed.** Every model reachable through the Anthropic API is
+instruction-tuned, so it can fill the base *role* but is not a base *model*. A run stamps
+`proxy` unless the base model is a checkpoint listed in `vlm_roles.BASE_CHECKPOINTS`, and a proxy
+run can never mark the paper's claim substantiated — the emitted LaTeX caption says so in the
+table itself. Point `--base-model` at a real base checkpoint over an OpenAI-compatible endpoint
+(vLLM / NIM / TGI, via `BARE_OPENAI_BASE_URL`) to make that claim measurable at all.
+
+**Known limits, restated in every artifact:** alignment is an upper bound (only closed-vocabulary
+decoys can be scored wrong); high-entropy captions route around that vocabulary entirely
+("crimson", "cobalt", "orbs" — observed live), which weakens the bound *in the direction that
+flatters the base role*; and primitive colour/shape grounding is a weaker proxy than
+natural-image captioning.
+
 ## Discipline (why this is trustworthy)
 
 - **The thesis is falsifiable** — BARE must beat BOTH baselines under identical budget and
@@ -66,6 +110,13 @@ assert run_pipeline("bare")["gate_pass"]               # the thesis, measured
   drafts here; refinement keeps 100% while reaching full grounding.
 - **The refiner never invents** — property-tested: every refined token is grounded in the
   image's facts (the hallucination-snowballing guard).
+- **Not measured is never a failure** — no key, an API error, an empty response or a truncated
+  one all mean the caption is EXCLUDED from every aggregate. Scoring an empty string as a
+  hallucination would publish a failure the model never committed; that exact fake failure was
+  found live in the sibling skill `vlm-failure-probe`.
+- **A rejected sampling parameter is disclosed** — `claude-sonnet-5` refuses `temperature`
+  outright. The runner retries without it and stamps the artifact, because "matched budget" is a
+  claim it makes and an unapplied temperature quietly voids it.
 
 ## Deeper reference (FM-os knowledge base)
 
