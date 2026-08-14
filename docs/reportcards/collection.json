@@ -1217,5 +1217,65 @@
       "source": "python3 skills/syndata-bare/reference/run_real.py --per-scene 3"
     },
     "next_lever": "run the same suite with a real base checkpoint (BLIP-2 / Qwen2.5-VL) over an OpenAI-compatible endpoint \u2014 the only way the second of the two claims becomes measurable"
+  },
+  {
+    "id": "rc0040",
+    "delivery": "Retracted our own unsupported negative and shipped the power gate that prevents the next one",
+    "objective": "Hold our eval gates to the standard we hold the manuscripts to",
+    "created_at": "2026-08-14T14:41:06-05:00",
+    "key_results": [
+      {
+        "text": "Power gate shipped and enforced in CI",
+        "target": "pinned by test",
+        "score": 1.0,
+        "evidence": "test_the_first_live_run_was_underpowered_not_a_refutation + tests/test_syndata_bare.py; 87 passed"
+      },
+      {
+        "text": "Third verdict and distinct exit codes",
+        "target": "0/1/2",
+        "score": 1.0,
+        "evidence": "verdicts() returns None for underpowered; exit 2 never shares a code with exit 1"
+      },
+      {
+        "text": "Second condition measured at adequate power",
+        "target": "n=72, CI 4.17% < 4.62%",
+        "score": 1.0,
+        "evidence": "live interference probe, 0 hallucinations, arXiv:2511.13400 mechanism"
+      },
+      {
+        "text": "Correction grounded across four research windows",
+        "target": "4 windows, 6 sources",
+        "score": 1.0,
+        "evidence": "docs/research/POWER-AND-THE-ZERO-NUMERATOR.md, every claim cited"
+      },
+      {
+        "text": "The plain-condition claim resolved at n>=65",
+        "target": "resolved",
+        "score": 0.0,
+        "evidence": "NOT DONE \u2014 the n=66 run was still executing at hand-off; last measured n=36 is still INCONCLUSIVE"
+      },
+      {
+        "text": "Results table landed in the BARE Overleaf project",
+        "target": "in the paper",
+        "score": 0.0,
+        "evidence": "NOT DONE \u2014 table generated, never pushed; co-author letter still unsent"
+      }
+    ],
+    "request": "do deep research on the remaining issues and 10x possibilities (four windows); ship them",
+    "headline": "0 in 18 was never a refutation",
+    "brief": "Yesterday's card reported the BARE pipeline claim refuted on zero hallucinations in 18 captions. The rule of three puts that interval at [0, 16.7%], which cannot exclude the 4.62% rate published for that model. The runner now returns a third verdict, INCONCLUSIVE, with its own exit code, and a declared second condition at adequate power.",
+    "growth": [
+      "C1:met:turned the gate on our own published verdict \u2014 an unsupported negative is the one an eval repo waves through, because modesty reads as rigour",
+      "P1:met:went to the binomial, not to intuition; zero events in n is a confidence interval, and the 1983 correction was already sitting there"
+    ],
+    "why": "every remaining verdict in this skill is capped by sample size, not by tooling",
+    "needle": {
+      "name": "eval verdicts that state the n they could resolve",
+      "before": "0 of 3",
+      "after": "3 of 3",
+      "better": "up",
+      "source": "python3 skills/syndata-bare/reference/run_real.py --per-scene 11"
+    },
+    "next_lever": "finish the n=66 plain-condition run so the pipeline claim stops being INCONCLUSIVE and becomes a verdict the n can carry"
   }
 ]
