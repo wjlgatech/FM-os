@@ -49,19 +49,19 @@ The FM-os discipline governs every route:
 
 | Tool | What it does | Load | Certified |
 |---|---|---|---|
-| `agentic-eval` | Build an agentic evaluation framework for Vision-Language Models on video: benchmark spatiotemporal reasoning, localization accuracy, and narrative c… | `skills/agentic-eval/SKILL.md` | ✅ 94/100 |
-| `bayesopt-loop` | Stand up a closed-loop Bayesian optimizer for expensive experiments: fit a Gaussian-process surrogate, choose the next experiment with an acquisition… | `skills/bayesopt-loop/SKILL.md` | ✅ 98/100 |
-| `continual-rl-eval` | Stand up a PERSISTENT (no-reset) reinforcement-learning environment for continual RL: world state that carries across episodes, structured non-statio… | `skills/continual-rl-eval/SKILL.md` | ✅ 98/100 |
-| `curation-loop` | Stand up an "AI training AI" data curation loop: use your own model to label, generate, and refine a video/multi-modal dataset, filter with quality +… | `skills/curation-loop/SKILL.md` | ✅ 91/100 |
-| `personalization-loop` | Ship model personalization (per-user memory, preference profiles, custom model adaptation) through a four-gate eval harness: measured lift over the s… | `skills/personalization-loop/SKILL.md` | ✅ 91/100 |
-| `product-rl-loop` | Run product-driven post-training as a gated closed loop: collect user preference signal from a live product, update the policy (DPO/GRPO-style), judg… | `skills/product-rl-loop/SKILL.md` | ✅ 98/100 |
-| `research-loop` | Run a rigorous, closed research loop on a foundation-model question: frame a falsifiable hypothesis, design a minimal experiment with a control, run … | `skills/research-loop/SKILL.md` | ✅ 92/100 |
-| `slm-quickstart` | Take a Small Language Model from zero to running: pick a small open model for your hardware, fine-tune it with LoRA/QLoRA, align it (DPO/GRPO), quant… | `skills/slm-quickstart/SKILL.md` | ✅ 94/100 |
-| `syndata-bare` | Run BARE (Base-Refine) synthetic data generation for vision-language models as a measurable closed loop: a base VLM drafts diverse candidates, an ins… | `skills/syndata-bare/SKILL.md` | ✅ 98/100 |
-| `tinker-loop` | Post-training through fine-tuning-service primitives, with gates: the Tinker API mental model (forward_backward / optim_step / sample / save_state + … | `skills/tinker-loop/SKILL.md` | ✅ 98/100 |
-| `vector-rag` | Build retrieval-augmented generation over VIDEO: embed clips/frames with a CLIP/SigLIP-style encoder, index them in a vector database (FAISS / Milvus… | `skills/vector-rag/SKILL.md` | ✅ 94/100 |
-| `vlm-failure-probe` | Turn a VLM failure taxonomy into a gated probe suite: encode failure modes (spatial/directional, temporal cross-chunk, multi-part prompts, retrieval … | `skills/vlm-failure-probe/SKILL.md` | ✅ 98/100 |
-| `vlm-quickstart` | Take a Vision-Language Model from zero to running on VIDEO: pick an open VLM, prepare video + sensor-metadata data, fine-tune it (LoRA/QLoRA) for mot… | `skills/vlm-quickstart/SKILL.md` | ✅ 94/100 |
+| `agentic-eval` | Build an agentic evaluation framework for Vision-Language Models on video: benchmark spatiotemporal reasoning, localization accuracy, and narrative c… | `skills/agentic-eval/SKILL.md` | ✅ 92/100 |
+| `bayesopt-loop` | Stand up a closed-loop Bayesian optimizer for expensive experiments: fit a Gaussian-process surrogate, choose the next experiment with an acquisition… | `skills/bayesopt-loop/SKILL.md` | ✅ 96/100 |
+| `continual-rl-eval` | Stand up a PERSISTENT (no-reset) reinforcement-learning environment for continual RL: world state that carries across episodes, structured non-statio… | `skills/continual-rl-eval/SKILL.md` | ✅ 96/100 |
+| `curation-loop` | Stand up an "AI training AI" data curation loop: use your own model to label, generate, and refine a video/multi-modal dataset, filter with quality +… | `skills/curation-loop/SKILL.md` | ✅ 89/100 |
+| `personalization-loop` | Ship model personalization (per-user memory, preference profiles, custom model adaptation) through a four-gate eval harness: measured lift over the s… | `skills/personalization-loop/SKILL.md` | ✅ 89/100 |
+| `product-rl-loop` | Run product-driven post-training as a gated closed loop: collect user preference signal from a live product, update the policy (DPO/GRPO-style), judg… | `skills/product-rl-loop/SKILL.md` | ✅ 96/100 |
+| `research-loop` | Run a rigorous, closed research loop on a foundation-model question: frame a falsifiable hypothesis, design a minimal experiment with a control, run … | `skills/research-loop/SKILL.md` | ✅ 90/100 |
+| `slm-quickstart` | Take a Small Language Model from zero to running: pick a small open model for your hardware, fine-tune it with LoRA/QLoRA, align it (DPO/GRPO), quant… | `skills/slm-quickstart/SKILL.md` | ✅ 92/100 |
+| `syndata-bare` | Run BARE (Base-Refine) synthetic data generation for vision-language models as a measurable closed loop: a base VLM drafts diverse candidates, an ins… | `skills/syndata-bare/SKILL.md` | ✅ 96/100 |
+| `tinker-loop` | Post-training through fine-tuning-service primitives, with gates: the Tinker API mental model (forward_backward / optim_step / sample / save_state + … | `skills/tinker-loop/SKILL.md` | ✅ 96/100 |
+| `vector-rag` | Build retrieval-augmented generation over VIDEO: embed clips/frames with a CLIP/SigLIP-style encoder, index them in a vector database (FAISS / Milvus… | `skills/vector-rag/SKILL.md` | ✅ 92/100 |
+| `vlm-failure-probe` | Turn a VLM failure taxonomy into a gated probe suite: encode failure modes (spatial/directional, temporal cross-chunk, multi-part prompts, retrieval … | `skills/vlm-failure-probe/SKILL.md` | ✅ 96/100 |
+| `vlm-quickstart` | Take a Vision-Language Model from zero to running on VIDEO: pick an open VLM, prepare video + sensor-metadata data, fine-tune it (LoRA/QLoRA) for mot… | `skills/vlm-quickstart/SKILL.md` | ✅ 92/100 |
 
 ### Distilled from cited repos (89) — scaffolds; read upstream first
 

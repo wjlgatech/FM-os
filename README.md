@@ -95,21 +95,21 @@ Trust, not just a list. Every tool below is scored by an **automated, evidence-b
 
 | Tool | Kind | Score | Status |
 |---|---|--:|:--|
-| [bayesopt-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop) | skill | 98/100 | ✅ certified |
-| [continual-rl-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval) | skill | 98/100 | ✅ certified |
-| [vlm-failure-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe) | skill | 98/100 | ✅ certified |
-| [syndata-bare](https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare) | skill | 98/100 | ✅ certified |
-| [product-rl-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/product-rl-loop) | skill | 98/100 | ✅ certified |
-| [tinker-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop) | skill | 98/100 | ✅ certified |
-| [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 94/100 | ✅ certified |
-| [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 94/100 | ✅ certified |
-| [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 94/100 | ✅ certified |
-| [vector-rag](https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag) | skill | 94/100 | ✅ certified |
-| [fm-os](https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os) | skill | 94/100 | ✅ certified |
-| [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 92/100 | ✅ certified |
-| [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 91/100 | ✅ certified |
-| [personalization-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop) | skill | 91/100 | ✅ certified |
-| [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 83/100 | ✅ certified |
+| [bayesopt-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop) | skill | 96/100 | ✅ certified |
+| [continual-rl-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval) | skill | 96/100 | ✅ certified |
+| [vlm-failure-probe](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe) | skill | 96/100 | ✅ certified |
+| [syndata-bare](https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare) | skill | 96/100 | ✅ certified |
+| [product-rl-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/product-rl-loop) | skill | 96/100 | ✅ certified |
+| [tinker-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop) | skill | 96/100 | ✅ certified |
+| [slm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart) | skill | 92/100 | ✅ certified |
+| [vlm-quickstart](https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart) | skill | 92/100 | ✅ certified |
+| [agentic-eval](https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval) | skill | 92/100 | ✅ certified |
+| [vector-rag](https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag) | skill | 92/100 | ✅ certified |
+| [fm-os](https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os) | skill | 92/100 | ✅ certified |
+| [research-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop) | skill | 90/100 | ✅ certified |
+| [curation-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop) | skill | 89/100 | ✅ certified |
+| [personalization-loop](https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop) | skill | 89/100 | ✅ certified |
+| [fm-os-sync](https://github.com/wjlgatech/FM-os/tree/main/scripts) | workflow | 81/100 | ✅ certified |
 | eval-llm | skill | — | ⏳ submitted |
 | continual-learning-research | skill | — | ⏳ submitted |
 

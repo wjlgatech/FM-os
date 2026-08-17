@@ -4,7 +4,7 @@ agentic-eval:
   - correctness (55)
   kind: skill
   on_mission: true
-  score: 94
+  score: 92
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/agentic-eval
   tier: certified
@@ -12,7 +12,7 @@ bayesopt-loop:
   gaps: []
   kind: skill
   on_mission: true
-  score: 98
+  score: 96
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/bayesopt-loop
   tier: certified
@@ -20,7 +20,7 @@ continual-rl-eval:
   gaps: []
   kind: skill
   on_mission: true
-  score: 98
+  score: 96
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/continual-rl-eval
   tier: certified
@@ -30,7 +30,7 @@ curation-loop:
   - eval (30)
   kind: skill
   on_mission: true
-  score: 91
+  score: 89
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/curation-loop
   tier: certified
@@ -39,7 +39,7 @@ fm-os:
   - correctness (55)
   kind: skill
   on_mission: true
-  score: 94
+  score: 92
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/fm-os
   tier: certified
@@ -48,7 +48,7 @@ fm-os-sync:
   - docs (0)
   kind: workflow
   on_mission: true
-  score: 83
+  score: 81
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/scripts
   tier: certified
@@ -57,7 +57,7 @@ personalization-loop:
   - relevance (54)
   kind: skill
   on_mission: true
-  score: 91
+  score: 89
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/personalization-loop
   tier: certified
@@ -65,7 +65,7 @@ product-rl-loop:
   gaps: []
   kind: skill
   on_mission: true
-  score: 98
+  score: 96
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/product-rl-loop
   tier: certified
@@ -74,7 +74,7 @@ research-loop:
   - correctness (55)
   kind: skill
   on_mission: true
-  score: 92
+  score: 90
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/research-loop
   tier: certified
@@ -83,7 +83,7 @@ slm-quickstart:
   - correctness (55)
   kind: skill
   on_mission: true
-  score: 94
+  score: 92
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/slm-quickstart
   tier: certified
@@ -91,7 +91,7 @@ syndata-bare:
   gaps: []
   kind: skill
   on_mission: true
-  score: 98
+  score: 96
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/syndata-bare
   tier: certified
@@ -99,7 +99,7 @@ tinker-loop:
   gaps: []
   kind: skill
   on_mission: true
-  score: 98
+  score: 96
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/tinker-loop
   tier: certified
@@ -108,7 +108,7 @@ vector-rag:
   - correctness (55)
   kind: skill
   on_mission: true
-  score: 94
+  score: 92
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/vector-rag
   tier: certified
@@ -116,7 +116,7 @@ vlm-failure-probe:
   gaps: []
   kind: skill
   on_mission: true
-  score: 98
+  score: 96
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-failure-probe
   tier: certified
@@ -125,7 +125,7 @@ vlm-quickstart:
   - correctness (55)
   kind: skill
   on_mission: true
-  score: 94
+  score: 92
   security_ok: true
   source: https://github.com/wjlgatech/FM-os/tree/main/skills/vlm-quickstart
   tier: certified
