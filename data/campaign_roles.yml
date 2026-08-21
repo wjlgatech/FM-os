@@ -264,7 +264,12 @@
       exactly 1.0, and refusal as a first-class outcome. Then I codify what worked into
       tooling the next engineer installs in one command.
     lead: [procurement_triage, sec_filing_rag, enterprise_eval, fde_os_patterns, agentic_bpa]
-    also: [snowflake_os, loop_engineering, mcp_arena, datacenter_ar]
+    also: [snowflake_os, loop_engineering, datacenter_ar]   # mcp_arena moved to publications (wp_mcp_arena) to avoid saying it twice
+    # Two real publications first, then the working papers, each carrying a pub_status tag.
+    # Paul is first author on VSS and BARE by agreement (confirmed 2026-08-21); neither has a
+    # venue, so neither says "submitted".
+    publications: [scwm, physical_ai_paper, wp_vss_benchmark, wp_bare_vlm, wp_rewardforge,
+                   wp_mcp_arena, wp_thomson_ledger, wp_zero_numerator]
     experience_focus: [fde]
     skill_groups: ["agentic systems", "retrieval and data", llmops, "cloud and platform", "forward-deployed delivery"]
     honest_edge: >-

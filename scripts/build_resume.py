@@ -78,9 +78,16 @@ def build_markdown(facts: dict, role: dict) -> str:
         L.append("")
 
     L += ["## PUBLICATIONS", ""]
-    for pid in ("scwm", "physical_ai_paper"):
+    pubs = r.get("publications") or facts.get("default_publications") or ["scwm", "physical_ai_paper"]
+    missing_pub = [i for i in pubs if i not in proof]
+    if missing_pub:
+        raise KeyError(f"{role['slug']}: unknown publication id(s) {missing_pub}")
+    for pid in pubs:
         p = proof[pid]
-        L.append(f"- **{p['headline']}** — {p['body'].strip()}")
+        # pub_status is the honesty tag: "working paper", "not submitted", "Brier UNSCORED".
+        # A publication entry without a real venue MUST carry one.
+        tag = f" *({p['pub_status']})*" if p.get("pub_status") else ""
+        L.append(f"- **{p['headline']}**{tag} — {p['body'].strip()}")
 
     L += ["", "## TECHNICAL SKILLS", ""]
     groups = r.get("skill_groups") or facts.get("default_skill_groups") or list(facts["skills"])

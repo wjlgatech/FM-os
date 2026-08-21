@@ -20,7 +20,6 @@ I embed with customers and take agentic systems from prototype to production-gra
 
 - **Compiled a data platform's whole curriculum into a staffing GO/NO-GO** — github.com/wjlgatech/FDE-os/tree/main/snowflake-os
 - **Self-improving harness with an independent referee** — github.com/wjlgatech/loop-engineering-anything
-- **Evidence-gated tool-use benchmark over real MCP servers** — github.com/wjlgatech/mcp-arena
 - **Spatial AI deployed to Fortune 500 field technicians** — Accenture, Physical AI Team
 
 ## EXPERIENCE
@@ -43,6 +42,12 @@ I embed with customers and take agentic systems from prototype to production-gra
 
 - **Self-Calibrating World Models (NeurIPS 2026, under review)** — Online Bayesian calibration for sim-to-real transfer; 40% transfer-error reduction vs domain randomization.
 - **Physical AI: The Next Frontier in AI and Robotics** — Preprints.org, Apr 2026. DOI: 10.20944/preprints202604.0549.v1.
+- **Failure Benchmarking of NVIDIA's VSS Tool: Insights from Vision-Language Evaluation** *(working paper · first author · in preparation)* — Wu, P.J., Shah, A., Hosseini, P., Shahab, S. — Center for Advanced AI, Accenture. A five-mode VLM failure taxonomy made executable over deterministic synthetic stimuli, with the Temporal Grounding Score defined as data. Baseline VSS fails 5/5 modes; two frontier models pass 5/5 and the smallest reproduces 3/5, so the failures track capability, not only late-fusion architecture. No venue selected.
+- **Adapting the BARE Framework for Synthetic Data Generation in Vision-Language Models** *(working paper · first author · in preparation)* — Wu, P.J., Shah, A., Hosseini, P., Shahab, S. — Center for Advanced AI, Accenture. Base-model diversity + instruction-tuned correctness as a twin-gated loop. Mode collapse reproduced (0.23 vs 0.62); base-model hallucination did not. Our own first negative was retracted as underpowered (0/18 ⇒ CI [0, 16.7%]) and re-resolved at n=66 and n=72 as a genuine one. No venue selected.
+- **Eval gates as training-signal factories (RewardForge)** *(working paper · unpublished, not submitted)* — Every honest eval gate both certifies quality and labels preference data. 162 pairs from certified gates, zero human labels → DPO from scratch → LoRA → held-out hallucination 0.398→0.287; five seeds against a pre-committed criterion, treatment +0.098±0.028 vs shuffled-label control −0.046±0.055.
+- **Evidence-gated benchmarking of agentic tool use (MCP-Arena)** *(working paper · unpublished, not submitted)* — 12 tasks × 6 failure-mode categories over real MCP servers, asserting the tool-call trace rather than the prose, so a fluent answer with no tool calls scores zero by construction; ships a hallucinating mock that must score 0 in CI.
+- **Predicting a frontier lab's post-training stack, scored rather than asserted** *(working paper · 12 predictions registered, Brier UNSCORED)* — A ten-stage reconstruction of a frontier lab's training stack read from its publications, with 12 falsifiable claims registered 2026-08-13 and resolving by 2026-12-31 against the eventual technical report. 0 of 12 resolved, so the Brier score is reported UNSCORED rather than estimated.
+- **The zero that wasn't evidence — power discipline for gates that report negatives** *(methods note · unpublished, not submitted)* — An audit of our own false negative and the rule it produced: wherever a gate reports a negative it must state the n and the smallest effect that n could have resolved — with a runnable tool (Wilson intervals, rule of three, minimum detectable difference), because a rule without one is a slogan.
 
 ## TECHNICAL SKILLS
 
