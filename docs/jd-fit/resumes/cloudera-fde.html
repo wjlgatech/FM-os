@@ -1,0 +1,69 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+  @page { size: Letter; margin: 0.5in; }
+  body { font: 10.5pt/1.42 "Helvetica Neue", Helvetica, Arial, sans-serif;
+          color: #141413; max-width: 7.5in; margin: 0 auto; }
+  h1 { font-size: 19pt; margin: 0 0 2pt; letter-spacing: -0.2pt; }
+  h2 { font-size: 10pt; text-transform: uppercase; letter-spacing: 0.9pt;
+        border-bottom: 1.2pt solid #d97757; padding-bottom: 2pt;
+        margin: 13pt 0 6pt; color: #141413; }
+  p { margin: 0 0 5pt; }
+  ul { margin: 0 0 7pt; padding-left: 15pt; }
+  li { margin-bottom: 4pt; }
+  a { color: #6a9bcc; text-decoration: none; }
+  strong { color: #141413; }
+</style></head><body>
+<h1>Paul Jialiang Wu, PhD</h1>
+<p><strong>Forward Deployed AI Engineer — Enterprise Agentic Systems · Grounded RAG · LLMOps Gates</strong></p>
+<p>wjlgatech@gmail.com · github.com/wjlgatech · linkedin.com/in/paul-jialiang-wu-phd · <a href="https://agentic-portfolio-lovat.vercel.app">live portfolio</a></p>
+<h2>SUMMARY</h2>
+<p>I embed with customers and take agentic systems from prototype to production-grade, and I ship the evidence with the system: golden datasets as permanent CI gates, every decision citing the clause it relied on, escalation to a human gated at exactly 1.0, and refusal as a first-class outcome. Then I codify what worked into tooling the next engineer installs in one command.</p>
+<h2>WHY CLOUDERA — FORWARD DEPLOYED AI ENGINEER (SENIOR/PRINCIPAL)</h2>
+<ul>
+<li><strong>Enterprise agentic app taken from brief to gated evidence — HITL, retries, audit trail:</strong> Triages purchase requests against six fragmented policy documents — role-based approval limits, vendor risk tiers, PII addenda, a v3→v4 amendment that supersedes prior rules. Durable-execution StateGraph from the primitive up (~170 lines): checkpoint per super-step, human-in-the-loop interrupt/resume, per-node retry, bounded self-correction on ungrounded decisions. 59 labeled cases across 11 tag families incl. prompt injection. decision_accuracy 1.0 · escalation_recall 1.0 (gated at exactly 1.0) · citation_validity 1.0 · trace_completeness 1.0, a permanent CI gate. Its first golden run FAILED (0.889) and exposed an unimplemented policy rule — a golden set that cannot fail you is not measuring anything. Live playground on a real API. (github.com/wjlgatech/FDE-os/tree/main/take-home/enterprise-agentic-triage · enterprise-triage-brief.vercel.app)</li>
+<li><strong>Grounded RAG over real filings where refusal is a first-class outcome:</strong> Natural-language questions over real SEC filings as PDFs (Tesla 10-K + two 10-Qs, Apple 10-K) — SHA256-pinned, extracted to page-anchored JSON. Verbatim quotes with page anchors, deterministic arithmetic instead of model arithmetic, refusal as an explicit path. 26 hand-verified golden cases, four gates all 1.0: answer_accuracy, refusal_recall (unanswerable questions MUST refuse), refusal_precision, citation_validity (every quote re-verified verbatim). Cross-filing reconciliation: Q1+Q2 = 6M YTD exact on revenue and net income across two independent documents. Shipped behind an edge-middleware access gate; CI fully offline. (github.com/wjlgatech/FDE-os/tree/main/take-home/sec-filing-intelligence)</li>
+<li><strong>The eval framework that decided production model selection:</strong> Primary technical interface on an executive-level enterprise AI deployment (Accenture OpenAI-DSI). Built the multi-model evaluation framework comparing 6+ VLMs (Gemini-class, NVIDIA VSS, Cosmos-Predict2) on accuracy, latency under load, edge-case failure modes and integration cost — the basis for production model selection. Shipped a confidence-calibrated selective-verification pipeline routing only high-uncertainty outputs to human review: ~90% annotation cost reduction. (Accenture, Physical AI Team (2024–present))</li>
+<li><strong>Codified the delivery patterns into installable tooling other engineers run:</strong> FDE-os turns engagement patterns into reusable product: eleven skills + two composition workflows, exposed as a dependency-free MCP server (eleven callable tools), installable as a one-command Claude Code plugin and running unchanged on Codex and Hermes from one skills tree. Includes an offline RAG/agent eval harness (precision@k, recall@k, MRR, grounding proxy, citation coverage, CI gate), a self-improving eval-loop primitive that reverts regressions, and an enterprise doc parser with a parse-quality NO-GO gate. Live no-login webapp plus a shared-key model proxy, running at ~$0. (github.com/wjlgatech/FDE-os · wjlgatech.github.io/FDE-os)</li>
+<li><strong>Multi-agent business-process automation in production for enterprise clients:</strong> Event-sourced state management for concurrent-agent consistency, idempotent retry across distributed agents, and a full audit trail — live autonomous workflows with zero-downtime replanning. The core agentic failure mode is that agents over partially observable state must replan without losing context; the event-sourced consistency model solves it and doubles as the tracing/observability surface. (Accenture, WorkflowX / Agenticom (2024–present))</li>
+</ul>
+<h2>ALSO SHIPPED</h2>
+<ul>
+<li><strong>Compiled a data platform&#x27;s whole curriculum into a staffing GO/NO-GO</strong> — github.com/wjlgatech/FDE-os/tree/main/snowflake-os</li>
+<li><strong>Self-improving harness with an independent referee</strong> — github.com/wjlgatech/loop-engineering-anything</li>
+<li><strong>Evidence-gated tool-use benchmark over real MCP servers</strong> — github.com/wjlgatech/mcp-arena</li>
+<li><strong>Spatial AI deployed to Fortune 500 field technicians</strong> — Accenture, Physical AI Team</li>
+</ul>
+<h2>EXPERIENCE</h2>
+<p><strong>Applied AI Scientist / Forward Deployed Engineer — Accenture, Physical AI Team</strong> · Jan 2024–Present</p>
+<ul>
+<li>Primary technical interface for an executive-level enterprise AI deployment (OpenAI-DSI engagement); recognized for a &quot;no surprises&quot; standard built on deep model understanding and contextual judgment at decision points.</li>
+<li>Built the multi-model evaluation framework comparing 6+ VLMs (Gemini-class, NVIDIA VSS, Cosmos-Predict2) on accuracy, latency under load, edge-case failure modes and integration cost — the basis for production model selection.</li>
+<li>Shipped a confidence-calibrated selective-verification pipeline routing only high-uncertainty outputs to human review: ~90% annotation cost reduction.</li>
+<li>Technical lead on 4 simultaneous production systems: synthetic data generation, zero-shot safety detection, adaptive evaluation under distribution shift, vision-language reasoning over live sensor streams.</li>
+<li>Led technical discovery and white-glove deployment: translated ambiguous customer requirements into shipped agentic workflows, and co-built with customer engineering teams to instill rigorous development practices and drive end-user adoption.</li>
+<li>Designed and shipped a multi-agent business-process automation engine for enterprise clients (WorkflowX / Agenticom): event-sourced state for concurrent-agent consistency, idempotent retry across distributed agents, full audit trail, zero-downtime replanning.</li>
+</ul>
+<p><strong>Principal Data Scientist — Genentech</strong> · Jun 2021–Dec 2022</p>
+<ul>
+<li>Production ML for biomedical research; 3 open-source PyPI packages for multimodal learning; 85% reduction in unproductive process time.</li>
+</ul>
+<p><strong>Principal Data Scientist — Galvanize Inc.</strong> · Sep 2019–Jun 2021</p>
+<ul>
+<li>Technical lead across 13+ end-to-end ML systems for Fortune 500 clients; 5-star-rated delivery.</li>
+</ul>
+<h2>PUBLICATIONS</h2>
+<ul>
+<li><strong>Self-Calibrating World Models (NeurIPS 2026, under review)</strong> — Online Bayesian calibration for sim-to-real transfer; 40% transfer-error reduction vs domain randomization.</li>
+<li><strong>Physical AI: The Next Frontier in AI and Robotics</strong> — Preprints.org, Apr 2026. DOI: 10.20944/preprints202604.0549.v1.</li>
+</ul>
+<h2>TECHNICAL SKILLS</h2>
+<p><strong>Agentic Systems:</strong> Multi-agent orchestration (ReAct, self-reflection, hierarchical delegation), durable-execution state graphs (checkpoint/resume, HITL interrupt, retry policy, bounded self-correction), event-sourced agent state, MCP servers and clients, LangGraph/CrewAI/ADK-class patterns</p>
+<p><strong>Retrieval, RAG &amp; Data:</strong> RAG over structured + unstructured enterprise data, semantic search, embeddings and vector databases, page-anchored citation verification, deterministic arithmetic over retrieved facts, DOCX/XLSX/PDF/web/transcript ingestion with parse-quality gates, provenance-pinned corpora</p>
+<p><strong>LLMOps / MLOps:</strong> Independent-referee eval pipelines, golden datasets as permanent CI gates, grounding/hallucination and citation-validity metrics, prompt-injection probes, granular tracing and audit trails, confidence calibration, distribution-shift detection, cost/latency/token budgets, regression rollback, model-provider seams for portable swaps</p>
+<p><strong>Cloud &amp; Infrastructure:</strong> GCP (hands-on ML + Gemini evaluation), Azure ML (production), AWS; NVIDIA AI stack (NIM, Cosmos, VSS); Docker, Kubernetes, CI/CD, Vercel edge middleware and RBAC gating, FastAPI, React, SQLite/Postgres</p>
+<p><strong>Forward-Deployed Delivery:</strong> Technical discovery, executive stakeholder alignment, white-glove deployment, prototype → production hardening, customer engineering enablement, reference architectures and starter kits, field-pattern → reusable module → product feedback loop</p>
+<h2>EDUCATION</h2>
+<p><strong>Yale University</strong> — National BioMed Fellow, Computational Immunology · <strong>Georgia Tech</strong> — PhD, Bioinformatics · <strong>University of South Carolina</strong> — MS, Mathematics &amp; CS · <strong>Sun Yat-Sen University</strong> — BS, Applied Mathematics</p>
+<h2>THE EDGE I&#x27;D BE LEARNING, NOT TEACHING</h2>
+<p>I have not run the Cloudera platform itself, and my big-data-infrastructure depth is the real edge: I have built RAG and agentic pipelines over enterprise documents and live sensor streams, but I have not owned a Spark/Iceberg/NiFi data platform in production, and my inference work is model selection, cost/latency budgeting and serving seams rather than GPU kernel-level optimization. That is the part of this role I would be ramping on in the first weeks, not teaching.</p>
+</body></html>

@@ -231,3 +231,46 @@
       models rather than large-scale RL on frontier language models. Multi-agent
       coordination I have built as harnesses and referees, not as many-agent systems at
       scale — that is the part of this role I would be growing into.
+
+# ── Added 2026-08-21. Cloudera FDE — the first target in this file that is a DELIVERY
+# role rather than a research role, so it is the first to use `experience_focus: [fde]`
+# and a tailored `skill_groups` list. Both selectors CHOOSE from the same fact base; no
+# prose is written per role. FM-os jdfit scores this JD 94/100 over 9 required
+# capabilities, and the single 🟡 partial — large-scale distributed data infrastructure —
+# is exactly the JD's own Cloudera/Spark/Iceberg/NiFi nice-to-have, so it is the
+# honest_edge rather than something to paper over.
+- slug: cloudera-fde
+  job_id: "WD-261076"   # `WD-` = Workday board; keeps the LinkedIn-sourced count honest
+  title: "Forward Deployed AI Engineer (Senior/Principal)"
+  company: "Cloudera"
+  location: "New York, NY · San Jose, CA · Austin, TX · Remote"
+  comp: "$198,000–$247,500 base (NY & CA) + corporate incentive plan"
+  apply_url: "https://cloudera.wd5.myworkdayjobs.com/external_career/job/USA--New-York--New-York-City/Forward-Deployed-AI-Engineer_261076-1"   # verified 2026-08-21: HTTP 200; Workday CXS API returns title "Forward Deployed AI Engineer (Senior/Principal Level)", jobReqId 261076, posted 2026-08-13
+  ats: workday
+  submittable_without_account: false   # Workday requires a candidate account
+  jdfit: 94
+  note: >-
+    Director-level seniority band inside Applied AI. The five duties map 1:1 onto shipped
+    artifacts: build & prototype full-stack AI apps (sec_filing_rag, procurement_triage),
+    partner with strategic customers (enterprise_eval), shape enterprise AI architecture
+    (agentic_bpa), codify solution patterns (fde_os_patterns, snowflake_os), multiply
+    impact (fde_os_patterns — installable by other engineers across three agent runtimes).
+  resume:
+    title: "Forward Deployed AI Engineer — Enterprise Agentic Systems · Grounded RAG · LLMOps Gates"
+    thesis: >-
+      I embed with customers and take agentic systems from prototype to production-grade,
+      and I ship the evidence with the system: golden datasets as permanent CI gates,
+      every decision citing the clause it relied on, escalation to a human gated at
+      exactly 1.0, and refusal as a first-class outcome. Then I codify what worked into
+      tooling the next engineer installs in one command.
+    lead: [procurement_triage, sec_filing_rag, enterprise_eval, fde_os_patterns, agentic_bpa]
+    also: [snowflake_os, loop_engineering, mcp_arena, datacenter_ar]
+    experience_focus: [fde]
+    skill_groups: ["agentic systems", "retrieval and data", llmops, "cloud and platform", "forward-deployed delivery"]
+    honest_edge: >-
+      I have not run the Cloudera platform itself, and my big-data-infrastructure depth is
+      the real edge: I have built RAG and agentic pipelines over enterprise documents and
+      live sensor streams, but I have not owned a Spark/Iceberg/NiFi data platform in
+      production, and my inference work is model selection, cost/latency budgeting and
+      serving seams rather than GPU kernel-level optimization. That is the part of this
+      role I would be ramping on in the first weeks, not teaching.

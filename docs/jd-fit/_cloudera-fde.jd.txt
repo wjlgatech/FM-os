@@ -1,0 +1,36 @@
+Forward Deployed AI Engineer (Senior/Principal Level)
+Cloudera — Corp. Strategy / Applied AI — Director level
+Locations: New York City, NY | San Jose, CA | Austin, TX | Remote
+Req id: 261076
+
+About Forward Deployed Engineering (FDE) at Cloudera
+Cloudera's Forward Deployed Engineering (FDE) function sits within the Applied AI organization, and is a specialized AI/ML engineering team focused on accelerating AI adoption within our most strategic enterprise customers. We embed directly with customers to rapidly pilot AI use cases, solve real-world business challenges, and help operationalize advanced AI capabilities within enterprise environments.
+Cloudera FDEs operate at the intersection of customer engineering, AI innovation, and enterprise deployment - driving high-impact AI outcomes for customers and codifying solution patterns for repeatable delivery at scale.
+
+About the role
+Cloudera is looking for a seasoned full-stack ML engineer who can embed with customers to design technical use cases, and ship scalable enterprise AI/ML solutions on Cloudera.
+Build & Prototype AI Apps - Develop full-stack AI/ML applications on Cloudera to demonstrate how AI and agentic systems solve real enterprise use cases
+Partner with Strategic Customers - Work directly with customer teams to drive AI and agentic use cases from early prototype toward production readiness
+Shape Enterprise AI Architecture - Advise customer leaders on AI roadmaps, solution design, deployment, and AI use cases
+Codify Solution Patterns - Standardize successful patterns into repeatable reference architectures, productized solutions, starter kits, and internal playbooks
+Multiply impact - Be a thought leader, mentor Cloudera teams, and contribute to resources that grow our AI capability. Channel field and customer signal back to Product teams to improve our AI platform and products
+
+We are excited if you have:
+7+ years of experience building and deploying production-grade systems, including 2-4 years experience building ML systems or GenAI/agentic applications
+Strong hands-on software engineering, data engineering, and applied AI/ML skills, with experience building full-stack ML applications or agentic systems using modern AI frameworks and tooling
+Experience with foundation models, context engineering, fine-tuning, semantic search, Retrieval-Augmented Generation (RAG), and agentic workflows
+Deep understanding of LLMOps/MLOps practices including evaluation, observability, serving, monitoring, and lifecycle management
+Experience designing and implementing scalable AI solution architectures aligned to enterprise standards (security, governance, compliance, etc.)
+The ability to engage directly with customers, both technical and executive audiences - to translate needs into actionable technical strategy
+High agency with the ability to operate autonomously and thrive in ambiguous, fast-moving customer environments
+A collaborative mindset and passion for enabling others through mentorship, internal enablement, or reusable tooling
+Bsc/Msc/PhD in related field or equivalent experience
+This is a customer-facing role combining remote and in-person engagement. Occasional travel may be required for on-site customer engagement, industry events, and team meetings - up to 20%.
+
+You may also have:
+Experience with cloud technologies (AWS, Azure, GCP)
+Experience using the Cloudera platform
+Experience with open source big data technologies like Spark, Iceberg, NiFi, etc
+Experience with AI infrastructure and runtime technologies including NVIDIA GPUs, inference optimization, model serving, or distributed AI workloads
+
+Base salary: New York & California $198,000-$247,500

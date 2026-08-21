@@ -137,6 +137,83 @@ proof:
     evidence: "private repo"
     tags: [personalization, eval]
 
+  # ── Added 2026-08-21 for the Cloudera FDE target. Sources: shipped artifacts in
+  # github.com/wjlgatech/FDE-os, plus Paul's own prior sent resume
+  # (career/PaulWu_Resume_GoogleCloudFDE.docx) for the Accenture delivery facts.
+  - id: procurement_triage
+    headline: "Enterprise agentic app taken from brief to gated evidence — HITL, retries, audit trail"
+    body: >-
+      Triages purchase requests against six fragmented policy documents — role-based approval
+      limits, vendor risk tiers, PII addenda, a v3→v4 amendment that supersedes prior rules.
+      Durable-execution StateGraph from the primitive up (~170 lines): checkpoint per
+      super-step, human-in-the-loop interrupt/resume, per-node retry, bounded self-correction
+      on ungrounded decisions. 59 labeled cases across 11 tag families incl. prompt injection.
+      decision_accuracy 1.0 · escalation_recall 1.0 (gated at exactly 1.0) · citation_validity
+      1.0 · trace_completeness 1.0, a permanent CI gate. Its first golden run FAILED (0.889)
+      and exposed an unimplemented policy rule — a golden set that cannot fail you is not
+      measuring anything. Live playground on a real API.
+    evidence: "github.com/wjlgatech/FDE-os/tree/main/take-home/enterprise-agentic-triage · enterprise-triage-brief.vercel.app"
+    tags: [agents, enterprise, deployment, eval, governance, rag]
+
+  - id: sec_filing_rag
+    headline: "Grounded RAG over real filings where refusal is a first-class outcome"
+    body: >-
+      Natural-language questions over real SEC filings as PDFs (Tesla 10-K + two 10-Qs, Apple
+      10-K) — SHA256-pinned, extracted to page-anchored JSON. Verbatim quotes with page
+      anchors, deterministic arithmetic instead of model arithmetic, refusal as an explicit
+      path. 26 hand-verified golden cases, four gates all 1.0: answer_accuracy,
+      refusal_recall (unanswerable questions MUST refuse), refusal_precision,
+      citation_validity (every quote re-verified verbatim). Cross-filing reconciliation:
+      Q1+Q2 = 6M YTD exact on revenue and net income across two independent documents.
+      Shipped behind an edge-middleware access gate; CI fully offline.
+    evidence: "github.com/wjlgatech/FDE-os/tree/main/take-home/sec-filing-intelligence"
+    tags: [rag, enterprise, eval, deployment, governance]
+
+  - id: fde_os_patterns
+    headline: "Codified the delivery patterns into installable tooling other engineers run"
+    body: >-
+      FDE-os turns engagement patterns into reusable product: eleven skills + two composition
+      workflows, exposed as a dependency-free MCP server (eleven callable tools), installable
+      as a one-command Claude Code plugin and running unchanged on Codex and Hermes from one
+      skills tree. Includes an offline RAG/agent eval harness (precision@k, recall@k, MRR,
+      grounding proxy, citation coverage, CI gate), a self-improving eval-loop primitive that
+      reverts regressions, and an enterprise doc parser with a parse-quality NO-GO gate.
+      Live no-login webapp plus a shared-key model proxy, running at ~$0.
+    evidence: "github.com/wjlgatech/FDE-os · wjlgatech.github.io/FDE-os"
+    tags: [enablement, oss, agents, eval, deployment, cross_deployment]
+
+  - id: snowflake_os
+    headline: "Compiled a data platform's whole curriculum into a staffing GO/NO-GO"
+    body: >-
+      learn.snowflake.com (58 courses, 12 exams, 12 role journeys) compiled into a
+      provenance-pinned knowledge base + a tool that plans the shortest costed path to a role
+      and rules STAFF / NOT-YET on verified evidence — a badge counts, a screenshot scores
+      zero, and a NOT-YET ships the shortest path to yes. Offline, ten CI integrity checks.
+    evidence: "github.com/wjlgatech/FDE-os/tree/main/snowflake-os"
+    tags: [enablement, enterprise, deployment, governance]
+
+  - id: agentic_bpa
+    headline: "Multi-agent business-process automation in production for enterprise clients"
+    body: >-
+      Event-sourced state management for concurrent-agent consistency, idempotent retry across
+      distributed agents, and a full audit trail — live autonomous workflows with zero-downtime
+      replanning. The core agentic failure mode is that agents over partially observable state
+      must replan without losing context; the event-sourced consistency model solves it and
+      doubles as the tracing/observability surface.
+    evidence: "Accenture, WorkflowX / Agenticom (2024–present)"
+    tags: [agents, enterprise, deployment, observability]
+
+  - id: datacenter_ar
+    headline: "Spatial AI deployed to Fortune 500 field technicians"
+    body: >-
+      Agentic spatial-AI system (Meta Quest XR, real-time monocular depth, affine registration,
+      temporal consensus filtering) turning physical environments into an agent-navigable
+      coordinate space; architecture evolved from rule-based to fully agentic — clients
+      reported 10x improvement, "a coach, not a menu." Deployed to Walmart, Costco and
+      hyperscale data-center clients.
+    evidence: "Accenture, Physical AI Team"
+    tags: [enterprise, deployment, robotics, vlm]
+
 experience:
   - role: "Applied AI Scientist / Forward Deployed Engineer"
     org: "Accenture, Physical AI Team"
@@ -146,6 +223,12 @@ experience:
       - "Built the multi-model evaluation framework comparing 6+ VLMs (Gemini-class, NVIDIA VSS, Cosmos-Predict2) on accuracy, latency under load, edge-case failure modes and integration cost — the basis for production model selection."
       - "Shipped a confidence-calibrated selective-verification pipeline routing only high-uncertainty outputs to human review: ~90% annotation cost reduction."
       - "Technical lead on 4 simultaneous production systems: synthetic data generation, zero-shot safety detection, adaptive evaluation under distribution shift, vision-language reasoning over live sensor streams."
+      # `only_for` bullets appear ONLY on roles that declare the matching experience_focus.
+      # They are not new claims — each is already in a resume Paul has sent.
+      - text: "Led technical discovery and white-glove deployment: translated ambiguous customer requirements into shipped agentic workflows, and co-built with customer engineering teams to instill rigorous development practices and drive end-user adoption."
+        only_for: [fde]
+      - text: "Designed and shipped a multi-agent business-process automation engine for enterprise clients (WorkflowX / Agenticom): event-sourced state for concurrent-agent consistency, idempotent retry across distributed agents, full audit trail, zero-downtime replanning."
+        only_for: [fde]
   - role: "Principal Data Scientist"
     org: "Genentech"
     dates: "Jun 2021–Dec 2022"
@@ -168,3 +251,21 @@ skills:
   posttraining: "DPO from scratch (torch+peft), LoRA/QLoRA, preference-data pipelines from eval failures, reward-hack detection, win-rate gates, ship/rollback"
   evaluation: "LLM-as-judge referees (maker≠checker), failure-taxonomy-as-data suites, held-out gated benchmarks, pre-registered criteria, variance reporting, confidence calibration, distribution-shift detection"
   engineering: "Python, PyTorch, numpy, JAX-adjacent, FastAPI, Docker/K8s, CI/CD, large-codebase debugging (543-test OSS), Go, SQLite/Postgres"
+  agentic systems: "Multi-agent orchestration (ReAct, self-reflection, hierarchical delegation), durable-execution state graphs (checkpoint/resume, HITL interrupt, retry policy, bounded self-correction), event-sourced agent state, MCP servers and clients, LangGraph/CrewAI/ADK-class patterns"
+  retrieval and data: "RAG over structured + unstructured enterprise data, semantic search, embeddings and vector databases, page-anchored citation verification, deterministic arithmetic over retrieved facts, DOCX/XLSX/PDF/web/transcript ingestion with parse-quality gates, provenance-pinned corpora"
+  llmops: "Independent-referee eval pipelines, golden datasets as permanent CI gates, grounding/hallucination and citation-validity metrics, prompt-injection probes, granular tracing and audit trails, confidence calibration, distribution-shift detection, cost/latency/token budgets, regression rollback, model-provider seams for portable swaps"
+  cloud and platform: "GCP (hands-on ML + Gemini evaluation), Azure ML (production), AWS; NVIDIA AI stack (NIM, Cosmos, VSS); Docker, Kubernetes, CI/CD, Vercel edge middleware and RBAC gating, FastAPI, React, SQLite/Postgres"
+  forward-deployed delivery: "Technical discovery, executive stakeholder alignment, white-glove deployment, prototype → production hardening, customer engineering enablement, reference architectures and starter kits, field-pattern → reusable module → product feedback loop"
+
+# Which skill groups a resume prints, and in what order, unless the role overrides it with
+# `skill_groups`. Defaulting explicitly (rather than "all keys") means adding a group for one
+# role can never silently rewrite the other resumes.
+default_skill_groups: [tooluse, posttraining, evaluation, engineering]
+
+# Display names where naive .title() would mangle the term (Llmops, Retrieval And Data).
+skill_labels:
+  llmops: "LLMOps / MLOps"
+  "agentic systems": "Agentic Systems"
+  "retrieval and data": "Retrieval, RAG & Data"
+  "cloud and platform": "Cloud & Infrastructure"
+  "forward-deployed delivery": "Forward-Deployed Delivery"

@@ -63,10 +63,17 @@ def build_markdown(facts: dict, role: dict) -> str:
         p = proof[pid]
         L.append(f"- **{p['headline']}** — {p['evidence']}")
 
+    # A bullet may be a plain string (always shown) or {text, only_for: [tag]}, shown only
+    # when the role declares a matching `experience_focus`. Same fact base, no per-role prose.
+    focus = set(r.get("experience_focus") or [])
     L += ["", "## EXPERIENCE", ""]
     for e in facts["experience"]:
         L.append(f"**{e['role']} — {e['org']}** · {e['dates']}")
         for b in e["bullets"]:
+            if isinstance(b, dict):
+                if not focus.intersection(b.get("only_for") or []):
+                    continue
+                b = b["text"]
             L.append(f"- {b}")
         L.append("")
 
@@ -76,8 +83,13 @@ def build_markdown(facts: dict, role: dict) -> str:
         L.append(f"- **{p['headline']}** — {p['body'].strip()}")
 
     L += ["", "## TECHNICAL SKILLS", ""]
-    for k, v in facts["skills"].items():
-        L.append(f"**{k.title()}:** {v}")
+    groups = r.get("skill_groups") or facts.get("default_skill_groups") or list(facts["skills"])
+    unknown = [g for g in groups if g not in facts["skills"]]
+    if unknown:
+        raise KeyError(f"{role['slug']}: unknown skill group(s) {unknown}")
+    labels = facts.get("skill_labels") or {}
+    for k in groups:
+        L.append(f"**{labels.get(k, k.title())}:** {facts['skills'][k]}")
         L.append("")
 
     L += ["## EDUCATION", "", facts["education"].strip(), "",
