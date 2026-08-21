@@ -1385,5 +1385,59 @@
       "source": "data/campaign_roles.yml"
     },
     "next_lever": "Resolve the past-due distributed-infra-partial checkpoint \u2014 ship an artifact or mark it wont-build; it is the exact gap this JD names"
+  },
+  {
+    "id": "rc0043",
+    "delivery": "PUBLICATIONS section rebuilt as data and extended with the six FM-os research items. Was a hardcoded tuple in build_resume.py; now default_publications in resume_facts.yml, overridable per role. Added an optional pub_status field rendered inline so no entry can pass as a publication it is not: wp_vss_benchmark and wp_bare_vlm tagged 'working paper - first author - in preparation', wp_rewardforge / wp_mcp_arena / wp_zero_numerator 'unpublished, not submitted', wp_thomson_ledger '12 predictions registered, Brier UNSCORED'. Blocked before writing to confirm authorship: the extracted Overleaf bylines (VSS 1345136, BARE f6220d0) list Shah/Hosseini/Shahab with no Paul Wu, and the co-author letter is still unsent; Paul confirmed he is first author by agreement. mcp_arena removed from the role's also[] so the same work is not claimed twice. Rebuilding all 10 resumes left the other nine byte-identical. 1145 -> 1541 words, 3 -> 4 pages.",
+    "objective": "Land an FDE role on evidence, not on a rewritten resume",
+    "created_at": "2026-08-21T16:38:40-05:00",
+    "key_results": [
+      {
+        "text": "Every non-publication carries an inline honesty tag",
+        "target": "6 of 6",
+        "score": 1.0,
+        "evidence": "pub_status rendered in docs/jd-fit/resumes/cloudera-fde.md"
+      },
+      {
+        "text": "PUBLICATIONS list moved from code to data",
+        "target": "1",
+        "score": 1.0,
+        "evidence": "default_publications in resume_facts.yml; builder raises KeyError on unknown ids"
+      },
+      {
+        "text": "Other nine resumes unchanged",
+        "target": "9 byte-identical",
+        "score": 1.0,
+        "evidence": "rebuilt all 10; git status lists only cloudera-fde.*"
+      },
+      {
+        "text": "Authorship verified rather than assumed",
+        "target": "1",
+        "score": 0.5,
+        "evidence": "asked Paul; the Overleaf bylines still disagree and are unfixed"
+      },
+      {
+        "text": "Resume fits its target length",
+        "target": "2-3 pages",
+        "score": 0.0,
+        "evidence": "grew to 4 pages, no trim applied"
+      }
+    ],
+    "request": "update my resume's PUBLICATIONS session with those research publications I am working on under Projects/FM-os folder",
+    "headline": "Six working papers, none of them lying",
+    "brief": "Your FM-os research is now in the resume's publications list. Six of the eight entries are not published anywhere, so each one says so on the page - 'working paper', 'not submitted', 'unscored'. Only the two real ones get to look real. I stopped and asked before writing your name on two papers whose current drafts do not carry it.",
+    "growth": [
+      "C:met:did not take the ask at face value - checked the actual bylines, found Paul absent from both, and blocked on it instead of writing the line he asked for",
+      "P:met:made the honesty structural rather than editorial - pub_status is a data field the builder renders, so a future entry cannot quietly omit its status"
+    ],
+    "why": "A publications section is the one place a reader can check you in thirty seconds. An unearned line there costs more than the six earned ones gain, and the drafts' bylines currently disagree with the claim.",
+    "needle": {
+      "name": "Resume claims that survive a reader checking them",
+      "before": "2 verifiable",
+      "after": "8 tagged-or-verifiable",
+      "better": "up",
+      "source": "docs/jd-fit/resumes/cloudera-fde.md"
+    },
+    "next_lever": "Update the VSS and BARE Overleaf bylines to match the agreed first authorship - until then the resume's strongest new claim is the one a reader can most easily disprove"
   }
 ]
