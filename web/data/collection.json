@@ -1331,5 +1331,59 @@
       "source": "docs/research/COLLAB-intern-projects.md"
     },
     "next_lever": "ask Abdi and Sibhi one question \u2014 do the run logs retain per-run tool sequences? \u2014 because every proposal here dies or lives on that answer"
+  },
+  {
+    "id": "rc0042",
+    "delivery": "Cloudera FDE (Workday req 261076) tailored resume, generated from the existing verified fact base rather than hand-written. Six new proof blocks (procurement_triage, sec_filing_rag, fde_os_patterns, snowflake_os, agentic_bpa, datacenter_ar), all pointing at shipped artifacts or a resume Paul already sent. Builder gained two selectors instead of a bespoke document: experience_focus (per-role conditional bullets) and skill_groups/skill_labels with an explicit default_skill_groups declared in data. Rebuilding all 10 resumes left the other 9 byte-identical. jdfit 94/100 over 9 capabilities; the single partial (large-scale distributed data infrastructure) is Cloudera's own Spark/Iceberg/NiFi nice-to-have and is the honest_edge verbatim. apply_url verified live (HTTP 200 + Workday CXS API: jobReqId 261076, posted 2026-08-13). PDF+DOCX also copied to career/. Branch jdfit/cloudera-fde-261076, pushed.",
+    "objective": "Land an FDE role on evidence, not on a rewritten resume",
+    "created_at": "2026-08-21T16:30:23-05:00",
+    "key_results": [
+      {
+        "text": "Resume generated from the shared fact base, no per-role prose",
+        "target": "1",
+        "score": 1.0,
+        "evidence": "docs/jd-fit/resumes/cloudera-fde.{md,html,pdf,docx}"
+      },
+      {
+        "text": "Other resumes unchanged by the new selectors",
+        "target": "9 byte-identical",
+        "score": 1.0,
+        "evidence": "rebuilt all 10; git status shows only cloudera-fde.* as new"
+      },
+      {
+        "text": "apply_url verified against the employer's own system",
+        "target": "HTTP 200 + req id match",
+        "score": 1.0,
+        "evidence": "Workday CXS API: jobReqId 261076, startDate 2026-08-13"
+      },
+      {
+        "text": "Test suite green except a confirmed pre-existing failure",
+        "target": "106 pass",
+        "score": 0.9,
+        "evidence": "test_campaign_checkpoints still red on stashed clean tree"
+      },
+      {
+        "text": "Application submitted",
+        "target": "1",
+        "score": 0.0,
+        "evidence": "NOT submitted \u2014 Workday requires Paul's account"
+      }
+    ],
+    "request": "prep a custom resume for this JD [Cloudera Forward Deployed AI Engineer, Senior/Principal, req 261076], based on the latest existing resume we sent out before",
+    "headline": "Tenth resume, still one fact base",
+    "brief": "A new job needed a new resume. Instead of writing one, I taught the generator two new ways to pick from the facts it already had, then generated it. The other nine resumes came out unchanged, character for character, which is the proof that nothing drifted.",
+    "growth": [
+      "C:met:the suite caught two defects on its author (digit job_id inflating the LinkedIn count, empty apply_url) and I fixed the data rather than the test",
+      "P:met:did not hand-write a tenth resume; extended the generator with two data-declared selectors so the single-source guarantee survived a role type it was never built for"
+    ],
+    "why": "The posting is 8 days old and Workday reqs close without notice; and this is the first DELIVERY role in a file of research roles, so the generator either generalized or it didn't. It did.",
+    "needle": {
+      "name": "FDE applications with a verified apply link and a named honest gap",
+      "before": "9",
+      "after": "10",
+      "better": "up",
+      "source": "data/campaign_roles.yml"
+    },
+    "next_lever": "Resolve the past-due distributed-infra-partial checkpoint \u2014 ship an artifact or mark it wont-build; it is the exact gap this JD names"
   }
 ]
