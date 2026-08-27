@@ -157,9 +157,9 @@ is not a detector either.
 
 ## The reader-facing half
 
-Season 2 of *Intelligence Engineering Adventures* —
-**[The Glass Engine](https://github.com/wjlgatech)** — is the writing arm of
-this section. Episode 1, *The Word That Was Never Said*, is the article this
+Season 2 of *Intelligence Engineering Adventures* — **The Glass Engine** — is
+the writing arm of this section. (The franchise repo is local-only and has no
+remote yet; linking one would be a link to nothing.) Episode 1, *The Word That Was Never Said*, is the article this
 ledger backs: every number in it resolves to a row here, and the episode's
 Failure Room is the `weirdchat` row.
 
