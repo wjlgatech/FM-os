@@ -1439,5 +1439,71 @@
       "source": "docs/jd-fit/resumes/cloudera-fde.md"
     },
     "next_lever": "Update the VSS and BARE Overleaf bylines to match the agreed first authorship - until then the resume's strongest new claim is the one a reader can most easily disprove"
+  },
+  {
+    "id": "rc0044",
+    "delivery": "New FM-os section: data/interp_ledger.yml (32 claims from the seed transcript, five statuses), scripts/interp.py (fail-closed gate; --cite refuses a non-citable claim and exits 1), tests/test_interp.py (19 tests, every rule mutation-tested), docs/research/INTERPRETABILITY.md, make interp wired into make check at floor 80 \u2014 deliberately below the current 87.5 so recording an unverified claim is never punished. Twelve primary sources read by hand. Findings: the summary was materially wrong on 8 of the 25 claims it asserted (32%), dropped 3 caveats its own primary sources state (the J-lens single-token limit; AxBench's actual measurement reduced to the word 'fragile'; the 0.84% verbalisation rate that settles the summary's own CoT argument), and was RIGHT once where I was wrong \u2014 WeirdChat is a real Transluce project, not a mis-hearing of WildChat. That row is kept with the bad correction preserved, so corrector accuracy reports 8/9 = 89%. Four claims stay unverified and named. Season 2 of the franchise (The Glass Engine) declared its series.yml BEFORE episode 1 existed \u2014 rc0120's open lever \u2014 with one earned addition, 'Verification trail', binding every claim in an episode to a ledger id. Episode 1 scores 9/9 contract elements, 3 inline citations, 2800 words. Two franchise promotions proven byte-identical before the swap: build_articles.py (season 1's copy hardcoded the season name, count and footer) and md2body.py (was season-6-only). Portfolio: article page, cover + in-body diagram (SVG->PNG, house style), registry entry, promo kit; zh-CN and es passed the judge gate 4/4/4, ko forced into revision round 2 by that gate. Also fixed a regression I introduced in 8935432: that commit dropped translator_notes and distinct_terms from the translation glossary, which broke translate-articles.py --selftest silently because the Python selftest is not in npm test. NOT DONE: not merged, not live, and no independent 5-S review.",
+    "objective": "Turn a source into checked knowledge \u2014 and be able to say which parts were checked",
+    "created_at": "2026-08-27T16:02:42-05:00",
+    "key_results": [
+      {
+        "text": "Every claim from the source is ledgered with a status and a date",
+        "target": "32",
+        "score": 1.0,
+        "evidence": "data/interp_ledger.yml, make interp"
+      },
+      {
+        "text": "Every checked claim cites a primary source, verified by hand",
+        "target": "28 of 28",
+        "score": 1.0,
+        "evidence": "12 web sources read; gate rejects a checked row with no URL"
+      },
+      {
+        "text": "The gate refuses a claim it cannot back",
+        "target": "exit 1",
+        "score": 1.0,
+        "evidence": "--cite sushi_japanese returns REFUSED, exit 1; 19 tests, each rule mutation-tested"
+      },
+      {
+        "text": "Our own wrong correction is on the record, not deleted",
+        "target": "1",
+        "score": 1.0,
+        "evidence": "weirdchat: refuted_correction; corrector accuracy reports 89 percent not 100"
+      },
+      {
+        "text": "Season 2 declared BEFORE its first episode (rc0120 lever)",
+        "target": "1",
+        "score": 1.0,
+        "evidence": "interp-adventure-series/series.yml; episode scores 9 of 9 elements"
+      },
+      {
+        "text": "Article live on the portfolio in five languages",
+        "target": "5",
+        "score": 0.4,
+        "evidence": "English built and committed; zh-CN + es passed the judge gate; ko in revision round 2; NOT merged or live yet"
+      },
+      {
+        "text": "Independent 5-S review before publish",
+        "target": "1",
+        "score": 0.0,
+        "evidence": "not run \u2014 maker and reviewer are the same context; the standing overdue checkpoint independent-5s-review"
+      }
+    ],
+    "request": "I watch an YouTube interview AI\u53ef\u89e3\u91ca\u6027\u4e0e\u5bf9\u9f50\uff1aJ-Space\uff0c\u601d\u7ef4\u94fe\uff0cAI\u4eba\u683c\uff0c\u5e7b\u89c9\uff0c\u4e0e\u91d1\u95e8\u5927\u6865 ... NOW: 1. open a focused section (if not creating a new repo) on AI-Interpretability and alignment, using our meta-repo playbook <X>-anything 2. write a longform research article (or even better, the 1st article in a series article about 'AI Inter & align'). Publish it to my portfolio writtings",
+    "headline": "Eight of twenty-five wrong, and one of mine",
+    "brief": "The podcast summary you sent is well written and gets 8 of its 25 facts wrong \u2014 a lab spelled three ways, a professor moved to the wrong university, a word swapped inside quotation marks. You cannot tell which 8 by reading, because they sound exactly like the right ones. So FM-os now has a ledger that checks every claim against a real source and REFUSES to hand you one it has not checked. It also records the time I corrected the summary and was myself wrong, because a checker that only keeps its wins looks perfect.",
+    "growth": [
+      "P:met:built the section from the artifact's own failure mode rather than from a topic list \u2014 the seed summary and the field it describes share one structure, and the ledger is that structure made executable",
+      "C:met:recorded a correction of mine that the primary source refuted (WeirdChat), and made the gate reject any refuted_correction row that hides what was wrongly proposed \u2014 corrector accuracy 89 percent, not a constructed 100"
+    ],
+    "why": "The artifact demonstrates the failure the field it describes is about. Building the section around that, rather than around a reading list, made the seed load-bearing instead of decorative \u2014 and it displaced writing a survey nobody could check.",
+    "needle": {
+      "name": "Verified Claim Coverage",
+      "before": "0 (no ledger existed)",
+      "after": "87.5% (28 of 32 citable)",
+      "better": "up",
+      "source": "python3 scripts/interp.py"
+    },
+    "next_lever": "Run the ledger against a SECOND source. One artifact gives one error rate with no interval; two say whether 32 percent is a property of this pipeline or of this episode."
   }
 ]
