@@ -391,11 +391,16 @@ claims:
     verified_as: "Attributed correctly in substance; Sutskever has made this argument in several recorded talks and interviews"
     status: unverified
     why: >-
-      No single canonical source was located that matches the summary's wording.
-      The argument is genuinely his and widely reported, but "widely reported"
-      is not a citation, and the quoted phrasing could not be bound to a
-      specific talk. Cite the idea to a named talk or do not quote it.
+      Searched twice (2026-08-27). The argument is genuinely his and is repeated
+      across many secondary write-ups — blog posts, a Hacker News thread, an
+      officechai piece — all of which paraphrase a detective-novel example
+      without citing a timestamped talk. "Widely reported" is not a citation,
+      and secondary sources agreeing with each other is exactly what a citation
+      is supposed to rule out. What would close it: a named talk or interview
+      with a timestamp or transcript line. Until then, cite the IDEA and drop
+      the quotation marks.
     checked: 2026-08-27
+    rechecked: 2026-08-27
 
   # ── claims about deployed practice ─────────────────────────────────────────
   - id: lab_cot_audits
