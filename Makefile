@@ -1,4 +1,4 @@
-.PHONY: check build validate test ainative sync site certify distill distill-check build-router thomson power clean help
+.PHONY: check build validate test ainative sync site certify distill distill-check build-router thomson power interp clean help
 
 help:
 	@echo "FM-os — data-driven, SLM-first foundation-model ops hub"
@@ -12,6 +12,7 @@ help:
 	@echo "  make ainative  Self-audit vs AI-native / loop-engineering principles"
 	@echo "  make thomson   Gate the Thomson-1 stack + score the prediction ledger"
 	@echo "  make power     What can a study of this size actually see? (CI + MDE)"
+	@echo "  make interp    Interpretability claim ledger — what is actually citable"
 	@echo "  make jdfit JD=<file>   Score FM-os coverage of a job description"
 	@echo ""
 
@@ -32,7 +33,7 @@ ainative:
 
 # The finish line: code behaves (pytest), data is well-formed (validate), the
 # committed README matches the generator (drift), AND we stay AI-native (audit).
-check: validate test ainative distill-check thomson
+check: validate test ainative distill-check thomson interp
 	python3 scripts/build_readme.py --check
 	python3 scripts/build_router.py --check
 
@@ -46,6 +47,14 @@ thomson:
 # the rule of three, and the minimum detectable difference for a two-arm design.
 power:
 	python3 scripts/power.py --intern-report
+
+# The interpretability & alignment claim ledger. Gated at 80, deliberately BELOW
+# the current 87.5%: a coverage floor set just under the current number rewards
+# recording a claim you could not verify, and a floor set at the current number
+# punishes it. The failure this section studies is unrecorded uncertainty, so
+# the gate must never make honesty expensive.
+interp:
+	python3 scripts/interp.py --gate 80
 
 # Distill cited repos -> per-repo knowledge graph + tooling scaffold under distill/.
 #   make distill              regenerate every distilled repo (spec = data/repos.yml)

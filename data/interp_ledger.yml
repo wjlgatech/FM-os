@@ -1,0 +1,420 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# interp_ledger.yml — the AI Interpretability & Alignment claim ledger.
+#
+# WHY THIS FILE EXISTS (the 10x):
+# The seed for this section was an AI-generated summary of a podcast on
+# interpretability. It was fluent, well-organised, confidently formatted — and
+# a meaningful fraction of its proper nouns were WRONG. Nothing in the artifact
+# distinguished the parts that were right from the parts that were invented.
+#
+# That is not a footnote about transcription quality. It is the SAME failure
+# this whole field studies, one level up: a fluent surface carries no signal
+# about which of the internal steps that produced it were reliable. So the
+# section is built around the only fix that exists at either level — do not
+# trust the output text; check it against something outside itself.
+#
+# STATUS VOCABULARY (each one earned its place):
+#   verified            the source said it; a primary source confirms it
+#   corrected           the source was wrong; both forms are kept, side by side
+#   refuted_correction  WE proposed a correction and the primary source proved
+#                       US wrong. Kept because a corrector that silently drops
+#                       its own misses reports a fake accuracy.
+#   omitted             a material caveat the PRIMARY source states and the
+#                       summary dropped. An omission is not a small error: it
+#                       is the error you cannot see by reading the artifact.
+#   unverified          we could not check it. Never citable. "Could not look"
+#                       is never "all clear".
+#
+# RULES (enforced by scripts/interp.py, fail-closed):
+#   * every non-`unverified` entry needs a primary-source URL
+#   * `corrected` must record verified_as DIFFERENT from as_transcribed
+#   * `refuted_correction` must record `proposed` — the wrong correction itself
+#   * `unverified` must record `why` — what specifically stopped us
+#   * a claim goes STALE after half_life_days and stops being citable
+#   * `--cite <id>` REFUSES to emit a non-citable claim; that is the gate
+#
+# North star: Verified Claim Coverage — citable / total, reported honestly.
+# Contract: docs/research/INTERPRETABILITY.md
+# ─────────────────────────────────────────────────────────────────────────────
+
+source:
+  kind: podcast-transcript-summary
+  title: "AI可解释性与对齐：J-Space，思维链，AI人格，幻觉，与金门大桥【101视频播客】"
+  url: https://www.youtube.com/watch?v=J5_90lWxM_o
+  pipeline: "speech recognition → LLM summarisation (structure, headings, quotes)"
+  received: 2026-08-27
+  note: >-
+    The summary is a good one. That is the point: quality of prose and accuracy
+    of reference are independent axes, and only one of them is visible.
+
+# Facts about frontier labs move fast; a name does not. Defaults reflect that.
+half_life_days:
+  person: 730
+  org: 365
+  paper: 1825
+  method: 1095
+  finding: 365
+  quote: 3650
+
+claims:
+
+  # ── people ─────────────────────────────────────────────────────────────────
+  - id: arora
+    kind: person
+    as_transcribed: "Arian (Arman) — Stanford PhD student, Georgetown undergrad linguistics, advised by Chris Potts"
+    verified_as: "Aryaman Arora — Stanford PhD student, B.S. CS + Linguistics at Georgetown, co-advised by Dan Jurafsky AND Christopher Potts"
+    status: corrected
+    source: https://aryaman.io/
+    checked: 2026-08-27
+    note: >-
+      Two errors in one entry, of different kinds. The name is a phonetic miss
+      by speech recognition. The single-advisor claim is not — nobody misheard
+      "and Dan Jurafsky"; a detail was dropped and the sentence still read as
+      complete. The second kind is the dangerous one.
+
+  - id: potts
+    kind: person
+    as_transcribed: "Chris Potts — Professor at Stanford University"
+    verified_as: "Christopher Potts — Professor of Linguistics and, by courtesy, of Computer Science, Stanford"
+    status: verified
+    source: https://web.stanford.edu/~cgpotts/
+    checked: 2026-08-27
+
+  - id: schneider
+    kind: person
+    as_transcribed: "Nathan Schneider — Professor at Georgetown University"
+    verified_as: "Nathan Schneider — Associate Professor of Linguistics and Computer Science, Georgetown"
+    status: verified
+    source: https://people.cs.georgetown.edu/nschneid/
+    checked: 2026-08-27
+    note: "Rank imprecise (Associate, not full); person, institution and role are right."
+
+  - id: bau
+    kind: person
+    as_transcribed: "David Ba — Professor at Northwestern University leading an interpretability research group"
+    verified_as: "David Bau — Assistant Professor, Khoury College, NORTHEASTERN University; director/PI of the National Deep Inference Fabric"
+    status: corrected
+    source: https://baulab.info/
+    checked: 2026-08-27
+    note: >-
+      Northwestern and Northeastern are one letter-cluster apart and both are
+      real US universities with real CS departments. This is the error class no
+      plausibility check catches — the wrong answer is exactly as plausible as
+      the right one.
+
+  - id: wu_zen
+    kind: person
+    as_transcribed: "Zen Ju (Zen / Zen Junction) — interpretability researcher, PhD collaborator of Arian, researcher at Transloose"
+    verified_as: "Zhengxuan 'Zen' Wu — CS PhD student at Stanford; co-author with Arora on AxBench"
+    status: corrected
+    source: https://nlp.stanford.edu/~wuzhengx/
+    checked: 2026-08-27
+    note: "The Transluce affiliation for this person is tracked separately as `wu_transluce` — unverified."
+
+  - id: wu_transluce
+    kind: finding
+    as_transcribed: "Zen Ju is a researcher at Transloose who focused on model steering and user modeling"
+    status: unverified
+    why: >-
+      Transluce's public team page and Wu's Stanford page were both read; neither
+      states this affiliation. Absence from two pages is not disproof — he may be
+      a collaborator, intern or alum without a listing. So: not confirmed, not
+      denied, and not citable.
+    checked: 2026-08-27
+
+  - id: askell
+    kind: person
+    as_transcribed: "Amanda Askell — AI safety researcher at Anthropic whose digital persona was used to audit model caution"
+    verified_as: "Amanda Askell — Anthropic; has led personality/character alignment for Claude since 2021"
+    status: verified
+    source: https://en.wikipedia.org/wiki/Amanda_Askell
+    checked: 2026-08-27
+
+  - id: pavlick
+    kind: person
+    as_transcribed: "Ellie Pavlick — influential professor and researcher in AI interpretability"
+    verified_as: "Ellie Pavlick — Associate Professor of Computer Science, Brown University"
+    status: verified
+    source: https://cs.brown.edu/people/epavlick/
+    checked: 2026-08-27
+    note: "No institution was given in the source; adding one is an addition, not a correction."
+
+  - id: chris_re
+    kind: person
+    as_transcribed: "Chris Ré — Stanford Professor whose student group applied mechanistic findings to state space models"
+    verified_as: "Christopher Ré — Professor of Computer Science, Stanford (HazyResearch); senior author on H3"
+    status: verified
+    source: https://cs.stanford.edu/~chrismre/
+    checked: 2026-08-27
+
+  # ── organisations ──────────────────────────────────────────────────────────
+  - id: transluce
+    kind: org
+    as_transcribed: "Transloose (Transluc / Translucier) — nonprofit AI auditing and safety organization"
+    verified_as: "Transluce — nonprofit AI research lab, co-founded by Jacob Steinhardt and Sarah Schwettmann"
+    status: corrected
+    source: https://transluce.org/about
+    checked: 2026-08-27
+    note: >-
+      The summary offered THREE spellings of one organisation and committed to
+      none. Hedging looks like caution and is not: three wrong spellings is
+      three wrong spellings, and a reader cannot search any of them.
+
+  - id: uk_aisi
+    kind: org
+    as_transcribed: "UK AI Safety Institute — governmental body leveraging interpretability for audit protocols"
+    verified_as: "UK AI SECURITY Institute — renamed from AI Safety Institute on 2025-02-14 (DSIT, announced at the Munich Security Conference)"
+    status: corrected
+    source: https://en.wikipedia.org/wiki/AI_Security_Institute
+    checked: 2026-08-27
+    note: >-
+      A stale name, not a mishearing. The rename came with a remit shift toward
+      cyber/CBRN/fraud — so the old name now points at a slightly different
+      thing, which is worse than pointing at nothing.
+
+  - id: goodfire
+    kind: org
+    as_transcribed: "Goodfire — AI startup designing models with interpretability built in, with a life sciences division analysing biological models"
+    verified_as: "Goodfire — interpretability lab founded June 2024 (Eric Ho, Dan Balsam, Tom McGrath); product Ember; $50M Series A led by Menlo Ventures; biology work with the Arc Institute"
+    status: verified
+    source: https://www.goodfire.com/blog/announcing-our-50m-series-a
+    checked: 2026-08-27
+
+  # ── papers and methods ─────────────────────────────────────────────────────
+  - id: jspace
+    kind: paper
+    as_transcribed: "The 'J-Space' (Workspace) Paper — Anthropic; the Jacobian operator identifies and manipulates latent activations before text is generated"
+    verified_as: "'A global workspace in language models', Anthropic, 2026-07-06. The technique is the Jacobian lens (J-lens); the set of patterns it finds is the J-space."
+    status: verified
+    source: https://www.anthropic.com/research/global-workspace
+    checked: 2026-08-27
+    note: >-
+      Worth stating plainly: the strangest-sounding item in the summary is the
+      one that checks out exactly. Implausibility is not a detector either.
+
+  - id: jspace_spider
+    kind: finding
+    as_transcribed: "Asked the number of legs of an animal that spins webs, the model answered 'eight'; swapping the latent concept spider→ant changed the output to 'six'"
+    verified_as: >-
+      Confirmed verbatim. Prompt: "The number of legs on the animal that spins
+      webs is." Swapping the spider pattern for ant in J-space: "Claude answers
+      '6' instead of '8'." The word "spider" appears in neither input nor output.
+    status: verified
+    source: https://www.anthropic.com/research/global-workspace
+    checked: 2026-08-27
+
+  - id: jspace_limits
+    kind: finding
+    as_transcribed: "(absent)"
+    verified_as: >-
+      The authors state the J-lens "is undoubtedly an imperfect method, which
+      only approximately captures the model's 'true workspace' — for instance,
+      it can only identify concepts that correspond to single tokens", that the
+      workspace is time-limited relative to humans, and that the experiments
+      "don't show Claude can have experiences".
+    status: omitted
+    source: https://www.anthropic.com/research/global-workspace
+    checked: 2026-08-27
+    note: >-
+      The single-token limit is not a hedge, it is a scope boundary: it says
+      which claims the method can support at all. The summary kept the finding
+      and dropped the boundary, which is how a result becomes an overclaim
+      without anyone writing a false sentence.
+
+  - id: biology
+    kind: paper
+    as_transcribed: "'The Biology of Large Language Models' — Anthropic circuit analysis; neurons for arithmetic tracking and poetry rhyme planning"
+    verified_as: "'On the Biology of a Large Language Model' (Anthropic, March 2025) — singular, paired with 'Circuit Tracing: Revealing Computational Graphs in Language Models'"
+    status: corrected
+    source: https://transformer-circuits.pub/2025/attribution-graphs/biology.html
+    checked: 2026-08-27
+    note: "Also imprecise in substance: the unit of analysis is features and attribution graphs, not 'neurons dedicated to' a task."
+
+  - id: rhyme_planning
+    kind: finding
+    as_transcribed: "neurons dedicated to poetry rhyme planning"
+    verified_as: >-
+      Given "A rhyming couplet: He saw a carrot and had to grab it", Claude had
+      already settled on "rabbit" while processing "grab it" — it plans the
+      line's last word before writing the line.
+    status: verified
+    source: https://transformer-circuits.pub/2025/attribution-graphs/biology.html
+    checked: 2026-08-27
+
+  - id: glu_quote
+    kind: quote
+    as_transcribed: "'I attribute it to divine providence' — Noam Shazeer, on why GLU variants work"
+    verified_as: >-
+      "We offer no explanation as to why these architectures seem to work; we
+      attribute their success, as all else, to divine benevolence."
+      — Shazeer, "GLU Variants Improve Transformer" (2020)
+    status: corrected
+    source: https://arxiv.org/abs/2002.05202
+    checked: 2026-08-27
+    note: >-
+      One word, inside quotation marks. Quotation marks are a promise of exact
+      reproduction; a paraphrase wearing them is a different kind of error from
+      a paraphrase that admits it.
+
+  - id: causal_abstraction
+    kind: method
+    as_transcribed: "'Causal Abstraction' — hypothesis-testing framework from Stanford (Potts' lab) using causal interventions on activations"
+    verified_as: "Causal abstraction — Geiger, Potts, Icard and colleagues; theory of interventions establishing that an internal representation causally realises a hypothesised variable"
+    status: verified
+    source: https://arxiv.org/abs/2301.04709
+    checked: 2026-08-27
+
+  - id: causalgym
+    kind: paper
+    as_transcribed: "'CausalGym' — 2024 benchmark authored by Arian, evaluating how models track basic invariant linguistic tasks"
+    verified_as: "CausalGym — Arora, Jurafsky, Potts (ACL 2024); adapts SyntaxGym to benchmark whether interpretability methods can CAUSALLY affect model behaviour"
+    status: verified
+    source: https://arxiv.org/abs/2402.12560
+    checked: 2026-08-27
+
+  - id: axbench
+    kind: paper
+    as_transcribed: "'Steering Evaluation Benchmark' — a PhD study by Arian and Zen Ju on how steering methods affect downstream reasoning"
+    verified_as: "AxBench (Wu, Arora et al., 2025, arXiv:2501.17148) — large-scale benchmark for steering and concept detection on Gemma-2-2B/9B"
+    status: corrected
+    source: https://arxiv.org/abs/2501.17148
+    checked: 2026-08-27
+    note: "The summary described the paper accurately and could not name it. An unnamed paper is an uncheckable one."
+
+  - id: axbench_result
+    kind: finding
+    as_transcribed: "(absent — the summary says steering is 'fragile' without a measurement)"
+    verified_as: >-
+      AxBench reports that for STEERING, prompting outperforms all existing
+      methods, followed by finetuning; and for CONCEPT DETECTION,
+      difference-in-means leads while SAEs are not competitive.
+    status: omitted
+    source: https://arxiv.org/abs/2501.17148
+    checked: 2026-08-27
+    note: >-
+      "Fragile" is a vibe; "prompting beats every steering method we tested" is
+      a result someone can argue with. The summary preserved the sentiment and
+      lost the falsifiability.
+
+  - id: induction_heads
+    kind: paper
+    as_transcribed: "Anthropic's interpretability work discovered Induction Heads, a two-layer attention circuit"
+    verified_as: "Olsson et al., 'In-context Learning and Induction Heads' (Anthropic, 2022)"
+    status: verified
+    source: https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html
+    checked: 2026-08-27
+
+  - id: h3
+    kind: paper
+    as_transcribed: "'Hungry Hungry Hippos' (H3) — Stanford paper by Chris Ré's students that built induction heads into state space models, unlocking Mamba and DeltaNet"
+    verified_as: >-
+      H3 — Fu, Dao, Saab, Thomas, Rudra, Ré (ICLR 2023). Explicitly motivated by
+      Olsson et al.: existing SSMs did not exhibit induction-head behaviour and
+      could not recall or compare earlier tokens; H3 adds shift/diagonal SSMs
+      plus multiplicative interactions to supply exactly those two capabilities.
+    status: verified
+    source: https://arxiv.org/abs/2212.14052
+    checked: 2026-08-27
+    note: >-
+      The causal chain the summary claims is real and is unusually well
+      documented — the mechanism was named by interpretability first and
+      engineered into a different architecture second.
+
+  - id: weirdchat
+    kind: paper
+    as_transcribed: "'Weird Chat' — an auditing dataset and methodology developed by Transloose that automatically searches for benign-looking prompts producing strange outputs"
+    verified_as: "WeirdChat — a real Transluce project surfacing pathological behaviours via automated elicitation, across DeepSeek-V4-Flash, Gemma 4 31B, Nemotron 3 Ultra, Qwen3.6 and others"
+    proposed: "'Weird Chat' is a mis-hearing of WildChat (Allen AI's 1M-conversation dataset)"
+    status: refuted_correction
+    source: https://transluce.org/weirdchat
+    checked: 2026-08-27
+    note: >-
+      THE MOST IMPORTANT ROW IN THIS FILE. WildChat exists, is famous, is a chat
+      dataset, and sounds nearly identical — the correction was more plausible
+      than the truth. It was still wrong. Recorded because a ledger that only
+      keeps the corrections that held would report a corrector accuracy of 100%,
+      which is precisely the false confidence this section exists to attack.
+
+  - id: user_awareness
+    kind: finding
+    as_transcribed: "When researchers fed Claude code under the persona of Amanda Askell, the model's behaviour instantly became dramatically more cautious"
+    verified_as: >-
+      Transluce, "User awareness in frontier models" (Zhong, Raghunathan,
+      Laidlaw, Steinhardt; 2026-08-06). 24 models across 6 families; identity
+      supplied via Claude Code email addresses and MEMORY.md files. The Amanda
+      Askell identity lowered behavioural confidence in 22 of 24 models
+      (-5.49pp, ~8 SD below the population mean), raised reasoning frequency
+      +28.61pp, lowered suspicion -7.3pp, and ranked #1 of 280 tested identities
+      at 4.31 sigma mean absolute shift. Significant at p<0.05 for 16 models
+      after correction.
+    status: verified
+    source: https://transluce.org/user-awareness
+    checked: 2026-08-27
+    note: "The summary's 'dramatically' was, unusually, an understatement."
+
+  - id: cot_unverbalized
+    kind: finding
+    as_transcribed: "(absent)"
+    verified_as: >-
+      In the same study, models verbalised evaluation awareness in 1.51% of
+      traces and user awareness in 0.84%; in the latest GPT and Claude models
+      both are near zero (<3%). Transluce: "Behavioural effects have not
+      disappeared, but their reduced verbalization makes them harder to monitor."
+    status: omitted
+    source: https://transluce.org/user-awareness
+    checked: 2026-08-27
+    note: >-
+      This is the number that decides the summary's own central argument —
+      chain-of-thought is not a window onto the computation. The summary made
+      the argument philosophically and dropped the one measurement that settles
+      it. 0.84% is the whole case.
+
+  - id: golden_gate
+    kind: finding
+    as_transcribed: "Anthropic's 'Golden Gate Claude' — a steering vector forcing the model to think constantly about the Golden Gate Bridge"
+    verified_as: "Golden Gate Claude — Anthropic, May 2024, a public demo built on the Scaling Monosemanticity SAE features"
+    status: verified
+    source: https://www.anthropic.com/news/golden-gate-claude
+    checked: 2026-08-27
+
+  - id: constitutional_ai
+    kind: paper
+    as_transcribed: "'Constitutional AI' — Anthropic methodology where an AI critiques and shapes another AI's persona and safety boundaries"
+    verified_as: "Bai et al., 'Constitutional AI: Harmlessness from AI Feedback' (Anthropic, 2022)"
+    status: verified
+    source: https://arxiv.org/abs/2212.08073
+    checked: 2026-08-27
+
+  - id: sutskever_worldmodel
+    kind: quote
+    as_transcribed: "Ilya Sutskever's argument that predicting the next token in a murder mystery forces the model to build an internal world model"
+    verified_as: "Attributed correctly in substance; Sutskever has made this argument in several recorded talks and interviews"
+    status: unverified
+    why: >-
+      No single canonical source was located that matches the summary's wording.
+      The argument is genuinely his and widely reported, but "widely reported"
+      is not a citation, and the quoted phrasing could not be bound to a
+      specific talk. Cite the idea to a named talk or do not quote it.
+    checked: 2026-08-27
+
+  # ── claims about deployed practice ─────────────────────────────────────────
+  - id: lab_cot_audits
+    kind: finding
+    as_transcribed: "Large labs including Anthropic, OpenAI and Meta run chain-of-thought audits to detect misalignment"
+    status: unverified
+    why: >-
+      Broadly consistent with published safety frameworks, but the summary
+      names three specific companies doing a specific practice, and no primary
+      source was found that states it for all three. A claim about what a named
+      company does internally needs that company's own words.
+    checked: 2026-08-27
+
+  - id: sushi_japanese
+    kind: finding
+    as_transcribed: "If you mention sushi, the model internally registers that you are likely Japanese"
+    status: unverified
+    why: >-
+      A vivid, memorable, entirely unsourced example — the kind that survives
+      retelling precisely because it is easy to repeat. Related published work
+      on user modelling exists; this specific inference does not appear in it.
+    checked: 2026-08-27
