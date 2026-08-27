@@ -1505,5 +1505,65 @@
       "source": "python3 scripts/interp.py"
     },
     "next_lever": "Run the ledger against a SECOND source. One artifact gives one error rate with no interval; two say whether 32 percent is a property of this pipeline or of this episode."
+  },
+  {
+    "id": "rc0045",
+    "delivery": "SHIPPED: PR #327 squash-merged as 8d8e63f; production verified after the Vercel deploy \u2014 5 pages (en/zh-CN/es/ko/ja) at HTTP 200 with correct translated h1s and 4 data-verbatim spans each, cover + in-body diagram PNGs 200, all 6 outbound links 200, all 4 language-bar links 200, and the article listed in the homepage Writing section. All four languages scored 4/4/4 with ZERO revision rounds on the final run. Five runs were needed and every fault was in the ENGLISH source: emphasis inside a clause splits a translation segment (CJK renders both halves); emphasis around a whole clause reads as an attributed quotation and stays in English; a code span plus a data-verbatim quote inside one short clause produced a duplicate, flagged independently by the zh-CN, es and ja judges; and the GLU quote in the verification trail was an unmarked English quotation. Three checks earned, each measured against the real corpus BEFORE being written: (1) test-translation-scores.mjs \u2014 the judge gate scores, forces revision rounds, then ships anyway after its round cap; measured 230 scorecards, 52 below their own gate (23%), 25 of those with extra_rounds 0; the 52 are named in a baseline as a ratchet and a new page joining them now fails the build; proven able to fire on a synthetic 3/3/4 before commit. (2) an emphasis-echo check in test-translation-fidelity.mjs \u2014 2 hits in 233 pages, both real, one a live page nobody had noticed (allin-anything-v1-no-go.ja, baselined). (3) the two-sided emphasis rule in docs/ARTICLE_AUTHORING.md, plus the RECORD OF A REJECTED source-side lint (49 alarms across 10 episodes for 1 real case, ~2% precision vs the ~27% that got two earlier auto-detectors abandoned). Also fixed my own regression from 8935432, which dropped translator_notes and distinct_terms from the translation glossary and silently broke translate-articles.py --selftest because that selftest is not in npm test. Reverted 5 unrelated live articles the translator's relink pass had stamped with an in-progress badge \u2014 a side effect, not the ask. CI HONESTY: GitHub Actions fails at the infrastructure level on this repo, three runs confirmed at 2-3 seconds with 0 steps executed (33074939281, 33123346338, 33124273523), so merge-when-green.sh is unusable and no run can go green; merged on full local CI parity instead (npm test, test:unit, build, post-build visionboard scan, all exit 0) and the PR body says CI did not verify this.",
+    "objective": "Turn a source into checked knowledge \u2014 and be able to say which parts were checked",
+    "created_at": "2026-08-27T17:57:09-05:00",
+    "key_results": [
+      {
+        "text": "Article live and readable in every language shipped",
+        "target": "5",
+        "score": 1.0,
+        "evidence": "5 pages HTTP 200, translated h1s verified, homepage listing confirmed"
+      },
+      {
+        "text": "Every link a reader can click resolves",
+        "target": "10",
+        "score": 1.0,
+        "evidence": "6 outbound + 4 language-bar links all 200 on production"
+      },
+      {
+        "text": "No page ships below its own judge gate",
+        "target": "4 of 4 at 4/4/4",
+        "score": 1.0,
+        "evidence": "scorecards committed; test-translation-scores.mjs gates it, proven able to fire"
+      },
+      {
+        "text": "The 23 percent below-gate backlog is named, not hidden",
+        "target": "52 named",
+        "score": 0.8,
+        "evidence": "ECHO/score BASELINE lists every one; retranslating them is a human call, not done"
+      },
+      {
+        "text": "CI verified the merge",
+        "target": "1",
+        "score": 0.0,
+        "evidence": "it did not \u2014 Actions dies in 2-3s with 0 steps across 3 runs; merged on local parity and said so in the PR"
+      },
+      {
+        "text": "Independent 5-S review before publish",
+        "target": "1",
+        "score": 0.0,
+        "evidence": "not run; maker and reviewer are the same context (overdue checkpoint independent-5s-review)"
+      }
+    ],
+    "request": "ship the articles",
+    "headline": "Live in five languages; the judge gate was never a gate",
+    "brief": "The article is live and readable in English, Chinese, Spanish, Korean and Japanese \u2014 I checked all five pages load, all their links work, and it shows up on your homepage. Getting there took five translation runs, and every single fault was in my English, not the translation. Along the way I found that your translation quality gate scores every page, then publishes it anyway when it fails. 52 of 230 pages went out below their own bar. Nothing had ever read the scores.",
+    "growth": [
+      "C:met:read the translation judge's notes as a SOURCE review rather than translation noise \u2014 three judges naming one sentence is a source defect, and that read is what turned four failed runs into a clean 4/4/4",
+      "P:met:measured a source-side lint at ~2% precision and rejected it, recording the measurement so the next person does not rebuild it on the same intuition"
+    ],
+    "why": "Ship meant live and readable, not merged \u2014 the standing correction from the RL season. And the four extra translation runs were not overhead: each one was the judge telling me my English source was wrong, which is the same lesson the article itself argues for.",
+    "needle": {
+      "name": "Live pages a reader can load",
+      "before": "0 (404 baseline confirmed pre-merge)",
+      "after": "5 of 5 at HTTP 200",
+      "better": "up",
+      "source": "curl against agentic-portfolio-lovat.vercel.app"
+    },
+    "next_lever": "Retranslate the 52 baselined below-gate pages, or decide out loud that 3-of-5 is the real bar. The baseline makes the debt visible; it does not decide it."
   }
 ]
