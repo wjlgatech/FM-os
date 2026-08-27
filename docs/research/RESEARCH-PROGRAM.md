@@ -22,6 +22,7 @@ and a kill criterion, not a repo.
 | **P3 Proactive Twin** | does proactivity pay rent (net of interruption cost)? | [`super-u/docs/PROACTIVE-TWIN-BRIEF.md`](https://github.com/wjlgatech/dreammaketrue) | super-u already owns the Digital Twin, memory layer, and telemetry — a new repo would fork our own personalization effort | **brief shipped** — five gates, kill criteria, 60%-built asset map |
 | **VSS / BARE case studies** | do the gate disciplines transfer to VLM research papers? | [`research-anything/case-studies`](https://github.com/wjlgatech/research-anything) + FM-os skills | research-anything owns the *method*; FM-os certifies the *tooling* (vlm-failure-probe 98, syndata-bare 98) | both live-measured (VSS: claude-sonnet-5 5/5 vs VSS 0/5 · BARE 2026-08-14: mode collapse reproduced 0.23 vs 0.62; the pipeline claim's first "not substantiated" was **retracted as UNDERPOWERED** (rule of three, 0/18 ⇒ CI [0, 16.7%]), then **re-resolved at n=66 + n=72 as a genuine negative** — 0 hallucinations, CIs [0, 4.5%] / [0, 4.2%], both excluding the 4.62% reference rate: [`POWER-AND-THE-ZERO-NUMERATOR.md`](POWER-AND-THE-ZERO-NUMERATOR.md)) |
 | **P4 Thomson-1 stack** | can you predict a lab's training stack from its publications — and is that reading *scored*, not asserted? | [`docs/research/CASE-STUDY-thomson-stack.md`](CASE-STUDY-thomson-stack.md) | it is a direct existence proof of THIS program's thesis: Thomson Reuters' evaluations lead reports into post-training, i.e. eval and post-training are literally one team | **12 predictions registered 2026-08-13**, Brier UNSCORED pending the technical report; `eval-subset` skill certified 98 |
+| **P5 Interpretability ledger** | when a source asserts a fact, can a gate tell a checked claim from an unchecked one — including when the CHECKER is the one that is wrong? | [`docs/research/INTERPRETABILITY.md`](INTERPRETABILITY.md) + [`data/interp_ledger.yml`](../../data/interp_ledger.yml) | it is the certifier thesis applied to a source instead of a repo, and it needs FM-os's `make check` to be fail-closed; a standalone repo would be a bibliography with opinions | **32 claims ledgered 2026-08-27**, Verified Claim Coverage **28/32 (87.5%)**; the seed summary was wrong on **8 of 25** asserted claims, and **1 of our 9 corrections was itself refuted** (corrector accuracy 89%) |
 
 ## The role of each hub (so efforts compound instead of spread)
 
@@ -52,6 +53,16 @@ sample size that could not have detected the effect it was denying.
 effect that *n* could have resolved. A negative without a power statement is an opinion.
 It has a tool — `make power` (`scripts/power.py`: Wilson CIs, the rule of three, and the
 minimum detectable difference for a two-arm design) — because a rule without one is a slogan.
+
+**The rule the interpretability section adds (2026-08-27): a corrector must be able to report
+its own error rate.** P5 checked 25 asserted claims from an AI-generated summary and corrected
+eight. One of those corrections — "Weird Chat must be a mis-hearing of WildChat" — was refuted
+by the primary source: WeirdChat is a real Transluce project, so the summary was right and the
+correction was the hallucination. Had that row been deleted once it was disproved, the ledger
+would report **100%** corrector accuracy by construction. It reports **89%**, and the gate
+rejects a `refuted_correction` entry that does not preserve the wrong correction verbatim.
+A verification pass with no measurable miss rate is a verification pass with no evidence
+behind it — the same shape as the unsupported negative above, wearing a lab coat.
 
 **The rule that keeps us deep:** a new idea lands as (1) a brief with kill criteria in an
 existing home, then (2) a gated lab/module, and only then (3) a standalone repo — and only
