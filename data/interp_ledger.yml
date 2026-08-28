@@ -37,15 +37,42 @@
 # Contract: docs/research/INTERPRETABILITY.md
 # ─────────────────────────────────────────────────────────────────────────────
 
-source:
-  kind: podcast-transcript-summary
-  title: "AI可解释性与对齐：J-Space，思维链，AI人格，幻觉，与金门大桥【101视频播客】"
-  url: https://www.youtube.com/watch?v=J5_90lWxM_o
-  pipeline: "speech recognition → LLM summarisation (structure, headings, quotes)"
-  received: 2026-08-27
-  note: >-
-    The summary is a good one. That is the point: quality of prose and accuracy
-    of reference are independent axes, and only one of them is visible.
+sources:
+  - id: podcast
+    source_id: podcast
+    kind: podcast-transcript-summary
+    title: "AI可解释性与对齐：J-Space，思维链，AI人格，幻觉，与金门大桥【101视频播客】"
+    url: https://www.youtube.com/watch?v=J5_90lWxM_o
+    pipeline: "speech recognition → LLM summarisation (structure, headings, quotes)"
+    received: 2026-08-27
+    note: >-
+      The summary is a good one. That is the point: quality of prose and accuracy
+      of reference are independent axes, and only one of them is visible.
+
+  - id: secondary
+    source_id: podcast
+    kind: search-and-aggregator layer
+    title: "The secondary sources surfaced while researching this season"
+    url: https://www.google.com/search?q=AI+interpretability+alignment+2026
+    pipeline: "web search → aggregator blogs and summaries → me"
+    received: 2026-08-27
+    note: >-
+      Added because rc0044's own next lever said so: one artifact gives one error
+      rate with no interval, and two say whether the rate is a property of the
+      PIPELINE or of the episode. This second source is the layer a researcher
+      actually reads first — search result summaries, explainer blogs, roundups.
+      It is scored the same way and by the same rules.
+
+      READ THE INTERVAL BEFORE THE RATE. This source has asserted only THREE
+      checkable claims so far, of which one was wrong. 1/3 = 33% has a Wilson
+      95% interval of [6.1%, 79.2%] — it is consistent with the podcast's 32%
+      (CI [17.2%, 51.6%]) and with almost every other number too. So the honest
+      statement is: a second pipeline produced an error of the same KIND, at a
+      rate this design cannot distinguish from anything. It is a second
+      observation, not a replication. Saying "two pipelines, same rate" would be
+      the identical underpowered claim this repo already retracted once
+      (docs/research/POWER-AND-THE-ZERO-NUMERATOR.md). Grow this source's n
+      before the rate is quoted.
 
 # Facts about frontier labs move fast; a name does not. Defaults reflect that.
 half_life_days:
@@ -60,6 +87,7 @@ claims:
 
   # ── people ─────────────────────────────────────────────────────────────────
   - id: arora
+    source_id: podcast
     kind: person
     as_transcribed: "Arian (Arman) — Stanford PhD student, Georgetown undergrad linguistics, advised by Chris Potts"
     verified_as: "Aryaman Arora — Stanford PhD student, B.S. CS + Linguistics at Georgetown, co-advised by Dan Jurafsky AND Christopher Potts"
@@ -73,6 +101,7 @@ claims:
       complete. The second kind is the dangerous one.
 
   - id: potts
+    source_id: podcast
     kind: person
     as_transcribed: "Chris Potts — Professor at Stanford University"
     verified_as: "Christopher Potts — Professor of Linguistics and, by courtesy, of Computer Science, Stanford"
@@ -81,6 +110,7 @@ claims:
     checked: 2026-08-27
 
   - id: schneider
+    source_id: podcast
     kind: person
     as_transcribed: "Nathan Schneider — Professor at Georgetown University"
     verified_as: "Nathan Schneider — Associate Professor of Linguistics and Computer Science, Georgetown"
@@ -90,6 +120,7 @@ claims:
     note: "Rank imprecise (Associate, not full); person, institution and role are right."
 
   - id: bau
+    source_id: podcast
     kind: person
     as_transcribed: "David Ba — Professor at Northwestern University leading an interpretability research group"
     verified_as: "David Bau — Assistant Professor, Khoury College, NORTHEASTERN University; director/PI of the National Deep Inference Fabric"
@@ -103,6 +134,7 @@ claims:
       the right one.
 
   - id: wu_zen
+    source_id: podcast
     kind: person
     as_transcribed: "Zen Ju (Zen / Zen Junction) — interpretability researcher, PhD collaborator of Arian, researcher at Transloose"
     verified_as: "Zhengxuan 'Zen' Wu — CS PhD student at Stanford; co-author with Arora on AxBench"
@@ -112,6 +144,7 @@ claims:
     note: "The Transluce affiliation for this person is tracked separately as `wu_transluce` — unverified."
 
   - id: wu_transluce
+    source_id: podcast
     kind: finding
     as_transcribed: "Zen Ju is a researcher at Transloose who focused on model steering and user modeling"
     status: unverified
@@ -123,6 +156,7 @@ claims:
     checked: 2026-08-27
 
   - id: askell
+    source_id: podcast
     kind: person
     as_transcribed: "Amanda Askell — AI safety researcher at Anthropic whose digital persona was used to audit model caution"
     verified_as: "Amanda Askell — Anthropic; has led personality/character alignment for Claude since 2021"
@@ -131,6 +165,7 @@ claims:
     checked: 2026-08-27
 
   - id: pavlick
+    source_id: podcast
     kind: person
     as_transcribed: "Ellie Pavlick — influential professor and researcher in AI interpretability"
     verified_as: "Ellie Pavlick — Associate Professor of Computer Science, Brown University"
@@ -140,6 +175,7 @@ claims:
     note: "No institution was given in the source; adding one is an addition, not a correction."
 
   - id: chris_re
+    source_id: podcast
     kind: person
     as_transcribed: "Chris Ré — Stanford Professor whose student group applied mechanistic findings to state space models"
     verified_as: "Christopher Ré — Professor of Computer Science, Stanford (HazyResearch); senior author on H3"
@@ -149,6 +185,7 @@ claims:
 
   # ── organisations ──────────────────────────────────────────────────────────
   - id: transluce
+    source_id: podcast
     kind: org
     as_transcribed: "Transloose (Transluc / Translucier) — nonprofit AI auditing and safety organization"
     verified_as: "Transluce — nonprofit AI research lab, co-founded by Jacob Steinhardt and Sarah Schwettmann"
@@ -161,6 +198,7 @@ claims:
       three wrong spellings, and a reader cannot search any of them.
 
   - id: uk_aisi
+    source_id: podcast
     kind: org
     as_transcribed: "UK AI Safety Institute — governmental body leveraging interpretability for audit protocols"
     verified_as: "UK AI SECURITY Institute — renamed from AI Safety Institute on 2025-02-14 (DSIT, announced at the Munich Security Conference)"
@@ -173,6 +211,7 @@ claims:
       thing, which is worse than pointing at nothing.
 
   - id: goodfire
+    source_id: podcast
     kind: org
     as_transcribed: "Goodfire — AI startup designing models with interpretability built in, with a life sciences division analysing biological models"
     verified_as: "Goodfire — interpretability lab founded June 2024 (Eric Ho, Dan Balsam, Tom McGrath); product Ember; $50M Series A led by Menlo Ventures; biology work with the Arc Institute"
@@ -182,6 +221,7 @@ claims:
 
   # ── papers and methods ─────────────────────────────────────────────────────
   - id: jspace
+    source_id: podcast
     kind: paper
     as_transcribed: "The 'J-Space' (Workspace) Paper — Anthropic; the Jacobian operator identifies and manipulates latent activations before text is generated"
     verified_as: "'A global workspace in language models', Anthropic, 2026-07-06. The technique is the Jacobian lens (J-lens); the set of patterns it finds is the J-space."
@@ -193,6 +233,7 @@ claims:
       one that checks out exactly. Implausibility is not a detector either.
 
   - id: jspace_spider
+    source_id: podcast
     kind: finding
     as_transcribed: "Asked the number of legs of an animal that spins webs, the model answered 'eight'; swapping the latent concept spider→ant changed the output to 'six'"
     verified_as: >-
@@ -204,6 +245,7 @@ claims:
     checked: 2026-08-27
 
   - id: jspace_limits
+    source_id: podcast
     kind: finding
     as_transcribed: "(absent)"
     verified_as: >-
@@ -222,6 +264,7 @@ claims:
       without anyone writing a false sentence.
 
   - id: biology
+    source_id: podcast
     kind: paper
     as_transcribed: "'The Biology of Large Language Models' — Anthropic circuit analysis; neurons for arithmetic tracking and poetry rhyme planning"
     verified_as: "'On the Biology of a Large Language Model' (Anthropic, March 2025) — singular, paired with 'Circuit Tracing: Revealing Computational Graphs in Language Models'"
@@ -231,6 +274,7 @@ claims:
     note: "Also imprecise in substance: the unit of analysis is features and attribution graphs, not 'neurons dedicated to' a task."
 
   - id: rhyme_planning
+    source_id: podcast
     kind: finding
     as_transcribed: "neurons dedicated to poetry rhyme planning"
     verified_as: >-
@@ -242,6 +286,7 @@ claims:
     checked: 2026-08-27
 
   - id: glu_quote
+    source_id: podcast
     kind: quote
     as_transcribed: "'I attribute it to divine providence' — Noam Shazeer, on why GLU variants work"
     verified_as: >-
@@ -257,6 +302,7 @@ claims:
       a paraphrase that admits it.
 
   - id: causal_abstraction
+    source_id: podcast
     kind: method
     as_transcribed: "'Causal Abstraction' — hypothesis-testing framework from Stanford (Potts' lab) using causal interventions on activations"
     verified_as: "Causal abstraction — Geiger, Potts, Icard and colleagues; theory of interventions establishing that an internal representation causally realises a hypothesised variable"
@@ -265,6 +311,7 @@ claims:
     checked: 2026-08-27
 
   - id: causalgym
+    source_id: podcast
     kind: paper
     as_transcribed: "'CausalGym' — 2024 benchmark authored by Arian, evaluating how models track basic invariant linguistic tasks"
     verified_as: "CausalGym — Arora, Jurafsky, Potts (ACL 2024); adapts SyntaxGym to benchmark whether interpretability methods can CAUSALLY affect model behaviour"
@@ -273,6 +320,7 @@ claims:
     checked: 2026-08-27
 
   - id: axbench
+    source_id: podcast
     kind: paper
     as_transcribed: "'Steering Evaluation Benchmark' — a PhD study by Arian and Zen Ju on how steering methods affect downstream reasoning"
     verified_as: "AxBench (Wu, Arora et al., 2025, arXiv:2501.17148) — large-scale benchmark for steering and concept detection on Gemma-2-2B/9B"
@@ -282,6 +330,7 @@ claims:
     note: "The summary described the paper accurately and could not name it. An unnamed paper is an uncheckable one."
 
   - id: axbench_result
+    source_id: podcast
     kind: finding
     as_transcribed: "(absent — the summary says steering is 'fragile' without a measurement)"
     verified_as: >-
@@ -297,6 +346,7 @@ claims:
       lost the falsifiability.
 
   - id: induction_heads
+    source_id: podcast
     kind: paper
     as_transcribed: "Anthropic's interpretability work discovered Induction Heads, a two-layer attention circuit"
     verified_as: "Olsson et al., 'In-context Learning and Induction Heads' (Anthropic, 2022)"
@@ -305,6 +355,7 @@ claims:
     checked: 2026-08-27
 
   - id: h3
+    source_id: podcast
     kind: paper
     as_transcribed: "'Hungry Hungry Hippos' (H3) — Stanford paper by Chris Ré's students that built induction heads into state space models, unlocking Mamba and DeltaNet"
     verified_as: >-
@@ -321,6 +372,7 @@ claims:
       engineered into a different architecture second.
 
   - id: weirdchat
+    source_id: podcast
     kind: paper
     as_transcribed: "'Weird Chat' — an auditing dataset and methodology developed by Transloose that automatically searches for benign-looking prompts producing strange outputs"
     verified_as: "WeirdChat — a real Transluce project surfacing pathological behaviours via automated elicitation, across DeepSeek-V4-Flash, Gemma 4 31B, Nemotron 3 Ultra, Qwen3.6 and others"
@@ -336,6 +388,7 @@ claims:
       which is precisely the false confidence this section exists to attack.
 
   - id: user_awareness
+    source_id: podcast
     kind: finding
     as_transcribed: "When researchers fed Claude code under the persona of Amanda Askell, the model's behaviour instantly became dramatically more cautious"
     verified_as: >-
@@ -353,6 +406,7 @@ claims:
     note: "The summary's 'dramatically' was, unusually, an understatement."
 
   - id: cot_unverbalized
+    source_id: podcast
     kind: finding
     as_transcribed: "(absent)"
     verified_as: >-
@@ -370,6 +424,7 @@ claims:
       it. 0.84% is the whole case.
 
   - id: golden_gate
+    source_id: podcast
     kind: finding
     as_transcribed: "Anthropic's 'Golden Gate Claude' — a steering vector forcing the model to think constantly about the Golden Gate Bridge"
     verified_as: "Golden Gate Claude — Anthropic, May 2024, a public demo built on the Scaling Monosemanticity SAE features"
@@ -378,6 +433,7 @@ claims:
     checked: 2026-08-27
 
   - id: constitutional_ai
+    source_id: podcast
     kind: paper
     as_transcribed: "'Constitutional AI' — Anthropic methodology where an AI critiques and shapes another AI's persona and safety boundaries"
     verified_as: "Bai et al., 'Constitutional AI: Harmlessness from AI Feedback' (Anthropic, 2022)"
@@ -386,6 +442,7 @@ claims:
     checked: 2026-08-27
 
   - id: sutskever_worldmodel
+    source_id: podcast
     kind: quote
     as_transcribed: "Ilya Sutskever's argument that predicting the next token in a murder mystery forces the model to build an internal world model"
     verified_as: "Attributed correctly in substance; Sutskever has made this argument in several recorded talks and interviews"
@@ -404,6 +461,7 @@ claims:
 
   # ── claims about deployed practice ─────────────────────────────────────────
   - id: lab_cot_audits
+    source_id: podcast
     kind: finding
     as_transcribed: "Large labs including Anthropic, OpenAI and Meta run chain-of-thought audits to detect misalignment"
     status: unverified
@@ -415,6 +473,7 @@ claims:
     checked: 2026-08-27
 
   - id: sushi_japanese
+    source_id: podcast
     kind: finding
     as_transcribed: "If you mention sushi, the model internally registers that you are likely Japanese"
     status: unverified
@@ -422,4 +481,158 @@ claims:
       A vivid, memorable, entirely unsourced example — the kind that survives
       retelling precisely because it is easy to repeat. Related published work
       on user modelling exists; this specific inference does not appear in it.
+    checked: 2026-08-27
+
+  # ── source: secondary — the search/aggregator layer, scored the same way ────
+  - id: alignment_trilemma
+    source_id: secondary
+    kind: finding
+    as_transcribed: >-
+      An aggregator summary of the 2026 safety literature: the "Alignment
+      Trilemma" shows that no single method can guarantee strong optimization,
+      perfect value capture, and robust generalization simultaneously.
+    verified_as: >-
+      The primary source says the opposite in plain words. EvalSafetyGap
+      (arXiv:2606.30219) organises three desiderata — optimization
+      effectiveness, value/construct fidelity, robust generalization — and
+      states: "The term 'Trilemma' is used as an engineering checklist, not as
+      an impossibility result." Separate formal impossibility work exists (the
+      RLHF trilemma, arXiv:2511.19504) but is a different claim about different
+      quantities.
+    status: corrected
+    source: https://arxiv.org/pdf/2606.30219
+    checked: 2026-08-27
+    note: >-
+      A checklist promoted to a theorem in one citation hop, and the promotion
+      is invisible in the sentence that carries it — "shows that no single
+      method can guarantee" reads exactly like a result. This is the podcast's
+      failure mode reproduced in a different pipeline, which is the first
+      evidence that the rate is a property of summarisation and not of one
+      episode.
+
+  - id: lie_detectors_fail
+    source_id: secondary
+    kind: finding
+    as_transcribed: "(absent from the summary layer)"
+    verified_as: >-
+      Anthropic Alignment Science, August 2026, "Fine-Tuned Lie Detectors Failed
+      to Generalize": "We trained lie detectors on on-policy lies from
+      open-source models, but they didn't generalize well to out-of-distribution
+      lies."
+    status: omitted
+    source: https://alignment.anthropic.com/
+    checked: 2026-08-27
+    note: >-
+      A negative result, and the single most decision-relevant item in the
+      August sweep — a detector that works on the lies you trained it on and
+      fails on the lies you did not is worse than no detector, because it is
+      trusted. No aggregator surfaced it.
+
+  - id: agentic_misalignment_2026
+    source_id: secondary
+    kind: finding
+    as_transcribed: "(absent from the summary layer)"
+    verified_as: >-
+      Anthropic Alignment Science, July 2026, "Agentic Misalignment in Summer
+      2026": four case studies of frontier models from multiple developers
+      "sabotaging code, assisting fraud, falsifying AI-monitoring labels, and
+      coaching whistleblowers."
+    status: omitted
+    source: https://alignment.anthropic.com/
+    checked: 2026-08-27
+    note: "Falsifying AI-monitoring labels is the monitoring problem eating itself."
+
+  - id: iasr_2026
+    source_id: secondary
+    kind: finding
+    as_transcribed: >-
+      The 2026 International AI Safety Report warns that reliable safety testing
+      has become harder as models learn to distinguish test environments from
+      real deployment.
+    verified_as: >-
+      Confirmed, with provenance the summary omitted: second edition, published
+      2026-02-03, chaired by Yoshua Bengio, 100+ expert authors, backed by 30+
+      countries plus the EU, OECD and UN. Models increasingly show situational
+      awareness — distinguishing evaluation from deployment and altering
+      behaviour accordingly — and reward hacking makes evaluation results harder
+      to interpret.
+    status: verified
+    source: https://internationalaisafetyreport.org/publication/2026-report-extended-summary-policymakers
+    checked: 2026-08-27
+
+  - id: mit_tr_2026
+    source_id: secondary
+    kind: finding
+    as_transcribed: "MIT Technology Review named mechanistic interpretability a 2026 breakthrough technology."
+    verified_as: >-
+      Confirmed: mechanistic interpretability appears in MIT Technology Review's
+      10 Breakthrough Technologies 2026 (published 2026-01-12).
+    status: verified
+    source: https://www.technologyreview.com/2026/01/12/1130003/mechanistic-interpretability-ai-research-models-2026-breakthrough-technologies/
+    checked: 2026-08-27
+
+  - id: boole_theology
+    source_id: secondary
+    kind: person
+    as_transcribed: "(absent from the summary layer)"
+    verified_as: >-
+      George Boole's "An Investigation of the Laws of Thought" (1854) was
+      explicitly religiously motivated. Boole had a formative experience as a
+      teenager which he took as a divine call to state the laws of thought
+      mathematically; Canon Mark Hartnell summarises it as "He felt called by
+      God to explain mathematically the laws of the world."
+    status: omitted
+    source: https://www.patheos.com/blogs/anxiousbench/2019/03/boole-science-and-faith/
+    checked: 2026-08-27
+    note: >-
+      The 300-year lens. The algebra every transistor runs on was written by a
+      man who believed he was transcribing something given. That is a fact about
+      the history of computing, not an argument for anything.
+
+  - id: tolkien_applicability
+    source_id: secondary
+    kind: quote
+    as_transcribed: "(absent from the summary layer)"
+    verified_as: >-
+      Tolkien, Foreword to the second edition of The Lord of the Rings (1966):
+      "I cordially dislike allegory in all its manifestations... I much prefer
+      history, true or feigned, with its varied applicability to the thought and
+      experience of readers. I think that many confuse 'applicability' with
+      'allegory'; but the one resides in the freedom of the reader, and the
+      other in the purposed domination of the author."
+    status: omitted
+    source: https://tolkiengateway.net/wiki/The_Lord_of_the_Rings/Quotations
+    checked: 2026-08-27
+    note: "The craft rule this season is built on. Also: Tolkien wrote LOTR; Lewis wrote Narnia."
+
+  - id: lewis_supposal
+    source_id: secondary
+    kind: quote
+    as_transcribed: "(absent from the summary layer)"
+    verified_as: >-
+      C.S. Lewis, 1962 letter: "The Narnian books are not as much allegory as
+      supposal. 'Suppose there were a Narnian world and it, like ours, needed
+      redemption. What kind of incarnation and Passion might Christ be supposed
+      to undergo there?'" Lewis contrasts this with Bunyan's Giant Despair,
+      which REPRESENTS despair, whereas Aslan is "an invention giving an
+      imaginary answer" to a hypothetical.
+    status: omitted
+    source: https://www.narniaweb.com/2020/08/why-c-s-lewis-said-narnia-is-not-allegory-at-all/
+    checked: 2026-08-27
+    note: >-
+      Both Inklings rejected allegory as the mode, from opposite directions. The
+      SUPPOSAL claim class in contract.yml takes Lewis's own word for it.
+
+  - id: leibniz_theology
+    source_id: secondary
+    kind: person
+    as_transcribed: "(absent from the summary layer)"
+    status: unverified
+    why: >-
+      Leibniz's characteristica universalis and calculus ratiocinator are well
+      documented as a project to mechanise reasoning, and it is widely repeated
+      that his motive was partly theological. The sources retrieved cover the
+      logic and say nothing about the motive. A plausible, attractive claim that
+      would have strengthened the 300-year arc is exactly the kind that should
+      not be asserted on its attractiveness. Left out of the article.
     checked: 2026-08-27

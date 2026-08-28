@@ -16,6 +16,7 @@ import interp
 from fmos import load
 
 DOC = load("interp_ledger")
+SOURCES = {x["id"] for x in DOC["sources"]}
 CLAIMS = DOC["claims"]
 TODAY = dt.date(2026, 8, 27)
 
@@ -47,6 +48,37 @@ def test_every_claim_records_when_it_was_checked():
 
 
 # ── fail-closed: each rule actually fails ────────────────────────────────────
+
+
+def test_every_claim_names_a_source_that_exists():
+    """A claim naming a missing source would vanish from every per-source rate
+    while still counting in the total."""
+    for c in CLAIMS:
+        assert c.get("source_id") in SOURCES, c["id"]
+
+
+def test_a_claim_naming_an_unknown_source_is_rejected():
+    doc = mutate(source_id="nope")
+    assert any("is not in 'sources'" in e for e in interp.validate(doc))
+
+
+def test_per_source_rates_sum_to_the_total():
+    """The denominators must agree, or the headline rate is not the rows' rate."""
+    s = interp.score(DOC, TODAY)
+    assert sum(v["asserted"] for v in s["per_source"].values()) == s["asserted"]
+    assert sum(v["wrong"] for v in s["per_source"].values()) == s["source_wrong"]
+
+
+def test_the_second_source_is_too_small_to_quote_a_rate_from():
+    """Guards the exact claim this repo already retracted once: 1/3 looks like
+    a replication of 8/25 and its interval is [6.1%, 79.2%]."""
+    import sys, pathlib as _p
+    sys.path.insert(0, str(_p.Path(__file__).resolve().parent.parent / "scripts"))
+    import power
+    s = interp.score(DOC, TODAY)
+    sec = s["per_source"]["secondary"]
+    lo, hi = power.wilson(sec["wrong"], sec["asserted"])
+    assert hi - lo > 0.30, "if this interval ever narrows, the rate becomes quotable — update the note"
 
 
 def test_a_checked_claim_without_a_source_is_rejected():

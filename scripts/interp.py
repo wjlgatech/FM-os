@@ -47,7 +47,7 @@ STATUSES = CHECKED + ("unverified",)
 # it is a gap, which is tracked separately and is arguably worse.
 ASSERTED = ("verified", "corrected", "refuted_correction")
 
-REQUIRED = ("id", "kind", "as_transcribed", "status", "checked")
+REQUIRED = ("id", "kind", "as_transcribed", "status", "checked", "source_id")
 DEFAULT_HALF_LIFE = 365
 
 
@@ -67,10 +67,18 @@ def validate(doc: dict) -> list[str]:
     if not isinstance(doc, dict):
         return ["interp_ledger.yml: top level must be a mapping"]
 
-    src = doc.get("source") or {}
-    for field in ("kind", "title", "url", "received"):
-        if not src.get(field):
-            errors.append(f"interp_ledger.yml: source missing '{field}'")
+    sources = doc.get("sources") or []
+    if not isinstance(sources, list) or not sources:
+        return errors + ["interp_ledger.yml: expected a non-empty 'sources' list"]
+    ids = set()
+    for i, src in enumerate(sources):
+        where = f"sources[{src.get('id', i)}]"
+        for field in ("id", "kind", "title", "url", "received"):
+            if not src.get(field):
+                errors.append(f"{where}: missing '{field}'")
+        if src.get("id") in ids:
+            errors.append(f"{where}: duplicate source id")
+        ids.add(src.get("id"))
 
     claims = doc.get("claims") or []
     if not isinstance(claims, list) or not claims:
@@ -92,6 +100,14 @@ def validate(doc: dict) -> list[str]:
         if cid in seen:
             errors.append(f"{where}: duplicate claim id {cid!r}")
         seen.add(cid)
+
+        # A claim naming no source, or a source that does not exist, would vanish
+        # from every per-source rate while still counting in the total — a
+        # denominator that quietly disagrees with its own numerators.
+        if not row.get("source_id"):
+            errors.append(f"{where}: missing 'source_id' — which source asserted this?")
+        elif row["source_id"] not in ids:
+            errors.append(f"{where}: source_id {row['source_id']!r} is not in 'sources'")
 
         status = row.get("status")
         if status not in STATUSES:
@@ -157,6 +173,14 @@ def score(doc: dict, today: dt.date) -> dict:
 
     asserted = [c for c in claims if c.get("status") in ASSERTED]
     wrong = [c for c in asserted if c.get("status") == "corrected"]
+    per_source = {}
+    for src in doc.get("sources") or []:
+        sid = src.get("id")
+        a = [c for c in asserted if c.get("source_id") == sid]
+        w = [c for c in a if c.get("status") == "corrected"]
+        g = [c for c in claims if c.get("source_id") == sid and c.get("status") == "omitted"]
+        per_source[sid] = {"asserted": len(a), "wrong": len(w), "gaps": len(g),
+                           "rate": 100.0 * len(w) / len(a) if a else None}
     proposed = [c for c in claims if c.get("status") in ("corrected", "refuted_correction")]
     held = [c for c in proposed if c.get("status") == "corrected"]
 
@@ -175,18 +199,20 @@ def score(doc: dict, today: dt.date) -> dict:
         "corrections_held": len(held),
         "corrector_accuracy": 100.0 * len(held) / len(proposed) if proposed else 0.0,
         "gaps": counts["omitted"],
+        "per_source": per_source,
     }
 
 
 def report(doc: dict, s: dict, errors_only: bool = False) -> None:
     claims = doc.get("claims") or []
-    src = doc.get("source") or {}
     mark = {"verified": "✓", "corrected": "✗→", "refuted_correction": "!!",
             "omitted": "▽", "unverified": "?"}
 
     print(f"\n═══ Interpretability & Alignment — claim ledger")
-    print(f"    source: {src.get('title','?')}")
-    print(f"    pipeline: {src.get('pipeline','?')}\n")
+    for src in doc.get("sources") or []:
+        print(f"    [{src.get('id')}] {str(src.get('title','?'))[:62]}")
+        print(f"          {src.get('pipeline','?')}")
+    print()
 
     rows = [c for c in claims
             if not errors_only or c.get("status") in ("corrected", "refuted_correction", "omitted")]
@@ -196,10 +222,14 @@ def report(doc: dict, s: dict, errors_only: bool = False) -> None:
         head = str(c.get("verified_as") or c.get("as_transcribed") or "").split("\n")[0]
         print(f"  {m:<3}{str(c.get('id'))[:21]:<22}{str(c.get('kind'))[:9]:<10}{head[:78]}")
 
-    print(f"\n  ── the source ──────────────────────────────────────────────")
-    print(f"  asserted claims checked        {s['asserted']}")
-    print(f"  materially WRONG               {s['source_wrong']}  ({s['source_error_rate']:.0f}%)")
-    print(f"  material caveats DROPPED       {s['gaps']}  (stated by the primary source, absent here)")
+    print(f"\n  ── the sources ─────────────────────────────────────────────")
+    print(f"  {'source':<12}{'asserted':>10}{'wrong':>8}{'rate':>8}{'gaps':>7}")
+    for sid, v in s["per_source"].items():
+        rate = f"{v['rate']:.0f}%" if v["rate"] is not None else "n/a"
+        print(f"  {sid:<12}{v['asserted']:>10}{v['wrong']:>8}{rate:>8}{v['gaps']:>7}")
+    print(f"  {'ALL':<12}{s['asserted']:>10}{s['source_wrong']:>8}"
+          f"{s['source_error_rate']:>7.0f}%{s['gaps']:>7}")
+    print("  (gaps = a caveat the PRIMARY source states and this source dropped)")
 
     print(f"\n  ── this ledger ─────────────────────────────────────────────")
     for st in STATUSES:
