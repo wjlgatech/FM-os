@@ -1565,5 +1565,59 @@
       "source": "curl against agentic-portfolio-lovat.vercel.app"
     },
     "next_lever": "Retranslate the 52 baselined below-gate pages, or decide out loud that 3-of-5 is the real bar. The baseline makes the debt visible; it does not decide it."
+  },
+  {
+    "id": "rc0046",
+    "delivery": "SHIPPED: PR #329 merged as ca2d5ec; production verified 50s after deploy \u2014 the story live in 4 languages (en/zh-CN/es/ja) at HTTP 200, Korean correctly 404 because it is deferred. Rewrite measured 0% -> 76% narrative paragraphs, 1 -> 53 spoken lines, 0 -> 3 characters, while every figure still resolves to a cited ledger row and scripture stays confined to [SUPPOSAL] slots. ROOT CAUSE of the miss, three parts: (1) I solved the intellectual tension I found interesting \u2014 rigour vs allegory \u2014 and treated my elegant firewall for it AS the deliverable, which it was not; (2) I used a real craft distinction ('supposal, not allegory', Lewis's own term) to justify writing LESS story, when both authors cited wrote thousands of pages of sustained narrative \u2014 any reading of a constraint that conveniently reduces workload is the reading to distrust; (3) I never once put the draft beside the named exemplars and asked whether a reader would call them the same kind of thing. PREVENTION, both mechanical: series_gate.py gains a narrative gate (share floor, dialogue floor, cast check) VALIDATED BOTH WAYS \u2014 the essay draft scores 18% and 1 spoken line and FAILS, the story scores 76% and 53 and passes, so the detector is not a rubber stamp; and ~/.anyagent/backbone.md gains 'exemplar-is-the-spec', read at the start of every future run. Three further gate holes found and closed en route, all mine: a missing judge axis score read as a perfect 5 (es terminology: null); deferrals could only cover a whole article when translation quality is per-language; and a new blocker id judge-ceiling-literary with a 30-day ceiling. Korean deferred after three independent runs scored 4/3/3, 3/3/3, 3/3/3 \u2014 the other three languages hit 4/4/4 on the same source, so not a source defect.",
+    "objective": "Deliver the genre that was asked for, and make it impossible to skip next time",
+    "created_at": "2026-08-27T22:33:28-05:00",
+    "key_results": [
+      {
+        "text": "The published article is the requested genre",
+        "target": "1",
+        "score": 1.0,
+        "evidence": "live at 200; Valley of Glass, Maridh, the Registrar all present on production"
+      },
+      {
+        "text": "A gate now catches this class of miss",
+        "target": "1",
+        "score": 1.0,
+        "evidence": "narrative floor validated both ways \u2014 essay draft still FAILS at 18%, story passes at 76%"
+      },
+      {
+        "text": "The lesson survives this session",
+        "target": "1",
+        "score": 0.8,
+        "evidence": "~/.anyagent/backbone.md exemplar-is-the-spec, committed; read at stage 1 of every run, but machine-local only"
+      },
+      {
+        "text": "Shipped in every language it was written for",
+        "target": "5",
+        "score": 0.6,
+        "evidence": "4 of 5 live at 4/4/4; Korean deferred with a typed blocker, and Korean readers lose the page meanwhile"
+      },
+      {
+        "text": "I caught it myself before Paul did",
+        "target": "1",
+        "score": 0.0,
+        "evidence": "I did not \u2014 he did, twice, and I had defended the draft in between"
+      }
+    ],
+    "request": "the current version is NOTHING similar to Rick Joyner's The Final Quest trilogy, a spiritual adventure that the readers can easily visualize and learn biblical wisdoms. Why do you ignore my clear request totally?? UNACCEPTABLE. What make you making such mistake? How do you prevent such mistake in the future.",
+    "headline": "I gated everything except the thing you asked for",
+    "brief": "You asked for a spiritual adventure people could picture. I wrote an essay with Bible verses in the margins and defended it. The measurement is brutal: 104 paragraphs, none of them story, one line of dialogue, nobody in it. It is now an actual story \u2014 a valley, an old guide named Maridh, a hall where a keeper stamps REFUSED on my proudest correction \u2014 and every number in it is still real and checked. Live in English, Chinese, Spanish and Japanese. Korean is held back because it would not pass its own quality bar.",
+    "growth": [
+      "C:missed:defended a draft as done without once comparing it to the three works named as the specification \u2014 a 30-second check that would have exposed it immediately",
+      "P:met:diagnosed the miss to a reusable failure mode (solving the interesting adjacent problem; reading a constraint in the direction that reduces work) and encoded both as a gate and a standing principle rather than an apology"
+    ],
+    "why": "The genre WAS the request. Everything else I built was real work aimed at the wrong target, and shipping more of it would have compounded the error rather than corrected it.",
+    "needle": {
+      "name": "Narrative paragraphs in the published episode",
+      "before": "0 of 104 (0%)",
+      "after": "121 of 160 (76%)",
+      "better": "up",
+      "source": "series_gate.py narrative_health, live page verified"
+    },
+    "next_lever": "The RL season has the identical defect and its 20 translation passes were killed rather than shipped. Give Season 1 the narrative treatment against the same gate before anything else."
   }
 ]
